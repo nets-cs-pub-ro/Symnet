@@ -19,7 +19,9 @@ libraryDependencies ++= {
     "io.spray"            %   "spray-testkit" % sprayV,
     "com.typesafe.akka"   %%  "akka-actor"    % akkaV,
     "com.typesafe.akka"   %%  "akka-testkit"  % akkaV,
-    "org.specs2"          %%  "specs2"        % "2.2.3" % "test"
+    "org.specs2"          %%  "specs2"        % "2.2.3" % "test",
+    "org.antlr" % "antlr4" % "4.1",
+    "commons-io" % "commons-io" % "2.4"
   )
 }
 
