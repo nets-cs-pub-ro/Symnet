@@ -9,7 +9,7 @@
 case $1 in
 	"start" )
 		echo "Start VM request"
-		server=${6:-"http://localhost:8080/file"}
+		server=${6:-"http://localhost:8080/start"}
 		curl -F id=@$2 -F click_file=@$3 -F requre=@$4 -F name=$5 ${server}
 		;;
 	"stop" )

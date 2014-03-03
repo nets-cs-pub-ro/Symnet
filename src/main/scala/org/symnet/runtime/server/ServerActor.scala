@@ -7,6 +7,10 @@ import spray.routing._
 import spray.http.BodyPart
 import java.io.{ ByteArrayInputStream, InputStream, OutputStream }
 import spray.routing.HttpService
+import org.symnet.runtime.server._
+import org.symnet.runtime.server.request.{UnknownField, FileField, StringField}
+import org.apache.commons.io.IOUtils
+import java.nio.charset.StandardCharsets
 
 // we don't implement our route structure directly in the service actor because
 // we want to be able to test it independently, without having to spin up an actor
@@ -36,23 +40,32 @@ trait ServerService extends HttpService {
         }
       }
     } ~
-      path("file") {
+      path("start") {
         post {
           respondWithMediaType(`application/json`) {
             entity(as[MultipartFormData]) { formData =>
                 complete {
                   val details = formData.fields.map {
                     case BodyPart(entity, headers) =>
-                      //val content = entity.buffer
-                      println(entity.asString)
-                      val content = new ByteArrayInputStream(encd tity.data.toByteArray)
+
                       val contentType = headers.find(h => h.is("content-type")) match {
-                        case Some(httpHeader) => httpHeader.value
-                        case None => "Basic-Param"
+                        case Some(httpHeader) => Some(httpHeader.value)
+                        case None => None
                       }
-                      val fileName = headers.find(h => h.is("content-disposition")).get.value.split("filename=").last
-                      (contentType, fileName)
-                    case _ =>
+
+                      contentType match {
+//                          File received
+                        case Some(_) => {
+                          val contents = new ByteArrayInputStream(entity.data.toByteArray)
+                          println(IOUtils.readLines(contents, StandardCharsets.US_ASCII))
+                          val fileName = headers.find(h => h.is("content-disposition")).get.value.split("filename=").last
+                          FileField(fileName, contents)
+                        }
+//                          String field received, it must be the vm name
+                        case None => StringField("vmName", entity.asString)
+                      }
+
+                    case _ => UnknownField
                   }
                   s"""{"status": "Processed POST request, details=$details" }"""
                 }
@@ -97,6 +110,4 @@ trait ServerService extends HttpService {
       case _ => false
     }
   }
-
-
 }
