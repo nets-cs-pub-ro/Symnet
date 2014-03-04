@@ -12,6 +12,7 @@ import org.symnet.runtime.server.request.{Field, UnknownField, FileField, String
 import org.apache.commons.io.IOUtils
 import java.nio.charset.StandardCharsets
 import com.sun.org.apache.xalan.internal.lib.ExsltDatetime
+import org.symnet.runtime.server.processing.general.pipelines.JustAuthorize
 
 // we don't implement our route structure directly in the service actor because
 // we want to be able to test it independently, without having to spin up an actor
@@ -46,7 +47,10 @@ trait ServerService extends HttpService {
           respondWithMediaType(`application/json`) {
             entity(as[MultipartFormData]) { formData =>
                 complete {
-                  val fields = extractWithNames(formData, List("vmName"))
+                  val fields = fieldMap(formData, List("vmName"))
+
+                  println(JustAuthorize(fields))
+
                   s"""{"status": "Processed POST request, details=$fields" }"""
                 }
             }
@@ -58,7 +62,10 @@ trait ServerService extends HttpService {
           respondWithMediaType(`application/json`) {
             entity(as[MultipartFormData]) { formData =>
               complete {
-                val fields = extractWithNames(formData, List("vmName"))
+                val fields = fieldMap(formData, List("vmName"))
+
+                println(JustAuthorize(fields))
+
                 s"""{"status": "Processed POST request, details=$fields" }"""
               }
             }
@@ -145,4 +152,7 @@ trait ServerService extends HttpService {
 
   private def extractWithNames(formData: MultipartFormData, names: List[String]): Seq[Field]  =
     addFieldNames(extractRequestFields(formData), names)
+
+  private def fieldMap(formData: MultipartFormData, names: List[String]): Map[String, Field] =
+    extractWithNames(formData, names).map( f => (f.name, f)).toMap
 }
