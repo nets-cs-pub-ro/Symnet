@@ -8,9 +8,10 @@ import spray.http.BodyPart
 import java.io.{ ByteArrayInputStream, InputStream, OutputStream }
 import spray.routing.HttpService
 import org.symnet.runtime.server._
-import org.symnet.runtime.server.request.{UnknownField, FileField, StringField}
+import org.symnet.runtime.server.request.{Field, UnknownField, FileField, StringField}
 import org.apache.commons.io.IOUtils
 import java.nio.charset.StandardCharsets
+import com.sun.org.apache.xalan.internal.lib.ExsltDatetime
 
 // we don't implement our route structure directly in the service actor because
 // we want to be able to test it independently, without having to spin up an actor
@@ -45,29 +46,8 @@ trait ServerService extends HttpService {
           respondWithMediaType(`application/json`) {
             entity(as[MultipartFormData]) { formData =>
                 complete {
-                  val details = formData.fields.map {
-                    case BodyPart(entity, headers) =>
-
-                      val contentType = headers.find(h => h.is("content-type")) match {
-                        case Some(httpHeader) => Some(httpHeader.value)
-                        case None => None
-                      }
-
-                      contentType match {
-//                          File received
-                        case Some(_) => {
-                          val contents = new ByteArrayInputStream(entity.data.toByteArray)
-                          println(IOUtils.readLines(contents, StandardCharsets.US_ASCII))
-                          val fileName = headers.find(h => h.is("content-disposition")).get.value.split("filename=").last
-                          FileField(fileName, contents)
-                        }
-//                          String field received, it must be the vm name
-                        case None => StringField("vmName", entity.asString)
-                      }
-
-                    case _ => UnknownField
-                  }
-                  s"""{"status": "Processed POST request, details=$details" }"""
+                  val fields = extractWithNames(formData, List("vmName"))
+                  s"""{"status": "Processed POST request, details=$fields" }"""
                 }
             }
           }
@@ -110,4 +90,47 @@ trait ServerService extends HttpService {
       case _ => false
     }
   }
+
+  private def extractRequestFields(formData: MultipartFormData): Seq[Field] = {
+    formData.fields.map {
+      case BodyPart(entity, headers) =>
+
+        val contentType = headers.find(h => h.is("content-type")) match {
+          case Some(httpHeader) => Some(httpHeader.value)
+          case None => None
+        }
+
+        contentType match {
+          //                          File received
+          case Some(_) => {
+            val contents = new ByteArrayInputStream(entity.data.toByteArray)
+            //                          TODO: Should go
+            println(IOUtils.readLines(contents, StandardCharsets.US_ASCII))
+            val fileName = headers.find(h => h.is("content-disposition")).get.value.split("filename=").last
+            FileField(fileName, contents)
+          }
+          //                          String field received, it must be the vm name
+          case None => StringField("", entity.asString)
+        }
+
+      case _ => UnknownField
+    }
+  }
+
+  private def addFieldNames(fields: Seq[Field], names: List[String]): Seq[Field] = {
+    val (named, unnamed) = fields.partition( _.name != "" )
+    val renamed = unnamed.zip(names).map{ fn => {
+        val (f, n) = fn
+        f match {
+          case StringField(_, value) => StringField(n, value)
+          case _ => f
+        }
+      }
+    }
+
+    named ++ renamed
+  }
+
+  private def extractWithNames(formData: MultipartFormData, names: List[String]): Seq[Field]  =
+    addFieldNames(extractRequestFields(formData), names)
 }
