@@ -39,3 +39,7 @@ Server-side checks:
 Response:
 
     1. Status
+
+### Architecture description
+
+![System layout](https://dl.dropboxusercontent.com/u/10608856/images/architecture.png)

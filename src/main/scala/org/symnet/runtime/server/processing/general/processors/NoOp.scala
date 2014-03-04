@@ -10,6 +10,6 @@ import org.symnet.runtime.server.request.Field
  * Time: 12:02 PM
  * To change this template use File | Settings | File Templates.
  */
-object AlwaysAuthorize extends PipelineElement[Map[String,Field]] {
+object NoOp extends PipelineElement[Map[String,Field]] {
   def apply(v1: Map[String, Field]): Boolean = true
 }
