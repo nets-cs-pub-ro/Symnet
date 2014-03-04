@@ -1,5 +1,7 @@
 package org.symnet.runtime.server.processing
 
+import org.symnet.runtime.server.request.Field
+
 /**
  * Created with IntelliJ IDEA.
  * User: radu
@@ -22,3 +24,6 @@ class Pipeline[A](elements: List[PipelineElement[A]]) extends Function1[A, Eithe
     }
   }
 }
+
+class ParamProcessingPipeline(elements: List[PipelineElement[Map[String,Field]]])
+  extends Pipeline[Map[String,Field]](elements)
