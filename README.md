@@ -1,6 +1,8 @@
 NetVisor
 ========
 
+## Usage
+
 ### Starting a new VM
 
 `nv.sh start identity_file click_file requirements_file vm_name server_addr`

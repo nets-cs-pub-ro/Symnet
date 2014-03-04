@@ -1,7 +1,7 @@
 package org.symnet.runtime.server.processing.general.pipelines
 
 import org.symnet.runtime.server.processing.Pipeline
-import org.symnet.runtime.server.processing.general.processors.AlwaysAuthorize
+import org.symnet.runtime.server.processing.general.processors.NoOp
 import org.symnet.runtime.server.request.Field
 
 /**
@@ -11,4 +11,4 @@ import org.symnet.runtime.server.request.Field
  * Time: 1:14 PM
  * To change this template use File | Settings | File Templates.
  */
-object JustAuthorize extends Pipeline[Map[String,Field]] (List(AlwaysAuthorize))
+object JustAuthorize extends Pipeline[Map[String,Field]] (List(NoOp))
