@@ -10,10 +10,12 @@ case $1 in
 	"start" )
 		echo "Start VM request"
 		server=${6:-"http://localhost:8080/start"}
-		curl -F id=@$2 -F click_file=@$3 -F requre=@$4 -F name=$5 ${server}
+		curl -F id=@$2 -F click_file=@$3 -F require=@$4 -F name=$5 ${server}
 		;;
 	"stop" )
 		echo "Stop VM request"
+		server=${4:-"http://localhost:8080/stop"}
+		curl -F id=@$2 -F name=$3 ${server}
 		;;
 	* )
 		echo "Unknown command received"

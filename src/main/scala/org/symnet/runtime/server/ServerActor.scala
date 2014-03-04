@@ -52,6 +52,18 @@ trait ServerService extends HttpService {
             }
           }
         }
+      } ~
+      path("stop") {
+        post {
+          respondWithMediaType(`application/json`) {
+            entity(as[MultipartFormData]) { formData =>
+              complete {
+                val fields = extractWithNames(formData, List("vmName"))
+                s"""{"status": "Processed POST request, details=$fields" }"""
+              }
+            }
+          }
+        }
       }
   }
 
