@@ -1,4 +1,4 @@
-organization  := "org.symnet"
+organization  := "org.netvisor"
 
 version       := "0.1"
 
