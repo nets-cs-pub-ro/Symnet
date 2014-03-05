@@ -13,8 +13,13 @@ object ParseSingleClick {
   def main(args: Array[String]) {
 
     val inputFile = new File(args(0))
-    println(ClickToAbstractNetwork.buildConfig(inputFile))
+    val networkAbstract = ClickToAbstractNetwork.buildConfig(inputFile)
 
+    println(networkAbstract)
+
+    println(List.fill(15)("=").mkString(""))
+
+    println(networkAbstract.asHaskellWithRuleNumber())
   }
 
 }
