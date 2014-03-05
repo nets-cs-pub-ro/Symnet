@@ -1,17 +1,16 @@
-package com.example
+package org.symnet.runtime.server
 
 import akka.actor.{ActorSystem, Props}
 import akka.io.IO
 import spray.can.Http
-import org.symnet.runtime.server.ServerServiceActor
 
-object Boot extends App {
+object ServiceBoot extends App {
 
   // we need an ActorSystem to host our application in
   implicit val system = ActorSystem("on-spray-can")
 
   // create and start our service actor
-  val service = system.actorOf(Props[ServerServiceActor], "demo-service")
+  val service = system.actorOf(Props[ServerServiceActor], "server-service")
 
   // start a new HTTP server on port 8080 with our service actor as the handler
   IO(Http) ! Http.Bind(service, interface = "localhost", port = 8080)

@@ -11,7 +11,7 @@ import utils.FilesystemUtils
 
 object TranslatorRunner {
 
-  def main(args: Array[String]) {
+  def mainer(args: Array[String]) {
 
     if (args.length < 1)
       throw new IllegalArgumentException("Usage: test_case_setup_file (see docs for more info)")
