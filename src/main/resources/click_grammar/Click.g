@@ -14,7 +14,7 @@ newElement    : ( elementName DEFINE_SYMBOL )? elementInstance ;
 
 elementInstance : className config? ;
 
-configParameter : (CAPITALIZED_STRING | NON_CAPITALIZED_STRING | NUMERIC_CONF_PARAM | DASH | NUMBER)+ ;
+configParameter : (CAPITALIZED_STRING | NON_CAPITALIZED_STRING | NUMERIC_CONF_PARAM | DASH | NUMBER | CONJUNCTION)+ ;
 
 config  : '(' configParameter (',' configParameter)* ')' ;
 
@@ -36,8 +36,9 @@ port            : '[' portId ']' ;
 
 portId          : NUMBER ;
 
-NON_CAPITALIZED_STRING      : [a-z]([a-zA-Z@_0-9\-/&])* ;
-CAPITALIZED_STRING          : [A-Z]([a-zA-Z@_0-9\-/&])* ;
+CONJUNCTION                 : '&&' ;
+NON_CAPITALIZED_STRING      : [a-z]([a-zA-Z@_0-9\-/])* ;
+CAPITALIZED_STRING          : [A-Z]([a-zA-Z@_0-9\-/])* ;
 DASH                        : '-' ;
 NUMERIC_CONF_PARAM          : [0-9]+ (('/' | '.') [0-9]+)+ ;
 
