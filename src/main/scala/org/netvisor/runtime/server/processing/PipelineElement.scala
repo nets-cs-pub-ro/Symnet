@@ -1,5 +1,7 @@
 package org.netvisor.runtime.server.processing
 
+import org.netvisor.runtime.server.request.Field
+
 /**
  * Created with IntelliJ IDEA.
  * User: radu
@@ -8,3 +10,5 @@ package org.netvisor.runtime.server.processing
  * To change this template use File | Settings | File Templates.
  */
 trait PipelineElement[A] extends Function1[A, Boolean]
+
+trait ParamPipelineElement extends PipelineElement[Map[String,Field]]

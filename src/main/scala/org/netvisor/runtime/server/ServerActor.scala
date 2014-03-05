@@ -7,12 +7,11 @@ import spray.routing._
 import spray.http.BodyPart
 import java.io.{ ByteArrayInputStream, InputStream, OutputStream }
 import spray.routing.HttpService
-import org.netvisor.runtime.server._
 import org.netvisor.runtime.server.request.{Field, UnknownField, FileField, StringField}
 import org.apache.commons.io.IOUtils
 import java.nio.charset.StandardCharsets
-import com.sun.org.apache.xalan.internal.lib.ExsltDatetime
 import org.netvisor.runtime.server.processing.general.pipelines.JustAuthorize
+import org.netvisor.runtime.server.processing.start.pipeline.StartVMPipeline
 
 // we don't implement our route structure directly in the service actor because
 // we want to be able to test it independently, without having to spin up an actor
@@ -49,7 +48,10 @@ trait ServerService extends HttpService {
                 complete {
                   val fields = fieldMap(formData, List("vmName"))
 
-                  println(JustAuthorize(fields))
+                  StartVMPipeline.pipeline(fields) match {
+                    case Left(e) => println("Error \n" + e)
+                    case Right(e) => println("Succes")
+                  }
 
                   s"""{"status": "Processed POST request, details=$fields" }"""
                 }
