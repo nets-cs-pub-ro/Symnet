@@ -1,13 +1,9 @@
-// Generated from Click.g by ANTLR 4.1
-package generated;
+package generated;// Generated from Click.g by ANTLR 4.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ClickParser extends Parser {
@@ -371,10 +367,10 @@ public class ClickParser extends Parser {
 		}
 		public List<TerminalNode> NUMBER() { return getTokens(ClickParser.NUMBER); }
 		public List<TerminalNode> CAPITALIZED_STRING() { return getTokens(ClickParser.CAPITALIZED_STRING); }
+		public List<TerminalNode> NON_CAPITALIZED_STRING() { return getTokens(ClickParser.NON_CAPITALIZED_STRING); }
 		public TerminalNode CAPITALIZED_STRING(int i) {
 			return getToken(ClickParser.CAPITALIZED_STRING, i);
 		}
-		public List<TerminalNode> NON_CAPITALIZED_STRING() { return getTokens(ClickParser.NON_CAPITALIZED_STRING); }
 		public ConfigParameterContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}

@@ -1,6 +1,4 @@
-// Generated from Click.g by ANTLR 4.1
-package generated;
-
+package generated;// Generated from Click.g by ANTLR 4.1
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
