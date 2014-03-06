@@ -1,7 +1,7 @@
 package parser.generic
 
 import parser.specific._
-import org.netvisor.parser.specific.IPRewriter
+import org.netvisor.parser.specific.{IPFilter, IPRewriter}
 
 object BuilderFactory {
 
@@ -16,6 +16,7 @@ object BuilderFactory {
     case "Client" => Client.getBuilder(nameValue)
     case "Server"  => Server.getBuilder(nameValue)
     case "IPRewriter"  => IPRewriter.getBuilder(nameValue)
+    case "IPFilter"  => IPFilter.getBuilder(nameValue)
     case _ => ID.getBuilder(nameValue, elementType)
   }
 
@@ -30,6 +31,7 @@ object BuilderFactory {
     case "Client" => Client.getBuilder
     case "Server" => Server.getBuilder
     case "IPRewriter"  => IPRewriter.getBuilder
+    case "IPFilter"  => IPFilter.getBuilder
     case _ => ID.getBuilder(elementType)
   }
 }
