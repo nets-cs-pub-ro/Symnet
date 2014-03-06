@@ -7,4 +7,3 @@ src_managed/
 test-output/
 *.iml
 *.click
-symnet
