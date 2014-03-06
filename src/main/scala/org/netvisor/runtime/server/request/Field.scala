@@ -15,7 +15,7 @@ trait Field {
 
 case class StringField(name: String, value: String) extends Field
 
-case class FileField(name: String, contents: ByteArrayInputStream) extends Field
+case class FileField(name: String, fileName: String, contents: ByteArrayInputStream) extends Field
 
 object UnknownField extends Field {
   override def name = throw new NoSuchFieldException

@@ -46,14 +46,19 @@ trait ServerService extends HttpService {
           respondWithMediaType(`application/json`) {
             entity(as[MultipartFormData]) { formData =>
                 complete {
-                  val fields = fieldMap(formData, List("vmName"))
+
+                  val fields = fieldMap(formData, Nil)
 
                   StartVMPipeline.pipeline(fields) match {
-                    case Left(e) => println("Error \n" + e)
-                    case Right(e) => println("Succes")
+                    case Left(e) => {
+                        println("Error \n" + e)
+                        "Error \n" + e
+                      }
+                    case Right(e) => {
+                        println("Succes")
+                        "Success"
+                      }
                   }
-
-                  s"""{"status": "Processed POST request, details=$fields" }"""
                 }
             }
           }
@@ -116,22 +121,25 @@ trait ServerService extends HttpService {
     formData.fields.map {
       case BodyPart(entity, headers) =>
 
+        //Determine which field is a file
         val contentType = headers.find(h => h.is("content-type")) match {
           case Some(httpHeader) => Some(httpHeader.value)
           case None => None
         }
 
+        val name = headers.find(h => h.is("content-disposition")).get.value.split(" ").find(_.startsWith("name=")).
+          getOrElse("name=unk").split("=").last.split(";").head
+
         contentType match {
           //                          File received
           case Some(_) => {
             val contents = new ByteArrayInputStream(entity.data.toByteArray)
-            //                          TODO: Should go
-            println(IOUtils.readLines(contents, StandardCharsets.US_ASCII))
+
             val fileName = headers.find(h => h.is("content-disposition")).get.value.split("filename=").last
-            FileField(fileName, contents)
+            FileField(name, fileName, contents)
           }
           //                          String field received, it must be the vm name
-          case None => StringField("", entity.asString)
+          case None => StringField(name, entity.asString)
         }
 
       case _ => UnknownField
@@ -139,7 +147,7 @@ trait ServerService extends HttpService {
   }
 
   private def addFieldNames(fields: Seq[Field], names: List[String]): Seq[Field] = {
-    val (named, unnamed) = fields.partition( _.name != "" )
+    val (named, unnamed) = fields.partition( _.name != "unk")
     val renamed = unnamed.zip(names).map{ fn => {
         val (f, n) = fn
         f match {

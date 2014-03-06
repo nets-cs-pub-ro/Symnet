@@ -15,9 +15,9 @@ object StoreConfigFile extends ParamPipelineElement {
 
   def apply(v1: Map[String, Field]): Boolean = {
     v1.get("click_file") match {
-      case Some(FileField(_, contents)) => {
+      case Some(FileField(_, _, contents)) => {
         v1.get("id") match {
-          case Some(FileField(_,identity)) => {
+          case Some(FileField(_, _,identity)) => {
             val id = IOUtils.toString(identity)
 
             v1.get("vmName") match {

@@ -18,8 +18,12 @@ class Pipeline[A](elements: List[PipelineElement[A]]) extends Function1[A, Eithe
    */
   def apply(data: A): Either[String, String] = elements.foldLeft[Either[String, String]](Right("Pipeline empty")) { (acc, e) =>
     acc match {
-      case Right(_) => if (e(data)) Right("Ok")
-                       else Left("Error running:" + e.getClass.getName)
+      case Right(_) => try {
+        if (e(data)) Right("Ok")
+        else Left("Error running:" + e.getClass.getName)
+      } catch {
+        case e => Left("Exception: " + e)
+      }
       case cause@Left(_) => cause
     }
   }

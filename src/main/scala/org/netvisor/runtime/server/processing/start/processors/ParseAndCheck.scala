@@ -2,10 +2,11 @@ package org.netvisor.runtime.server.processing.start.processors
 
 import org.netvisor.runtime.server.request.{StringField, FileField, Field}
 import org.apache.commons.io.IOUtils
-import java.io.{File, FileOutputStream}
+import java.io.{InputStreamReader, InputStream, File, FileOutputStream}
 import org.netvisor.parser.abstractnet.ClickToAbstractNetwork
 import org.netvisor.runtime.server.processing.ParamPipelineElement
-
+import parser.generic.TestCaseBuilder
+import scala.collection.JavaConversions._
 /**
  * radu
  * 3/5/14
@@ -14,16 +15,26 @@ object ParseAndCheck extends ParamPipelineElement {
 
   def apply(v1: Map[String, Field]): Boolean = {
     v1.get("click_file") match {
-      case Some(FileField(_, contents)) => {
+      case Some(FileField(_, _, contents)) => {
         v1.get("id") match {
-          case Some(FileField(_,identity)) => {
+          case Some(FileField(_, _,identity)) => {
             val id = IOUtils.toString(identity)
 
-            v1.get("vmName") match {
+            v1.get("name") match {
               case Some(StringField(_, name)) => {
+                println(contents.available())
+
                 val abstractNet = ClickToAbstractNetwork.buildConfig(contents, id + name)
 
-                println("Parsed: " + abstractNet)
+                println("Parsed: \n" + abstractNet)
+
+                println("As haskell: \n" + abstractNet.asHaskellWithRuleNumber())
+
+                val haskellCode = TestCaseBuilder.generateHaskellTestSourceToDest(abstractNet, id, name)
+                println("End to end test case: \n\n", haskellCode)
+
+                val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
+                println("Test output:\n" + testOutput)
 
                 true
               }
@@ -39,4 +50,31 @@ object ParseAndCheck extends ParamPipelineElement {
       case None => false
     }
   }
+}
+
+object TestCaseRunner {
+
+//  Where symnet sits
+  val symnetDir = new File("symnet")
+  val testFile = new File(symnetDir,"Main.hs")
+
+  def runHaskellCode(code: String): String = {
+//    Write test case
+    val testFileStream = new FileOutputStream(testFile)
+    IOUtils.write(code, testFileStream)
+    testFileStream.close()
+//    Build and run process
+    val pb = new ProcessBuilder("bash", "testRunner.sh")
+    pb.directory(symnetDir)
+    val p = pb.start()
+    val processOutput = p.getInputStream
+    val status = p.waitFor()
+
+    if (status == 0)
+      IOUtils.readLines(processOutput).toList.mkString("\n")
+    else
+      "Error occurred"
+
+  }
+
 }
