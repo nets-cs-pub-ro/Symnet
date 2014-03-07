@@ -12,6 +12,7 @@ import org.apache.commons.io.IOUtils
 import java.nio.charset.StandardCharsets
 import org.netvisor.runtime.server.processing.general.pipelines.JustAuthorize
 import org.netvisor.runtime.server.processing.start.pipeline.StartVMPipeline
+import akka.event.Logging
 
 // we don't implement our route structure directly in the service actor because
 // we want to be able to test it independently, without having to spin up an actor

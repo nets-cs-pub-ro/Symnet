@@ -7,6 +7,8 @@ import org.netvisor.parser.abstractnet.ClickToAbstractNetwork
 import org.netvisor.runtime.server.processing.ParamPipelineElement
 import parser.generic.TestCaseBuilder
 import scala.collection.JavaConversions._
+import org.netvisor.runtime.server.ServiceBoot
+
 /**
  * radu
  * 3/5/14
@@ -22,19 +24,19 @@ object ParseAndCheck extends ParamPipelineElement {
 
             v1.get("name") match {
               case Some(StringField(_, name)) => {
-                println(contents.available())
+                ServiceBoot.logger.info(contents.available().toString)
 
                 val abstractNet = ClickToAbstractNetwork.buildConfig(contents, id + name)
 
-                println("Parsed: \n" + abstractNet)
+                ServiceBoot.logger.info("Parsed: \n" + abstractNet)
 
-                println("As haskell: \n" + abstractNet.asHaskellWithRuleNumber())
+                ServiceBoot.logger.info("As haskell: \n" + abstractNet.asHaskellWithRuleNumber())
 
                 val haskellCode = TestCaseBuilder.generateHaskellTestSourceToDest(abstractNet, id, name)
-                println("End to end test case: \n\n", haskellCode)
+                ServiceBoot.logger.info("End to end test case: \n\n", haskellCode)
 
                 val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
-                println("Test output:\n" + testOutput)
+                ServiceBoot.logger.info("Test output:\n" + testOutput)
 
                 true
               }
