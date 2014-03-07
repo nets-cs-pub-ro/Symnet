@@ -1,13 +1,16 @@
 package org.netvisor.runtime.server.processing.start.processors
 
 import org.netvisor.runtime.server.request.{StringField, FileField, Field}
-import org.apache.commons.io.IOUtils
-import java.io.{InputStreamReader, InputStream, File, FileOutputStream}
+import org.apache.commons.io.{FileUtils, IOUtils}
+import java.io._
 import org.netvisor.parser.abstractnet.ClickToAbstractNetwork
 import org.netvisor.runtime.server.processing.ParamPipelineElement
 import parser.generic.TestCaseBuilder
 import scala.collection.JavaConversions._
 import org.netvisor.runtime.server.ServiceBoot
+import org.netvisor.runtime.server.request.FileField
+import org.netvisor.runtime.server.request.StringField
+import scala.Some
 
 /**
  * radu
@@ -26,7 +29,19 @@ object ParseAndCheck extends ParamPipelineElement {
               case Some(StringField(_, name)) => {
                 ServiceBoot.logger.info(contents.available().toString)
 
-                val abstractNet = ClickToAbstractNetwork.buildConfig(contents, id + name)
+                val newVmName = id+name
+                val newVmFile = new File(ServiceBoot.vmFolder + File.separator + newVmName)
+
+                val contentsAsString = IOUtils.readLines(contents).mkString("\n")
+                val ip = ServiceBoot.ip
+                val port = ServiceBoot.newPort(newVmName)
+
+                val replaceTcpWildcard = contentsAsString.replace("DSTPORT", port.toString)
+                val replaceIPWildcard = replaceTcpWildcard.replace("DSTIP", ip)
+
+                FileUtils.writeStringToFile(newVmFile, replaceIPWildcard)
+
+                val abstractNet = ClickToAbstractNetwork.buildConfig(new FileInputStream(newVmFile), id + name)
 
                 ServiceBoot.logger.info("Parsed: \n" + abstractNet)
 
@@ -37,6 +52,8 @@ object ParseAndCheck extends ParamPipelineElement {
 
                 val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
                 ServiceBoot.logger.info("Test output:\n" + testOutput)
+
+                MachineStarter.startMachine(newVmName, ip, port, newVmFile)
 
                 true
               }
@@ -77,6 +94,41 @@ object TestCaseRunner {
     else
       "Error occurred"
 
+  }
+
+}
+
+object MachineStarter {
+
+  def startMachine(vmName: String, ip: String, port: Int, vmFile: File): String = {
+
+    val root = new File(File.separator)
+
+    //    Start the machine
+    var pb = new ProcessBuilder("/home/vlad/pms/clickos/start_vm.py", vmFile.getAbsolutePath, vmName)
+    pb.directory(root)
+    var p = pb.start()
+    var status = p.waitFor()
+
+    if (status != 0)
+      return "Fail starting the VM"
+
+    pb = new ProcessBuilder("xl list | grep "+ vmName +" | tr -s ' ' |cut -d ' ' -f 2")
+    pb.directory(root)
+    p = pb.start()
+    var processOutput = p.getInputStream
+    status = p.waitFor()
+
+    var systemId: String = "none"
+
+    if (status != 0)
+      return "Fail starting the VM"
+    else
+      systemId = IOUtils.readLines(processOutput)(0)
+
+    ServiceBoot.logger.info("Started vm with system id: " + systemId)
+
+    return systemId
   }
 
 }
