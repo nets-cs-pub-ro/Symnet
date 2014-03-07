@@ -105,7 +105,7 @@ object MachineStarter {
     val root = new File(File.separator)
 
     //    Start the machine
-    var pb = new ProcessBuilder("/home/vlad/pms/clickos/start_vm.py", vmName, vmFile.getAbsolutePath)
+    var pb = new ProcessBuilder("bash", "getVmId.sh", vmName)
     pb.directory(root)
     var p = pb.start()
     var status = p.waitFor()
@@ -114,7 +114,6 @@ object MachineStarter {
       return "Fail starting the VM"
 
     pb = new ProcessBuilder("xl list | grep "+ vmName +" | tr -s ' ' |cut -d ' ' -f 2")
-    pb.directory(root)
     p = pb.start()
     var processOutput = p.getInputStream
     status = p.waitFor()
