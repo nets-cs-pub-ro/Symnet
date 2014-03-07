@@ -105,7 +105,7 @@ object MachineStarter {
     val root = new File(File.separator)
 
     //    Start the machine
-    var pb = new ProcessBuilder("/home/vlad/pms/clickos/start_vm.py", vmFile.getAbsolutePath, vmName)
+    var pb = new ProcessBuilder("/home/vlad/pms/clickos/start_vm.py", vmName, vmFile.getAbsolutePath)
     pb.directory(root)
     var p = pb.start()
     var status = p.waitFor()
