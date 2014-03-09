@@ -14,9 +14,9 @@ newElement    : ( elementName DEFINE_SYMBOL )? elementInstance ;
 
 elementInstance : className config? ;
 
-configParameter : (CAPITALIZED_STRING | NON_CAPITALIZED_STRING | NUMERIC_CONF_PARAM | DASH | NUMBER | CONJUNCTION | EMPTY)+ ;
+configParameter : (CAPITALIZED_STRING | NON_CAPITALIZED_STRING | NUMERIC_CONF_PARAM | DASH | NUMBER | CONJUNCTION)+ ;
 
-config  : '(' configParameter (',' configParameter)* ')' ;
+config  : '(' ( configParameter (',' configParameter)* )? ')' ;
 
 className : CAPITALIZED_STRING ;
 
@@ -40,8 +40,7 @@ CONJUNCTION                 : '&&' ;
 NON_CAPITALIZED_STRING      : [a-z]([a-zA-Z@_0-9\-/:])* ;
 CAPITALIZED_STRING          : [A-Z]([a-zA-Z@_0-9\-/:])* ;
 DASH                        : '-' ;
-NUMERIC_CONF_PARAM          : [0-9]+ (('/' | '.' | ':') [0-9]+)+ ;
-EMPTY						: /* epsilon */ ;
+NUMERIC_CONF_PARAM          : [0-9a-fAA-F]+ (('/' | '.' | ':' | 'x' | 'X') [0-9a-fAA-F]+)+ ;
 
 ARROW   : '->'
         | '=>'
