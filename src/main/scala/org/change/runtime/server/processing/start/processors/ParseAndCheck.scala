@@ -11,12 +11,30 @@ import org.change.runtime.server.ServiceBoot
 import org.change.runtime.server.request.FileField
 import org.change.runtime.server.request.StringField
 import scala.Some
+import java.util.Random
 
 /**
  * radu
  * 3/5/14
  */
 object ParseAndCheck extends ParamPipelineElement {
+
+  //val EndToEnd =
+  val ToElemReach = "reach\\s+(\\w+)-(\\d+)(?:\\s*:\\s*(when.+))?\\s*".r
+  val EndToEndReach = "reach\\s+(\\w+)-(\\d+)\\s+client(?:\\s*:\\s*(when[^>]+)?\\s*(?:->\\s*(should.+))?)?\\s*".r
+  val Invariant = "inv\\s+(\\w+)-(\\d+)\\s+(\\w+)-(\\d+)\\s*:\\s*([^&]+(?:\\s*&&\\s*[^&]+)*)".r
+  val EmptyLine = "(\\s+|^$)".r
+  val CommentLine = "\\s*#.*".r
+
+  def checkResult(output: String): Boolean = {
+    if (output.contains("Null") | output.contains("[]")) {
+      ServiceBoot.logger.warning("Test failed.")
+      false
+    } else {
+      ServiceBoot.logger.info("Test Passed")
+      true
+    }
+  }
 
   def apply(v1: Map[String, Field]): Boolean = {
     v1.get("click_file") match {
@@ -27,39 +45,97 @@ object ParseAndCheck extends ParamPipelineElement {
 
             v1.get("name") match {
               case Some(StringField(_, name)) => {
-                ServiceBoot.logger.info(contents.available().toString)
-
+                /**
+                 * New request
+                 */
+                ServiceBoot.logger.debug(contents.available().toString)
+                /**
+                 * Allocate resources: new VM id within the system and file for server strage
+                 */
                 val newVmName = id+name
                 val newVmFile = new File(ServiceBoot.vmFolder + File.separator + newVmName)
-
+                /**
+                 * Read the Click file and allocate an IP and a port for the new VM
+                 */
                 val contentsAsString = IOUtils.readLines(contents).mkString("\n")
                 val ip = ServiceBoot.ip
                 val port = ServiceBoot.newPort(newVmName)
-
+                /**
+                 * Replace DSTIP and DSTPORT macros
+                 */
                 val replaceTcpWildcard = contentsAsString.replace("DSTPORT", port.toString)
                 val replaceIPWildcard = replaceTcpWildcard.replace("DSTIP", ip)
-
+                /**
+                 * Store new vm data.
+                 */
                 FileUtils.writeStringToFile(newVmFile, replaceIPWildcard)
-
+                /**
+                 * Parse to abstract
+                 */
                 val abstractNet = ClickToAbstractNetwork.buildConfig(new FileInputStream(newVmFile), id + name)
+                ServiceBoot.logger.debug("Parsed: \n" + abstractNet)
+                ServiceBoot.logger.debug("As haskell: \n" + abstractNet.asHaskellWithRuleNumber())
 
-                ServiceBoot.logger.info("Parsed: \n" + abstractNet)
+                var ok = true
 
-                ServiceBoot.logger.info("As haskell: \n" + abstractNet.asHaskellWithRuleNumber())
+                v1.get("require") match {
+                  case Some(FileField(_, _,requirementsFile)) => {
+                    val requirements = IOUtils.readLines(requirementsFile).toList
+                    for (r <- requirements) {
+                      r match {
+                        case ToElemReach(destination, port, config) => {
+                          val fullDestName = newVmName + "-" + destination
+                          val haskellCode = if (config == null) {
+                            TestCaseBuilder.toElemReachability(abstractNet, fullDestName, Integer.parseInt(port), None)
+                          } else {
+                            TestCaseBuilder.toElemReachability(abstractNet, fullDestName, Integer.parseInt(port), Some(config))
+                          }
 
-                val haskellCode = TestCaseBuilder.generateHaskellTestSourceToDest(abstractNet, id, name)
-                ServiceBoot.logger.info("End to end test case: \n\n", haskellCode)
+                          val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
+                          ServiceBoot.logger.info("Reachability analysis output:\n" + testOutput)
+                          if (! checkResult(testOutput)) ok = false
+                        }
 
-                val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
-                ServiceBoot.logger.info("Test output:\n" + testOutput)
+                        case EndToEndReach(cross, port, cfg1, cfg2) => {
+                          val fullDestName = newVmName + "-" + cross
 
-                val systemId = MachineStarter.startMachine(newVmName, ip, port, newVmFile)
-                ServiceBoot.logger.info("System id:\n" + (systemId match {
-                  case Right(message) => "Started vm with id: " + message
-                  case Left(message) => "Failed due to: " + message
-                }))
+                          val reqa = if (cfg1 == null) None else Some(cfg1)
+                          val reqb = if (cfg2 == null) None else Some(cfg2)
 
-                true
+                          val haskellCode = TestCaseBuilder.endToEndReachability(abstractNet, fullDestName, Integer.parseInt(port), reqa, reqb)
+                          val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
+                          ServiceBoot.logger.info("Reachability analysis output:\n" + testOutput)
+                          if (! checkResult(testOutput)) ok = false
+                        }
+
+                        case Invariant(a, pa, b, pb, headers) => {
+                          val parsedHeaders = headers.split("&&").toList.map(_.trim)
+
+                          val haskellCode = TestCaseBuilder.invariantCheck(abstractNet, newVmName+"-"+a, pa, newVmName+"-"+b, pb, parsedHeaders)
+                          val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
+                          ServiceBoot.logger.info("Invariant analysis output:\n" + testOutput)
+                          if (! checkResult(testOutput)) ok = false
+                        }
+
+                        case CommentLine =>
+                        case _ =>
+                      }
+                    }
+                  }
+                }
+
+                if (! (id contains "debug")) {
+                  val systemId = MachineStarter.startMachine(newVmName, ip, port, newVmFile)
+                  ServiceBoot.logger.info("VM status\n" + (systemId match {
+                    case Right(message) => "Started a new VM, system with id: " + message
+                    case Left(message) => {
+                      "Failed to start due to: " + message
+                      ok = false
+                    }
+                  }))
+                }
+
+                ok
               }
               case None => false
             }
@@ -79,24 +155,31 @@ object TestCaseRunner {
 
 //  Where symnet sits
   val symnetDir = new File("symnet")
-  val testFile = new File(symnetDir,"Main.hs")
+  val randomizer = new Random()
 
   def runHaskellCode(code: String): String = {
 //    Write test case
+    val testName = "Main"+randomizer.nextInt()
+    val testFile = new File(symnetDir,testName+".hs")
+    val binaryFile = new File(symnetDir,testName)
+    val hi = new File(symnetDir,testName+".hi")
+    val o = new File(symnetDir,testName+".o")
     val testFileStream = new FileOutputStream(testFile)
     IOUtils.write(code, testFileStream)
     testFileStream.close()
 //    Build and run process
-    val pb = new ProcessBuilder("bash", "testRunner.sh")
+    val pb = new ProcessBuilder("bash", "testRunner.sh", testName+".hs",  testName)
     pb.directory(symnetDir)
     val p = pb.start()
     val processOutput = p.getInputStream
     val status = p.waitFor()
+    testFile.delete()
+    binaryFile.delete(); o.delete; hi.delete
 
     if (status == 0)
       IOUtils.readLines(processOutput).toList.mkString("\n")
     else
-      "Error occurred"
+      "Error occurred while running a test."
 
   }
 
@@ -135,8 +218,8 @@ object MachineStarter {
       systemId = IOUtils.readLines(processOutput)(0)
 
     ServiceBoot.logger.info("Started vm with system id: " + systemId + " start redirecting traffic.")
-
-    Thread.sleep(500)
+    ServiceBoot.logger.info("Waiting the machine to start...")
+    Thread.sleep(1000)
 
     pb = new ProcessBuilder("bash", "redirect.sh", "start", "eth1", "vif"+systemId+".0", port.toString)
     p = pb.start()
@@ -165,8 +248,6 @@ object MachineStarter {
   }
 
   def stopMachine(vmName: String): Either[String, String] = {
-    val root = new File(File.separator)
-
     //    Start the machine
     var pb = new ProcessBuilder("bash", "getVmId.sh", vmName)
     var p = pb.start()
@@ -182,7 +263,7 @@ object MachineStarter {
     else
       systemId = IOUtils.readLines(processOutput)(0)
 
-    ServiceBoot.logger.info("Stopping vm with system id: " + systemId + " start redirecting traffic.")
+    ServiceBoot.logger.info("Stopping vm with system id: " + systemId)
 
     pb = new ProcessBuilder("bash", "redirect.sh", "stop", "eth1", "vif"+systemId+".0")
     p = pb.start()
@@ -206,7 +287,7 @@ object MachineStarter {
     if (status != 0)
       return Left("Fail stoppting redirection from machine back.")
 
-    pb = new ProcessBuilder("bash", "stop.sh", vmName)
+    pb = new ProcessBuilder("bash", "stop.sh", systemId)
     p = pb.start()
     status = p.waitFor()
     p = pb.start()

@@ -1,0 +1,6 @@
+# The proto starts being of any value and gets changed
+inv src-0 dst-0: proto
+# Between the rewriter and the destination, the protocol does not change
+inv rewriter-0 dst-0: proto
+# Make sure we're not touching the source port
+inv src-0 dst-0: src port

@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets
 import org.change.runtime.server.processing.general.pipelines.JustAuthorize
 import org.change.runtime.server.processing.start.pipeline.StartVMPipeline
 import akka.event.Logging
+import org.change.runtime.server.processing.stop.pipeline.StopVMPipeline
 
 // we don't implement our route structure directly in the service actor because
 // we want to be able to test it independently, without having to spin up an actor
@@ -52,12 +53,12 @@ trait ServerService extends HttpService {
 
                   StartVMPipeline.pipeline(fields) match {
                     case Left(e) => {
-                        println("Error \n" + e)
-                        "Error \n" + e
-                      }
+                        ServiceBoot.logger.warning("Failed starting the machine, cause: " + e)
+                        "VM could not be started."
+                    }
                     case Right(e) => {
-                        println("Succes")
-                        "Success"
+                        ServiceBoot.logger.info("Succes")
+                        "Success, your machine can be found at:" + ServiceBoot.ip+":"+(ServiceBoot.nextPort-1)
                       }
                   }
                 }
@@ -70,11 +71,18 @@ trait ServerService extends HttpService {
           respondWithMediaType(`application/json`) {
             entity(as[MultipartFormData]) { formData =>
               complete {
-                val fields = fieldMap(formData, List("vmName"))
+                val fields = fieldMap(formData, Nil)
 
-                println(JustAuthorize(fields))
-
-                s"""{"status": "Processed POST request, details=$fields" }"""
+                StopVMPipeline.pipeline(fields) match {
+                  case Left(e) => {
+                    ServiceBoot.logger.warning("Failed stopping the machine, cause: " + e)
+                    "VM could not be stopped."
+                  }
+                  case Right(e) => {
+                    ServiceBoot.logger.info("Done stopping")
+                    "Done"
+                  }
+                }
               }
             }
           }

@@ -35,7 +35,7 @@ class IPFilterElementBuilder(name: String)
     addOutputPort(Port())
   }
 
-  override def buildElement: GenericElement = {
+  override def buildElement: IPFilter = {
     new IPFilter(name, getInputPorts, getOutputPorts, getConfigParameters)
   }
 }
@@ -55,5 +55,7 @@ object IPFilter {
 
   def getBuilder: IPFilterElementBuilder =
     getBuilder(s"$genericElementName-$unnamedCount")
+
+  def quickBuild(name: String, config: String) = IPFilter.getBuilder(name).handleConfigParameter(config).buildElement
 }
 

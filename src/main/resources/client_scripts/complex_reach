@@ -1,0 +1,6 @@
+# Should not swap protocols
+reach filter-0 client: when udp -> should tcp
+# TCP traffic is filtered
+reach filter-0 client:->should tcp
+# Correct reachability
+reach filter-0 client: when udp
