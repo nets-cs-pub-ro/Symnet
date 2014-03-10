@@ -41,6 +41,14 @@ object TestCaseBuilder {
                                         |main = do
                                         |  putStrLn $ show result""".stripMargin
 
+  private val testFileSuffixFormat2 = """|
+                                        |input = generalFlow
+                                        |
+                                        |result = crossReach ("%s", "in") ("%s", "in") ("%s", "out") input l%d
+                                        |
+                                        |main = do
+                                        |  putStrLn $ show result""".stripMargin
+
   /**
    * TODO: DEP
    * Builds an abstract network representation out of a configuration file.
@@ -175,11 +183,11 @@ object TestCaseBuilder {
 
   def toElemReachability(net: NetworkConfig, destName: String, port: Int, requirements: Option[String]): String = {
     net.elements.get(destName) match {
-      case None => ""
+      case None => throw new NoSuchElementException
       case Some(e) => requirements match {
         case Some(config) => {
-          val req = IPFilter.quickBuild("exit", config)
-          val testNet = net.linkToSource(req).addElement(ServiceBoot.initElement).addLink(ServiceBoot.initElementName, 0, "exit", 0)
+          val req = IPFilter.quickBuild("req", config)
+          val testNet = net.linkToSource(req).addElement(ServiceBoot.initElement).addLink(ServiceBoot.initElementName, 0, "req", 0)
 
           val inPort = ServiceBoot.initElement.inputPortName()
           val outPort = e.outputPortName(port)
@@ -207,5 +215,46 @@ object TestCaseBuilder {
     }
   }
 
+  def endToEndReachability(net: NetworkConfig, cross: String, port: Int, reqa: Option[String], reqb: Option[String]): String = {
+    var finalNet = net
+    var inputPort: String = ServiceBoot.initElement.inputPortName()
+    var middlePort: String = net.elements.get(cross).get.inputPortName(port)
+    var exitPort: String = ""
 
+    net.elements.get(cross) match {
+      case None => throw new NoSuchElementException
+      case Some(e) => {
+        reqa match {
+          case Some(config) => {
+            val req = IPFilter.quickBuild("when", config)
+            finalNet = net.linkToSource(req).addElement(ServiceBoot.initElement).addLink(ServiceBoot.initElementName, 0, "when", 0)
+          }
+
+          case None => {
+            finalNet = net.linkToSource(ServiceBoot.initElement)
+          }
+        }
+
+        val dest = finalNet.getFirstDestination.get
+
+        reqb match {
+          case Some(config) => {
+            val req = IPFilter.quickBuild("should", config)
+            finalNet = finalNet.addElement(req).addLink(dest.name, 0, "should", 0)
+            exitPort = req.outputPortName(0)
+          }
+
+          case None => {
+            exitPort = dest.outputPortName(0)
+          }
+        }
+      }
+    }
+
+    val (repr, rulesCount) = finalNet.asHaskellWithRuleNumber()
+
+    val suffix = String.format(testFileSuffixFormat2, inputPort, middlePort, exitPort, rulesCount: Integer)
+
+    testFilePrefix + repr + suffix
+  }
 }

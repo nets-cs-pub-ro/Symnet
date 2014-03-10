@@ -14,7 +14,7 @@ object ServiceBoot{
 
   var logger:LoggingAdapter = _
   var initElement: GenericElement = _
-  val initElementName = "platfromInit"
+  val initElementName = "platformInit"
 
   def getLogger = logger
 

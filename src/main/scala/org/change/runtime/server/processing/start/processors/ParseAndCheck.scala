@@ -19,8 +19,10 @@ import scala.Some
 object ParseAndCheck extends ParamPipelineElement {
 
   //val EndToEnd =
-  val ToElemReach = "reach\\s+(\\w+)-(\\d+)(\\s*:\\s*should.+)?\\w*".r
+  val ToElemReach = "reach\\s+(\\w+)-(\\d+)(?:\\s*:\\s*(when.+))?\\s*".r
+  val EndToEndReach = "reach\\s+(\\w+)-(\\d+)\\s+client(?:\\s*:\\s*(when[^>]+)?\\s*(?:->\\s*(should.+))?)?\\s*".r
   val EmptyLine = "(\\s+|^$)".r
+  val CommentLine = "\\s*#.*".r
 
   def apply(v1: Map[String, Field]): Boolean = {
     v1.get("click_file") match {
@@ -62,15 +64,6 @@ object ParseAndCheck extends ParamPipelineElement {
                 ServiceBoot.logger.debug("Parsed: \n" + abstractNet)
                 ServiceBoot.logger.debug("As haskell: \n" + abstractNet.asHaskellWithRuleNumber())
 
-
-
-
-//                val haskellCode = TestCaseBuilder.generateHaskellTestSourceToDest(abstractNet)
-//                ServiceBoot.logger.info("End to end test case: \n\n", haskellCode)
-//
-//                val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
-//                ServiceBoot.logger.info("Test output:\n" + testOutput)
-
                 var ok = true
 
                 v1.get("require") match {
@@ -85,11 +78,23 @@ object ParseAndCheck extends ParamPipelineElement {
                           } else {
                             TestCaseBuilder.toElemReachability(abstractNet, fullDestName, Integer.parseInt(port), Some(config))
                           }
-                          ServiceBoot.logger.info("Test case: \n\n", haskellCode)
 
                           val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
-                          ServiceBoot.logger.info("Test output:\n" + testOutput)
+                          ServiceBoot.logger.info("Analysis output:\n" + testOutput)
                         }
+
+                        case EndToEndReach(cross, port, cfg1, cfg2) => {
+                          val fullDestName = newVmName + "-" + cross
+
+                          val reqa = if (cfg1 == null) None else Some(cfg1)
+                          val reqb = if (cfg2 == null) None else Some(cfg2)
+
+                          val haskellCode = TestCaseBuilder.endToEndReachability(abstractNet, fullDestName, Integer.parseInt(port), reqa, reqb)
+                          val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
+                          ServiceBoot.logger.info("Analysis output:\n" + testOutput)
+                        }
+
+                        case CommentLine =>
                         case _ =>
                       }
                     }

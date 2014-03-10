@@ -1,8 +1,13 @@
+# End to end reachability
 reach dst-0
-reach dst-0: should dst 141.85.241.246 && udp
-reach dst-0: should dst 141.85.241.246 && tcp
-reach dst-0: should dst 141.85.241.246 && dst port 30000-35000
-reach dst-0: should dst 141.85.241.246 && dst port 0-1000
-reach dst-0: should dst 141.85.241.0/8 && dst port 30000-35000
-reach filter-0: should udp
-reach src-0: should udp
+reach dst-0: when dst 141.85.241.249 && udp
+# Should fail, no tcp traffic
+reach dst-0: when dst 141.85.241.246 && tcp
+# Bad destination
+reach dst-0: when dst 141.85.241.246 && dst port 30000-35000
+# when fail, the port is not in this range
+reach dst-0: when dst 141.85.241.246 && dst port 0-1000
+reach dst-0: when dst 141.85.241.0/8 && dst port 30000-35000
+reach filter-0: when udp
+reach src-0: when tcp
+reach src-0: when udp
