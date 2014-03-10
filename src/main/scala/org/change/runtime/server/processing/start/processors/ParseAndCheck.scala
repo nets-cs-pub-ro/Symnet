@@ -11,6 +11,7 @@ import org.change.runtime.server.ServiceBoot
 import org.change.runtime.server.request.FileField
 import org.change.runtime.server.request.StringField
 import scala.Some
+import java.util.Random
 
 /**
  * radu
@@ -154,19 +155,26 @@ object TestCaseRunner {
 
 //  Where symnet sits
   val symnetDir = new File("symnet")
-  val testFile = new File(symnetDir,"Main.hs")
+  val randomizer = new Random()
 
   def runHaskellCode(code: String): String = {
 //    Write test case
+    val testName = "Main"+randomizer.nextInt()
+    val testFile = new File(symnetDir,testName+".hs")
+    val binaryFile = new File(symnetDir,testName)
+    val hi = new File(symnetDir,testName+".hi")
+    val o = new File(symnetDir,testName+".o")
     val testFileStream = new FileOutputStream(testFile)
     IOUtils.write(code, testFileStream)
     testFileStream.close()
 //    Build and run process
-    val pb = new ProcessBuilder("bash", "testRunner.sh")
+    val pb = new ProcessBuilder("bash", "testRunner.sh", testName+".hs",  testName)
     pb.directory(symnetDir)
     val p = pb.start()
     val processOutput = p.getInputStream
     val status = p.waitFor()
+    testFile.delete()
+    binaryFile.delete(); o.delete; hi.delete
 
     if (status == 0)
       IOUtils.readLines(processOutput).toList.mkString("\n")

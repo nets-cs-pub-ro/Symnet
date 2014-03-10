@@ -13,10 +13,7 @@ import org.change.runtime.server.processing.start.processors.MachineStarter
  */
 object Stopper extends ParamPipelineElement {
 
-
   def apply(v1: Map[String, Field]): Boolean = {
-    v1.get("click_file") match {
-      case Some(FileField(_, _, contents)) => {
         v1.get("id") match {
           case Some(FileField(_, _,identity)) => {
             val id = IOUtils.toString(identity)
@@ -43,6 +40,4 @@ object Stopper extends ParamPipelineElement {
           }
         }
       }
-    }
-  }
 }
