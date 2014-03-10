@@ -48,6 +48,13 @@ object TestCaseBuilder {
                                         |
                                         |main = do
                                         |  putStrLn $ show result""".stripMargin
+  private val testFileSuffixFormatInvariant = """|
+                                        |input = generalFlow
+                                        |
+                                        |result = invariant [ "%s" ] ("%s", "in") ("%s", "out") ("%s", "out") input l%d
+                                        |
+                                        |main = do
+                                        |  putStrLn $ show result""".stripMargin
 
   /**
    * TODO: DEP
@@ -213,6 +220,20 @@ object TestCaseBuilder {
         }
       }
     }
+  }
+
+  def invariantCheck(net: NetworkConfig, a: String, pa: String, b: String, pb: String, headers: List[String]): String = {
+    val finalNetwork = net.linkToSource(ServiceBoot.initElement)
+
+    val source = ServiceBoot.initElement.inputPortName()
+    val desta = net.elements.get(a).get.outputPortName(Integer parseInt pa)
+    val destb = net.elements.get(b).get.outputPortName(Integer parseInt pb)
+
+    val (repr, rulesCount) = finalNetwork.asHaskellWithRuleNumber()
+
+    val suffix = String.format(testFileSuffixFormatInvariant, headers.mkString("\",\""), source, desta, destb, rulesCount: Integer)
+
+    testFilePrefix + repr + suffix
   }
 
   def endToEndReachability(net: NetworkConfig, cross: String, port: Int, reqa: Option[String], reqb: Option[String]): String = {

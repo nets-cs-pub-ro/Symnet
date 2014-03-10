@@ -21,6 +21,7 @@ object ParseAndCheck extends ParamPipelineElement {
   //val EndToEnd =
   val ToElemReach = "reach\\s+(\\w+)-(\\d+)(?:\\s*:\\s*(when.+))?\\s*".r
   val EndToEndReach = "reach\\s+(\\w+)-(\\d+)\\s+client(?:\\s*:\\s*(when[^>]+)?\\s*(?:->\\s*(should.+))?)?\\s*".r
+  val Invariant = "inv\\s+(\\w+)-(\\d+)\\s+(\\w+)-(\\d+)\\s*:\\s*([^&]+(?:\\s*&&\\s*[^&]+)*)".r
   val EmptyLine = "(\\s+|^$)".r
   val CommentLine = "\\s*#.*".r
 
@@ -92,6 +93,14 @@ object ParseAndCheck extends ParamPipelineElement {
                           val haskellCode = TestCaseBuilder.endToEndReachability(abstractNet, fullDestName, Integer.parseInt(port), reqa, reqb)
                           val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
                           ServiceBoot.logger.info("Analysis output:\n" + testOutput)
+                        }
+
+                        case Invariant(a, pa, b, pb, headers) => {
+                          val parsedHeaders = headers.split("&&").toList.map(_.trim)
+
+                          val haskellCode = TestCaseBuilder.invariantCheck(abstractNet, newVmName+"-"+a, pa, newVmName+"-"+b, pb, parsedHeaders)
+                          val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
+                          ServiceBoot.logger.info("Invariant analysis output:\n" + testOutput)
                         }
 
                         case CommentLine =>
