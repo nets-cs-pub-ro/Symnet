@@ -1,1 +1,8 @@
-Hello
+reach dst-0
+reach dst-0: should dst 141.85.241.246 && udp
+reach dst-0: should dst 141.85.241.246 && tcp
+reach dst-0: should dst 141.85.241.246 && dst port 30000-35000
+reach dst-0: should dst 141.85.241.246 && dst port 0-1000
+reach dst-0: should dst 141.85.241.0/8 && dst port 30000-35000
+reach filter-0: should udp
+reach src-0: should udp

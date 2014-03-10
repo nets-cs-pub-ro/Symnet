@@ -7,6 +7,8 @@ import org.antlr.v4.runtime.tree.{ParseTreeWalker, ParseTree}
 import collection.mutable.ListBuffer
 import io.Source
 import parser.specific.{ToDevice, FromDevice}
+import org.change.parser.specific.IPFilter
+import org.change.runtime.server.ServiceBoot
 
 /**
  * Build a SYMNET runnable test case.
@@ -147,7 +149,7 @@ object TestCaseBuilder {
     testFilePrefix + repr + suffix
   }
 
-  def generateHaskellTestSourceToDest(net: NetworkConfig, id: String, vmName: String): String = {
+  def generateHaskellTestSourceToDest(net: NetworkConfig): String = {
     val sourcePort = net.elements.find { pair =>
       val (_, e) = pair
       e match {
@@ -170,4 +172,40 @@ object TestCaseBuilder {
 
     testFilePrefix + repr + suffix
   }
+
+  def toElemReachability(net: NetworkConfig, destName: String, port: Int, requirements: Option[String]): String = {
+    net.elements.get(destName) match {
+      case None => ""
+      case Some(e) => requirements match {
+        case Some(config) => {
+          val req = IPFilter.quickBuild("exit", config)
+          val testNet = net.linkToSource(req).addElement(ServiceBoot.initElement).addLink(ServiceBoot.initElementName, 0, "exit", 0)
+
+          val inPort = ServiceBoot.initElement.inputPortName()
+          val outPort = e.outputPortName(port)
+
+          val (repr, rulesCount) = testNet.asHaskellWithRuleNumber()
+
+          val suffix = String.format(testFileSuffixFormat, inPort, outPort, rulesCount: Integer)
+
+          testFilePrefix + repr + suffix
+        }
+
+        case None => {
+          val testNet = net.linkToSource(ServiceBoot.initElement)
+
+          val inPort = ServiceBoot.initElement.inputPortName()
+          val outPort = e.outputPortName(port)
+
+          val (repr, rulesCount) = testNet.asHaskellWithRuleNumber()
+
+          val suffix = String.format(testFileSuffixFormat, inPort, outPort, rulesCount: Integer)
+
+          testFilePrefix + repr + suffix
+        }
+      }
+    }
+  }
+
+
 }

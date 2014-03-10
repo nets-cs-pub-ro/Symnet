@@ -18,6 +18,10 @@ import scala.Some
  */
 object ParseAndCheck extends ParamPipelineElement {
 
+  //val EndToEnd =
+  val ToElemReach = "reach\\s+(\\w+)-(\\d+)(\\s*:\\s*should.+)?\\w*".r
+  val EmptyLine = "(\\s+|^$)".r
+
   def apply(v1: Map[String, Field]): Boolean = {
     v1.get("click_file") match {
       case Some(FileField(_, _, contents)) => {
@@ -27,37 +31,76 @@ object ParseAndCheck extends ParamPipelineElement {
 
             v1.get("name") match {
               case Some(StringField(_, name)) => {
-                ServiceBoot.logger.info(contents.available().toString)
-
+                /**
+                 * New request
+                 */
+                ServiceBoot.logger.debug(contents.available().toString)
+                /**
+                 * Allocate resources: new VM id within the system and file for server strage
+                 */
                 val newVmName = id+name
                 val newVmFile = new File(ServiceBoot.vmFolder + File.separator + newVmName)
-
+                /**
+                 * Read the Click file and allocate an IP and a port for the new VM
+                 */
                 val contentsAsString = IOUtils.readLines(contents).mkString("\n")
                 val ip = ServiceBoot.ip
                 val port = ServiceBoot.newPort(newVmName)
-
+                /**
+                 * Replace DSTIP and DSTPORT macros
+                 */
                 val replaceTcpWildcard = contentsAsString.replace("DSTPORT", port.toString)
                 val replaceIPWildcard = replaceTcpWildcard.replace("DSTIP", ip)
-
+                /**
+                 * Store new vm data.
+                 */
                 FileUtils.writeStringToFile(newVmFile, replaceIPWildcard)
-
+                /**
+                 * Parse to abstract
+                 */
                 val abstractNet = ClickToAbstractNetwork.buildConfig(new FileInputStream(newVmFile), id + name)
+                ServiceBoot.logger.debug("Parsed: \n" + abstractNet)
+                ServiceBoot.logger.debug("As haskell: \n" + abstractNet.asHaskellWithRuleNumber())
 
-                ServiceBoot.logger.info("Parsed: \n" + abstractNet)
 
-                ServiceBoot.logger.info("As haskell: \n" + abstractNet.asHaskellWithRuleNumber())
 
-                val haskellCode = TestCaseBuilder.generateHaskellTestSourceToDest(abstractNet, id, name)
-                ServiceBoot.logger.info("End to end test case: \n\n", haskellCode)
 
-                val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
-                ServiceBoot.logger.info("Test output:\n" + testOutput)
+//                val haskellCode = TestCaseBuilder.generateHaskellTestSourceToDest(abstractNet)
+//                ServiceBoot.logger.info("End to end test case: \n\n", haskellCode)
+//
+//                val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
+//                ServiceBoot.logger.info("Test output:\n" + testOutput)
 
-                val systemId = MachineStarter.startMachine(newVmName, ip, port, newVmFile)
-                ServiceBoot.logger.info("System id:\n" + (systemId match {
-                  case Right(message) => "Started vm with id: " + message
-                  case Left(message) => "Failed due to: " + message
-                }))
+                var ok = true
+
+                v1.get("require") match {
+                  case Some(FileField(_, _,requirementsFile)) => {
+                    val requirements = IOUtils.readLines(requirementsFile).toList
+                    for (r <- requirements) {
+                      r match {
+                        case ToElemReach(destination, port, config) => {
+                          val fullDestName = newVmName + "-" + destination
+                          val haskellCode = if (config == null) {
+                            TestCaseBuilder.toElemReachability(abstractNet, fullDestName, Integer.parseInt(port), None)
+                          } else {
+                            TestCaseBuilder.toElemReachability(abstractNet, fullDestName, Integer.parseInt(port), Some(config))
+                          }
+                          ServiceBoot.logger.info("Test case: \n\n", haskellCode)
+
+                          val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
+                          ServiceBoot.logger.info("Test output:\n" + testOutput)
+                        }
+                        case _ =>
+                      }
+                    }
+                  }
+                }
+
+//                val systemId = MachineStarter.startMachine(newVmName, ip, port, newVmFile)
+//                ServiceBoot.logger.info("System id:\n" + (systemId match {
+//                  case Right(message) => "Started vm with id: " + message
+//                  case Left(message) => "Failed due to: " + message
+//                }))
 
                 true
               }

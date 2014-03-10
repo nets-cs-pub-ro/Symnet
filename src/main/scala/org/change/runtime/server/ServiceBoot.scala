@@ -2,13 +2,19 @@ package org.change.runtime.server
 
 import akka.actor.{ActorSystem, Props}
 import akka.io.IO
+import parser.generic.GenericElement
 import spray.can.Http
 import akka.event.{LoggingAdapter, Logging}
 import scala.collection.mutable.Map
+import org.change.parser.specific.IPFilter
+import org.apache.commons.io.FileUtils
+import java.io.File
 
 object ServiceBoot{
 
   var logger:LoggingAdapter = _
+  var initElement: GenericElement = _
+  val initElementName = "platfromInit"
 
   def getLogger = logger
 
@@ -40,13 +46,14 @@ object ServiceBoot{
     // we need an ActorSystem to host our application in
     implicit val system = ActorSystem("on-spray-can")
 
-
     // create and start our service actor
     val service = system.actorOf(Props[ServerServiceActor], "server-service")
-
     logger = Logging.getLogger(system, this)
 
-    def getLogger = logger
+    //TODO: What if tehere's no platfrom file ?
+    val platformInConfig = FileUtils.readFileToString(new File("platform_setup" + File.separator + "setup"))
+    initElement = IPFilter.quickBuild(initElementName, platformInConfig)
+
     // start a new HTTP server on port 8080 with our service actor as the handler
     IO(Http) ! Http.Bind(service, interface = "localhost", port = 8080)
   }

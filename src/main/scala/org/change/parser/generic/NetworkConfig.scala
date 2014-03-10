@@ -3,6 +3,7 @@ package parser.generic
 import collection.mutable.{ListBuffer, ArrayBuffer}
 import generated.ClickBaseListener
 import generated.ClickParser._
+import parser.specific.{ToDevice, FromDevice}
 import scala.Some
 import scala.collection.JavaConversions.collectionAsScalaIterable
 import parser.haskellgeneration.HasHaskellRepresentation
@@ -149,6 +150,36 @@ case class NetworkConfig(
             paths: List[List[PathComponent]])
   extends HasHaskellRepresentation {
 
+  def addElement(e: GenericElement): NetworkConfig = NetworkConfig(elements + ((e.name, e)), paths)
+
+  def addLink(elementA: String, portA: Int = 0, elementB: String, portB: Int = 0) = {
+    elements.get(elementA) match {
+      case Some(a) => elements.get(elementB) match {
+        case Some(b) => NetworkConfig(elements, List((elementA, 0, portA), (elementB, portB, 0)) :: paths)
+        case None => this
+      }
+      case None => this
+    }
+  }
+
+  def addAfter(sourceName: String, element: GenericElement, sourcePort: Int = 0, destinationPort: Int = 0): NetworkConfig =
+    addElement(element).addLink(sourceName, sourcePort, element.name, destinationPort)
+
+  def getFirstSource: Option[GenericElement] = {
+    elements.values.find(_ match {case _:FromDevice => true; case _ => false})
+  }
+
+  def getFirstDestination: Option[GenericElement] = {
+    elements.values.find(_ match {case _:ToDevice => true; case _ => false})
+  }
+
+  def linkToSource(element: GenericElement, port: Int = 0): NetworkConfig = {
+    getFirstSource match {
+      case Some(source) => this.addElement(element).addLink(element.name, port, source.name, 0)
+      case None => this
+    }
+  }
+
   override def asHaskellWithRuleNumber(startRule: Int = 1) = {
 
     val links = ListBuffer[String]()
@@ -176,15 +207,6 @@ case class NetworkConfig(
       elementsRepr += repr._1
       currentRule += repr._2
     }
-
-//    val client = elements.values.find( _.elementType == "Client").get
-//    val server = elements.values.find( _.elementType == "Server").get
-//
-//    val suffix = "\n\ninput = Flow 0 [[(\"Dest-TCP\" `Bind` (CVal \"" + client.configParameters(0).value + "\")), (\"Dest-IP\" `Bind` (CVal \"" + client.configParameters(1).value + "\")),\n" +
-//    "\t(\"Source-TCP\" `Bind` (CVal \"" + client.configParameters(2).value + "\")), (\"Source-IP\" `Bind` (CVal \"" + client.configParameters(3).value + "\"))]]\n\n" +
-//    "reach x y = reachability (" + "(\"" + client.inputPortName(0) + "\", \"in\")" + ",y) [x] " + s"l${currentRule-1}" +"\n\n"+
-//    "main = do\n"+
-//    "  putStrLn . show $ reach " + "(\"" + server.outputPortName(0) + "\", \"out\")" + " input\n"
 
     (links.mkString("\n") + "\n" + elementsRepr.mkString("\n"), currentRule - startRule)
   }
