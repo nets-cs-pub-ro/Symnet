@@ -25,6 +25,16 @@ object ParseAndCheck extends ParamPipelineElement {
   val EmptyLine = "(\\s+|^$)".r
   val CommentLine = "\\s*#.*".r
 
+  def checkResult(output: String): Boolean = {
+    if (output.contains("Null") | output.contains("[]")) {
+      ServiceBoot.logger.warning("Test failed.")
+      false
+    } else {
+      ServiceBoot.logger.info("Test Passed")
+      true
+    }
+  }
+
   def apply(v1: Map[String, Field]): Boolean = {
     v1.get("click_file") match {
       case Some(FileField(_, _, contents)) => {
@@ -81,7 +91,8 @@ object ParseAndCheck extends ParamPipelineElement {
                           }
 
                           val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
-                          ServiceBoot.logger.info("Analysis output:\n" + testOutput)
+                          ServiceBoot.logger.info("Reachability analysis output:\n" + testOutput)
+                          if (! checkResult(testOutput)) ok = false
                         }
 
                         case EndToEndReach(cross, port, cfg1, cfg2) => {
@@ -92,7 +103,8 @@ object ParseAndCheck extends ParamPipelineElement {
 
                           val haskellCode = TestCaseBuilder.endToEndReachability(abstractNet, fullDestName, Integer.parseInt(port), reqa, reqb)
                           val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
-                          ServiceBoot.logger.info("Analysis output:\n" + testOutput)
+                          ServiceBoot.logger.info("Reachability analysis output:\n" + testOutput)
+                          if (! checkResult(testOutput)) ok = false
                         }
 
                         case Invariant(a, pa, b, pb, headers) => {
@@ -101,6 +113,7 @@ object ParseAndCheck extends ParamPipelineElement {
                           val haskellCode = TestCaseBuilder.invariantCheck(abstractNet, newVmName+"-"+a, pa, newVmName+"-"+b, pb, parsedHeaders)
                           val testOutput = TestCaseRunner.runHaskellCode(haskellCode)
                           ServiceBoot.logger.info("Invariant analysis output:\n" + testOutput)
+                          if (! checkResult(testOutput)) ok = false
                         }
 
                         case CommentLine =>
@@ -110,13 +123,18 @@ object ParseAndCheck extends ParamPipelineElement {
                   }
                 }
 
-//                val systemId = MachineStarter.startMachine(newVmName, ip, port, newVmFile)
-//                ServiceBoot.logger.info("System id:\n" + (systemId match {
-//                  case Right(message) => "Started vm with id: " + message
-//                  case Left(message) => "Failed due to: " + message
-//                }))
+                if (! (id contains "debug")) {
+                  val systemId = MachineStarter.startMachine(newVmName, ip, port, newVmFile)
+                  ServiceBoot.logger.info("VM status\n" + (systemId match {
+                    case Right(message) => "Started a new VM, system with id: " + message
+                    case Left(message) => {
+                      "Failed to start due to: " + message
+                      ok = false
+                    }
+                  }))
+                }
 
-                true
+                ok
               }
               case None => false
             }
@@ -153,7 +171,7 @@ object TestCaseRunner {
     if (status == 0)
       IOUtils.readLines(processOutput).toList.mkString("\n")
     else
-      "Error occurred"
+      "Error occurred while running a test."
 
   }
 
@@ -192,8 +210,8 @@ object MachineStarter {
       systemId = IOUtils.readLines(processOutput)(0)
 
     ServiceBoot.logger.info("Started vm with system id: " + systemId + " start redirecting traffic.")
-
-    Thread.sleep(500)
+    ServiceBoot.logger.info("Waiting the machine to start...")
+    Thread.sleep(1000)
 
     pb = new ProcessBuilder("bash", "redirect.sh", "start", "eth1", "vif"+systemId+".0", port.toString)
     p = pb.start()
@@ -222,8 +240,6 @@ object MachineStarter {
   }
 
   def stopMachine(vmName: String): Either[String, String] = {
-    val root = new File(File.separator)
-
     //    Start the machine
     var pb = new ProcessBuilder("bash", "getVmId.sh", vmName)
     var p = pb.start()
@@ -239,7 +255,7 @@ object MachineStarter {
     else
       systemId = IOUtils.readLines(processOutput)(0)
 
-    ServiceBoot.logger.info("Stopping vm with system id: " + systemId + " start redirecting traffic.")
+    ServiceBoot.logger.info("Stopping vm with system id: " + systemId)
 
     pb = new ProcessBuilder("bash", "redirect.sh", "stop", "eth1", "vif"+systemId+".0")
     p = pb.start()
@@ -263,7 +279,7 @@ object MachineStarter {
     if (status != 0)
       return Left("Fail stoppting redirection from machine back.")
 
-    pb = new ProcessBuilder("bash", "stop.sh", vmName)
+    pb = new ProcessBuilder("bash", "stop.sh", systemId)
     p = pb.start()
     status = p.waitFor()
     p = pb.start()

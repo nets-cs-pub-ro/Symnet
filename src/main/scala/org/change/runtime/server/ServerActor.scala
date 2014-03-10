@@ -52,12 +52,12 @@ trait ServerService extends HttpService {
 
                   StartVMPipeline.pipeline(fields) match {
                     case Left(e) => {
-                        println("Error \n" + e)
-                        "Error \n" + e
-                      }
+                        ServiceBoot.logger.warning("Failed starting the machine, cause: " + e)
+                        "VM could not be started."
+                    }
                     case Right(e) => {
-                        println("Succes")
-                        "Success"
+                        ServiceBoot.logger.info("Succes")
+                        "Success, your machine can be found at:" + ServiceBoot.ip+":"+(ServiceBoot.nextPort-1)
                       }
                   }
                 }
@@ -70,7 +70,7 @@ trait ServerService extends HttpService {
           respondWithMediaType(`application/json`) {
             entity(as[MultipartFormData]) { formData =>
               complete {
-                val fields = fieldMap(formData, List("vmName"))
+                val fields = fieldMap(formData, Nil)
 
                 println(JustAuthorize(fields))
 

@@ -1,6 +1,6 @@
 # Should not swap protocols
 reach filter-0 client: when udp -> should tcp
-# TCP is not allowed
+# TCP traffic is filtered
 reach filter-0 client:->should tcp
-# Correct
-reach filter-0 client: when udp -> should dst 141.85.241.246
+# Correct reachability
+reach filter-0 client: when udp
