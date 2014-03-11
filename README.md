@@ -9,9 +9,10 @@ NetVisor
 
 Where:
 
-    1. identity_file is the public key of the client
-    2. click_file is the .click that is about to run
-    3. requirements_file is the set of static analysis tests that need to be performed
+    1. identity_file has the __ID__ of the client (_the public key is to replace the current solution_)
+    2. click_file is the Click that is about to run. It can use the __DSTIP__ and __DSTPORT__ wildcards which will be
+    replaced at runtime with the on-the_spot allocated values.
+    3. requirements_file is where the set of __static analysis__ tests sit
     4. vm_name is the id the client uses to refer to this VM instance
     5. server_addr is the URL of the start endpoint, this is _optional_ as it defaults to http://localhost:8080/start
 
