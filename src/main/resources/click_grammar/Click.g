@@ -37,8 +37,8 @@ port            : '[' portId ']' ;
 portId          : NUMBER ;
 
 CONJUNCTION                 : '&&' ;
-NON_CAPITALIZED_STRING      : [a-z]([a-zA-Z@_0-9\-/:])* ;
-CAPITALIZED_STRING          : [A-Z]([a-zA-Z@_0-9\-/:])* ;
+NON_CAPITALIZED_STRING      : [a-z]([a-zA-Z@_0-9\-/\\:\.])* ;
+CAPITALIZED_STRING          : [A-Z]([a-zA-Z@_0-9\-/\\:\.])* ;
 DASH                        : '-' ;
 NUMERIC_CONF_PARAM          : [0-9a-fA-F]+ (('/' | '.' | ':' | 'x' | 'X') [0-9a-fA-F]+)+ ;
 
@@ -53,5 +53,5 @@ DEFINE_SYMBOL : '::' ;
 
 NEWLINE : '\n' ;
 
-WS		: [ \t]+ -> skip ;
+WS		: [ \t\r]+ -> skip ;
 
