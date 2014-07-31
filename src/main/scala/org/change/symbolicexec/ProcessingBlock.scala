@@ -1,4 +1,4 @@
-package org.change.executor
+package org.change.symbolicexec
 
 /**
  * A prcessing module implements its functionality by extending this trait.
@@ -14,10 +14,18 @@ trait ProcessingBlock {
    * When execution reaches a processing block it runs its logic and the results are
    * pushed downstream as a list o possible paths.
    * @param p The currently processed path
-   * @param entryPoint The entry point is not unique since a processing block may have multiple
-   *                   input ports, each with a different logic associated
    * @return Next reachable execution paths
    */
-  def process(p: Path, entryPoint: Int): List[Path]
+  def process(p: Path): List[Path]
+
+  /**
+   * @return Fan-in
+   */
+  def entryCount: Int
+
+  /**
+   * @return Fan out count
+   */
+  def exitCount: Int
 
 }

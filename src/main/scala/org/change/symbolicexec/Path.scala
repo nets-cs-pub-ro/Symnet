@@ -1,4 +1,4 @@
-package org.change.executor
+package org.change.symbolicexec
 
 /**
  * The execution path is the abstraction used for a given network flow
@@ -33,4 +33,4 @@ case class PathLocation(processingBlockId: String, accessPointOrd: Int, accessPo
 
 class AccessPointType
 object Input extends AccessPointType
-object Exit extends AccessPointType
+object Output extends AccessPointType

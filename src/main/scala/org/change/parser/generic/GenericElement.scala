@@ -2,6 +2,7 @@ package parser.generic
 
 import collection.mutable.ArrayBuffer
 import parser.haskellgeneration.HasHaskellRepresentation
+import org.change.symbolicexec.{NoopProcessingBlock, ProcessingBlock}
 
 /**
  * Generic element, defined by an id (the name), an element type and the input
@@ -25,6 +26,8 @@ case class GenericElement(name: String,
 
   override def asHaskell(ruleNumber: Int) = ("r"+ruleNumber+" = noOp \"" + name + "\"\n" + s"l$ruleNumber = r$ruleNumber : l${ruleNumber - 1}", 1)
   override def toString = s"\n[ $name $elementType\n$inputPorts\n$outputPorts\n$configParameters]\n"
+
+  def toProcessingBlock: ProcessingBlock = new NoopProcessingBlock(name, inputPortCount, outputPortCount)
 }
 
 class GenericElementBuilder(name: String, elementType: String)
