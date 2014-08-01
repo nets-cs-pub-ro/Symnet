@@ -51,18 +51,22 @@ class SymbolicExecutor(parsedModel: NetworkConfig) {
     (afterProcessing, stuck)
   }
 
-  def execute(input: List[Path]): List[Path] = if (! input.isEmpty) {
+  type HookFunction = (List[Path], List[Path], List[Path]) => Unit
+  private def printHook: HookFunction = (current: List[Path], next: List[Path], stuck: List[Path]) => {
+    println("=======================================================================================================")
+    println(s"Exploring:\n${current.mkString("\n")}")
+    println(s"Stuck:\n${stuck.mkString("\n")}")
+    println("=======================================================================================================")
+  }
 
-      println("=======================================================================================================")
-      println(s"Exploring:\n${input.mkString("\n")}")
-      val (next, stuck) = step(input)
-      println(s"Stuck:\n${stuck.mkString("\n")}")
-      println("=======================================================================================================")
+  def execute(hook: HookFunction)(input: List[Path]): List[Path] = if (! input.isEmpty) {
+    val (next, stuck) = step(input)
+    hook(input, next, stuck)
+    stuck ++ execute(hook)(next)
+  } else {
+    Nil
+  }
 
-      stuck ++ execute(next)
-    } else {
-      Nil
-    }
-
-  def execute(input: Path): List[Path] = execute(List(input))
+  def executeAndLog(input: List[Path]): List[Path] = execute(printHook)(input)
+  def executeAndLog(input: Path): List[Path] = executeAndLog(List(input))
 }

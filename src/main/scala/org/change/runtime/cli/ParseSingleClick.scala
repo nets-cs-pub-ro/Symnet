@@ -21,7 +21,7 @@ object ParseSingleClick {
       case "haskell" => println(networkAbstract.asHaskellWithRuleNumber())
       case "symb" => {
         val executor = new SymbolicExecutor(networkAbstract)
-        println(executor.execute(Path().move(PathLocation("base_click-src", 0, Input))))
+        println(executor.executeAndLog(Path().move(PathLocation("base_click-src", 0, Input))))
       }
     }
 
