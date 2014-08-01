@@ -31,7 +31,9 @@ object Path {
   def apply(): Path = new Path(Nil)
 }
 
-case class PathLocation(processingBlockId: String, accessPointOrd: Int, accessPointType: AccessPointType)
+case class PathLocation(processingBlockId: String, accessPointOrd: Int, accessPointType: AccessPointType) {
+  override def toString = s"-> $processingBlockId $accessPointType $accessPointOrd <-"
+}
 
 class AccessPointType
 object Input extends AccessPointType {
