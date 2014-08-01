@@ -27,15 +27,13 @@ class IPFilter(name: String,
 class IPFilterElementBuilder(name: String)
   extends ElementBuilder(name, "IPFilter") {
 
-  /**
-   * Add one port for each output device.
-   */
-  for (_ <- getConfigParameters) {
-    addInputPort(Port())
-    addOutputPort(Port())
-  }
-
   override def buildElement: IPFilter = {
+//    Add ports for every pattern
+    if (getInputPorts.isEmpty) for (_ <- getConfigParameters) {
+      addInputPort(Port())
+      addOutputPort(Port())
+    }
+
     new IPFilter(name, getInputPorts, getOutputPorts, getConfigParameters)
   }
 }

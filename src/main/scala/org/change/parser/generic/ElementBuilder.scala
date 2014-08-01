@@ -33,12 +33,11 @@ abstract class ElementBuilder(name: String,
     addConfigParameter(param)
   }
 
-  def getInputPorts: List[Port] = inputPorts.mapResult( List(_:_*) ).result
+  def getInputPorts: List[Port] = inputPorts.toList
 
-  def getOutputPorts: List[Port] = outputPorts.mapResult( List(_:_*) ).result
+  def getOutputPorts: List[Port] = outputPorts.toList
 
-  def getConfigParameters: List[ConfigParameter] =
-    configPrams.mapResult( List(_:_*) ).result
+  def getConfigParameters: List[ConfigParameter] = configPrams.toList
 
   def buildElement: GenericElement = ???
 }

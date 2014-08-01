@@ -18,8 +18,8 @@ case class GenericElement(name: String,
                    configParameters: List[ConfigParameter] = Nil)
   extends HasHaskellRepresentation {
 
-  def inputPortCount = inputPorts.size
-  def outputPortCount = outputPorts.size
+  def inputPortCount = inputPorts.length
+  def outputPortCount = outputPorts.length
 
   def inputPortName(which: Int = 0): String = s"$name-in"
   def outputPortName(which: Int = 0): String = s"$name-out"
