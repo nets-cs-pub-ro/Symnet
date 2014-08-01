@@ -20,7 +20,9 @@ class SymbolicExecutor(parsedModel: NetworkConfig) {
     segm: List[PathComponent] <- parsedModel.paths
   } yield {
     (for {
-      (e1: PathComponent, e2: PathComponent) <- segm.sliding(2)
+      window <- segm.sliding(2)
+      e1 = window.head
+      e2 = window.last
     } yield (PathLocation(e1._1, e1._3, Output), PathLocation(e2._1, e2._2, Input))).toList
 //  Warning: maybe a mutable list would be better
   }).foldLeft(Nil: List[(PathLocation, PathLocation)])( (acc, l) => acc ++ l ).toMap
