@@ -3,12 +3,8 @@ package org.change.runtime.cli
 import java.io.FileInputStream
 import java.io.File
 import org.change.parser.abstractnet.ClickToAbstractNetwork
-import org.change.symbolicexec.SymbolicExecutor
+import org.change.symbolicexec.{Input, PathLocation, SymbolicExecutor, Path}
 
-/**
- * radu
- * 3/5/14
- */
 object ParseSingleClick {
 
   def main(args: Array[String]) {
@@ -23,7 +19,10 @@ object ParseSingleClick {
 
     option match {
       case "haskell" => println(networkAbstract.asHaskellWithRuleNumber())
-      case "symb" => println(new SymbolicExecutor(networkAbstract))
+      case "symb" => {
+        val executor = new SymbolicExecutor(networkAbstract)
+        println(executor.execute(Path().move(PathLocation("base_click-src", 0, Input))))
+      }
     }
 
   }

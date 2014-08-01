@@ -18,6 +18,8 @@ class Path(history: List[PathLocation]) {
    * @return
    */
   def location: PathLocation = history.head
+
+  override def toString = s"[-> Path:\nHistory:\n${history.mkString("\n")}->PathEnd]"
 }
 
 object Path {
