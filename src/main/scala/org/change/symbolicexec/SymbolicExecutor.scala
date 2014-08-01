@@ -27,4 +27,9 @@ class SymbolicExecutor(parsedModel: NetworkConfig) {
 //  Warning: maybe a mutable list would be better
   }).foldLeft(Nil: List[(PathLocation, PathLocation)])( (acc, l) => acc ++ l ).toMap
 
+  override def toString = "Processing elements:\n" +
+    processingBlocks.map(_._2.toString()).mkString("\n") +
+    "\nLinks:\n" +
+    links.mkString("\n")
+
 }

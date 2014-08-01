@@ -32,5 +32,9 @@ object Path {
 case class PathLocation(processingBlockId: String, accessPointOrd: Int, accessPointType: AccessPointType)
 
 class AccessPointType
-object Input extends AccessPointType
-object Output extends AccessPointType
+object Input extends AccessPointType {
+  override def toString = "INPUT"
+}
+object Output extends AccessPointType {
+  override def toString = "OUTPUT"
+}

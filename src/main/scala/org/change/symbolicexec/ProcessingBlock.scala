@@ -28,4 +28,6 @@ trait ProcessingBlock {
    */
   def exitCount: Int
 
+  override def toString = s"[ $id in:$entryCount out:$exitCount ]"
+
 }
