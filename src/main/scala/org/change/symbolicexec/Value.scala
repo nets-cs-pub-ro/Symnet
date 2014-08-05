@@ -1,6 +1,12 @@
 package org.change.symbolicexec
 
-case class Value(valueType: NumericType, constraints: List[Constraint], evalCache: List[Interval] = Nil) {
+/**
+ * Warning, eval Cache should be made Option since Nil is a valid value.
+ * @param constraints
+ * @param valueType
+ * @param evalCache
+ */
+case class Value(constraints: List[Constraint], valueType: NumericType = NumericType(), var evalCache: List[Interval] = Nil) {
 
   /**
    * Returns the set of possible concrete values given the constraints, from cache.
@@ -12,7 +18,10 @@ case class Value(valueType: NumericType, constraints: List[Constraint], evalCach
    * Determines the set of possible concrete values given the constraints.
    * The results are computed then cached.
    */
-  def forceEval: List[Interval] = evalCache
+  def forceEval: List[Interval] = {
+    evalCache = constraints.foldLeft(valueType.admissibleSet)( (s, c) => applyConstraint(s,c,valueType))
+    evalCache
+  }
 
   /**
    * Are there any possible values ?
