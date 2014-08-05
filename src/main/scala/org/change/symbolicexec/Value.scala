@@ -1,8 +1,9 @@
 package org.change.symbolicexec
 
-case class Value(valueType: NumericType, constraints: List[Constraint]) {
+case class Value(valueType: NumericType, constraints: List[Constraint], evalCache: List[Interval] = Nil) {
 
-  def admissibleValues: List[Interval] = Nil
-  def valid: Boolean = ! admissibleValues.isEmpty
+  def eval: List[Interval] = evalCache
+  def forceEval: List[Interval] = evalCache
+  def valid: Boolean = ! eval.isEmpty
 
 }
