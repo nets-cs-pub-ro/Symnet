@@ -30,5 +30,20 @@ package object symbolicexec {
   }
 
   def union(all: List[ValueSet]): ValueSet = normalize(all.flatten)
-
+  def complement(s: ValueSet, t: NumericType = NumericType()): ValueSet = s match {
+    case Nil => List((t.min, t.max))
+    case List((a, b)) if a > t.min && b < t.max => normalize(List((t.min, a-1), (b+1, t.max)))
+    case List((_,_)) => Nil
+    case _ => {
+      val aux = (for {
+        w <- s.sliding(2)
+        fst = w.head
+        snd = w.last
+      } yield (fst._2+1, snd._1-1)).toList
+      normalize(
+        (if (s.head._1 > t.min) List((t.min, s.head._1-1)) else Nil) ++
+        (if (s.last._2 < t.max) List((s.last._2+1, t.max)) else Nil) ++
+        aux)
+    }
+  }
 }
