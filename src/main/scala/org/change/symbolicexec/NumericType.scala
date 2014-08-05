@@ -5,6 +5,7 @@ class NumericType extends Type {
   def min: Long = 0
   def max: Long = Long.MaxValue
   def admissibleRange: Interval = (min, max)
+  def admissibleSet: ValueSet = List(admissibleRange)
 }
 
 object NumericType {

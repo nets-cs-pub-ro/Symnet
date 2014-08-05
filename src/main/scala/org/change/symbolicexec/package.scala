@@ -69,4 +69,8 @@ package object symbolicexec {
     val nAll = all.map(normalize)
     nAll.tail.foldLeft(nAll.head)(looper)
   }
+
+  def applyConstraint(s: ValueSet, c: Constraint,
+                      t: NumericType = NumericType()): ValueSet =
+    intersect(List(s, c.asSet(t)))
 }
