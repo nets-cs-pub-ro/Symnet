@@ -1,5 +1,10 @@
 package org.change.symbolicexec
 
-case class Variable(name: String, headerType: Type, version: Int = 0) {
+import scala.collection.mutable.MutableList
 
+case class Variable(name: String) {
+
+  private val values: MutableList[Value] = MutableList()
+
+  def assignCount = values.length
 }
