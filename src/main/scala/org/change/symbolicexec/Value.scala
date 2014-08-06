@@ -1,5 +1,7 @@
 package org.change.symbolicexec
 
+import org.change.symbolicexec.types.NumericType
+
 case class Value(constraints: List[Constraint], valueType: NumericType = NumericType(), var evalCache: Option[List[Interval]] = None) {
 
 //  If no cache to start with, compute it

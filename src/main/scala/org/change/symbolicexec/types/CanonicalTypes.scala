@@ -1,4 +1,4 @@
-package org.change.symbolicexec
+package org.change.symbolicexec.types
 
 object PortType extends NumericType {
   private lazy val _max = (2L << 15) - 1
@@ -20,7 +20,7 @@ object ProtoType extends NumericType {
 
 object TypeUtils {
 
-  def canonicalForSymbol(s: Symbol): NumericType = s match {
+  def canonicalForSymbol(s: String): NumericType = s match {
     case "IP-Src" | "IP-Dst" | "IP" => IP4Type
     case "Port-Src" | "Port-Dst" | "Port" => PortType
     case "Proto" | "proto" => ProtoType

@@ -1,4 +1,6 @@
-package org.change.symbolicexec
+package org.change.symbolicexec.blocks
+
+import org.change.symbolicexec.{Output, Path, PathLocation, ProcessingBlock}
 
 case class NoopProcessingBlock(id: String, entryCount: Int, exitCount: Int) extends ProcessingBlock {
 

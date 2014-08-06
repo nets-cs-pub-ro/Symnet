@@ -1,5 +1,7 @@
 package org.change.symbolicexec
 
+import org.change.symbolicexec.types.{TypeUtils, NumericType}
+
 class Memory(val mem: MemStore = Map()) {
 
   def eval(s: Symbol): Option[ValueSet] = mem.get(s) match {

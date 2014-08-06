@@ -1,5 +1,7 @@
 package org.change
 
+import org.change.symbolicexec.types.NumericType
+
 package object symbolicexec {
 
   type Interval = (Long, Long)

@@ -1,4 +1,6 @@
-package org.change.symbolicexec
+package org.change.symbolicexec.types
+
+import org.change.symbolicexec._
 
 /**
  * Warning: This code looks quite silly, but ok for the moment.

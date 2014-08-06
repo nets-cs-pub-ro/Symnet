@@ -1,5 +1,7 @@
 package org.change.symbolicexec
 
+import org.change.symbolicexec.types.NumericType
+
 trait Constraint {
   /**
    * Materialize a constraint as the set of possible values.
