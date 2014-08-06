@@ -1,4 +1,6 @@
-package org.change.symbolicexec
+package org.change.symbolicexec.blocks
+
+import org.change.symbolicexec.Path
 
 /**
  * A prcessing module implements its functionality by extending this trait.

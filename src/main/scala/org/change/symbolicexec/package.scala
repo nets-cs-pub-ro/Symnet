@@ -8,6 +8,7 @@ package object symbolicexec {
   type ValueSet = List[Interval]
   type Symbol = String
   type MemStore = Map[Symbol, List[Value]]
+  type HookFunction = (List[Path], List[Path], List[Path]) => Unit
 
   def doIntersect(a: Interval, b: Interval) =
     (a._1 <= b._1 && b._1 <= a._2) || (a._1 <= b._1 && b._2 <= a._2)

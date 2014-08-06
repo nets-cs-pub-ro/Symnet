@@ -1,10 +1,9 @@
 package parser.generic
 
-import org.change.symbolicexec.blocks.NoopProcessingBlock
+import org.change.symbolicexec.blocks.{ProcessingBlock, NoopProcessingBlock}
 
 import collection.mutable.ArrayBuffer
 import parser.haskellgeneration.HasHaskellRepresentation
-import org.change.symbolicexec.ProcessingBlock
 
 /**
  * Generic element, defined by an id (the name), an element type and the input

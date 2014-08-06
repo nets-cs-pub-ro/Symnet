@@ -4,6 +4,8 @@ package org.change.parser.specific
  * radu
  * 3/6/14
  */
+
+import org.change.symbolicexec.blocks.IPFilterBlock
 import parser.generic.{GenericElement, ConfigParameter, Port, ElementBuilder}
 
 class IPFilter(name: String,
@@ -22,6 +24,8 @@ class IPFilter(name: String,
     s"l$ruleNumber = r$ruleNumber ++ l${ruleNumber - 1}", configParams.length)
 
   override def outputPortName(which: Int): String = s"$name-out-$which"
+
+  override def toProcessingBlock = new IPFilterBlock(name, configParams)
 }
 
 class IPFilterElementBuilder(name: String)

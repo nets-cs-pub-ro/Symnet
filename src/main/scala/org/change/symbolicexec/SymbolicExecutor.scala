@@ -1,6 +1,8 @@
 package org.change.symbolicexec
 
+import org.change.symbolicexec.blocks.ProcessingBlock
 import parser.generic.{PathComponent, NetworkConfig}
+import org.change.symbolicexec.executorhooks._
 
 /**
  * The execution process is governed by a SymbolicExecutor process.
@@ -52,14 +54,6 @@ class SymbolicExecutor(parsedModel: NetworkConfig) {
     }).flatten.toList
 
     (afterProcessing, stuck)
-  }
-
-  type HookFunction = (List[Path], List[Path], List[Path]) => Unit
-  private def printHook: HookFunction = (current: List[Path], next: List[Path], stuck: List[Path]) => {
-    println("=======================================================================================================")
-    println(s"Exploring:\n${current.mkString("\n")}")
-    println(s"Stuck:\n${stuck.mkString("\n")}")
-    println("=======================================================================================================")
   }
 
   def execute(hook: HookFunction)(input: List[Path]): List[Path] = if (! input.isEmpty) {
