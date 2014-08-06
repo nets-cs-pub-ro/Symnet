@@ -4,14 +4,20 @@ package org.change.symbolicexec
  * The execution path is the abstraction used for a given network flow
  * passing through the network.
  */
-class Path(history: List[PathLocation]) {
+class Path(history: List[PathLocation], memory: Memory = new Memory()) {
 
   /**
    * Moving a path requires pushing its new location to the history.
    * @param nextLocation
    * @return
    */
-  def move(nextLocation: PathLocation): Path = new Path(nextLocation :: history)
+  def move(nextLocation: PathLocation): Path = new Path(nextLocation :: history, memory)
+
+  def modifyWith(f: (Memory) => Memory): Path = new Path(history, f(memory))
+
+  def modifyAndMove(f: (Memory) => Memory, nextLocation: PathLocation) = modifyWith(f).move(nextLocation)
+
+  def valid = memory.valid
 
   /**
    * The current location of a given path is the head of its history stack.

@@ -4,6 +4,8 @@ package object symbolicexec {
 
   type Interval = (Long, Long)
   type ValueSet = List[Interval]
+  type Symbol = String
+  type MemStore = Map[Symbol, List[Value]]
 
   def doIntersect(a: Interval, b: Interval) =
     (a._1 <= b._1 && b._1 <= a._2) || (a._1 <= b._1 && b._2 <= a._2)
