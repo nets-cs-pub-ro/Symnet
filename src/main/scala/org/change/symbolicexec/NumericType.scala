@@ -1,5 +1,8 @@
 package org.change.symbolicexec
 
+/**
+ * Warning: This code looks quite silly, but ok for the moment.
+ */
 class NumericType extends Type {
   override def name = "GenericNumeric"
   def min: Long = 0
