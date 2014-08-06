@@ -8,7 +8,7 @@ package object symbolicexec {
   def doIntersect(a: Interval, b: Interval) =
     (a._1 <= b._1 && b._1 <= a._2) || (a._1 <= b._1 && b._2 <= a._2)
 
-  def intersection(a: Interval, b: Interval) =
+  def intersect(a: Interval, b: Interval) =
     if (a._1 <= b._1 && b._1 <= a._2) Some((b._1, Math.min(b._2, a._2)))
     else if (a._1 <= b._2 && b._2 <= a._2) Some((Math.max(b._1, a._1), b._2))
     else if (a._1 <= b._1 && a._2 >= b._2) Some(b._1, b._2)
@@ -58,7 +58,7 @@ package object symbolicexec {
         stripNeedless
           .takeWhile(i._2 > _._1)
           .map(that =>
-            intersection(i, that))
+            intersect(i, that))
           .filter(_ match {
             case Some(_) => true
             case _ => false})

@@ -38,8 +38,18 @@ case class Range(v1: Long, v2: Long) extends Constraint {
     List((Math.max(v1, valueType.min), Math.min(v2, valueType.max)))
   }
 }
-case class RangeSeries(ranges: List[Range]) extends Constraint {
-  override def asSet(valueType: NumericType): List[(Long, Long)] =
-// Warning: The result should be normalized
-    ranges.map(_.asSet(valueType)).flatten
+
+case class OR(constraints: List[Constraint]) extends Constraint {
+  override def asSet(valueType: NumericType = NumericType()): List[Interval] =
+    union(constraints.map(_.asSet(valueType)))
+}
+
+case class AND(constraints: List[Constraint]) extends Constraint {
+  override def asSet(valueType: NumericType = NumericType()): List[Interval] =
+    intersect(constraints.map(_.asSet(valueType)))
+}
+
+case class NOT(constraint: Constraint) extends Constraint {
+  override def asSet(valueType: NumericType = NumericType()): List[Interval] =
+    complement(constraint.asSet(valueType))
 }

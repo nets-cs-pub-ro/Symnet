@@ -19,6 +19,9 @@ case class Value(constraints: List[Constraint], valueType: NumericType = Numeric
    * The results are computed then cached.
    */
   def forceEval: List[Interval] = {
+    /**
+     * Compute and store
+     */
     evalCache = constraints.foldLeft(valueType.admissibleSet)( (s, c) => applyConstraint(s,c,valueType))
     evalCache
   }
@@ -28,4 +31,14 @@ case class Value(constraints: List[Constraint], valueType: NumericType = Numeric
    */
   def valid: Boolean = ! eval.isEmpty
 
+}
+
+object Value {
+  /**
+   * Easily build a new value with an initial constraint attached.
+   * @param c
+   * @param valueType
+   * @return
+   */
+  def apply(c: Constraint, valueType: NumericType = NumericType()): Value = Value(List(c), valueType)
 }
