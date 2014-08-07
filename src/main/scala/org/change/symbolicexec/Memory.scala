@@ -35,7 +35,7 @@ class Memory(val mem: MemStore = Map()) {
   )
 
   def newVal(s: Symbol, t: NumericType, c: Constraint): Memory = new Memory(
-    mem + ((s, Value.fromConstraint(c) :: mem.getOrElse(s, Nil)))
+    mem + ((s, Value.fromConstraint(c, t) :: mem.getOrElse(s, Nil)))
   )
 
   def newVal(s: Symbol, t: NumericType, cs: List[Constraint]): Memory = new Memory(
