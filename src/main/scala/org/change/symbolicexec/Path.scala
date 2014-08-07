@@ -26,7 +26,7 @@ class Path(history: List[PathLocation], memory: Memory = new Memory()) {
   def location: PathLocation = history.head
   def locationPort = location.accessPointOrd
 
-  override def toString = "[-> Path:\n"+
+  override def toString = s"[-> Path (${if (valid) "Valid" else "Invalid"}):\n"+
     s"Symbol Table:\n${memory.mem.map(kv => "->" + (kv._1, kv._2.head.eval).toString).mkString("\n")}\n"+
     s"History:\n${history.mkString("\n")}\n"+
     "->PathEnd]"
