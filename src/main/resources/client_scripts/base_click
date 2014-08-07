@@ -1,6 +1,6 @@
 src :: FromNetFront(MACADDR)
 
-filter :: IPFilter(deny tcp && dst port 8080, allow udp && dst 10.0.0.1 && dst port 80)
+filter :: IPFilter(deny tcp && dst port 8080, allow udp && dst 10.0.0.1 && dst port 80, -)
 
 rewriter :: IPRewriter(pattern - - 141.85.241.246 - 0 0)
 

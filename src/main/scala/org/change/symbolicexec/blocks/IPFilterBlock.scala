@@ -7,13 +7,24 @@ import parser.generic.ConfigParameter
 class IPFilterBlock(id: String, params: List[ConfigParameter]) extends
   NoopProcessingBlock(id, 1, params.length) {
 
-  val rules = params.map(IPFilterBlock.configParamToConstraints(_))
+  private var rules = params.map(IPFilterBlock.configParamToConstraints(_))
+
+  if (rules.last.isEmpty) {
+//    If dash found, then do sth with it
+    rules = rules.init ++ List(rules.init.map( cs => {
+      cs.map( c => {
+        (c._1, NOT(c._2))
+      })
+    }).flatten)
+  }
+
 
   override def process(p: Path): List[Path] = {
-    val entry = p.locationPort
-    List(rules(entry)
+    (for {
+      entry <- 0 until exitCount
+    } yield rules(entry)
       .foldLeft(p)((p, cs) => p.modifyWith({_.constrain(cs._1, cs._2)}))
-      .move(PathLocation(id, entry, Output)))
+      .move(PathLocation(id, entry, Output))).toList
   }
 }
 
@@ -51,12 +62,16 @@ object IPFilterBlock {
   }
 
   private def configParamToConstraints(cp: ConfigParameter): List[(Symbol, Constraint)] = {
-    val groups = cp.value.split("\\W+",2)
-    val ruleType = groups(0)
-    val cs = groups(1).split("&&").map(_.trim).map(tcpdumpToConstraint(_)).toList
-    ruleType.trim.toLowerCase match {
-      case "deny" => cs.map(p => (p._1, NOT(p._2)))
-      case _ => cs
+//    The dash is a really shitty case we should be aware.
+    if (cp.value.trim.matches("-")) Nil
+    else {
+      val groups = cp.value.split("\\W+", 2)
+      val ruleType = groups(0)
+      val cs = groups(1).split("&&").map(_.trim).map(tcpdumpToConstraint(_)).toList
+      ruleType.trim.toLowerCase match {
+        case "deny" => cs.map(p => (p._1, NOT(p._2)))
+        case _ => cs
+      }
     }
   }
 }
