@@ -42,5 +42,5 @@ class Memory(val mem: MemStore = Map()) {
     mem + ((s, Value(cs, t) :: mem.getOrElse(s, Nil)))
   )
 
-  def valid: Boolean = mem.exists(! _._2.head.valid)
+  def valid: Boolean = mem.forall(_._2.head.valid)
 }

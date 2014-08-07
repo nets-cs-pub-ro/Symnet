@@ -39,21 +39,23 @@ class SymbolicExecutor(parsedModel: NetworkConfig) {
    * @return Next explored paths.
    */
   private def step(paths: List[Path]): (List[Path], List[Path]) = {
+//    Only valid paths get attention.
+    val (valid, invalid) = paths.partition(_.valid)
 //    Propagate across links.
-    val (needPropagation, others) = paths.partition( _.location.accessPointType == Output)
+    val (needPropagation, others) = valid.partition(_.location.accessPointType == Output)
 //    Select those that can go across links.
-    val (propagateable, stuck) = needPropagation.partition( p => links.contains(p.location))
+    val (propagateable, stuck) = needPropagation.partition(p => links.contains(p.location))
 //    Move across links.
-    val afterPropagation = propagateable.map( p => p.move(links(p.location)))
+    val afterPropagation = propagateable.map(p => p.move(links(p.location)))
 
     // Warning: We should assert no paths on an output port in existence
 
 //    Invoke processing of every path.
-    val afterProcessing = (afterPropagation ++ others).map( p => {
+    val afterProcessing = (afterPropagation ++ others).map(p => {
       processingBlocks(p.location.processingBlockId).process(p)
     }).flatten.toList
 
-    (afterProcessing, stuck)
+    (afterProcessing, invalid ++ stuck)
   }
 
   def execute(hook: HookFunction)(input: List[Path]): List[Path] = if (! input.isEmpty) {
