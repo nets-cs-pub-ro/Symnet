@@ -4,7 +4,7 @@ package org.change.symbolicexec
  * The execution path is the abstraction used for a given network flow
  * passing through the network.
  */
-class Path(history: List[PathLocation], memory: Memory = new Memory()) {
+class Path(val history: List[PathLocation], val memory: Memory = new Memory()) {
 
   /**
    * Moving a path requires pushing its new location to the history.

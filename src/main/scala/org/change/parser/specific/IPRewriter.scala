@@ -1,5 +1,6 @@
 package org.change.parser.specific
 
+import org.change.symbolicexec.blocks.click.IPRewriterBlock
 import parser.generic.{GenericElement, ConfigParameter, Port, ElementBuilder}
 /**
  * radu
@@ -22,6 +23,7 @@ class IPRewriter(name: String,
     + "\" \"" + configTokens(3)+ "\" \"" + configTokens(4)+ "\"\n" +
     s"l$ruleNumber = r$ruleNumber : l${ruleNumber - 1}", 1)
 
+  override def toProcessingBlock = new IPRewriterBlock(name, configParams)
 }
 
 class IPRewriterElementBuilder(name: String)

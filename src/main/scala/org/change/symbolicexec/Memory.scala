@@ -30,6 +30,16 @@ class Memory(val mem: MemStore = Map()) {
 
   def removeSymbol(s: Symbol): Memory = new Memory(mem - s)
 
+  def newVal(s: Symbol): Memory = new Memory(
+    mem + ((s, Value.unconstrained(TypeUtils.canonicalForSymbol(s)) :: mem.getOrElse(s, Nil)))
+  )
+
+  /** These newVal methods should be written properly **/
+
+  def newVal(s: Symbol, v: Value): Memory = new Memory(
+    mem + ((s, v :: mem.getOrElse(s, Nil)))
+  )
+
   def newVal(s: Symbol, t: NumericType): Memory = new Memory(
     mem + ((s, Value.unconstrained(t) :: mem.getOrElse(s, Nil)))
   )
@@ -40,6 +50,10 @@ class Memory(val mem: MemStore = Map()) {
 
   def newVal(s: Symbol, t: NumericType, cs: List[Constraint]): Memory = new Memory(
     mem + ((s, Value(cs, t) :: mem.getOrElse(s, Nil)))
+  )
+
+  def rewrite(s: Symbol, v: Value): Memory = new Memory(
+    mem + ((s, v :: mem.getOrElse(s, Nil)))
   )
 
   def valid: Boolean = mem.forall(_._2.head.valid)

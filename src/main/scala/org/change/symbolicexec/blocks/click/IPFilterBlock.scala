@@ -1,7 +1,8 @@
-package org.change.symbolicexec.blocks
+package org.change.symbolicexec.blocks.click
 
 import org.change.symbolicexec._
-import org.change.utils.{RepresentationConversion, NumberFor}
+import org.change.symbolicexec.blocks.NoopProcessingBlock
+import org.change.utils.{NumberFor, RepresentationConversion}
 import parser.generic.ConfigParameter
 
 class IPFilterBlock(id: String, params: List[ConfigParameter]) extends
@@ -17,7 +18,6 @@ class IPFilterBlock(id: String, params: List[ConfigParameter]) extends
       })
     }).flatten)
   }
-
 
   override def process(p: Path): List[Path] = {
     (for {

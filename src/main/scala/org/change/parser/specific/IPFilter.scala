@@ -5,7 +5,7 @@ package org.change.parser.specific
  * 3/6/14
  */
 
-import org.change.symbolicexec.blocks.IPFilterBlock
+import org.change.symbolicexec.blocks.click.IPFilterBlock
 import parser.generic.{GenericElement, ConfigParameter, Port, ElementBuilder}
 
 class IPFilter(name: String,

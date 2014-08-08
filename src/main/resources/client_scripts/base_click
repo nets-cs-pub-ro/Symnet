@@ -2,8 +2,8 @@ src :: FromNetFront(MACADDR)
 
 filter :: IPFilter(deny tcp && dst port 8080, allow udp && dst 10.0.0.1 && dst port 80, -)
 
-rewriter :: IPRewriter(pattern - - 141.85.241.246 - 0 0)
+rewriter :: IPRewriter(pattern - - 0.0.0.1 - 0 0)
 
 dst :: ToNetFront(MACADDR)
 
-src -> Strip(14) -> CheckIPHeader() -> IPPrint -> filter -> rewriter -> SimpleQueue -> EtherEncap(0x800, 00:00:00:00:00:00, 00:19:e7:2a:77:ff) -> dst
+src -> Strip(14) -> CheckIPHeader() -> IPPrint -> filter -> rewriter  -> SimpleQueue -> rewriter -> EtherEncap(0x800, 00:00:00:00:00:00, 00:19:e7:2a:77:ff) -> dst

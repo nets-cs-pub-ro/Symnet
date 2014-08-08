@@ -10,6 +10,11 @@ trait Constraint {
   def asSet(valueType: NumericType = NumericType()): List[Interval] = Nil
 }
 
+object No extends Constraint {
+  override def asSet(valueType: NumericType): List[(Long, Long)] = {
+    List((valueType.min, valueType.max))
+  }
+}
 case class LT(v: Long) extends Constraint {
   override def asSet(valueType: NumericType): List[(Long, Long)] = {
     List((valueType.min, Math.min(v-1, valueType.max)))
