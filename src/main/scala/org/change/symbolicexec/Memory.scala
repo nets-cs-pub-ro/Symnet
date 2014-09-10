@@ -1,5 +1,6 @@
 package org.change.symbolicexec
 
+import org.change.symbolicexec._
 import org.change.symbolicexec.types.{TypeUtils, NumericType}
 
 class Memory(val mem: MemStore = Map()) {
@@ -43,4 +44,33 @@ class Memory(val mem: MemStore = Map()) {
   )
 
   def rewrite(s: Symbol, v: Value): Memory = newVal(s,v)
+
+//  Taking memory snapshots
+  def snapshotOf(ss: List[Symbol]): MemoryState = snapshot(mem.filter( kv => ss.contains(kv._1) ))
+  def snapshotOfAll = snapshot(mem)
+
+  private def snapshot(mem: MemStore): MemoryState = new MemoryState(mem.map( kv => (kv._1, kv._2.head.eval) ))
+}
+
+
+class MemoryState(mem: Map[Symbol, ValueSet]) {
+  def stateForSymbol(s: Symbol): Option[ValueSet] = mem get s
+  def supersetOf(other: MemoryState): Boolean = mem.forall( smb =>
+    other.stateForSymbol(smb._1) match {
+      case Some(vs) => intersect(List(smb._2, vs)) == vs
+      case _ => true
+    }
+  )
+  def subsetOf(other: MemoryState): Boolean = mem.forall( smb =>
+    other.stateForSymbol(smb._1) match {
+      case Some(vs) => intersect(List(smb._2, vs)) == smb._2
+      case _ => true
+    }
+  )
+}
+
+object MemoryState {
+  def apply(smbc: Map[Symbol, List[Constraint]]): MemoryState = new MemoryState(
+    smbc.map(smb => (smb._1, AND(smb._2).asSet()))
+  )
 }
