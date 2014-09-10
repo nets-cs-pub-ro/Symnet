@@ -1,8 +1,9 @@
 package parser.generic
 
+import generated.click.{ClickParser, ClickBaseListener}
+
 import collection.mutable.{ListBuffer, ArrayBuffer}
-import generated.ClickBaseListener
-import generated.ClickParser._
+import ClickParser._
 import parser.specific.{ToDevice, FromDevice}
 import scala.Some
 import scala.collection.JavaConversions.collectionAsScalaIterable

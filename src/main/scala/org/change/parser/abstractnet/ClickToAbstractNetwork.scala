@@ -1,9 +1,10 @@
 package org.change.parser.abstractnet
 
 import java.io.{FileInputStream, File, InputStream}
+import generated.click.{ClickParser, ClickLexer}
 import parser.generic.{NetworkConfigBuilder, NetworkConfig}
 import org.antlr.v4.runtime.{CommonTokenStream, ANTLRInputStream}
-import generated.{ClickParser, ClickLexer}
+import generated.click.ClickParser
 import org.antlr.v4.runtime.tree.{ParseTreeWalker, ParseTree}
 
 /**

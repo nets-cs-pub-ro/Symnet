@@ -1,8 +1,9 @@
 package parser.generic
 
 import java.io.{File, FileInputStream}
+import generated.click.{ClickParser, ClickLexer}
 import org.antlr.v4.runtime.{CommonTokenStream, ANTLRInputStream}
-import generated.{ClickParser, ClickLexer}
+import generated.click.ClickParser
 import org.antlr.v4.runtime.tree.{ParseTreeWalker, ParseTree}
 import collection.mutable.ListBuffer
 import io.Source

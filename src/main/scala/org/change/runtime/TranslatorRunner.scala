@@ -2,7 +2,7 @@ package org.change.runtime
 
 import parser.generic.{TestCaseBuilder, NetworkConfigBuilder}
 import java.io.{File, FileInputStream}
-import generated.{ClickParser, ClickLexer}
+import generated.click.ClickParser
 import org.antlr.v4.runtime.{ANTLRInputStream, CommonTokenStream}
 import org.antlr.v4.runtime.tree.{ParseTreeWalker, ParseTree}
 import io.Source
