@@ -23,7 +23,7 @@ class IPFilterBlock(id: String, params: List[ConfigParameter]) extends
     (for {
       entry <- 0 until exitCount
     } yield rules(entry)
-      .foldLeft(p)((p, cs) => p.modifyWith({_.constrain(cs._1, cs._2)}))
+      .foldLeft(p)((p, cs) => p.modifyWith({_.constrainCurrent(cs._1, cs._2)}))
       .move(PathLocation(id, entry, Output))).toList
   }
 }

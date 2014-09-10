@@ -4,19 +4,21 @@ import org.change.symbolicexec.types.{TypeUtils, NumericType}
 
 class Memory(val mem: MemStore = Map()) {
 
-  def eval(s: Symbol): Option[ValueSet] = mem.get(s) match {
+  def resolveAllValues(s: Symbol): List[Value] = mem.getOrElse(s, Nil)
+
+  def evalSymbolToPossibleValues(s: Symbol): Option[ValueSet] = mem.get(s) match {
     case Some(v) => Some(v.head.eval)
     case None => None
   }
 
   def exists(s: Symbol): Boolean = mem.contains(s)
 
-  def resolve(s: Symbol): Option[Value] = mem.get(s) match {
+  def resolveToCurrent(s: Symbol): Option[Value] = mem.get(s) match {
     case Some(vs) => Some(vs.head)
     case None => None
   }
 
-  def constrain(s: Symbol, c: Constraint): Memory = resolve(s) match {
+  def constrainCurrent(s: Symbol, c: Constraint): Memory = resolveToCurrent(s) match {
     case None => newVal(s, TypeUtils.canonicalForSymbol(s), c)
     case Some(v) => {
       val newV = v.constrain(c)
@@ -26,35 +28,19 @@ class Memory(val mem: MemStore = Map()) {
   }
 
   def constrain(s: Symbol, cs: List[Constraint]): Memory =
-    cs.foldLeft(this)((m, c) => m.constrain(s, c))
+    cs.foldLeft(this)((m, c) => m.constrainCurrent(s, c))
+
+  def valid: Boolean = mem.forall(_._2.head.valid)
 
   def removeSymbol(s: Symbol): Memory = new Memory(mem - s)
 
-  def newVal(s: Symbol): Memory = new Memory(
-    mem + ((s, Value.unconstrained(TypeUtils.canonicalForSymbol(s)) :: mem.getOrElse(s, Nil)))
-  )
-
-  /** These newVal methods should be written properly **/
-
+  def newVal(s: Symbol): Memory = newVal(s, Value.unconstrained(TypeUtils.canonicalForSymbol(s)))
+  def newVal(s: Symbol, t: NumericType): Memory = newVal(s, Value.unconstrained(t))
+  def newVal(s: Symbol, t: NumericType, c: Constraint): Memory = newVal(s, Value.fromConstraint(c, t))
+  def newVal(s: Symbol, t: NumericType, cs: List[Constraint]): Memory = newVal(s, Value.fromConstraints(cs, t))
   def newVal(s: Symbol, v: Value): Memory = new Memory(
     mem + ((s, v :: mem.getOrElse(s, Nil)))
   )
 
-  def newVal(s: Symbol, t: NumericType): Memory = new Memory(
-    mem + ((s, Value.unconstrained(t) :: mem.getOrElse(s, Nil)))
-  )
-
-  def newVal(s: Symbol, t: NumericType, c: Constraint): Memory = new Memory(
-    mem + ((s, Value.fromConstraint(c, t) :: mem.getOrElse(s, Nil)))
-  )
-
-  def newVal(s: Symbol, t: NumericType, cs: List[Constraint]): Memory = new Memory(
-    mem + ((s, Value(cs, t) :: mem.getOrElse(s, Nil)))
-  )
-
-  def rewrite(s: Symbol, v: Value): Memory = new Memory(
-    mem + ((s, v :: mem.getOrElse(s, Nil)))
-  )
-
-  def valid: Boolean = mem.forall(_._2.head.valid)
+  def rewrite(s: Symbol, v: Value): Memory = newVal(s,v)
 }

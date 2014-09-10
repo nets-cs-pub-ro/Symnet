@@ -7,13 +7,23 @@ package object symbolicexec {
   type Interval = (Long, Long)
   type ValueSet = List[Interval]
   type Symbol = String
+//  The memory consists of a set of symbols to which values are assigned
+//  Observation: because the type is an attribute of the value, not of the symbol,
+//  a symbol may refer to values of different types at different times.
   type MemStore = Map[Symbol, List[Value]]
+//  TODO: exmplin this
   type HookFunction = (List[Path], List[Path], List[Path]) => Unit
 
+  /**
+   * Check if two intervals intersect.
+   * @param a
+   * @param b
+   * @return
+   */
   def doIntersect(a: Interval, b: Interval) =
     (a._1 <= b._1 && b._1 <= a._2) || (a._1 <= b._1 && b._2 <= a._2)
 
-  def intersect(a: Interval, b: Interval) =
+  def intersect(a: Interval, b: Interval): Option[Interval] =
     if (a._1 <= b._1 && b._1 <= a._2) Some((b._1, Math.min(b._2, a._2)))
     else if (a._1 <= b._2 && b._2 <= a._2) Some((Math.max(b._1, a._1), b._2))
     else if (a._1 <= b._1 && a._2 >= b._2) Some(b._1, b._2)

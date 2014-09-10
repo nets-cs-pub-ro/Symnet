@@ -21,7 +21,7 @@ class IPRewriterBlock(id: String, params: List[ConfigParameter]) extends
     List((if (! state.filter(p.memory.exists(_)).isEmpty) {
       p.modifyWith( m => {
         state.zip(IPRewriterBlock.suffixes).foldLeft(m) { (m, sp) =>
-          m.resolve(sp._1) match {
+          m.resolveToCurrent(sp._1) match {
             case Some(v) => m.rewrite(sp._2, v).removeSymbol(sp._1)
             case None => m
           }
@@ -33,9 +33,9 @@ class IPRewriterBlock(id: String, params: List[ConfigParameter]) extends
         val m1 = sip match {
           case None => m
           case Some(v) => {
-            val old = m.resolve("IP-Src")
+            val old = m.resolveToCurrent("IP-Src")
             val mm = m.newVal("IP-Src")
-             .constrain("IP-Src", E(v))
+             .constrainCurrent("IP-Src", E(v))
             old match {
               case Some(prev) => mm.newVal(state(0), prev)
               case None => mm
@@ -46,9 +46,9 @@ class IPRewriterBlock(id: String, params: List[ConfigParameter]) extends
         val m2 = sport match {
           case None => m1
           case Some((v1,v2)) => {
-            val old = m1.resolve("Port-Src")
+            val old = m1.resolveToCurrent("Port-Src")
             val mm = m1.newVal("Port-Src")
-              .constrain("Port-Src", Range(v1, v2))
+              .constrainCurrent("Port-Src", Range(v1, v2))
             old match {
               case Some(prev) => mm.newVal(state(1), prev)
               case None => mm
@@ -59,9 +59,9 @@ class IPRewriterBlock(id: String, params: List[ConfigParameter]) extends
         val m3 = dip match {
           case None => m2
           case Some(v) => {
-            val old = m2.resolve("IP-Dst")
+            val old = m2.resolveToCurrent("IP-Dst")
             val mm = m2.newVal("IP-Dst")
-              .constrain("IP-Dst", E(v))
+              .constrainCurrent("IP-Dst", E(v))
             old match {
               case Some(prev) => mm.newVal(state(2), prev)
               case None => mm
@@ -72,9 +72,9 @@ class IPRewriterBlock(id: String, params: List[ConfigParameter]) extends
         val m4 = dport match {
           case None => m3
           case Some((v1,v2)) => {
-            val old = m3.resolve("Port-Dst")
+            val old = m3.resolveToCurrent("Port-Dst")
             val mm = m3.newVal("Port-Dst")
-              .constrain("Port-Dst", Range(v1, v2))
+              .constrainCurrent("Port-Dst", Range(v1, v2))
             old match {
               case Some(prev) => mm.newVal(state(3), prev)
               case None => mm

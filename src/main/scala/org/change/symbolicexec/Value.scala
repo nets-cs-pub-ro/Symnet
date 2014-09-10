@@ -2,9 +2,19 @@ package org.change.symbolicexec
 
 import org.change.symbolicexec.types.NumericType
 
-case class Value(constraints: List[Constraint], valueType: NumericType = NumericType(), var evalCache: Option[List[Interval]] = None) {
+/**
+ * A value that can be attributed to a memory symbol.
+ * @param constraints A set of expressions that define its possible set of values.
+ * @param valueType The type of the value, determining its initial range.
+ * @param evalCache Cache for storing intermediate results after evaluating the
+ *                  list of constraints.
+ */
+case class Value(constraints: List[Constraint],
+                 valueType: NumericType = NumericType(),
+//This is set whenever the constraint list is evaluated
+                 var evalCache: Option[List[Interval]] = None) {
 
-//  If no cache to start with, compute it
+//  If no cache to start with, compute it, eagerly so far
   evalCache match {
     case None => evalCache = Some(constraints.foldLeft(valueType.admissibleSet)((s, c) => applyConstraint(s,c,valueType)))
     case Some(_) =>
@@ -34,12 +44,23 @@ case class Value(constraints: List[Constraint], valueType: NumericType = Numeric
 
   /**
    * Are there any possible values ?
+   * If not, an execution path containing such a value is impossible to reach.
    */
   def valid: Boolean = ! eval.isEmpty
 
+  /**
+   * Returns a new value obtained from further constraining of this value.
+   * @param c The new additional constraint.
+   * @return A new value.
+   */
   def constrain(c: Constraint): Value =
     Value(c :: constraints, valueType, Some(applyConstraint(eval, c, valueType)))
 
+  /**
+   * Enforce a list of constraints against the current value.
+   * @param cs The constraints.
+   * @return A new value.
+   */
   def constrain(cs: List[Constraint]): Value =
     Value(cs ++ constraints, valueType, Some(cs.foldLeft(eval)((cache, c) => applyConstraint(cache, c, valueType))))
 
@@ -53,6 +74,6 @@ object Value {
    * @return
    */
   def fromConstraint(c: Constraint, valueType: NumericType = NumericType()): Value = Value(List(c), valueType)
-
+  def fromConstraints(cs: List[Constraint], valueType: NumericType = NumericType()): Value = Value(cs, valueType)
   def unconstrained(valueType: NumericType = NumericType()): Value = Value(Nil, valueType)
 }
