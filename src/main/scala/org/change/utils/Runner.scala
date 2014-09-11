@@ -1,10 +1,11 @@
 package org.change.utils
 
 import java.io.FileInputStream
-import generated.reach.{ReachLangParser, ReachLangLexer, ReachLangBaseListener}
-import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeWalker}
+import generated.reachlang.{ReachLangParser, ReachLangLexer}
+import org.antlr.v4.runtime.tree.{ParseTreeVisitor, ParseTree, ParseTreeWalker}
 import org.antlr.v4.runtime.{ANTLRInputStream, CommonTokenStream}
-import generated.reach.ReachLangParser
+import generated.reachlang.ReachLangParser
+import org.change.parser.verification.ReachabilityRuleParser
 
 object Runner {
     def main(args: Array[String]) {
@@ -18,7 +19,6 @@ object Runner {
 
         val tree: ParseTree = parser.requirements
 
-        val walker = new ParseTreeWalker
-        walker.walk(new ReachLangBaseListener , tree)
+        tree.accept(new ReachabilityRuleParser)
     }
 }

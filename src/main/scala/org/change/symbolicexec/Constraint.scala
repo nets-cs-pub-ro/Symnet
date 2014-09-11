@@ -46,6 +46,10 @@ case class Range(v1: Long, v2: Long) extends Constraint {
   }
 }
 
+object Range {
+  def apply(range: Tuple2[Long, Long]): Range = Range(range._1, range._2)
+}
+
 case class OR(constraints: List[Constraint]) extends Constraint {
   override def asSet(valueType: NumericType = NumericType()): List[Interval] =
     union(constraints.map(_.asSet(valueType)))

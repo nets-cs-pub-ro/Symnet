@@ -1,4 +1,4 @@
-package generated.reach;// Generated from ReachLang.g by ANTLR 4.3
+package generated.reachlang;// Generated from ReachLang.g by ANTLR 4.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -7,8 +7,6 @@ import java.util.List;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ReachLangParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.3", RuntimeMetaData.VERSION); }
-
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
@@ -43,9 +41,6 @@ public class ReachLangParser extends Parser {
 	public String[] getRuleNames() { return ruleNames; }
 
 	@Override
-	public String getSerializedATN() { return _serializedATN; }
-
-	@Override
 	public ATN getATN() { return _ATN; }
 
 	public ReachLangParser(TokenStream input) {
@@ -64,12 +59,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_requirements; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterRequirements(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitRequirements(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitRequirements(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -83,7 +75,7 @@ public class ReachLangParser extends Parser {
 			setState(43);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__11) | (1L << CLIENT) | (1L << INTERNET))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 3) | (1L << CLIENT) | (1L << INTERNET))) != 0)) {
 				{
 				{
 				setState(40); test();
@@ -128,12 +120,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_test; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterTest(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitTest(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitTest(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -147,9 +136,9 @@ public class ReachLangParser extends Parser {
 			{
 			setState(47);
 			_la = _input.LA(1);
-			if (_la==T__11) {
+			if (_la==3) {
 				{
-				setState(46); match(T__11);
+				setState(46); match(3);
 				}
 			}
 
@@ -157,7 +146,7 @@ public class ReachLangParser extends Parser {
 			setState(54);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!=-1 ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -196,12 +185,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_entrance; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterEntrance(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitEntrance(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitEntrance(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -244,12 +230,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_middle; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterMiddle(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitMiddle(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitMiddle(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -285,12 +268,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_exit; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterExit(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitExit(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitExit(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -333,12 +313,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_condition; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterCondition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitCondition(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitCondition(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -351,7 +328,7 @@ public class ReachLangParser extends Parser {
 			{
 			setState(70);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__12) | (1L << T__8) | (1L << T__7) | (1L << T__6) | (1L << T__2) | (1L << T__1))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 2) | (1L << 6) | (1L << 7) | (1L << 8) | (1L << 12) | (1L << 13))) != 0)) {
 				{
 				setState(69); trafficdesc();
 				}
@@ -359,9 +336,9 @@ public class ReachLangParser extends Parser {
 
 			setState(74);
 			_la = _input.LA(1);
-			if (_la==T__5) {
+			if (_la==9) {
 				{
-				setState(72); match(T__5);
+				setState(72); match(9);
 				setState(73); invariant();
 				}
 			}
@@ -391,12 +368,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_trafficdesc; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterTrafficdesc(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitTrafficdesc(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitTrafficdesc(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -411,10 +385,10 @@ public class ReachLangParser extends Parser {
 			setState(81);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__4) {
+			while (_la==10) {
 				{
 				{
-				setState(77); match(T__4);
+				setState(77); match(10);
 				setState(78); constraint();
 				}
 				}
@@ -447,12 +421,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_invariant; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterInvariant(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitInvariant(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitInvariant(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -467,10 +438,10 @@ public class ReachLangParser extends Parser {
 			setState(89);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__4) {
+			while (_la==10) {
 				{
 				{
-				setState(85); match(T__4);
+				setState(85); match(10);
 				setState(86); field();
 				}
 				}
@@ -506,12 +477,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_constraint; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterConstraint(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitConstraint(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitConstraint(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -521,22 +489,22 @@ public class ReachLangParser extends Parser {
 		try {
 			setState(95);
 			switch (_input.LA(1)) {
-			case T__6:
-			case T__1:
+			case 8:
+			case 13:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(92); ipconstraint();
 				}
 				break;
-			case T__8:
-			case T__2:
+			case 6:
+			case 12:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(93); l4constraint();
 				}
 				break;
-			case T__12:
-			case T__7:
+			case 2:
+			case 7:
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(94); protoconstraint();
@@ -563,12 +531,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ipfield; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterIpfield(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitIpfield(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitIpfield(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -581,7 +546,7 @@ public class ReachLangParser extends Parser {
 			{
 			setState(97);
 			_la = _input.LA(1);
-			if ( !(_la==T__6 || _la==T__1) ) {
+			if ( !(_la==8 || _la==13) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
@@ -613,12 +578,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ipconstraint; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterIpconstraint(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitIpconstraint(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitIpconstraint(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -662,12 +624,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_l4field; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterL4field(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitL4field(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitL4field(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -680,7 +639,7 @@ public class ReachLangParser extends Parser {
 			{
 			setState(104);
 			_la = _input.LA(1);
-			if ( !(_la==T__8 || _la==T__2) ) {
+			if ( !(_la==6 || _la==12) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
@@ -710,12 +669,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_l4constraint; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterL4constraint(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitL4constraint(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitL4constraint(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -759,12 +715,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_protoconstraint; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterProtoconstraint(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitProtoconstraint(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitProtoconstraint(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -777,7 +730,7 @@ public class ReachLangParser extends Parser {
 			{
 			setState(111);
 			_la = _input.LA(1);
-			if ( !(_la==T__12 || _la==T__7) ) {
+			if ( !(_la==2 || _la==7) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
@@ -806,12 +759,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_field; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterField(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitField(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitField(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -823,21 +773,21 @@ public class ReachLangParser extends Parser {
 			{
 			setState(116);
 			switch (_input.LA(1)) {
-			case T__6:
-			case T__1:
+			case 8:
+			case 13:
 				{
 				setState(113); ipfield();
 				}
 				break;
-			case T__8:
-			case T__2:
+			case 6:
+			case 12:
 				{
 				setState(114); l4field();
 				}
 				break;
-			case T__3:
+			case 11:
 				{
-				setState(115); match(T__3);
+				setState(115); match(11);
 				}
 				break;
 			default:
@@ -867,12 +817,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_nport; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterNport(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitNport(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitNport(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -884,13 +831,13 @@ public class ReachLangParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(118); match(ID);
-			setState(119); match(T__9);
+			setState(119); match(5);
 			setState(120); match(ID);
 			setState(123);
 			_la = _input.LA(1);
-			if (_la==T__9) {
+			if (_la==5) {
 				{
-				setState(121); match(T__9);
+				setState(121); match(5);
 				setState(122); match(NUMBER);
 				}
 			}
@@ -915,12 +862,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_port; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterPort(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitPort(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitPort(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -954,12 +898,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ipv4; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterIpv4(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitIpv4(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitIpv4(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -971,15 +912,15 @@ public class ReachLangParser extends Parser {
 			{
 			setState(127); match(NUMBER);
 			{
-			setState(128); match(T__13);
+			setState(128); match(1);
 			setState(129); match(NUMBER);
 			}
 			{
-			setState(131); match(T__13);
+			setState(131); match(1);
 			setState(132); match(NUMBER);
 			}
 			{
-			setState(134); match(T__13);
+			setState(134); match(1);
 			setState(135); match(NUMBER);
 			}
 			}
@@ -1005,12 +946,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_mask; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterMask(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitMask(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitMask(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1021,7 +959,7 @@ public class ReachLangParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(137); ipv4();
-			setState(138); match(T__0);
+			setState(138); match(14);
 			setState(139); match(NUMBER);
 			}
 		}
@@ -1046,12 +984,9 @@ public class ReachLangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_range; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).enterRange(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReachLangListener ) ((ReachLangListener)listener).exitRange(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReachLangVisitor ) return ((ReachLangVisitor<? extends T>)visitor).visitRange(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1062,7 +997,7 @@ public class ReachLangParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(141); match(NUMBER);
-			setState(142); match(T__10);
+			setState(142); match(4);
 			setState(143); match(NUMBER);
 			}
 		}
@@ -1078,7 +1013,7 @@ public class ReachLangParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\26\u0094\4\2\t\2"+
+		"\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\3\26\u0094\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\3\2\7\2,\n\2\f\2\16\2/\13\2\3\3\5\3\62"+
@@ -1088,20 +1023,20 @@ public class ReachLangParser extends Parser {
 		"b\n\n\3\13\3\13\3\f\3\f\3\f\5\fi\n\f\3\r\3\r\3\16\3\16\3\16\5\16p\n\16"+
 		"\3\17\3\17\3\20\3\20\3\20\5\20w\n\20\3\21\3\21\3\21\3\21\3\21\5\21~\n"+
 		"\21\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\24\3"+
-		"\24\3\24\3\24\3\25\3\25\3\25\3\25\3\25\2\2\26\2\4\6\b\n\f\16\20\22\24"+
-		"\26\30\32\34\36 \"$&(\2\6\3\2\22\23\4\2\n\n\17\17\4\2\b\b\16\16\4\2\4"+
-		"\4\t\t\u008d\2-\3\2\2\2\4\61\3\2\2\2\6>\3\2\2\2\bA\3\2\2\2\nD\3\2\2\2"+
-		"\fH\3\2\2\2\16N\3\2\2\2\20V\3\2\2\2\22a\3\2\2\2\24c\3\2\2\2\26e\3\2\2"+
-		"\2\30j\3\2\2\2\32l\3\2\2\2\34q\3\2\2\2\36v\3\2\2\2 x\3\2\2\2\"\177\3\2"+
-		"\2\2$\u0081\3\2\2\2&\u008b\3\2\2\2(\u008f\3\2\2\2*,\5\4\3\2+*\3\2\2\2"+
-		",/\3\2\2\2-+\3\2\2\2-.\3\2\2\2.\3\3\2\2\2/-\3\2\2\2\60\62\7\5\2\2\61\60"+
-		"\3\2\2\2\61\62\3\2\2\2\62\63\3\2\2\2\638\5\6\4\2\64\65\7\25\2\2\65\67"+
-		"\5\b\5\2\66\64\3\2\2\2\67:\3\2\2\28\66\3\2\2\289\3\2\2\29;\3\2\2\2:8\3"+
-		"\2\2\2;<\7\25\2\2<=\5\n\6\2=\5\3\2\2\2>?\t\2\2\2?@\5\f\7\2@\7\3\2\2\2"+
-		"AB\5 \21\2BC\5\f\7\2C\t\3\2\2\2DE\t\2\2\2EF\5\f\7\2F\13\3\2\2\2GI\5\16"+
-		"\b\2HG\3\2\2\2HI\3\2\2\2IL\3\2\2\2JK\7\13\2\2KM\5\20\t\2LJ\3\2\2\2LM\3"+
-		"\2\2\2M\r\3\2\2\2NS\5\22\n\2OP\7\f\2\2PR\5\22\n\2QO\3\2\2\2RU\3\2\2\2"+
-		"SQ\3\2\2\2ST\3\2\2\2T\17\3\2\2\2US\3\2\2\2V[\5\36\20\2WX\7\f\2\2XZ\5\36"+
+		"\24\3\24\3\24\3\25\3\25\3\25\3\25\3\25\2\26\2\4\6\b\n\f\16\20\22\24\26"+
+		"\30\32\34\36 \"$&(\2\6\3\2\22\23\4\2\n\n\17\17\4\2\b\b\16\16\4\2\4\4\t"+
+		"\t\u008d\2-\3\2\2\2\4\61\3\2\2\2\6>\3\2\2\2\bA\3\2\2\2\nD\3\2\2\2\fH\3"+
+		"\2\2\2\16N\3\2\2\2\20V\3\2\2\2\22a\3\2\2\2\24c\3\2\2\2\26e\3\2\2\2\30"+
+		"j\3\2\2\2\32l\3\2\2\2\34q\3\2\2\2\36v\3\2\2\2 x\3\2\2\2\"\177\3\2\2\2"+
+		"$\u0081\3\2\2\2&\u008b\3\2\2\2(\u008f\3\2\2\2*,\5\4\3\2+*\3\2\2\2,/\3"+
+		"\2\2\2-+\3\2\2\2-.\3\2\2\2.\3\3\2\2\2/-\3\2\2\2\60\62\7\5\2\2\61\60\3"+
+		"\2\2\2\61\62\3\2\2\2\62\63\3\2\2\2\638\5\6\4\2\64\65\7\25\2\2\65\67\5"+
+		"\b\5\2\66\64\3\2\2\2\67:\3\2\2\28\66\3\2\2\289\3\2\2\29;\3\2\2\2:8\3\2"+
+		"\2\2;<\7\25\2\2<=\5\n\6\2=\5\3\2\2\2>?\t\2\2\2?@\5\f\7\2@\7\3\2\2\2AB"+
+		"\5 \21\2BC\5\f\7\2C\t\3\2\2\2DE\t\2\2\2EF\5\f\7\2F\13\3\2\2\2GI\5\16\b"+
+		"\2HG\3\2\2\2HI\3\2\2\2IL\3\2\2\2JK\7\13\2\2KM\5\20\t\2LJ\3\2\2\2LM\3\2"+
+		"\2\2M\r\3\2\2\2NS\5\22\n\2OP\7\f\2\2PR\5\22\n\2QO\3\2\2\2RU\3\2\2\2SQ"+
+		"\3\2\2\2ST\3\2\2\2T\17\3\2\2\2US\3\2\2\2V[\5\36\20\2WX\7\f\2\2XZ\5\36"+
 		"\20\2YW\3\2\2\2Z]\3\2\2\2[Y\3\2\2\2[\\\3\2\2\2\\\21\3\2\2\2][\3\2\2\2"+
 		"^b\5\26\f\2_b\5\32\16\2`b\5\34\17\2a^\3\2\2\2a_\3\2\2\2a`\3\2\2\2b\23"+
 		"\3\2\2\2cd\t\3\2\2d\25\3\2\2\2eh\5\24\13\2fi\5&\24\2gi\5$\23\2hf\3\2\2"+
@@ -1116,7 +1051,7 @@ public class ReachLangParser extends Parser {
 		"\2\u008d\u008e\7\21\2\2\u008e\'\3\2\2\2\u008f\u0090\7\21\2\2\u0090\u0091"+
 		"\7\6\2\2\u0091\u0092\7\21\2\2\u0092)\3\2\2\2\16-\618HLS[ahov}";
 	public static final ATN _ATN =
-		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
+		ATNSimulator.deserialize(_serializedATN.toCharArray());
 	static {
 		_decisionToDFA = new DFA[_ATN.getNumberOfDecisions()];
 		for (int i = 0; i < _ATN.getNumberOfDecisions(); i++) {

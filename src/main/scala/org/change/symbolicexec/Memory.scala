@@ -30,6 +30,8 @@ class Memory(val mem: MemStore = Map()) {
 
   def constrain(s: Symbol, cs: List[Constraint]): Memory =
     cs.foldLeft(this)((m, c) => m.constrainCurrent(s, c))
+  def constrain(s: Symbol, c: Constraint): Memory =
+    this.constrainCurrent(s, c)
 
   def valid: Boolean = mem.forall(_._2.head.valid)
 
