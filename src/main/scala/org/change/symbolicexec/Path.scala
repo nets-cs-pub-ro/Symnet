@@ -1,10 +1,12 @@
 package org.change.symbolicexec
 
+import org.change.symbolicexec.Path
+
 /**
  * The execution path is the abstraction used for a given network flow
  * passing through the network.
  */
-class Path(val history: List[PathLocation], val memory: Memory = new Memory()) {
+class Path(val history: List[PathLocation] = Nil, val memory: Memory = new Memory()) {
 
   /**
    * Moving a path requires pushing its new location to the history.
@@ -39,6 +41,11 @@ object Path {
    * @return
    */
   def apply(): Path = new Path(Nil)
+
+  def cleanWithCanonical(l: PathLocation) = new Path().modifyAndMove(
+    _ => Memory.withCanonical(),
+    l
+  )
 }
 
 case class PathLocation(vmId: String, processingBlockId: String, accessPointOrd: Int, accessPointType: AccessPointType) {

@@ -115,7 +115,7 @@ class NetworkConfigBuilder(val configName: String) extends ClickBaseListener {
     new NetworkConfig(elements.map(element => (element.name, element)).toMap, foundPaths.toList)
 
   private def buildElementName(elementName: String, configName: String = this.configName): String =
-    configName + "-" + elementName
+    elementName
 
   /**
    * Begin building the currently parsed element. Called by callback function.

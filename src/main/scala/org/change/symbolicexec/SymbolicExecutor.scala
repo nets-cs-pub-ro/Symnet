@@ -4,17 +4,6 @@ import org.change.symbolicexec.blocks.ProcessingBlock
 import parser.generic.{PathComponent, NetworkConfig}
 import org.change.symbolicexec.executorhooks._
 
-/**
- * The execution process is governed by a SymbolicExecutor process.
- *
- * It's job is to:
- * - execute runnable processing blocks (those reached by a certain path)
- * - advance paths between connected modules (cross the links)
- * - enforce integrity and security constraints
- * - [eventually] filter unwanted paths
- *
- * @param parsedModel
- */
 class SymbolicExecutor(val processingBlocks: Map[String, ProcessingBlock],
                        val links: Map[PathLocation, PathLocation]) {
 

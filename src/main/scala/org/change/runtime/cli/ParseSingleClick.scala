@@ -2,7 +2,7 @@ package org.change.runtime.cli
 
 import java.io.File
 import org.change.parser.abstractnet.ClickToAbstractNetwork
-import org.change.symbolicexec.{Input, PathLocation, SymbolicExecutor, Path}
+import org.change.symbolicexec._
 import org.change.symbolicexec.executorhooks._
 
 object ParseSingleClick {
@@ -21,9 +21,7 @@ object ParseSingleClick {
       case "haskell" => println(networkAbstract.asHaskellWithRuleNumber())
       case "symb" => {
         val executor = SymbolicExecutor(networkAbstract, inputFile.getName)
-        println(executor.execute(noopHook)(List(Path().modifyAndMove({m =>
-        m.newVal("IP-Src").newVal("IP-Dst").newVal("Port-Src").newVal("Port-Dst")},
-        PathLocation(inputFile.getName, "base_click-src", 0, Input)))))
+        println(executor.execute(noopHook)(List(Path.cleanWithCanonical(PathLocation(inputFile.getName, "src", 0, Input)))))
       }
     }
 
