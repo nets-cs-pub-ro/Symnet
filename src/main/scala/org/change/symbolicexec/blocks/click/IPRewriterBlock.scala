@@ -84,7 +84,7 @@ class IPRewriterBlock(id: String, params: List[ConfigParameter]) extends
 
         m4
       })
-    }).move(PathLocation(id, 0, Output)))
+    }).move(PathLocation(p.location.vmId, id, 0, Output)))
   }
 
 }

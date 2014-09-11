@@ -15,18 +15,8 @@ import org.change.symbolicexec.executorhooks._
  *
  * @param parsedModel
  */
-class SymbolicExecutor(parsedModel: NetworkConfig) {
-
-  private val processingBlocks: Map[String, ProcessingBlock] = parsedModel.elements.map( e => (e._1, e._2.toProcessingBlock) )
-  private val links: Map[PathLocation, PathLocation]=  (for {
-    segm: List[PathComponent] <- parsedModel.paths
-  } yield {
-    (for {
-      window <- segm.sliding(2)
-      e1 = window.head
-      e2 = window.last
-    } yield (PathLocation(e1._1, e1._3, Output), PathLocation(e2._1, e2._2, Input))).toList
-  }).flatten.toMap
+class SymbolicExecutor(val processingBlocks: Map[String, ProcessingBlock],
+                       val links: Map[PathLocation, PathLocation]) {
 
   override def toString = "Processing elements:\n" +
     processingBlocks.map(_._2.toString()).mkString("\n") +
@@ -68,4 +58,19 @@ class SymbolicExecutor(parsedModel: NetworkConfig) {
 
   def executeAndLog(input: List[Path]): List[Path] = execute(printHook)(input)
   def executeAndLog(input: Path): List[Path] = executeAndLog(List(input))
+}
+
+object SymbolicExecutor {
+  def apply(parsedModel: NetworkConfig, vmId:String = "vm"): SymbolicExecutor = new SymbolicExecutor(
+    parsedModel.elements.map( e => (e._1, e._2.toProcessingBlock)),
+    (for {
+      segm: List[PathComponent] <- parsedModel.paths
+    } yield {
+      (for {
+        window <- segm.sliding(2)
+        e1 = window.head
+        e2 = window.last
+      } yield (PathLocation(vmId, e1._1, e1._3, Output), PathLocation(vmId, e2._1, e2._2, Input))).toList
+    }).flatten.toMap
+  )
 }
