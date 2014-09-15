@@ -8,7 +8,7 @@ import org.change.utils.{NumberFor, RepresentationConversion}
 
 object TrafficDescriptionParser extends ReachLangBaseVisitor[MemoryState] {
   override def visitTrafficdesc(ctx: TrafficdescContext): MemoryState = {
-    val m = Memory.withCanonical()
+    val m = new Memory()
 
     val ms = ctx.constraint().asScala.foldLeft(m) ((m,c) => {
       val (s, cns) = ConstraintVisitor.visitConstraint(c)

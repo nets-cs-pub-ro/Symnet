@@ -2,7 +2,7 @@ grammar ReachLang;
 
 requirements : test* ;
 
-test    : 'reach from'? entrance (ARROW middle)* ARROW exit ;
+test    : 'reach from'? entrance (ARROW middle)* ARROW exit '.' ;
 
 entrance: (CLIENT|INTERNET) condition;
 middle  : nport condition ;
@@ -36,4 +36,4 @@ ID      : [a-zA-Z\-_]+ ;
 
 ARROW   : '->' ;
 
-WS		: [ \t\r]+ -> skip ;
+WS		: [ \t\r\n]+ -> skip ;

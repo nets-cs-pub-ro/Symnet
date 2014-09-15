@@ -66,18 +66,24 @@ object Memory {
 
 class MemoryState(mem: Map[Symbol, ValueSet]) {
   def stateForSymbol(s: Symbol): Option[ValueSet] = mem get s
+
   def supersetOf(other: MemoryState): Boolean = mem.forall( smb =>
     other.stateForSymbol(smb._1) match {
-      case Some(vs) => intersect(List(smb._2, vs)) == vs
+      case Some(vs) => {
+        intersect(List(smb._2, vs)) == vs
+      }
       case _ => true
     }
   )
+
   def subsetOf(other: MemoryState): Boolean = mem.forall( smb =>
     other.stateForSymbol(smb._1) match {
       case Some(vs) => intersect(List(smb._2, vs)) == smb._2
       case _ => true
     }
   )
+
+  override def toString = mem.toString()
 }
 
 object MemoryState {

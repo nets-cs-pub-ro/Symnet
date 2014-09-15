@@ -18,18 +18,20 @@ class SymbolicExecutor(val processingBlocks: Map[String, ProcessingBlock],
    * @return Next explored paths.
    */
   private def step(paths: List[Path]): (List[Path], List[Path]) = {
-//    Only valid paths get attention.
+    //    Only valid paths get attention.
     val (valid, invalid) = paths.partition(_.valid)
-//    Propagate across links.
-    val (needPropagation, others) = valid.partition(_.location.accessPointType == Output)
-//    Select those that can go across links.
+    //    Reduce verification rules.
+    val afterConstraintReduction = valid.map(_.performVerification)
+    //    Select those that can go across links.
+    val (needPropagation, others) = afterConstraintReduction.partition(_.location.accessPointType == Output)
+    //    Propagate across links.
     val (propagateable, stuck) = needPropagation.partition(p => links.contains(p.location))
-//    Move across links.
+    //    Move across links.
     val afterPropagation = propagateable.map(p => p.move(links(p.location)))
 
     // Warning: We should assert no paths on an output port in existence
 
-//    Invoke processing of every path.
+    //    Invoke processing of every path.
     val afterProcessing = (afterPropagation ++ others).map(p => {
       processingBlocks(p.location.processingBlockId).process(p)
     }).flatten.toList

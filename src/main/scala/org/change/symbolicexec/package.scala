@@ -71,7 +71,7 @@ package object symbolicexec {
       case i :: rest => {
         val stripNeedless = b.dropWhile(_._2 < i._1)
         stripNeedless
-          .takeWhile(i._2 > _._1)
+          .takeWhile(i._2 >= _._1)
           .map(that =>
             intersect(i, that))
           .filter(_ match {
@@ -82,7 +82,8 @@ package object symbolicexec {
       }
     }
     val nAll = all.map(normalize)
-    nAll.tail.foldLeft(nAll.head)(looper)
+    val res = nAll.reduceLeft(looper)
+    res
   }
 
   def applyConstraint(s: ValueSet, c: Constraint,

@@ -1,1 +1,2 @@
-reach from client dst 10.0.0.0 && dst port 8000 -> internet ; src
+reach from client -> base_click:source src 192.168.0.0/16 && src port 10-1000 -> base_click:dest dst 0.0.0.1 && udp -> internet .
+reach from client -> base_click:rewriter:0 -> internet .
