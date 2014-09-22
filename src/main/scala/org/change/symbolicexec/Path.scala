@@ -1,6 +1,8 @@
 package org.change.symbolicexec
 
-import org.change.symbolicexec.verification.ReachabilityTestGroup
+import org.change.symbolicexec.types._
+
+import org.change.symbolicexec.verification.{Rule, ReachabilityTestGroup}
 
 /**
  * The execution path is the abstraction used for a given network flow
@@ -9,6 +11,15 @@ import org.change.symbolicexec.verification.ReachabilityTestGroup
 class Path(val history: List[PathLocation] = Nil,
            val memory: Memory = new Memory(),
            val tests: List[ReachabilityTestGroup] = Nil) {
+
+  def symbolWriteCount(s: Symbol): Int =
+    if (memory.exists(s))
+      memory.symbolWriteCount(s)
+    else
+      0
+
+  private def takeSymbolTimestamps: Map[String, Int] =
+    CanonicalFields.map(s => (s, symbolWriteCount(s))).toMap
 
   /**
    * Moving a path requires pushing its new location to the history.
@@ -31,7 +42,13 @@ class Path(val history: List[PathLocation] = Nil,
       group.map { test =>
         if ( location == test.head.where && test.head.verifyTraffic(snapshot) && test.head.verifyInvariants(this)) {
           modified = true
-          test.tail
+          if (test.length > 1) {
+            val next = test.tail.head
+            val rest = test.drop(2)
+            Rule(next, takeSymbolTimestamps) :: rest
+          } else {
+            test.tail
+          }
         } else {
           test
         }

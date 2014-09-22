@@ -52,7 +52,7 @@ object Runner {
       if (count > 0)
         println(s"\n\nA total of $count path${if (count > 1) "s" else ""} satisf${if (count > 1) "y" else "ies"} the verified properties.")
       else
-        println("No possible path satisfy the imposed properties.")
+        println("No possible path satisfies the imposed properties.")
 
     }
 }

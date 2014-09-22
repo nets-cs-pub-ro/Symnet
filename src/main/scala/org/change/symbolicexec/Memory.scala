@@ -5,6 +5,8 @@ import org.change.symbolicexec.types.{TypeUtils, NumericType}
 
 class Memory(val mem: MemStore = Map()) {
 
+  def symbolWriteCount(s: Symbol): Int = mem(s).length
+
   def resolveAllValues(s: Symbol): List[Value] = mem.getOrElse(s, Nil)
 
   def evalSymbolToPossibleValues(s: Symbol): Option[ValueSet] = mem.get(s) match {

@@ -38,6 +38,10 @@ object RuleVisitor extends ReachLangBaseVisitor[Rule] {
   override def visitMiddle(ctx: MiddleContext): Rule = {
     val memState = ctx.condition().accept(ConditionVisitor)
     val port = ctx.nport().accept(PathLocationVisitor)
-    Rule(port, memState)
+    val invariants = if (ctx.condition() != null && ctx.condition().invariant() != null)
+      ctx.condition().invariant().accept(InvariantListParser)
+    else
+      Nil
+    Rule(port, memState, if (invariants.nonEmpty) Some(invariants) else None)
   }
 }
