@@ -9,7 +9,9 @@ test-output/
 *.click
 vms
 *.log
+
 radu
 a
 rulz
 checks
+src/main/resources/client_scripts
