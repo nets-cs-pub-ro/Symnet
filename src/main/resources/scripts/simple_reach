@@ -1,0 +1,13 @@
+# End to end reachability
+reach src-0 client: when udp && dst 141.85.241.233
+# Should fail, no tcp traffic is allowed to pass and wrong dst
+#reach dst-0: when dst 141.85.241.246 && tcp
+# Bad destination
+#reach dst-0: when dst 141.85.241.249 && dst port 30000-35000
+#Should fail, the port is not in this range
+#reach dst-0: when dst 141.85.241.246 && dst port 0-1000
+# Pass
+#reach dst-0: when dst 141.85.241.0/8 && dst port 30000-35000
+#reach filter-0: when udp
+#reach dst-0: when tcp
+#reach src-0: when udp

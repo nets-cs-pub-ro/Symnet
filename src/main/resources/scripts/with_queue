@@ -1,0 +1,9 @@
+src :: FromNetFront(MACADDR)
+
+filter :: IPFilter(allow udp && dst DSTIP && dst port DSTPORT)
+
+rewriter :: IPRewriter(pattern - - 141.85.241.246 - 0 0)
+
+dst :: ToNetFront(MACADDR)
+
+src -> Strip(14) -> CheckIPHeader() -> IPPrint -> filter -> rewriter -> SimpleQueue -> TimedUnqueue(5, 1000) -> SimpleQueue -> EtherEncap(0x800, 00:00:00:00:00:00, 00:19:e7:2a:77:ff) -> dst
