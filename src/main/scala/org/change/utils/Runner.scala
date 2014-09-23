@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.{ANTLRInputStream, CommonTokenStream}
 import generated.reachlang.ReachLangParser
 import org.change.parser.abstractnet.ClickToAbstractNetwork
 import org.change.parser.verification.{TestsParser}
+import org.change.symbolicexec.networkgraph.NetworkNode
 import org.change.symbolicexec.{Input, PathLocation, Path, SymbolicExecutor}
 import org.change.symbolicexec.executorhooks._
 
@@ -31,6 +32,8 @@ object Runner {
       val inputFile = new File(args(1))
 
       val networkAbstract = ClickToAbstractNetwork.buildConfig(inputFile)
+
+      println(NetworkNode.buildFromParsedModel(networkAbstract))
 
       val executor = SymbolicExecutor(networkAbstract, inputFile.getName)
       val exploredPaths = executor.execute(noopHook)(List(Path.cleanWithCanonical(PathLocation(inputFile.getName, "source", 0, Input), tests)))
