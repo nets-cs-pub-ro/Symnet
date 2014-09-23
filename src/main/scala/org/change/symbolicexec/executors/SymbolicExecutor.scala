@@ -1,8 +1,9 @@
-package org.change.symbolicexec
+package org.change.symbolicexec.executors
 
+import org.change.symbolicexec._
 import org.change.symbolicexec.blocks.ProcessingBlock
-import parser.generic.{PathComponent, NetworkConfig}
 import org.change.symbolicexec.executorhooks._
+import parser.generic.{NetworkConfig, PathComponent}
 
 class SymbolicExecutor(val processingBlocks: Map[String, ProcessingBlock],
                        val links: Map[PathLocation, PathLocation]) {
@@ -53,7 +54,7 @@ class SymbolicExecutor(val processingBlocks: Map[String, ProcessingBlock],
 
 object SymbolicExecutor {
   def apply(parsedModel: NetworkConfig, vmId:String = "vm"): SymbolicExecutor = new SymbolicExecutor(
-    parsedModel.elements.map( e => (e._1, e._2.toProcessingBlock)),
+    elementsToProcessingBlocks(parsedModel),
     (for {
       segm: List[PathComponent] <- parsedModel.paths
     } yield {

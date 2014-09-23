@@ -7,8 +7,9 @@ import org.antlr.v4.runtime.{ANTLRInputStream, CommonTokenStream}
 import generated.reachlang.ReachLangParser
 import org.change.parser.abstractnet.ClickToAbstractNetwork
 import org.change.parser.verification.{TestsParser}
+import org.change.symbolicexec.executors.{DirectedExecutor, SymbolicExecutor}
 import org.change.symbolicexec.networkgraph.NetworkNode
-import org.change.symbolicexec.{Input, PathLocation, Path, SymbolicExecutor}
+import org.change.symbolicexec.{Input, PathLocation, Path}
 import org.change.symbolicexec.executorhooks._
 
 object Runner {
@@ -33,10 +34,17 @@ object Runner {
 
       val networkAbstract = ClickToAbstractNetwork.buildConfig(inputFile)
 
-      println(NetworkNode.buildFromParsedModel(networkAbstract))
+      val root = NetworkNode.buildFromParsedModel(networkAbstract)
 
-      val executor = SymbolicExecutor(networkAbstract, inputFile.getName)
-      val exploredPaths = executor.execute(noopHook)(List(Path.cleanWithCanonical(PathLocation(inputFile.getName, "source", 0, Input), tests)))
+      //val executor = SymbolicExecutor(networkAbstract, inputFile.getName)
+      val executor = DirectedExecutor(networkAbstract)
+
+      val path0 = (
+        Path.cleanWithCanonical(PathLocation(inputFile.getName, "source", 0, Input), tests),
+        root
+      )
+
+      val exploredPaths = executor.execute(noopHook)(List(path0))
       println(exploredPaths)
 
       println("\nResult digest\n")
@@ -44,7 +52,7 @@ object Runner {
       var count = 0
 
       for {
-        p <- exploredPaths
+        p <- exploredPaths.unzip._1
         (group, i) <- p.tests.zipWithIndex
         if group.isEmpty
       } {

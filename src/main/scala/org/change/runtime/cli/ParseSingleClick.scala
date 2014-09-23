@@ -4,6 +4,7 @@ import java.io.File
 import org.change.parser.abstractnet.ClickToAbstractNetwork
 import org.change.symbolicexec._
 import org.change.symbolicexec.executorhooks._
+import org.change.symbolicexec.executors.SymbolicExecutor
 
 object ParseSingleClick {
 
