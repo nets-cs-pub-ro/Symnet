@@ -45,6 +45,14 @@ case class NetworkNode(val elementId: String,
     case None => false
   }
 
+  def addExplicitLink(descendatNode: NetworkNode, source: Int, destination: Int): Unit = {
+    eLinks += ((source, (descendatNode, destination)))
+  }
+
+  def removeExplicitLink(source: Int): Unit = {
+    eLinks -= (source)
+  }
+
   override def toString = elementId + eLinks.map( kv => s"[${kv._1}] -> [${kv._2._2}] ${kv._2._1.toString}").mkString("\n")
 }
 
