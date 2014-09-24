@@ -19,14 +19,16 @@ case class NetworkNode(val elementId: String,
                        val vmId: String = "vm",
                        var eLinks: scala.collection.mutable.Map[Int, (NetworkNode, Int)] = scala.collection.mutable.Map()) {
 
+  def findFirstThat(p: (NetworkNode) => Boolean): Option[NetworkNode] =
+    if (p(this)) Some(this)
+    else eLinks.values.map(_._1.findFirstThat(p)).find(_ match {case Some(n) => true}).getOrElse(None)
+
   /**
    * Return the first node referringg to the element baring the 'id'
    * @param id
    * @return
    */
-  def findFirstOccurrence(id: String): Option[NetworkNode] =
-    if (elementId equals id) Some(this)
-    else eLinks.values.map(_._1.findFirstOccurrence(id)).find(_ match {case Some(n) => true}).getOrElse(None)
+  def findFirstOccurrence(id: String): Option[NetworkNode] = findFirstThat(_.elementId equals id)
 
   /**
    * Finds in the current tree the first node baring the same element and then
