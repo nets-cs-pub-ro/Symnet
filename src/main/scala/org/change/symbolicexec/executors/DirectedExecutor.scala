@@ -6,7 +6,7 @@ import org.change.symbolicexec.networkgraph.NetworkNode
 import parser.generic.NetworkConfig
 import org.change.symbolicexec._
 
-class DirectedExecutor(val processingBlocks: Map[String, ProcessingBlock]) {
+class DirectedExecutor(val processingBlocks: Map[(String, String), ProcessingBlock]) {
 
   def step(paths: List[(Path, NetworkNode)]): (List[(Path, NetworkNode)], List[(Path, NetworkNode)]) = {
     //    Only valid paths get attention.
@@ -29,7 +29,7 @@ class DirectedExecutor(val processingBlocks: Map[String, ProcessingBlock]) {
     val (needProcessing, nodes) = (afterPropagation ++ others).unzip
 
     val afterProcessing = needProcessing.map(p => {
-      processingBlocks(p.location.processingBlockId).process(p)
+      processingBlocks((p.location.vmId, p.location.processingBlockId)).process(p)
     }).zip(nodes).map(rsp => rsp._1.map(rs => (rs, rsp._2))).flatten.toList
 
     (afterProcessing, invalid ++ stuck)
@@ -46,8 +46,14 @@ class DirectedExecutor(val processingBlocks: Map[String, ProcessingBlock]) {
   def executeAndLog(input: List[(Path, NetworkNode)]): List[(Path, NetworkNode)] = execute(printHook)(input)
   def executeAndLog(input: (Path, NetworkNode)): List[(Path, NetworkNode)] = executeAndLog(List(input))
 
+  def grow(otherExecutor: DirectedExecutor) = new DirectedExecutor(processingBlocks ++ otherExecutor.processingBlocks)
+
+  def grow(otherNetwork: NetworkConfig, vmId: String = "vmId") = {
+    val newElems = elementsToProcessingBlocks(otherNetwork, vmId)
+    new DirectedExecutor(processingBlocks ++ newElems)
+  }
 }
 
 object DirectedExecutor {
-  def apply(parsedModel: NetworkConfig): DirectedExecutor = new DirectedExecutor(elementsToProcessingBlocks(parsedModel))
+  def apply(parsedModel: NetworkConfig, vmId: String = "vm"): DirectedExecutor = new DirectedExecutor(elementsToProcessingBlocks(parsedModel, vmId))
 }
