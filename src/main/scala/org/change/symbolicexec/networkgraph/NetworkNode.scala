@@ -17,10 +17,23 @@ import parser.specific.FromDevice
  */
 case class NetworkNode(var elementId: String, var eLinks: scala.collection.mutable.Map[Int, (NetworkNode, Int)] = scala.collection.mutable.Map()) {
 
+  /**
+   * Return the first node referringg to the element baring the 'id'
+   * @param id
+   * @return
+   */
   def findFirstOccurrence(id: String): Option[NetworkNode] =
     if (elementId equals id) Some(this)
     else eLinks.values.map(_._1.findFirstOccurrence(id)).find(_ match {case Some(n) => true}).getOrElse(None)
 
+  /**
+   * Finds in the current tree the first node baring the same element and then
+   * fuses the eLinks of both nodes.
+   *
+   * If the same port is linked in both nodes, results are unpredictible.
+   * @param n Fused node
+   * @return Fuse is possible or not (when the fuse node in the main tree is absent)
+   */
   def linkNode(n : NetworkNode): Boolean = findFirstOccurrence(n.elementId) match {
     case Some(nn) => {
 //      Merge links
@@ -34,17 +47,16 @@ case class NetworkNode(var elementId: String, var eLinks: scala.collection.mutab
 }
 
 object NetworkNode {
-
   type Path = List[PathComponent]
+
   def buildFromParsedModel(parsedNetworkModel: NetworkConfig, whatRoot: (NetworkNode) => Boolean): NetworkNode = {
-
+//    Build the tree forest corresponding to config
     val paths = parsedNetworkModel.paths.map(buildFromPath(_))
-
+//    Select the root node
     import org.change.utils.collection.extractFirst
     val (root, others) = extractFirst(paths)(whatRoot)
-
+//    Merge other trees to this root one
     others.map(root.linkNode(_))
-
     root
   }
 
@@ -62,6 +74,11 @@ object NetworkNode {
     buildFromParsedModel(model, (e => e.elementId == rootElementId))
   }
 
+  /**
+   * Builds a tree out of a path.
+   * @param path
+   * @return
+   */
   private def buildFromPath(path: List[PathComponent]): NetworkNode = {
     val nodes = path.map(c => NetworkNode(c._1))
     for {
