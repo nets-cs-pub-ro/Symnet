@@ -16,6 +16,8 @@ class DirectedExecutor(val processingBlocks: Map[(String, String), ProcessingBlo
     //    Select those that can go across links.
     val (needPropagation, others) = afterConstraintReduction.partition(_._1.location.accessPointType == Output)
     //    Propagate across links.
+
+    // TODO: This is where propagation across platformm links occurs.
     val (propagateable, stuck) = needPropagation.partition(pn => pn._2.eLinks.contains(pn._1.locationPort))
     //    Move across node links.
     val afterPropagation = propagateable.map(pn => {
