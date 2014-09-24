@@ -34,7 +34,7 @@ object Runner {
 
       val networkAbstract = ClickToAbstractNetwork.buildConfig(inputFile)
 
-      val root = NetworkNode.buildFromParsedModel(networkAbstract)
+      val root = NetworkNode.treeRootedAtSource(networkAbstract)
 
       //val executor = SymbolicExecutor(networkAbstract, inputFile.getName)
       val executor = DirectedExecutor(networkAbstract)

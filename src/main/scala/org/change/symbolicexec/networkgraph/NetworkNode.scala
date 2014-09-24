@@ -34,21 +34,32 @@ case class NetworkNode(var elementId: String, var eLinks: scala.collection.mutab
 }
 
 object NetworkNode {
-  def buildFromParsedModel(parsedNetworkModel: NetworkConfig): NetworkNode = {
+
+  type Path = List[PathComponent]
+  def buildFromParsedModel(parsedNetworkModel: NetworkConfig, whatRoot: (NetworkNode) => Boolean): NetworkNode = {
 
     val paths = parsedNetworkModel.paths.map(buildFromPath(_))
 
     import org.change.utils.collection.extractFirst
-    val (root, others) = extractFirst(paths)( e =>
-      parsedNetworkModel.elements(e.elementId) match {
-        case _:FromDevice => true
-        case _ => false
-      }
-    )
+    val (root, others) = extractFirst(paths)(whatRoot)
 
     others.map(root.linkNode(_))
 
     root
+  }
+
+  def treeRootedAtSource = { model: NetworkConfig =>
+    buildFromParsedModel(model, ( e =>
+        model.elements(e.elementId) match {
+          case _:FromDevice => true
+          case _ => false
+        }
+      )
+    )
+  }
+
+  def treeRootedAt(rootElementId: String) = { model: NetworkConfig =>
+    buildFromParsedModel(model, (e => e.elementId == rootElementId))
   }
 
   private def buildFromPath(path: List[PathComponent]): NetworkNode = {
