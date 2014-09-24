@@ -7,7 +7,7 @@ case class NoopProcessingBlock(id: String, entryCount: Int, exitCount: Int) exte
   def process(p: Path): List[Path] = (for {
     exitPoint <- 0 until exitCount
   } yield {
-    p.move(PathLocation(p.location.vmId, id, exitPoint, Output))
+    moveToOutputPort(p, exitPoint)
   }).toList
 
 }

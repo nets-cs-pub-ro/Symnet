@@ -1,6 +1,6 @@
 package org.change.symbolicexec.blocks
 
-import org.change.symbolicexec.Path
+import org.change.symbolicexec.{Output, PathLocation, Path}
 
 /**
  * A prcessing module implements its functionality by extending this trait.
@@ -19,6 +19,15 @@ trait ProcessingBlock {
    * @return Next reachable execution paths
    */
   def process(p: Path): List[Path]
+
+  /**
+   * Path forwarding from an input port to an output port.
+   * This also ensures
+   * @param p
+   * @param portOrd
+   * @return
+   */
+  def moveToOutputPort(p: Path, portOrd: Int): Path = p.move(PathLocation(p.location.vmId, id, portOrd, Output))
 
   /**
    * @return Fan-in
