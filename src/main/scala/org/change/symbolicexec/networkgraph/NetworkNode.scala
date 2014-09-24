@@ -15,7 +15,9 @@ import parser.specific.FromDevice
  * @param elementId
  * @param eLinks
  */
-case class NetworkNode(var elementId: String, var eLinks: scala.collection.mutable.Map[Int, (NetworkNode, Int)] = scala.collection.mutable.Map()) {
+case class NetworkNode(val elementId: String,
+                       val vmId: String = "vm",
+                       var eLinks: scala.collection.mutable.Map[Int, (NetworkNode, Int)] = scala.collection.mutable.Map()) {
 
   /**
    * Return the first node referringg to the element baring the 'id'
