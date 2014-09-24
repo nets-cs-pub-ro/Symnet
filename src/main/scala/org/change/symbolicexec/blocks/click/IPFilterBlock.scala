@@ -8,10 +8,12 @@ import parser.generic.ConfigParameter
 class IPFilterBlock(id: String, params: List[ConfigParameter]) extends
   NoopProcessingBlock(id, 1, params.length) {
 
+//  Extract filtering rules
   private var rules = params.map(IPFilterBlock.configParamToConstraints(_))
 
   if (rules.last.isEmpty) {
 //    If dash found, then do sth with it
+//    TODO: Extend this to other params.
     rules = rules.init ++ List(rules.init.map( cs => {
       cs.map( c => {
         (c._1, NOT(c._2))
