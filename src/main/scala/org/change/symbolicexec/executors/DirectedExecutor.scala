@@ -23,7 +23,7 @@ class DirectedExecutor(val processingBlocks: Map[(String, String), ProcessingBlo
     val afterPropagation = propagateable.map(pn => {
       val prevLocation = pn._1.location
       val nextNode = pn._2.eLinks(prevLocation.accessPointOrd)
-      val nextPathLocation = PathLocation(prevLocation.vmId, nextNode._1.elementId, nextNode._2, Input)
+      val nextPathLocation = PathLocation(nextNode._1.vmId, nextNode._1.elementId, nextNode._2, Input)
 
       (pn._1.move(nextPathLocation), nextNode._1)
     })
@@ -49,13 +49,13 @@ class DirectedExecutor(val processingBlocks: Map[(String, String), ProcessingBlo
   def executeAndLog(input: (Path, NetworkNode)): List[(Path, NetworkNode)] = executeAndLog(List(input))
 
   def grow(otherExecutor: DirectedExecutor) = new DirectedExecutor(processingBlocks ++ otherExecutor.processingBlocks)
-
-  def grow(otherNetwork: NetworkConfig, vmId: String = "vmId") = {
+  def grow(blocks: Map[(String, String), ProcessingBlock]) = new DirectedExecutor(processingBlocks ++ blocks)
+  def grow(otherNetwork: NetworkConfig, vmId: String) = {
     val newElems = elementsToProcessingBlocks(otherNetwork, vmId)
     new DirectedExecutor(processingBlocks ++ newElems)
   }
 }
 
 object DirectedExecutor {
-  def apply(parsedModel: NetworkConfig, vmId: String = "vm"): DirectedExecutor = new DirectedExecutor(elementsToProcessingBlocks(parsedModel, vmId))
+  def apply(parsedModel: NetworkConfig, vmId: String): DirectedExecutor = new DirectedExecutor(elementsToProcessingBlocks(parsedModel, vmId))
 }

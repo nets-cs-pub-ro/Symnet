@@ -16,7 +16,7 @@ import parser.specific.FromDevice
  * @param eLinks
  */
 case class NetworkNode(val elementId: String,
-                       val vmId: String = "vm",
+                       val vmId: String,
                        var eLinks: scala.collection.mutable.Map[Int, (NetworkNode, Int)] = scala.collection.mutable.Map()) {
 
   def findFirstThat(p: (NetworkNode) => Boolean): Option[NetworkNode] =
@@ -61,9 +61,9 @@ case class NetworkNode(val elementId: String,
 object NetworkNode {
   type Path = List[PathComponent]
 
-  def buildFromParsedModel(parsedNetworkModel: NetworkConfig, whatRoot: (NetworkNode) => Boolean): NetworkNode = {
+  def buildFromParsedModel(parsedNetworkModel: NetworkConfig, vmId: String, whatRoot: (NetworkNode) => Boolean): NetworkNode = {
 //    Build the tree forest corresponding to config
-    val paths = parsedNetworkModel.paths.map(buildFromPath(_))
+    val paths = parsedNetworkModel.paths.map(buildFromPath(_, vmId))
 //    Select the root node
     import org.change.utils.collection.extractFirst
     val (root, others) = extractFirst(paths)(whatRoot)
@@ -72,8 +72,8 @@ object NetworkNode {
     root
   }
 
-  def treeRootedAtSource = { model: NetworkConfig =>
-    buildFromParsedModel(model, ( e =>
+  def treeRootedAtSource = { (model: NetworkConfig, vmId: String) =>
+    buildFromParsedModel(model,vmId, ( e =>
         model.elements(e.elementId) match {
           case _:FromDevice => true
           case _ => false
@@ -82,8 +82,8 @@ object NetworkNode {
     )
   }
 
-  def treeRootedAt(rootElementId: String) = { model: NetworkConfig =>
-    buildFromParsedModel(model, (e => e.elementId == rootElementId))
+  def treeRootedAt(rootElementId: String) = { (model: NetworkConfig, vmId: String) =>
+    buildFromParsedModel(model, vmId, (e => e.elementId == rootElementId))
   }
 
   /**
@@ -91,8 +91,8 @@ object NetworkNode {
    * @param path
    * @return
    */
-  private def buildFromPath(path: List[PathComponent]): NetworkNode = {
-    val nodes = path.map(c => NetworkNode(c._1))
+  private def buildFromPath(path: List[PathComponent], vmId: String): NetworkNode = {
+    val nodes = path.map(c => NetworkNode(c._1, vmId))
     for {
       (link, nodes) <- path.sliding(2).toIterable.zip(nodes.sliding(2).toIterable)
       sourceNode = nodes.head

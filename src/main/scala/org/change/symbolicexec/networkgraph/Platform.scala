@@ -9,11 +9,12 @@ class Platform(id: String) {
 
   val entry = new Spanner(id+"-entry")
   val exit = new Spanner(id+"-exit")
+  lazy val spanners = Map( ((Platform.vmName, entry.id),entry), ((Platform.vmName, exit.id), exit))
 
   val platformRootNode = new NetworkNode(entry.id, Platform.vmName)
   val platformLeafNode = new NetworkNode(exit.id, Platform.vmName)
 
-  def insert(vm: NetworkNode, blocks: Map[(String, String), ProcessingBlock], elements: Map[String, GenericElement]): Unit = {
+  def insert(vm: NetworkNode, elements: Map[String, GenericElement]): Boolean = {
     vm.findFirstThat(n => elements(n.elementId) match {
       case _:ToDevice => true
       case _ => false
@@ -22,11 +23,10 @@ class Platform(id: String) {
         vmExit.addExplicitLink(platformLeafNode, 0, 0)
         val nextPort = entry.add
         platformRootNode.addExplicitLink(vm, nextPort, 0)
+        true
       }
-      case None =>
+      case None => false
     }
-
-
   }
 
   def remove(vmId: String): Boolean =
