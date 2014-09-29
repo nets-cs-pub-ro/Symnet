@@ -24,13 +24,16 @@ elementName : NON_CAPITALIZED_STRING ;
 
 path        : startOfPath inTheMiddle*  endOfPath ;
 
-startOfPath : pathElement port? ;
-inTheMiddle : ARROW port? pathElement port? ;
-endOfPath   : ARROW port? pathElement ;
+startOfPath : entryPort? pathElement exitPort? ;
+inTheMiddle : ARROW entryPort? pathElement exitPort? ;
+endOfPath   : ARROW entryPort? pathElement exitPort? ;
 
 pathElement : elementName
             | newElement
             ;
+
+entryPort   : port ;
+exitPort    : port ;
 
 port            : '[' portId ']' ;
 

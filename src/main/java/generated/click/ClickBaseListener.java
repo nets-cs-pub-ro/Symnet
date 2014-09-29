@@ -1,5 +1,5 @@
-// Generated from src/main/resources/click_grammar/Click.g by ANTLR 4.1
-package generated.click;
+package generated.click;// Generated from Click.g by ANTLR 4.1
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -49,6 +49,19 @@ public class ClickBaseListener implements ClickListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitElementName(@NotNull ClickParser.ElementNameContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterExitPort(@NotNull ClickParser.ExitPortContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitExitPort(@NotNull ClickParser.ExitPortContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -218,6 +231,19 @@ public class ClickBaseListener implements ClickListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitPortId(@NotNull ClickParser.PortIdContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterEntryPort(@NotNull ClickParser.EntryPortContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitEntryPort(@NotNull ClickParser.EntryPortContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

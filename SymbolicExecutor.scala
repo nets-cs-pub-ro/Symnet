@@ -54,7 +54,7 @@ class SymbolicExecutor(val processingBlocks: Map[String, ProcessingBlock],
 
 object SymbolicExecutor {
   def apply(parsedModel: NetworkConfig, vmId:String = "vm"): SymbolicExecutor = new SymbolicExecutor(
-    elementsToProcessingBlocks(parsedModel).map(e => (e._1._2, e._2)),
+    elementsToProcessingBlocksexecu(parsedModel).map(e => (e._1._2, e._2)),
     (for {
       segm: List[PathComponent] <- parsedModel.paths
     } yield {

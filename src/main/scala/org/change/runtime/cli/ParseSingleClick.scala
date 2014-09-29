@@ -4,7 +4,6 @@ import java.io.File
 import org.change.parser.abstractnet.ClickToAbstractNetwork
 import org.change.symbolicexec._
 import org.change.symbolicexec.executorhooks._
-import org.change.symbolicexec.executors.SymbolicExecutor
 
 object ParseSingleClick {
 
@@ -21,8 +20,6 @@ object ParseSingleClick {
     option match {
       case "haskell" => println(networkAbstract.asHaskellWithRuleNumber())
       case "symb" => {
-        val executor = SymbolicExecutor(networkAbstract, inputFile.getName)
-        println(executor.execute(noopHook)(List(Path.cleanWithCanonical(PathLocation(inputFile.getName, "src", 0, Input)))))
       }
     }
 

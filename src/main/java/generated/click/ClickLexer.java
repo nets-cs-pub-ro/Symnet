@@ -1,5 +1,4 @@
-// Generated from src/main/resources/click_grammar/Click.g by ANTLR 4.1
-package generated.click;
+package generated.click;// Generated from Click.g by ANTLR 4.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

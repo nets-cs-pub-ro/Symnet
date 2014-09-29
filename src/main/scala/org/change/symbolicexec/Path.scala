@@ -67,6 +67,8 @@ class Path(val history: List[PathLocation] = Nil,
    */
   def location: PathLocation = history.head
   def locationPort = location.accessPointOrd
+  def locationElement = location.processingBlockId
+  def locationVm = location.vmId
 
   override def toString = s"\nPATH (${if (valid) "Valid" else "Invalid"}):\n"+
     s"\nSymbol Table:\n\n${memory.mem.map(kv =>  kv._1 +" > {"+ kv._2.map(_.eval.map(i => s"[${i._1}, ${i._2}]").mkString(" U ")).mkString(" , ")+"}").mkString("\n")}\n"+

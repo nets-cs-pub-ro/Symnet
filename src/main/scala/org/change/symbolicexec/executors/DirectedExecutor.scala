@@ -1,61 +1,52 @@
 package org.change.symbolicexec.executors
 
+import org.change.symbolicexec._
 import org.change.symbolicexec.blocks.ProcessingBlock
 import org.change.symbolicexec.executorhooks._
 import org.change.symbolicexec.networkgraph.NetworkNode
 import parser.generic.NetworkConfig
-import org.change.symbolicexec._
 
-class DirectedExecutor(val processingBlocks: Map[(String, String), ProcessingBlock]) {
+class DirectedExecutor(val model: ExecutableModel) {
 
-  def step(paths: List[(Path, NetworkNode)]): (List[(Path, NetworkNode)], List[(Path, NetworkNode)]) = {
+  def step(paths: List[Path]): (List[Path], List[Path]) = {
     //    Only valid paths get attention.
-    val (valid, invalid) = paths.partition(_._1.valid)
+    val (valid, invalid) = paths.partition(_.valid)
     //    Reduce verification rules.
-    val afterConstraintReduction = valid.map(pn => (pn._1.performVerification, pn._2))
+    val afterConstraintReduction = valid.map(_.performVerification)
     //    Select those that can go across links.
-    val (needPropagation, others) = afterConstraintReduction.partition(_._1.location.accessPointType == Output)
+    val (needPropagation, others) = afterConstraintReduction.partition(_.location.accessPointType == Output)
     //    Propagate across links.
 
     // TODO: This is where propagation across platformm links occurs.
-    val (propagateable, stuck) = needPropagation.partition(pn => pn._2.eLinks.contains(pn._1.locationPort))
+    val (propagateable, stuck) = needPropagation.partition(p => model((p.locationVm, p.locationElement)).eLinks.contains(p.locationPort))
     //    Move across node links.
-    val afterPropagation = propagateable.map(pn => {
-      val prevLocation = pn._1.location
-      val nextNode = pn._2.eLinks(prevLocation.accessPointOrd)
-      val nextPathLocation = PathLocation(nextNode._1.vmId, nextNode._1.elementId, nextNode._2, Input)
-
-      (pn._1.move(nextPathLocation), nextNode._1)
+    val afterPropagation = propagateable.map(p => {
+      val next = model((p.locationVm, p.locationElement)).eLinks(p.locationPort)
+      val nextPathLocation = PathLocation(next._2._1, next._2._2, next._1, Input)
+      p.move(nextPathLocation)
     })
-    //    Invoke processing of every path.
-    val (needProcessing, nodes) = (afterPropagation ++ others).unzip
 
-    val afterProcessing = needProcessing.map(p => {
-      processingBlocks((p.location.vmId, p.location.processingBlockId)).process(p)
-    }).zip(nodes).map(rsp => rsp._1.map(rs => (rs, rsp._2))).flatten.toList
+    //    Invoke processing of every path.
+    val needProcessing = (afterPropagation ++ others)
+
+
+    val afterProcessing = needProcessing.flatMap(p => model((p.locationVm, p.locationElement)).processingBlock.process(p))
 
     (afterProcessing, invalid ++ stuck)
   }
 
-  def execute(hook: HookFunction)(input: List[(Path, NetworkNode)]): List[(Path, NetworkNode)] = if (! input.isEmpty) {
+  def execute(hook: HookFunction)(input: List[Path]): List[Path] = if (! input.isEmpty) {
     val (next, stuck) = step(input)
-    hook(input.map(_._1), next.map(_._1), stuck.map(_._1))
+    hook(input, next, stuck)
     stuck ++ execute(hook)(next)
   } else {
     Nil
   }
 
-  def executeAndLog(input: List[(Path, NetworkNode)]): List[(Path, NetworkNode)] = execute(printHook)(input)
-  def executeAndLog(input: (Path, NetworkNode)): List[(Path, NetworkNode)] = executeAndLog(List(input))
-
-  def grow(otherExecutor: DirectedExecutor) = new DirectedExecutor(processingBlocks ++ otherExecutor.processingBlocks)
-  def grow(blocks: Map[(String, String), ProcessingBlock]) = new DirectedExecutor(processingBlocks ++ blocks)
-  def grow(otherNetwork: NetworkConfig, vmId: String) = {
-    val newElems = elementsToProcessingBlocks(otherNetwork, vmId)
-    new DirectedExecutor(processingBlocks ++ newElems)
-  }
+  def executeAndLog(input: List[Path]): List[Path] = execute(printHook)(input)
+  def executeAndLog(input: Path): List[Path] = executeAndLog(List(input))
 }
 
 object DirectedExecutor {
-  def apply(parsedModel: NetworkConfig, vmId: String): DirectedExecutor = new DirectedExecutor(elementsToProcessingBlocks(parsedModel, vmId))
+  def apply(networkConfig: NetworkConfig, vmId: String) = new DirectedExecutor(elementsToExecutableModel(networkConfig, vmId))
 }

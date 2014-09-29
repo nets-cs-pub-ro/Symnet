@@ -1,5 +1,4 @@
-// Generated from src/main/resources/click_grammar/Click.g by ANTLR 4.1
-package generated.click;
+package generated.click;// Generated from Click.g by ANTLR 4.1
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -40,6 +39,17 @@ public interface ClickListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitElementName(@NotNull ClickParser.ElementNameContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link ClickParser#exitPort}.
+	 * @param ctx the parse tree
+	 */
+	void enterExitPort(@NotNull ClickParser.ExitPortContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ClickParser#exitPort}.
+	 * @param ctx the parse tree
+	 */
+	void exitExitPort(@NotNull ClickParser.ExitPortContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link ClickParser#line}.
@@ -183,4 +193,15 @@ public interface ClickListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPortId(@NotNull ClickParser.PortIdContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link ClickParser#entryPort}.
+	 * @param ctx the parse tree
+	 */
+	void enterEntryPort(@NotNull ClickParser.EntryPortContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ClickParser#entryPort}.
+	 * @param ctx the parse tree
+	 */
+	void exitEntryPort(@NotNull ClickParser.EntryPortContext ctx);
 }

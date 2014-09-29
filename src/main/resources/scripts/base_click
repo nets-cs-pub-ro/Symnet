@@ -8,5 +8,5 @@ dest :: ToNetFront(MACADDR)
 
 source -> firewall -> nat -> dest
 
- firewall [1] -> dest
- firewall [2] -> dest
+firewall [1] -> dest
+firewall [2] -> dest

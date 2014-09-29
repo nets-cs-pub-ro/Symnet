@@ -62,16 +62,18 @@ class NetworkConfigBuilder(val configName: String) extends ClickBaseListener {
   }
 
   override def exitStartOfPath(ctx: StartOfPathContext) {
-    addToPath(outputPort = if (ctx.port != null) ctx.port.portId.getText else null)
+    addToPath(if (ctx.entryPort() != null) ctx.entryPort().port.portId.getText else null,
+      if (ctx.exitPort() != null) ctx.exitPort().port.portId.getText else null)
   }
 
   override def exitInTheMiddle(ctx: InTheMiddleContext) {
-    addToPath(if (ctx.port(0) != null) ctx.port(0).portId.getText else null,
-      if (ctx.port(1) != null) ctx.port(1).portId.getText else null)
+    addToPath(if (ctx.entryPort() != null) ctx.entryPort().port.portId.getText else null,
+      if (ctx.exitPort() != null) ctx.exitPort().port.portId.getText else null)
   }
 
   override def exitEndOfPath(ctx: EndOfPathContext) {
-    addToPath(if (ctx.port != null) ctx.port.portId.getText else null)
+    addToPath(if (ctx.entryPort() != null) ctx.entryPort().port.portId.getText else null,
+      if (ctx.exitPort() != null) ctx.exitPort().port.portId.getText else null)
     foundPaths += pathBuilder.toList
   }
 
