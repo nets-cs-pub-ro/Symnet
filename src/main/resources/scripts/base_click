@@ -6,7 +6,7 @@ nat :: IPRewriter(pattern 0.0.0.1 - - - 0 0)
 
 dest :: ToNetFront(MACADDR)
 
-source -> firewall -> nat -> dest
+source -> firewall -> nat -> SimpleQueue -> nat -> dest
 
 firewall [1] -> dest
 firewall [2] -> dest

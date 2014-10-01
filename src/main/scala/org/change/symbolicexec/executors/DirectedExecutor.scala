@@ -1,12 +1,12 @@
 package org.change.symbolicexec.executors
 
 import org.change.symbolicexec._
-import org.change.symbolicexec.blocks.ProcessingBlock
 import org.change.symbolicexec.executorhooks._
-import org.change.symbolicexec.networkgraph.NetworkNode
+import org.change.symbolicexec.verifiablemodel.NetworkNode
 import parser.generic.NetworkConfig
+import scala.collection.mutable.{Map => MMap}
 
-class DirectedExecutor(val model: ExecutableModel) {
+class DirectedExecutor(val model: ExecutableModel = MMap()) {
 
   def step(paths: List[Path]): (List[Path], List[Path]) = {
     //    Only valid paths get attention.
@@ -49,4 +49,19 @@ class DirectedExecutor(val model: ExecutableModel) {
 
 object DirectedExecutor {
   def apply(networkConfig: NetworkConfig, vmId: String) = new DirectedExecutor(elementsToExecutableModel(networkConfig, vmId))
+
+  def elementsToExecutableModel(parsedModel: NetworkConfig, vmId: String): ExecutableModel = {
+    val blocks = parsedModel.elements.map( e => ((vmId, e._1), new NetworkNode(vmId, e._1, e._2.toProcessingBlock, e._2.elementType)))
+    for {
+      path <- parsedModel.paths
+      link <- path.sliding(2)
+      source = link.head
+      destination = link.last
+    } {
+      if (blocks.contains((vmId, source._1)) && blocks.contains((vmId, destination._1)))
+        blocks((vmId, source._1)).eLinks += ((source._3, (destination._2, (vmId, destination._1))))
+    }
+
+    collection.mutable.Map(blocks.toSeq: _*)
+  }
 }
