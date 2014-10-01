@@ -1,5 +1,13 @@
 package org.change.symbolicexec.verifiablemodel
 
+import java.io.{File, FileInputStream}
+
+import generated.reachlang.{ReachLangParser, ReachLangLexer}
+import org.antlr.v4.runtime.tree.ParseTree
+import org.antlr.v4.runtime.{CommonTokenStream, ANTLRInputStream}
+import org.change.parser.abstractnet.ClickToAbstractNetwork
+import org.change.parser.platformconnection.PlatformSetupParser
+import org.change.parser.verification.TestsParser
 import org.change.symbolicexec.executorhooks._
 import org.change.symbolicexec.verification._
 import org.change.symbolicexec.{Input, PathLocation, Path}
@@ -41,9 +49,7 @@ class AnalysisContext(
     }
   })
 
-  println(linkCount)
-
-  val executor: DirectedExecutor = new DirectedExecutor()
+  var executor: DirectedExecutor = new DirectedExecutor()
   var allTests: List[ReachabilityTestGroup] = List()
 
   for {
@@ -57,6 +63,8 @@ class AnalysisContext(
   } {
     executor.model ++= (p.spanners)
   }
+
+  loadInitialVms()
 
   def tryClientConfig(config: NetworkConfig, vmId: String, tests: ReachabilityTestGroup): Boolean = {
     val cfModel = DirectedExecutor.elementsToExecutableModel(config, vmId)
@@ -104,6 +112,55 @@ class AnalysisContext(
         }
       }
       case _ => false
+    }
+  }
+
+  private def loadInitialVms(): Unit = {
+    startOpVms((for {
+      l <- scala.io.Source.fromFile("initialVms").getLines()
+      splited = l.split("\\W+")
+      p = splited(0).trim
+      vm = splited(1).trim
+      file = splited(2).trim
+    } yield (p, vm, file)).toList)
+  }
+
+  private def startOpVms(vms: List[(String, String, String)]) = {
+    val all = massPlatforms ++ operatorExclusivePlatforms
+    for {
+      (p, vmid, vm) <- vms.map(pair => (pair._1, pair._2, "opVms/"+pair._3))
+    } {
+      insertVmToModel(p, vm, vmid, all, executor) match {
+        case Some(newExec) => {
+          executor = newExec
+        }
+        case None =>
+      }
+    }
+  }
+
+  private def insertVmToModel(platform: String, vmFile: String, vmId: String, availablePlatforms: Map[String, Platform], baseExecutor: DirectedExecutor): Option[DirectedExecutor] = {
+    val p = availablePlatforms(platform)
+    val networkConfig = ClickToAbstractNetwork.buildConfig(new File(vmFile))
+    insertVmToModel(p, networkConfig, vmId, baseExecutor)
+  }
+
+  private def insertVmToModel(platform: Platform,
+                              vm: NetworkConfig,
+                              vmId: String,
+                              baseExecutor: DirectedExecutor): Option[DirectedExecutor] = {
+    val cfModel = DirectedExecutor.elementsToExecutableModel(vm, vmId)
+    val sourceNode = cfModel.find(_._2.elementType equals "FromDevice")
+    val destinationNode = cfModel.find(_._2.elementType equals "ToDevice")
+
+    (sourceNode, destinationNode) match {
+      case (Some(s), Some(d)) => {
+        platform.insertFromRoot(s._1._1, s._1._2)
+        d._2.eLinks += ((0, (0, platform.exitId)))
+
+        Some(new DirectedExecutor(baseExecutor.model ++ cfModel))
+      }
+      case _ => None
     }
   }
 }

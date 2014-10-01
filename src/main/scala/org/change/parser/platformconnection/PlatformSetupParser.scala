@@ -23,7 +23,7 @@ object PlatformSetupParser {
 
     (for {
       platform <- f.getLines()
-      platforms = platform.split("\\w+")
+      platforms = platform.split("\\W+")
       p = if (platforms.length > 0) platforms(0).trim else platform.trim
     } yield (p, if (platforms.length > 1) Op else Mass)).toList
   }
