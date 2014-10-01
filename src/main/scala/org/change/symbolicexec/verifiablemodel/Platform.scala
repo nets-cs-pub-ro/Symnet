@@ -4,7 +4,7 @@ import org.change.symbolicexec.blocks.artificial.Spanner
 import parser.generic.GenericElement
 import parser.specific.ToDevice
 
-class Platform(id: String) {
+class Platform(val id: String) {
 
   val entry = new Spanner(id+"-entry")
   val exit = new Spanner(id+"-exit")

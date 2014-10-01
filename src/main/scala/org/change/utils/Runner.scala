@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.tree.{ParseTreeVisitor, ParseTree, ParseTreeWalker}
 import org.antlr.v4.runtime.{ANTLRInputStream, CommonTokenStream}
 import generated.reachlang.ReachLangParser
 import org.change.parser.abstractnet.ClickToAbstractNetwork
+import org.change.parser.platformconnection.PlatformSetupParser
 import org.change.parser.verification.{TestsParser}
 import org.change.symbolicexec.executors.DirectedExecutor
 import org.change.symbolicexec.verifiablemodel.{Platform, AnalysisContext, NetworkNode}
@@ -33,11 +34,7 @@ object Runner {
 
       val inputFile = new File(args(1))
 
-      val ct = new AnalysisContext(List(
-          new Platform("a")
-        ),
-        List()
-      )
+      val ct = new AnalysisContext(PlatformSetupParser.platfroms(args(2)), PlatformSetupParser.platfromConnections(args(3)))
 
       val networkAbstract = ClickToAbstractNetwork.buildConfig(inputFile)
 

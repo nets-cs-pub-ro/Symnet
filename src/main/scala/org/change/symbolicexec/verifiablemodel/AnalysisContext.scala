@@ -8,21 +8,52 @@ import parser.generic.NetworkConfig
 
 import scala.collection.mutable
 
+sealed trait PlatformType
+
+object Mass extends PlatformType
+object Op extends PlatformType
+
 class AnalysisContext(
-  var massPlatforms: List[Platform],
-  var operatorExclusivePlatforms: List[Platform]) {
+  platforms: List[(String, PlatformType)],
+  links: List[(String, String)]
+) {
+
+  val (mass, op) = platforms.partition(_._2 match {case Op => false; case _ => true})
+
+  var massPlatforms: Map[String,Platform] = mass.map( p => (p._1, new Platform(p._1))).toMap
+  var operatorExclusivePlatforms: Map[String, Platform] = op.map( p => (p._1, new Platform(p._1))).toMap
+
+  val linkCount = (for {
+    l <- links
+    source = massPlatforms.get(l._1).orElse(operatorExclusivePlatforms.get(l._1))
+    destination = massPlatforms.get(l._2).orElse(operatorExclusivePlatforms.get(l._2))
+  } yield {
+    source match {
+      case Some(s) => destination match {
+        case Some(d) => {
+          val p = if (s.exit.activeOutputPorts.size == 1) 0 else s.exit.add
+          s.platformLeafNode.eLinks += ((p, (0, d.entryId)))
+          1
+        }
+        case _ => 0
+      }
+      case _ => 0
+    }
+  })
+
+  println(linkCount)
 
   val executor: DirectedExecutor = new DirectedExecutor()
   var allTests: List[ReachabilityTestGroup] = List()
 
   for {
-    p <- operatorExclusivePlatforms
+    p <- operatorExclusivePlatforms.values
   } {
     executor.model ++= (p.spanners)
   }
 
   for {
-    p <- massPlatforms
+    p <- massPlatforms.values
   } {
     executor.model ++= (p.spanners)
   }
@@ -34,7 +65,7 @@ class AnalysisContext(
 
     (sourceNode, destinationNode) match {
       case (Some(s), Some(d)) => {
-        massPlatforms.find( p => {
+        massPlatforms.values.find( p => {
           p.insertFromRoot(s._1._1, s._1._2)
           d._2.eLinks += ((0, (0, p.exitId)))
 
@@ -63,16 +94,16 @@ class AnalysisContext(
           else
             println("No possible path satisfies the imposed properties.")
 
-          true
+          count > 0
         }) match {
-          case Some(p) => true
+          case Some(p) => {
+            println(s"VM $vmId can be installed at platfrom ${p.id}")
+            true
+          }
           case None => false
         }
       }
       case _ => false
     }
   }
-
-
-
 }
