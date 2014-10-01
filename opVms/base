@@ -1,1 +1,1 @@
-src :: FromNetFront -> dst :: ToNetFront
+source :: FromNetFront -> dest :: ToNetFront
