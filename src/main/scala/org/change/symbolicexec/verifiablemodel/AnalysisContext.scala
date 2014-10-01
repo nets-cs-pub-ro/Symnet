@@ -10,7 +10,7 @@ import org.change.parser.platformconnection.PlatformSetupParser
 import org.change.parser.verification.TestsParser
 import org.change.symbolicexec.executorhooks._
 import org.change.symbolicexec.verification._
-import org.change.symbolicexec.{Input, PathLocation, Path}
+import org.change.symbolicexec.{Output, Input, PathLocation, Path}
 import org.change.symbolicexec.executors.DirectedExecutor
 import parser.generic.NetworkConfig
 
@@ -21,15 +21,25 @@ sealed trait PlatformType
 object Mass extends PlatformType
 object Op extends PlatformType
 
+sealed trait PlatformPlace
+
+object Client extends PlatformPlace
+object Internet extends PlatformPlace
+object Middle extends PlatformPlace
+
 class AnalysisContext(
-  platforms: List[(String, PlatformType)],
+  platforms: List[(String, PlatformType, Int, PlatformPlace)],
   links: List[(String, String)]
 ) {
+
+  var clientFacingVms : List[String] = platforms.filter(_._4 match {case Client => true; case _ => false}).map(_._1)
+  var internetFacingVms : List[String] = platforms.filter(_._4 match {case Internet => true; case _ => false}).map(_._1)
 
   val (mass, op) = platforms.partition(_._2 match {case Op => false; case _ => true})
 
   var massPlatforms: Map[String,Platform] = mass.map( p => (p._1, new Platform(p._1))).toMap
   var operatorExclusivePlatforms: Map[String, Platform] = op.map( p => (p._1, new Platform(p._1))).toMap
+  val allPls = massPlatforms ++ operatorExclusivePlatforms
 
   val linkCount = (for {
     l <- links
@@ -39,7 +49,7 @@ class AnalysisContext(
     source match {
       case Some(s) => destination match {
         case Some(d) => {
-          val p = if (s.exit.activeOutputPorts.size == 1) 0 else s.exit.add
+          val p = if (s.platformLeafNode.eLinks.isEmpty) 0 else s.exit.add
           s.platformLeafNode.eLinks += ((p, (0, d.entryId)))
           1
         }
@@ -70,6 +80,13 @@ class AnalysisContext(
     val cfModel = DirectedExecutor.elementsToExecutableModel(config, vmId)
     val sourceNode = cfModel.find(_._2.elementType equals "FromDevice")
     val destinationNode = cfModel.find(_._2.elementType equals "ToDevice")
+    val internet = allPls(internetFacingVms.head)
+    val client = allPls(clientFacingVms.head)
+
+    val toTest = (tests :: allTests).map(g => g.map { t =>
+      t ++ List(Rule(PathLocation(internet.entryId._1, internet.entryId._2, 0, Output)))
+    })
+
 
     (sourceNode, destinationNode) match {
       case (Some(s), Some(d)) => {
@@ -79,7 +96,7 @@ class AnalysisContext(
 
           val tentativeExecutor = new DirectedExecutor(executor.model ++ cfModel)
 
-          val path0 = Path.cleanWithCanonical(PathLocation(Platform.vmName, p.entryId._2, 0, Input), tests :: allTests)
+          val path0 = Path.cleanWithCanonical(PathLocation(client.entryId._1, client.entryId._2, 0, Input), toTest)
 
           val exploredPaths = tentativeExecutor.execute(noopHook)(List(path0))
           println(exploredPaths)
