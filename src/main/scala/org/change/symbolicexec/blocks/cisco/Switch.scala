@@ -34,21 +34,33 @@ class Switch(id: String, val ports: List[String], val offPorts: List[String],
   override def process(p: Path): List[Path] = {
     val entryPort = p.locationPort
 
+    val ipaths = for {
+      (vlan, mac) <- constraintCache(ports(entryPort))
+    } yield {
+        p.modifyWith( mem => {
+          mem.constrain("VLAN", vlan).constrain("MAC-Src", mac)
+        })
+    }
+
     ((for {
       (port, entries) <- constraintCache
-      if (! port.equals(port(entryPort)))
+      if (! portNameToNumber(port).equals(entryPort))
       (vlan, macConstraint) <- entries
+      pp <- ipaths
+      if pp.valid
     } yield {
-      p.modifyAndMove( mem => {
-        mem.constrain("VLAN", vlan).constrain("MAC", macConstraint)
+      pp.modifyAndMove( mem => {
+        mem.constrain("VLAN", vlan).constrain("MAC-Dst", macConstraint)
       }, PathLocation("0", id, portNameToNumber(port), Output))
     }) ++ (for {
       (port, entries) <- constraintCache
-      if (! port.equals(port(entryPort)))
+      if (! portNameToNumber(port).equals(entryPort))
       (vlan, macConstraint) <- entries
+      pp <- ipaths
+      if pp.valid
     } yield {
-      p.modifyAndMove( mem => {
-        mem.constrain("VLAN", vlan).constrain("MAC", floodConstraints(vlan.v))
+      pp.modifyAndMove( mem => {
+        mem.constrain("VLAN", vlan).constrain("MAC-Dst", floodConstraints(vlan.v))
       }, PathLocation("0", id, portNameToNumber(port), Output))
     })).toList
   }

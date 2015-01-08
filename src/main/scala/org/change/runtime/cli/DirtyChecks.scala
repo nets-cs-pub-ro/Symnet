@@ -16,7 +16,7 @@ object DirtyChecks {
     val p = Path.cleanWithCanonical(PathLocation("0", "a", 0, Input))
 
 
-    println(sw.process(p))
+    println(sw.process(p).filter(_.valid))
   }
 
 }

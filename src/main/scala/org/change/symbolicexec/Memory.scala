@@ -58,7 +58,7 @@ class Memory(val mem: MemStore = Map()) {
 
 object Memory {
 //TODO: I guess the list of cannonical headers should be moved to a proper location
-  def withCanonical(headers: List[String] = List("IP-Src","IP-Dst","Port-Src","Port-Dst", "VLAN", "MAC")): Memory =
+  def withCanonical(headers: List[String] = List("IP-Src","IP-Dst","Port-Src","Port-Dst", "VLAN", "MAC-Src", "MAC-Dst")): Memory =
     headers.foldLeft(new Memory())((m,h) => m.newVal(h))
 
   def withCanonocal(header: String*): Memory = withCanonocal(header:_*)

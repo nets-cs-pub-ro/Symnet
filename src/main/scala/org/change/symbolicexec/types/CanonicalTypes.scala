@@ -37,7 +37,7 @@ object TypeUtils {
     case "Port-Src" | "Port-Dst" | "Port" => PortType
     case "Proto" | "proto" => ProtoType
     case "VLAN" | "vlan" => VLANType
-    case "MAX" | "max" => MACType
+    case "MAC-Src" | "MAC-dst" => MACType
     case _ => NumericType()
   }
 
