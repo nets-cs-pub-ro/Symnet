@@ -7,7 +7,11 @@ object RepresentationConversion {
   }
 
   def macToNumber(mac: String): Long = {
-    mac.toLowerCase.split("\\:").map(Integer.parseInt(_, 16)).foldLeft(0L)((a:Long, g:Int)=> a * 256 + g)
+    mac.toLowerCase.split(":").map(Integer.parseInt(_, 16)).foldLeft(0L)((a:Long, g:Int)=> a * 256 + g)
+  }
+
+  def macToNumberCiscoFormat(mac: String): Long = {
+    mac.toLowerCase.split("\\.").map(Integer.parseInt(_, 16)).foldLeft(0L)((a:Long, g:Int)=> a * 65536 + g)
   }
 
   def ipAndMaskToInterval(ip: String, mask: String): (Long, Long) = {
