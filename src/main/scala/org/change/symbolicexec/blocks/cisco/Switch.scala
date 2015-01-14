@@ -70,12 +70,19 @@ object Switch {
 
   type CAMTableEntry = (Int, Long, String)
 
-  def apply(id: String, camEntries: List[(String, String, String)], ports: List[String]): Switch = {
+  def apply(id: String, camEntries: List[(String, String, String)], ports: Option[List[String]] = None): Switch = {
 
-    new Switch(id, ports, Nil, camEntries.map(e =>
+    val parsedCams = camEntries.map(e =>
       (Integer.parseInt(e._1),
         RepresentationConversion.macToNumberCiscoFormat(e._2),
-        e._3)))
+        e._3))
+
+    val switchPorts = ports match {
+      case Some(ps) => ps
+      case None => parsedCams.map(_._3).distinct
+    }
+
+    new Switch(id, switchPorts, Nil, parsedCams)
 
   }
 
