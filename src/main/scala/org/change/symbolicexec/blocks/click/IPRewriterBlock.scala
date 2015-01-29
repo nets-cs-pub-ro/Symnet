@@ -11,7 +11,7 @@ class IPRewriterBlock(id: String, params: List[ConfigParameter]) extends
 
   private val patterns = params.map(cf => IPRewriterBlock.parsePattern(cf.value))
 
-  private val prefix = s"State-$id-"
+  private val prefix = s"IPRW-$id-"
 
   override def process(p: Path): List[Path] = {
     val port = p.locationPort

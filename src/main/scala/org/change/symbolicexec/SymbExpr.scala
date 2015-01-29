@@ -9,8 +9,8 @@ import org.change.symbolicexec.types.NumericType
  * @param evalCache Cache for storing intermediate results after evaluating the
  *                  list of constraints.
  */
-case class Value(constraints: List[Constraint],
-                 valueType: NumericType = NumericType(),
+case class SymbExpr(constraints: List[Constraint],
+                    valueType: NumericType = NumericType(),
 //This is set whenever the constraint list is evaluated
                  var evalCache: Option[List[Interval]] = None) {
 
@@ -53,27 +53,27 @@ case class Value(constraints: List[Constraint],
    * @param c The new additional constraint.
    * @return A new value.
    */
-  def constrain(c: Constraint): Value =
-    Value(c :: constraints, valueType, Some(applyConstraint(eval, c, valueType)))
+  def constrain(c: Constraint): SymbExpr =
+    SymbExpr(c :: constraints, valueType, Some(applyConstraint(eval, c, valueType)))
 
   /**
    * Enforce a list of constraints against the current value.
    * @param cs The constraints.
    * @return A new value.
    */
-  def constrain(cs: List[Constraint]): Value =
-    Value(cs ++ constraints, valueType, Some(cs.foldLeft(eval)((cache, c) => applyConstraint(cache, c, valueType))))
+  def constrain(cs: List[Constraint]): SymbExpr =
+    SymbExpr(cs ++ constraints, valueType, Some(cs.foldLeft(eval)((cache, c) => applyConstraint(cache, c, valueType))))
 
 }
 
-object Value {
+object SymbExpr {
   /**
    * Easily build a new value with an initial constraint attached.
    * @param c
    * @param valueType
    * @return
    */
-  def fromConstraint(c: Constraint, valueType: NumericType = NumericType()): Value = Value(List(c), valueType)
-  def fromConstraints(cs: List[Constraint], valueType: NumericType = NumericType()): Value = Value(cs, valueType)
-  def unconstrained(valueType: NumericType = NumericType()): Value = Value(Nil, valueType)
+  def fromConstraint(c: Constraint, valueType: NumericType = NumericType()): SymbExpr = SymbExpr(List(c), valueType)
+  def fromConstraints(cs: List[Constraint], valueType: NumericType = NumericType()): SymbExpr = SymbExpr(cs, valueType)
+  def unconstrained(valueType: NumericType = NumericType()): SymbExpr = SymbExpr(Nil, valueType)
 }

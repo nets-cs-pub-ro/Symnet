@@ -7,7 +7,7 @@ class Memory(val mem: MemStore = Map()) {
 
   def symbolWriteCount(s: Symbol): Int = mem(s).length
 
-  def resolveAllValues(s: Symbol): List[Value] = mem.getOrElse(s, Nil)
+  def resolveAllValues(s: Symbol): List[SymbExpr] = mem.getOrElse(s, Nil)
 
   def evalSymbolToPossibleValues(s: Symbol): Option[ValueSet] = mem.get(s) match {
     case Some(v) => Some(v.head.eval)
@@ -16,7 +16,7 @@ class Memory(val mem: MemStore = Map()) {
 
   def exists(s: Symbol): Boolean = mem.contains(s)
 
-  def resolveToCurrent(s: Symbol): Option[Value] = mem.get(s) match {
+  def resolveToCurrent(s: Symbol): Option[SymbExpr] = mem.get(s) match {
     case Some(vs) => Some(vs.head)
     case None => None
   }
@@ -39,15 +39,15 @@ class Memory(val mem: MemStore = Map()) {
 
   def removeSymbol(s: Symbol): Memory = new Memory(mem - s)
 
-  def newVal(s: Symbol): Memory = newVal(s, Value.unconstrained(TypeUtils.canonicalForSymbol(s)))
-  def newVal(s: Symbol, t: NumericType): Memory = newVal(s, Value.unconstrained(t))
-  def newVal(s: Symbol, t: NumericType, c: Constraint): Memory = newVal(s, Value.fromConstraint(c, t))
-  def newVal(s: Symbol, t: NumericType, cs: List[Constraint]): Memory = newVal(s, Value.fromConstraints(cs, t))
-  def newVal(s: Symbol, v: Value): Memory = new Memory(
+  def newVal(s: Symbol): Memory = newVal(s, SymbExpr.unconstrained(TypeUtils.canonicalForSymbol(s)))
+  def newVal(s: Symbol, t: NumericType): Memory = newVal(s, SymbExpr.unconstrained(t))
+  def newVal(s: Symbol, t: NumericType, c: Constraint): Memory = newVal(s, SymbExpr.fromConstraint(c, t))
+  def newVal(s: Symbol, t: NumericType, cs: List[Constraint]): Memory = newVal(s, SymbExpr.fromConstraints(cs, t))
+  def newVal(s: Symbol, v: SymbExpr): Memory = new Memory(
     mem + ((s, v :: mem.getOrElse(s, Nil)))
   )
 
-  def rewrite(s: Symbol, v: Value): Memory = newVal(s,v)
+  def rewrite(s: Symbol, v: SymbExpr): Memory = newVal(s,v)
 
 //  Taking memory snapshots
   def snapshotOf(ss: List[Symbol]): MemoryState = snapshot(mem.filter( kv => ss.contains(kv._1) ))
