@@ -66,6 +66,9 @@ class Memory(memSpace: Map[String, List[MemObject]] = Map()) {
     newVal(s, Ref(ref, ver))
   }
 
+  def newLiteral(s: Symbol, value: Long, cts: List[Constraint] = Nil, t: NumericType = NumericType()): Memory =
+    newVal(s, new LiteralObject(value, cts, t))
+
   //  Taking memory snapshots: Later
   //  def snapshotOf(ss: List[Symbol]): MemoryState = snapshot(mem.filter( kv => ss.contains(kv._1) ))
   //  def snapshotOfAll = snapshot(mem)

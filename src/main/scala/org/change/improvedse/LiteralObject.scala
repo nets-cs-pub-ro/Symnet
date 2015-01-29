@@ -22,7 +22,7 @@ class LiteralObject(val value: Long,
      * Compute and store
      */
     val vs = (E(value) :: constraints).foldLeft(valueType.admissibleSet)((s, c) => applyConstraint(s,c,valueType))
-    evalCache = Some(vs)
+      evalCache = Some(vs)
     vs
   }
 

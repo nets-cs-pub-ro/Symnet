@@ -7,7 +7,7 @@ import org.change.symbolicexec.{LT, E}
 import org.scalatest._
 import org.change.symbolicexec.types.NumericType
 
-class TestLiteralMemoryOps extends FlatSpec with Matchers {
+class TestSymbolicValueMemoryOps extends FlatSpec with Matchers {
 
   "Memory" should "retain new symbols" in {
     val mem = new Memory().newVal("A")
@@ -43,4 +43,33 @@ class TestLiteralMemoryOps extends FlatSpec with Matchers {
     }
   }
 
+}
+
+class TestLiteralValueMemoryOps extends FlatSpec with Matchers {
+  "Memory" should "retain new literals" in {
+    val mem = new Memory().newLiteral("A", 10)
+
+    mem.exists("A") should be (true)
+    mem.exists("B") should be (false)
+
+    mem.symbolVersion("A") should be (Some(1))
+  }
+
+  "Literals" should "represent their admissible set" in {
+    val a = 10
+    val b = 10
+    val mem = new Memory().newLiteral("A", a)
+
+    mem.symbolVersion("A") should be (Some(1))
+
+    mem.evalSymbolToPossibleValues("A") match {
+      case Some(vals) => vals should be (List((a,a)))
+      case _ => fail
+    }
+
+    mem.constrain("A", LT(b)).evalSymbolToPossibleValues("A") match {
+      case Some(vals) => vals should be (Nil)
+      case _ => fail
+    }
+  }
 }
