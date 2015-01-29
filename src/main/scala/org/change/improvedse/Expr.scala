@@ -12,7 +12,7 @@ abstract class Expr(constraints: List[Constraint]) extends MemObject(constraints
 
   override def forceEval = throw new UnsupportedOperationException("Can't force eval a symbolic expression")
 
-  override def isSymbolicExpression: Boolean = false
+  override def isSymbolicExpression: Boolean = true
 }
 
 case class Ref(symbol: Symbol, version: Int, cts: List[Constraint] = Nil) extends Expr(cts) {

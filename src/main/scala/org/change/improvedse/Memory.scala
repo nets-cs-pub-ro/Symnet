@@ -27,7 +27,7 @@ class Memory(memSpace: Map[String, List[MemObject]] = Map()) {
     }
   }
 
-  private def evalSymbolicExpression(s: Symbol, version: Int): Option[ValueSet] = memSpace(s)(version) match {
+  private def evalSymbolicExpression(s: Symbol, version: Int): Option[ValueSet] = memSpace(s)(version-1) match {
     case Ref(rs, rv, cts) => evalSymbolicExpression(rs, rv).map(applyConstraints(_, cts))
     case v => v.eval
   }

@@ -73,3 +73,18 @@ class TestLiteralValueMemoryOps extends FlatSpec with Matchers {
     }
   }
 }
+
+class TestSymbolicExprsMemoryOps extends FlatSpec with Matchers {
+  "Refs" should "evaluate to their targets" in {
+    val memo = new Memory().newLiteral("A", 10).newRef("ARef", "A")
+
+    memo match {
+      case Some(mem) => (mem.evalSymbolToPossibleValues("A"), mem.evalSymbolToPossibleValues("ARef")) match {
+          case (Some(admat), Some(admareft)) => admat should be(admareft)
+          case _ => fail("Both should evaluate to an admissible set")
+        }
+      case _ => fail("A exists, ARef should not fail")
+    }
+
+  }
+}
