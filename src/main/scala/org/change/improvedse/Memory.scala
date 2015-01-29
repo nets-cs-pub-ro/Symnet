@@ -6,7 +6,7 @@ import org.change.symbolicexec.types.{NumericType, TypeUtils}
 /**
  * Created by radu on 22.01.2015.
  */
-class Memory(memSpace: Map[String, List[MemObject]]) {
+class Memory(memSpace: Map[String, List[MemObject]] = Map()) {
 
   /**
    * Checks if symbol s is defined.
