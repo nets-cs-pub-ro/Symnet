@@ -19,7 +19,18 @@ class Memory(memSpace: Map[String, List[MemObject]]) {
 
   def resolveAllValues(s: Symbol): Option[List[MemObject]] = memSpace.get(s)
 
-  def evalSymbolToPossibleValues(s: Symbol): Option[ValueSet] = memSpace.get(s).flatMap { _.head.eval }
+  def evalSymbolToPossibleValues(s: Symbol): Option[ValueSet] = memSpace.get(s).flatMap { vs => vs.head match {
+      case mayBeSymb if mayBeSymb.isSymbolicExpression => {
+        evalSymbolicExpression(s, symbolVersion(s).get)
+      }
+      case other => other.eval
+    }
+  }
+
+  private def evalSymbolicExpression(s: Symbol, version: Int): Option[ValueSet] = memSpace(s)(version) match {
+    case Ref(rs, rv, cts) => evalSymbolicExpression(rs, rv).map(applyConstraints(_, cts))
+    case v => v.eval
+  }
 
   def resolveToCurrent(s: Symbol): Option[MemObject] = memSpace.get(s).map { _.head }
 
@@ -50,6 +61,10 @@ class Memory(memSpace: Map[String, List[MemObject]]) {
   )
 
   def rewrite(s: Symbol, v: MemObject): Memory = newVal(s,v)
+
+  def newRef(s: Symbol, ref: Symbol): Option[Memory] = symbolVersion(ref).map{ ver =>
+    newVal(s, Ref(ref, ver))
+  }
 
   //  Taking memory snapshots: Later
   //  def snapshotOf(ss: List[Symbol]): MemoryState = snapshot(mem.filter( kv => ss.contains(kv._1) ))

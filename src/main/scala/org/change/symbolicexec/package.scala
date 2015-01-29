@@ -89,4 +89,8 @@ package object symbolicexec {
   def applyConstraint(s: ValueSet, c: Constraint,
                       t: NumericType = NumericType()): ValueSet =
     intersect(List(s, c.asSet(t)))
+
+  def applyConstraints(s: ValueSet, cts: List[Constraint],
+                      t: NumericType = NumericType()): ValueSet =
+    intersect(s :: cts.map(_.asSet()))
 }
