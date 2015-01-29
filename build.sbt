@@ -23,7 +23,7 @@ libraryDependencies ++= {
     "org.specs2"          %%  "specs2"        % "2.2.3" % "test",
     "org.antlr" % "antlr4" % "4.3",
     "commons-io" % "commons-io" % "2.4",
-    "org.scalatest" % "scalatest_2.10" % "2.2.1" % "test"
+    "org.scalatest" %% "scalatest" % "2.2.1" % "test"
   )
 }
 
