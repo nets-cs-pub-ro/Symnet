@@ -10,4 +10,7 @@ package object codeabstractions {
     mutable
   }
 
+  def mutateInSeqAndReturn[T](mutable: T)(mutators: List[(T => Unit)]): T =
+    mutators.foldLeft(mutable)(mutateAndReturn(_)(_))
+
 }

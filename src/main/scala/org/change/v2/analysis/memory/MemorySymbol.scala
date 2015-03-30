@@ -4,17 +4,15 @@ import org.change.v2.analysis.constraint.Constraint
 import org.change.v2.analysis.expression.Expression
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
 import org.change.v2.analysis.types.{LongType, NumericType}
-import org.change.v2.interval.ValueSet
 import org.change.v2.util.codeabstractions._
 
 /**
  * Created by radu on 3/24/15.
  */
-abstract class MemorySymbol(
-  val name: String,
+class MemorySymbol(
   val symbolType: NumericType = LongType,
   var valueStack: List[Value] = Nil,
-  var hidden: Boolean = false) {
+  var hidden: Boolean = true) {
 
   /*
       PUBLIC API
@@ -28,7 +26,7 @@ abstract class MemorySymbol(
    * If possible, computes the admissible value set for the current symbol.
    * @return
    */
-  def admissibleValueSet: Option[ValueSet]
+  //def admissibleValueSet: Option[ValueSet]
 
   def rewriteToNewSymbolic(constraints: List[Constraint] = Nil): MemorySymbol =
     rewrite(new SymbolicValue(), constraints)
@@ -65,12 +63,13 @@ abstract class MemorySymbol(
   private var age = 0
 
   private def selfUpdate(f: (MemorySymbol => Unit)): MemorySymbol = {
-    age += 1
     mutateAndReturn(this)(f)
   }
 
   private def selfMutate(f: (MemorySymbol => Unit)): MemorySymbol = {
     age += 1
+    // A mutation automatically "uncovers" the symbol
+    hidden = true
     selfUpdate(f)
   }
 
