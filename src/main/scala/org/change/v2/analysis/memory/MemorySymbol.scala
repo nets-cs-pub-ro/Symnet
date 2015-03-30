@@ -16,15 +16,13 @@ abstract class MemorySymbol(
   var valueStack: List[Value] = Nil,
   var hidden: Boolean = false) {
 
-  private var cacheAge = -1
+  /*
+      PUBLIC API
+  */
 
-  private val selfMutate = mutateAndReturn(this)_
-
-  private def rewrite(exp: Expression, constraints: List[Constraint]): MemorySymbol =
-    mutateAndReturn(this){ arg =>
-      arg.valueStack = (exp, constraints) :: arg.valueStack
-      hidden = false
-    }
+  /*
+    This should definitively not belong here.
+   */
 
   /**
    * If possible, computes the admissible value set for the current symbol.
@@ -54,4 +52,33 @@ abstract class MemorySymbol(
 
   def constrain(cs: List[Constraint]): MemorySymbol = cs.foldLeft(this) ( _ constrain _ )
 
+  /*
+      PRIVATE INNER WORKINGS
+   */
+
+  /**
+   * Each mutation increases the age of the current symbol.
+   *
+   * I the cache age is equal to symbol's age then the cache is valid, otherwise it's not.
+   */
+  private var cacheAge = -1
+  private var age = 0
+
+  private val selfMutate = { f: (MemorySymbol => Unit) => {
+    age += 1
+    mutateAndReturn(this)(f)
+  }
+  }
+
+  /**
+   * Assigns a new expression, updating the SSA stack.
+   * @param exp
+   * @param constraints
+   * @return
+   */
+  private def rewrite(exp: Expression, constraints: List[Constraint]): MemorySymbol =
+    mutateAndReturn(this){ arg =>
+      arg.valueStack = (exp, constraints) :: arg.valueStack
+      hidden = false
+    }
 }
