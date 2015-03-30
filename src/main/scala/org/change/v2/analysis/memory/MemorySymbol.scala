@@ -64,10 +64,14 @@ abstract class MemorySymbol(
   private var cacheAge = -1
   private var age = 0
 
-  private val selfMutate = { f: (MemorySymbol => Unit) => {
+  private def selfUpdate(f: (MemorySymbol => Unit)): MemorySymbol = {
     age += 1
     mutateAndReturn(this)(f)
   }
+
+  private def selfMutate(f: (MemorySymbol => Unit)): MemorySymbol = {
+    age += 1
+    selfUpdate(f)
   }
 
   /**
