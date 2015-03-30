@@ -40,12 +40,12 @@ abstract class MemorySymbol(
 
   def currentValueOnly: Value = valueStack.head
 
-  def hide: MemorySymbol = selfMutate { _.hidden = true }
+  def hide: MemorySymbol = selfUpdate { _.hidden = true }
 
-  def show: MemorySymbol = selfMutate { _.hidden = true }
+  def show: MemorySymbol = selfUpdate { _.hidden = true }
 
   def constrain(c: Constraint): MemorySymbol =
-    mutateAndReturn(this){ arg =>
+    selfMutate { arg =>
       val (exp, cts) = arg.valueStack.head
       arg.valueStack = (exp, c :: cts) :: arg.valueStack.tail
     }
