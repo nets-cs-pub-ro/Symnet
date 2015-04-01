@@ -5,7 +5,7 @@ import scala.util.Random
 /**
  * Created by radu on 3/24/15.
  */
-abstract class Expression(val id: Long)
+abstract class Expression(val id: Long = Expression.randomId)
 
 object Expression {
   lazy val randomizer = new Random()
