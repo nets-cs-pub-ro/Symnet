@@ -2,6 +2,7 @@ package org.change.v2.analysis.memory
 import org.change.v2.analysis.types.{NumericType, TypeUtils, Type}
 import org.change.v2.interval.ValueSet
 import org.change.v2.util.codeabstractions._
+import org.change.v2.analysis.expression.Expression
 
 import scala.collection.mutable.{Map => MutableMap}
 
@@ -27,6 +28,8 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
    */
   def REMOVE = remove _
 
+  def REWRITE = rewrite _
+
 
 //  def rewrite
 
@@ -50,6 +53,16 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
         case _ => // NoOp, a symbol with the same id exists, nothing to do.
       }
     }
+
+  /**
+   * Pushes a new expression on the SSA stack of a symbol.
+   * @param symbolId
+   * @param exp
+   * @return
+   */
+  def rewrite(symbolId: String, exp: Expression) = createSymbol(symbolId).selfMutate {
+    _.symbolSpace(symbolId).rewrite(exp)
+  }
 
   /**
    * If symbol is defined and visible, it is hidden, otherwise, NoOp

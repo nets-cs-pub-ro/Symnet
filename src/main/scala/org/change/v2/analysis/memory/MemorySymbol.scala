@@ -79,7 +79,7 @@ class MemorySymbol(
    * @param constraints
    * @return
    */
-  private def rewrite(exp: Expression, constraints: List[Constraint]): MemorySymbol =
+  def rewrite(exp: Expression, constraints: List[Constraint] = Nil): MemorySymbol =
     mutateAndReturn(this){ arg =>
       arg.valueStack = (exp, constraints) :: arg.valueStack
       hidden = false
