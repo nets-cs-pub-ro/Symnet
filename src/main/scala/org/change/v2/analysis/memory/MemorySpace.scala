@@ -26,9 +26,9 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
   /**
    * Operational PUBLIC API
    */
-  def REMOVE = remove _
+  def REMOVE(id: String): Option[MemorySpace] = { Some(remove(id)) }
 
-  def REWRITE = rewrite _
+  def REWRITE(id: String, exp: Expression): Option[MemorySpace] = { Some(rewrite(id, exp)) }
 
 
 //  def rewrite
@@ -63,6 +63,8 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
   def rewrite(symbolId: String, exp: Expression) = createSymbol(symbolId).selfMutate {
     _.symbolSpace(symbolId).rewrite(exp)
   }
+
+  def duplicateExpression(toSymbol: String, fromSymbol: String) = ???
 
   /**
    * If symbol is defined and visible, it is hidden, otherwise, NoOp

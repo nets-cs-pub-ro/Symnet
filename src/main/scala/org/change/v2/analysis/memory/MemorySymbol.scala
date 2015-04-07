@@ -11,7 +11,7 @@ import org.change.v2.util.codeabstractions._
  */
 class MemorySymbol(
   val symbolType: NumericType = LongType,
-  var valueStack: List[Value] = Nil,
+  var valueStack: Seq[Value] = Nil,
   var hidden: Boolean = true) {
 
   /*
@@ -44,8 +44,8 @@ class MemorySymbol(
 
   def constrain(c: Constraint): MemorySymbol =
     selfMutate { arg =>
-      val (exp, cts) = arg.valueStack.head
-      arg.valueStack = (exp, c :: cts) :: arg.valueStack.tail
+      val Value(exp, cts) = arg.valueStack.head
+      arg.valueStack = Value(exp, c :: cts) +: arg.valueStack.tail
     }
 
   def constrain(cs: List[Constraint]): MemorySymbol = cs.foldLeft(this) ( _ constrain _ )
@@ -81,7 +81,7 @@ class MemorySymbol(
    */
   def rewrite(exp: Expression, constraints: List[Constraint] = Nil): MemorySymbol =
     mutateAndReturn(this){ arg =>
-      arg.valueStack = (exp, constraints) :: arg.valueStack
+      arg.valueStack = Value(exp, constraints) +: arg.valueStack
       hidden = false
     }
 }
