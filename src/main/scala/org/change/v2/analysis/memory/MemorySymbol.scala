@@ -14,6 +14,8 @@ class MemorySymbol(
   var valueStack: Seq[Value] = Nil,
   var hidden: Boolean = true) {
 
+  override def toString = valueStack.toString()
+
   /*
       PUBLIC API
   */

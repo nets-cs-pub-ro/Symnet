@@ -1,4 +1,6 @@
 package org.change.v2.analysis.memory
+
+import org.change.v2.analysis.expression.concrete.SymbolicValue
 import org.change.v2.analysis.types.{NumericType, TypeUtils, Type}
 import org.change.v2.interval.ValueSet
 import org.change.v2.util.codeabstractions._
@@ -30,6 +32,16 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
 
   def REWRITE(id: String, exp: Expression): Option[MemorySpace] = { Some(rewrite(id, exp)) }
 
+  def GET(id:String): Option[Value] = if (symbolIsDefinedAndVisible(id))
+      Some(symbolSpace(id).currentValueOnly)
+    else
+      None
+
+  def FGET(id: String): Value = if (symbolIsDefinedAndVisible(id))
+      symbolSpace(id).currentValueOnly
+    else
+      createAndShow(id).FGET(id)
+
 
 //  def rewrite
 
@@ -55,6 +67,18 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
     }
 
   /**
+   *
+   * ATTENTION: May not be needed
+   *
+   * @param symbolId
+   * @param symbolType
+   * @return
+   */
+  private def createAndShow(symbolId: String, symbolType: Option[NumericType] = None): MemorySpace =
+    createSymbol(symbolId, symbolType).show(symbolId)
+
+
+  /**
    * Pushes a new expression on the SSA stack of a symbol.
    * @param symbolId
    * @param exp
@@ -76,6 +100,11 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
   else
     this
 
+  private def show(id: String) = if (symbolSpace.contains(id))
+    selfMutate(_.symbolSpace(id).show)
+  else
+    this
+
   private def selfUpdate(f: (MemorySpace => Unit)): MemorySpace = {
     mutateAndReturn(this)(f)
   }
@@ -84,4 +113,17 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
     age += 1
     selfUpdate(f)
   }
+
+  override def toString = symbolSpace.toString()
+}
+
+object MemorySpace {
+  def clean: MemorySpace = new MemorySpace()
+
+  /**
+   * ATTENTION: Remove the ugly get and make a hl func for this
+   * @param symbols
+   * @return
+   */
+  def cleanWithSymolics(symbols: List[String]) = symbols.foldLeft(clean)((mem, s) => mem.REWRITE(s, SymbolicValue()).get)
 }
