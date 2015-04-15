@@ -15,6 +15,7 @@ object BasicProcessing {
   def main(args: Array[String]): Unit = {
 
     val initial = State(MemorySpace.cleanWithSymolics(List("Seq")))
+
     val initialSeq = initial.memory.FGET("Seq").toZ3
 
     val check0 = Z3Util.z3Context.mkGE(initialSeq, Z3Util.z3Context.mkInt(0, Z3Util.intSort))
@@ -26,8 +27,8 @@ object BasicProcessing {
     val check1 = Z3Util.z3Context.mkGE(afterISNRseq, Z3Util.z3Context.mkInt(0, Z3Util.intSort))
     val check2 = Z3Util.z3Context.mkLT(afterISNRseq, Z3Util.z3Context.mkInt(10, Z3Util.intSort))
 
-//    val afterReverse = ReverseISNR.process(afterISNR).head
-    val afterReverse = afterISNR
+    val afterReverse = ReverseISNR.process(afterISNR).head
+//    val afterReverse = afterISNR
 
     val reversedSeq = afterReverse.memory.FGET("Seq").toZ3
 

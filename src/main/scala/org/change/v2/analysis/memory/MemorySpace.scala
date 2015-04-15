@@ -30,20 +30,36 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
    */
   def REMOVE(id: String): Option[MemorySpace] = { Some(remove(id)) }
 
+  /**
+   * Rewrite a symbol to a new expression.
+   *
+   * @param id
+   * @param exp
+   * @return
+   */
   def REWRITE(id: String, exp: Expression): Option[MemorySpace] = { Some(rewrite(id, exp)) }
 
+  /**
+   * If defined and visible returns the value currently bound to a given symbol id.
+   * @param id
+   * @return
+   */
   def GET(id:String): Option[Value] = if (symbolIsDefinedAndVisible(id))
       Some(symbolSpace(id).currentValueOnly)
     else
       None
 
+  /**
+   * Force get value of symbol.
+   * If the symbol is not defined, it is created and bound to a canonical value.
+   *
+   * @param id
+   * @return
+   */
   def FGET(id: String): Value = if (symbolIsDefinedAndVisible(id))
       symbolSpace(id).currentValueOnly
     else
       createAndShow(id).FGET(id)
-
-
-//  def rewrite
 
   private var age = -1
 
@@ -67,7 +83,6 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
     }
 
   /**
-   *
    * ATTENTION: May not be needed
    *
    * @param symbolId
@@ -76,7 +91,6 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
    */
   private def createAndShow(symbolId: String, symbolType: Option[NumericType] = None): MemorySpace =
     createSymbol(symbolId, symbolType).show(symbolId)
-
 
   /**
    * Pushes a new expression on the SSA stack of a symbol.
@@ -100,6 +114,11 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
   else
     this
 
+  /**
+   * Make a hidden symbol visible again
+   * @param id
+   * @return
+   */
   private def show(id: String) = if (symbolSpace.contains(id))
     selfMutate(_.symbolSpace(id).show)
   else
@@ -114,15 +133,23 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
     selfUpdate(f)
   }
 
+  /**
+   * ATTENTION: Incomplete
+   * @return
+   */
   override def toString = symbolSpace.toString()
 }
 
 object MemorySpace {
+  /**
+   * Empty memory.
+   * @return
+   */
   def clean: MemorySpace = new MemorySpace()
 
   /**
    * ATTENTION: Remove the ugly get and make a hl func for this
-   * @param symbols
+   * @param symbols What symbols should the memory contain initially.
    * @return
    */
   def cleanWithSymolics(symbols: List[String]) = symbols.foldLeft(clean)((mem, s) => mem.REWRITE(s, SymbolicValue()).get)
