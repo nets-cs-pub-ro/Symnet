@@ -10,8 +10,10 @@ object Z3Util {
 
   lazy val z3Context = new Z3Context(new Z3Config("MODEL" -> true))
 
-  lazy val intSort = z3Context.mkIntSort()
+  private lazy val intSort = z3Context.mkIntSort()
 
   lazy val solver = z3Context.mkSolver()
+
+  lazy val defaultSort = intSort
 
 }
