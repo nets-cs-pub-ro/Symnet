@@ -1,4 +1,4 @@
-package org.change.v2.analysis.processingmodels.netowrkmodels
+package org.change.v2.analysis.processingmodels.networkmodels
 
 import org.change.v2.analysis.expression.concrete.nonprimitive.{Minus, Plus}
 import org.change.v2.analysis.expression.concrete.{SymbolicValue, ConstantValue}

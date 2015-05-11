@@ -1,7 +1,7 @@
 package org.change.v2.runners
 
 import org.change.v2.analysis.memory.MemorySpace
-import org.change.v2.analysis.processingmodels.netowrkmodels.{ReverseISNR, ISNR}
+import org.change.v2.analysis.processingmodels.networkmodels.{ReverseISNR, ISNR}
 import org.change.v2.analysis.processingmodels.State
 import org.change.v2.analysis.z3.Z3Util
 import shapeless.ReverseSplit
