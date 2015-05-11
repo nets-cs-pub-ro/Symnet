@@ -1,6 +1,6 @@
 package org.change.v2.analysis.expression.concrete.nonprimitive
 
-import org.change.v2.analysis.expression.Expression
+import org.change.v2.analysis.expression.abst.Expression
 import org.change.v2.analysis.memory.Value
 import org.change.v2.analysis.z3.Z3Util
 import z3.scala.{Z3Solver, Z3AST}

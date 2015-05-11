@@ -1,7 +1,6 @@
-package org.change.v2.analysis.expression
+package org.change.v2.analysis.expression.abst
 
 import org.change.v2.analysis.z3.Z3Able
-import z3.scala.Z3AST
 
 import scala.util.Random
 

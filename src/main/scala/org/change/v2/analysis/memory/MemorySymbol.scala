@@ -1,7 +1,7 @@
 package org.change.v2.analysis.memory
 
 import org.change.v2.analysis.constraint.Constraint
-import org.change.v2.analysis.expression.Expression
+import org.change.v2.analysis.expression.abst.Expression
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
 import org.change.v2.analysis.types.{LongType, NumericType}
 import org.change.v2.util.codeabstractions._

@@ -1,7 +1,7 @@
 package org.change.v2.analysis.memory
 
 import org.change.v2.analysis.constraint.Constraint
-import org.change.v2.analysis.expression.Expression
+import org.change.v2.analysis.expression.abst.Expression
 import org.change.v2.analysis.z3.Z3Able
 import z3.scala.{Z3Solver, Z3AST}
 

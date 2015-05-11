@@ -1,10 +1,10 @@
 package org.change.v2.analysis.memory
 
+import org.change.v2.analysis.expression.abst.Expression
 import org.change.v2.analysis.expression.concrete.SymbolicValue
 import org.change.v2.analysis.types.{NumericType, TypeUtils, Type}
 import org.change.v2.interval.ValueSet
 import org.change.v2.util.codeabstractions._
-import org.change.v2.analysis.expression.Expression
 
 import scala.collection.mutable.{Map => MutableMap}
 
