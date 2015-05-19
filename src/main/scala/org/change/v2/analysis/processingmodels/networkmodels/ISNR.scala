@@ -4,16 +4,16 @@ import org.change.v2.analysis.expression.concrete.nonprimitive.{Minus, Plus}
 import org.change.v2.analysis.expression.concrete.{SymbolicValue, ConstantValue}
 import org.change.v2.analysis.memory.{MemorySpace, Value}
 import org.change.v2.analysis.processingmodels.State
-import org.change.v2.analysis.processingmodels.Block
+import org.change.v2.analysis.processingmodels.Instruction
 
 /**
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
-class ISNR(delta: Value) extends Block {
+class ISNR(delta: Value) extends Instruction {
 
 
-  override def process(s: State): List[State] = {
+  override def apply(s: State): List[State] = {
     val m = s.memory
 
     val nm = m.REWRITE("delta", delta.e).flatMap((x: MemorySpace) =>
@@ -32,7 +32,7 @@ object ISNR {
 
 }
 
-object ReverseISNR extends Block {
+object ReverseISNR extends Instruction {
   /**
    *
    * A state processing block produces a set of new states based on a previous one.
@@ -40,7 +40,7 @@ object ReverseISNR extends Block {
    * @param s
    * @return
    */
-  override def process(s: State): List[State] = {
+  override def apply(s: State): List[State] = {
     val m = s.memory
 
     val nm = m.REWRITE("Seq", Minus(m.FGET("Seq"), m.FGET("delta")))

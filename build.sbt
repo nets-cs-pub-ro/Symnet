@@ -7,23 +7,17 @@ scalaVersion  := "2.10.4"
 scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 
 resolvers ++= Seq(
-  "spray repo" at "http://repo.spray.io/"
+
 )
 
 libraryDependencies ++= {
   val akkaV = "2.1.4"
   val sprayV = "1.1.0"
   Seq(
-    "io.spray"            %   "spray-can"     % sprayV,
-    "io.spray"            %   "spray-routing" % sprayV,
-    "io.spray"            %   "spray-testkit" % sprayV,
-    "io.spray"            %   "spray-http" % sprayV,
-    "com.typesafe.akka"   %%  "akka-actor"    % akkaV,
-    "com.typesafe.akka"   %%  "akka-testkit"  % akkaV,
     "org.specs2"          %%  "specs2"        % "2.2.3" % "test",
     "org.antlr" % "antlr4" % "4.3",
     "commons-io" % "commons-io" % "2.4",
-    "org.scalatest" %% "scalatest" % "2.2.1" % "test"
+    "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
   )
 }
 

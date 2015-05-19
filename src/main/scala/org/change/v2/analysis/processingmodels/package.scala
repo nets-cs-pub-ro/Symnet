@@ -8,4 +8,6 @@ package object processingmodels {
 
   type LocationId = String
 
+  type ErrorCause = String
+
 }
