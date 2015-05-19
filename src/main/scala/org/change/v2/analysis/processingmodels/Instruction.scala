@@ -4,7 +4,7 @@ package org.change.v2.analysis.processingmodels
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
-trait Instruction extends (State => List[State]) {
+trait Instruction extends (State => (List[State], List[State])) {
 
   /**
    *
@@ -13,5 +13,5 @@ trait Instruction extends (State => List[State]) {
    * @param s
    * @return
    */
-  def apply(s: State): List[State] = List(s)
+  def apply(s: State): (List[State], List[State]) = (List(s), Nil)
 }
