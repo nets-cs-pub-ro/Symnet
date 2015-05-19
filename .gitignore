@@ -9,7 +9,7 @@ test-output/
 *.click
 vms
 *.log
-
+*.sc
 radu
 a
 rulz
