@@ -1,5 +1,6 @@
 package org.change.v2.analysis.memory
 
+import org.change.v2.analysis.constraint.Constraint
 import org.change.v2.analysis.expression.abst.Expression
 import org.change.v2.analysis.expression.concrete.SymbolicValue
 import org.change.v2.analysis.types.{NumericType, TypeUtils, Type}
@@ -61,6 +62,12 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
       symbolSpace(id).currentValueOnly
     else
       createAndShow(id).FGET(id)
+
+  def CONSTRAIN(id: String, c: Constraint): Option[MemorySpace] = symbolSpace.get(id).map(smb => {
+      val newSmb = smb.constrain(c)
+      new MemorySpace(symbolSpace + ((id, newSmb)))
+    }
+  )
 
   private var age = -1
 

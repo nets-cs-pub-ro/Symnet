@@ -71,7 +71,7 @@ class MemorySymbol(
   private def selfMutate(f: (MemorySymbol => Unit)): MemorySymbol = {
     age += 1
     // A mutation automatically "uncovers" the symbol
-    hidden = true
+    hidden = false
     selfUpdate(f)
   }
 
