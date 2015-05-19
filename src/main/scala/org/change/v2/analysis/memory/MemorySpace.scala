@@ -3,6 +3,7 @@ package org.change.v2.analysis.memory
 import org.change.v2.analysis.expression.abst.Expression
 import org.change.v2.analysis.expression.concrete.SymbolicValue
 import org.change.v2.analysis.types.{NumericType, TypeUtils, Type}
+import org.change.v2.analysis.z3.Z3Util
 import org.change.v2.interval.ValueSet
 import org.change.v2.util.codeabstractions._
 
@@ -138,6 +139,16 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
    * @return
    */
   override def toString = symbolSpace.toString()
+
+  def valid: Boolean = isZ3Valid
+  def isZ3Valid: Boolean = {
+    val solver = Z3Util.solver
+    val loadedSolver = symbolSpace.values.foldLeft(solver) { (slv, ms) =>
+      ms.currentValueOnly.toZ3(Some(slv))._2.get
+    }
+
+    loadedSolver.check().get
+  }
 }
 
 object MemorySpace {
