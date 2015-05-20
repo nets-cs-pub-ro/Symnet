@@ -12,6 +12,10 @@ object Z3Util {
 
   private lazy val intSort = z3Context.mkIntSort()
 
+  /**
+   * OPTIMIZE
+   * @return
+   */
   def solver = z3Context.mkSolver()
 
   lazy val defaultSort = intSort
