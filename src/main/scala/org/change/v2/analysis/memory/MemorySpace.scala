@@ -63,9 +63,20 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
     else
       createAndShow(id).FGET(id)
 
-  def CONSTRAIN(id: String, c: Constraint): Option[MemorySpace] = symbolSpace.get(id).map(smb => {
+  def SAME(idA: String, idB: String): Option[MemorySpace] =
+    for {
+      vA <- GET(idA)
+      vB <- GET(idB)
+      if (vA.e.id == vB.e.id)
+    } yield (this)
+
+  def CONSTRAIN(id: String, c: Constraint): Option[MemorySpace] = symbolSpace.get(id).flatMap(smb => {
       val newSmb = smb.constrain(c)
-      new MemorySpace(symbolSpace + ((id, newSmb)))
+      val afterCts = new MemorySpace(symbolSpace + ((id, newSmb)))
+      if (afterCts.isZ3Valid)
+        Some(afterCts)
+      else
+        None
     }
   )
 

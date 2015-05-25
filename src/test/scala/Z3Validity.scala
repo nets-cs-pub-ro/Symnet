@@ -25,13 +25,8 @@ class Z3Validity extends FlatSpec with Matchers {
     val (s1,f1) = Rewrite("IP", ConstantValue(2))(stateZero)
     val (s2, f2) = Constrain("IP", E(3))(s1.head)
 
-    s2.head.memory.isZ3Valid should be (false)
-
-    val (s3,f3) = Rewrite("IP", ConstantValue(5))(s2.head)
-    s3.head.memory.isZ3Valid should be (true)
-
-    val (s4, f4) = Constrain("IP", E(5))(s3.head)
-    s4.head.memory.isZ3Valid should be (true)
+    s2 should have length (0)
+    f2 should have length (1)
   }
 
   "Dup" should "make symbols equal" in {
@@ -43,9 +38,8 @@ class Z3Validity extends FlatSpec with Matchers {
       Constrain("IP-Clone", E(3))
     ))(State.bigBang)
 
-    val afterState = s.head
-
-    afterState.memory.isZ3Valid should be (false)
+    s should have length (0)
+    f should have length (1)
   }
 
 }

@@ -21,3 +21,7 @@ case class InstructionBlock(instructions: List[Instruction]) extends Instruction
       }
     }
 }
+
+object InstructionBlock {
+  def apply(instrs: Instruction*): InstructionBlock = InstructionBlock(instrs.toList)
+}

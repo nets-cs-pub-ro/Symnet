@@ -2,7 +2,7 @@ import org.change.v2.analysis.constraint.E
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
 import org.change.v2.analysis.memory.{Value, MemorySpace}
 import org.change.v2.analysis.processingmodels.{InstructionBlock, State}
-import org.change.v2.analysis.processingmodels.instructions.{Dup, Rewrite, Constrain}
+import org.change.v2.analysis.processingmodels.instructions._
 import org.scalatest.{Matchers, FlatSpec}
 
 /**
@@ -55,6 +55,16 @@ class InstructionTests extends FlatSpec with Matchers {
     val (s2, f2) = Constrain("IP", E(2))(s1.head)
     s2.head.memory.GET("IP").get.cts should have size (1)
     s1.head.memory.symbolSSAVersion("IP") should be (1)
+  }
+
+  "If" should "branch execution correctly" in {
+    val (s,f) = InstructionBlock(List(
+      Rewrite("IP", ConstantValue(2)),
+      If(Constrain("IP", E(2)), NoOp, NoOp)
+    ))(State.bigBang)
+
+    s should have length (1)
+    f should have length (1)
   }
 
 }

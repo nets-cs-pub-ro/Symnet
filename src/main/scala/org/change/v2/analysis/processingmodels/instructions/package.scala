@@ -14,4 +14,5 @@ package object instructions {
       getOrElse((Nil, List(State(previousState.memory, previousState.history, Some(error)))))
   }
 
+  def stateToError(previousState: State, error: ErrorCause) = optionToStatePair(previousState, error)(_ => None)
 }
