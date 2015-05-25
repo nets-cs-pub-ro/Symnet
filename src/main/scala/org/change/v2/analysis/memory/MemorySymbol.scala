@@ -42,7 +42,7 @@ class MemorySymbol(
 
   def hide: MemorySymbol = selfUpdate { _.hidden = true }
 
-  def show: MemorySymbol = selfUpdate { _.hidden = true }
+  def show: MemorySymbol = selfUpdate { _.hidden = false }
 
   def constrain(c: Constraint): MemorySymbol =
     selfMutate { arg =>

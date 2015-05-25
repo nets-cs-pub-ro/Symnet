@@ -55,10 +55,13 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
    * Force get value of symbol.
    * If the symbol is not defined, it is created and bound to a canonical value.
    *
+   * OOPS: ssa version remains 0 => it will cause infinite recursion
+   *
    * @param id
    * @return
    */
-  def FGET(id: String): Value = if (symbolIsDefinedAndVisible(id))
+  def FGET(id: String): Value =
+    if (symbolIsDefinedAndVisible(id))
       symbolSpace(id).currentValueOnly
     else
       createAndShow(id).FGET(id)
