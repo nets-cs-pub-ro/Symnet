@@ -16,7 +16,7 @@ case class Constrain(id: String, c: Constraint) extends Instruction {
    * @return
    */
   override def apply(s: State): (List[State], List[State]) = {
-    optionToStatePair(s, "Could not perform rewrite") {
+    optionToStatePair(s, "Error during 'constrain'") {
       _.memory.CONSTRAIN(id, c)
     }
   }

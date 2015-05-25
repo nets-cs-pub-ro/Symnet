@@ -69,6 +69,10 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
     }
   )
 
+  def DUP(where: String, what: String): Option[MemorySpace] = symbolSpace.get(what).map(what => {
+    rewrite(where, what.currentValueOnly)
+  })
+
   private var age = -1
 
   /**
@@ -108,6 +112,10 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
    */
   def rewrite(symbolId: String, exp: Expression) = createSymbol(symbolId).selfMutate {
     _.symbolSpace(symbolId).rewrite(exp)
+  }
+
+  def rewrite(symbolId: String, v: Value) = createSymbol(symbolId).selfMutate {
+    _.symbolSpace(symbolId).rewrite(v)
   }
 
   def duplicateExpression(toSymbol: String, fromSymbol: String) = ???

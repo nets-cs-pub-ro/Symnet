@@ -9,7 +9,7 @@ class AlwaysOk extends FlatSpec with Matchers {
 
   "Z3" should "work" in {
 
-    println(z3.scala.version)
+    z3.scala.version
 
     secondsToTime()
 
@@ -54,9 +54,9 @@ class AlwaysOk extends FlatSpec with Matchers {
       case (None, _) => println("Z3 failed. The reason is: " + z3.getSearchFailure.message)
       case (Some(false), _) => println("Unsat.")
       case (Some(true), model) => {
-        println("h: " + model.evalAs[Int](h))
-        println("m: " + model.evalAs[Int](m))
-        println("s: " + model.evalAs[Int](s))
+        //println("h: " + model.evalAs[Int](h))
+        //println("m: " + model.evalAs[Int](m))
+        //println("s: " + model.evalAs[Int](s))
         model.delete
       }
     }

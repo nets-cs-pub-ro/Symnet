@@ -1,13 +1,12 @@
 package org.change.v2.analysis.processingmodels.instructions
 
-import org.change.v2.analysis.expression.abst.Expression
 import org.change.v2.analysis.processingmodels.{State, Instruction}
 
 /**
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
-case class Rewrite(id: String, exp: Expression) extends Instruction {
+case class Dup(where: String, what: String) extends Instruction {
   /**
    *
    * A state processing block produces a set of new states based on a previous one.
@@ -16,8 +15,8 @@ case class Rewrite(id: String, exp: Expression) extends Instruction {
    * @return
    */
   override def apply(s: State): (List[State], List[State]) = {
-    optionToStatePair(s, "Error during 'rewrite'") {
-      _.memory.REWRITE(id, exp)
+    optionToStatePair(s, "Error during 'dup'") {
+      _.memory.DUP(where, what)
     }
   }
 }

@@ -6,7 +6,6 @@ package org.change.v2.analysis.processingmodels
  */
 case class InstructionBlock(instructions: List[Instruction]) extends Instruction {
   /**
-   *
    * A state processing block produces a set of new states based on a previous one.
    *
    * @param s

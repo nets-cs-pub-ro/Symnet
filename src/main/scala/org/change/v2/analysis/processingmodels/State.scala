@@ -11,5 +11,5 @@ case class State(memory: MemorySpace = MemorySpace.clean,
                  errorCause: Option[ErrorCause] = None)
 
 object State {
-
+ def bigBang: State = State(MemorySpace.clean)
 }

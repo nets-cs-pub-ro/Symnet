@@ -1,8 +1,8 @@
 import org.change.v2.analysis.constraint.E
-import org.change.v2.analysis.expression.concrete.SymbolicValue
+import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
 import org.change.v2.analysis.memory.{Value, MemorySpace}
-import org.change.v2.analysis.processingmodels.State
-import org.change.v2.analysis.processingmodels.instructions.{Rewrite, Constrain}
+import org.change.v2.analysis.processingmodels.{InstructionBlock, State}
+import org.change.v2.analysis.processingmodels.instructions.{Dup, Rewrite, Constrain}
 import org.scalatest.{Matchers, FlatSpec}
 
 /**
@@ -23,6 +23,20 @@ class InstructionTests extends FlatSpec with Matchers {
 
     nextVer should be (1)
     s.head.memory.GET("IP") shouldBe a [Some[Value]]
+  }
+
+  "Dup" should "make two symbol refer the same value" in {
+
+    val (s,f) = InstructionBlock(List(
+      Rewrite("IP", ConstantValue(2)),
+      Dup("IP-Clone", "IP")
+    ))(State.bigBang)
+
+    val afterState = s.head
+
+    afterState.memory.GET("IP-Clone") shouldBe a [Some[Value]]
+    afterState.memory.FGET("IP").e.id shouldEqual afterState.memory.FGET("IP-Clone").e.id
+    afterState.memory.FGET("IP") should be theSameInstanceAs afterState.memory.FGET("IP-Clone")
   }
 
   "Constrain" should "correctly add another constraint to a symbol" in {
