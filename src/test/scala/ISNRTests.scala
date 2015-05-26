@@ -32,4 +32,20 @@ class ISNRTests extends FlatSpec with Matchers {
     f should have length (0)
   }
 
+  "NAT to outside and back" should "preserve initial values" in {
+    val (s,f) = InstructionBlock(
+      Rewrite("IP-Src", SymbolicValue()),
+      Rewrite("IP-Dst", SymbolicValue()),
+      Rewrite("Port-Src", SymbolicValue()),
+      Rewrite("Port-Dst", SymbolicValue()),
+      NATToInternet(1),
+      EchoHost,
+      NATFromInternet,
+      Same("IP-Dst", "Old-IP-Src")
+    )(State.bigBang)
+
+    s should have length (1)
+    f should have length (0)
+  }
+
 }
