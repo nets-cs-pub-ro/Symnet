@@ -38,11 +38,16 @@ class ISNRTests extends FlatSpec with Matchers {
       Rewrite("IP-Dst", SymbolicValue()),
       Rewrite("Port-Src", SymbolicValue()),
       Rewrite("Port-Dst", SymbolicValue()),
+
       NATToInternet(1),
+
       EchoHost,
+
       NATFromInternet,
       Same("IP-Dst", "Old-IP-Src")
     )(State.bigBang)
+
+    println(s.head)
 
     s should have length (1)
     f should have length (0)
