@@ -17,18 +17,24 @@ import scala.collection.mutable.{Map => MutableMap}
 class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap()) {
 
   /**
-   * Introsection PUBLIC API
+   * Introspection PUBLIC API
    */
 
   def version: Int = age
 
   def symbolSSAVersion(id: String): Int = symbolSpace.get(id).map(_.valueStack.length).getOrElse(0)
-
   def symbolIsDefined(id: String) = { symbolSSAVersion(id) > 0 }
   def symbolIsDefinedAndVisible(id: String) = { symbolIsDefined(id) && ! symbolSpace(id).hidden }
 
   /**
    * Operational PUBLIC API
+   */
+
+  /**
+   * Makes the symbol invisible.
+   *
+   * @param id
+   * @return
    */
   def REMOVE(id: String): Option[MemorySpace] = { Some(remove(id)) }
 
@@ -43,6 +49,9 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
 
   /**
    * If defined and visible returns the value currently bound to a given symbol id.
+   *
+   * TODO: This should be moved elsewhere.
+   *
    * @param id
    * @return
    */
@@ -55,6 +64,7 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
    * Force get value of symbol.
    * If the symbol is not defined, it is created and bound to a canonical value.
    *
+   * TODO: This should be moved elsewhere.
    * OOPS: ssa version remains 0 => it will cause infinite recursion
    *
    * @param id
@@ -66,6 +76,12 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
     else
       createAndShow(id).FGET(id)
 
+  /**
+   * Checks if the two symbols refer the same value.
+   * @param idA Symbol A.
+   * @param idB Symbol B.
+   * @return
+   */
   def SAME(idA: String, idB: String): Option[MemorySpace] =
     for {
       vA <- GET(idA)
@@ -73,6 +89,12 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
       if (vA.e.id == vB.e.id)
     } yield (this)
 
+  /**
+   * Applies the constraint c to the symbol.
+   * @param id The sybol to be constrained.
+   * @param c The constraint.
+   * @return
+   */
   def CONSTRAIN(id: String, c: Constraint): Option[MemorySpace] = symbolSpace.get(id).flatMap(smb => {
       val newSmb = smb.constrain(c)
       val afterCts = new MemorySpace(symbolSpace + ((id, newSmb)))
@@ -83,6 +105,13 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
     }
   )
 
+  /**
+   * Makes the 'where' symbol refer the same value as 'what' symbol
+   *
+   * @param where
+   * @param what
+   * @return
+   */
   def DUP(where: String, what: String): Option[MemorySpace] = symbolSpace.get(what).map(what => {
     rewrite(where, what.currentValueOnly)
   })
