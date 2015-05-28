@@ -22,15 +22,13 @@ case class ISNRToOutside(delta: Option[Long]) extends Instruction {
       InstructionBlock(
         Dup("Old-SEQ", "SEQ"),
         Rewrite("Delta", ConstantValue(l)),
-        ContextualRewrite("New-SEQ",  :+:("SEQ","Delta")),
-        Dup("SEQ", "New-SEQ")
+        ContextualRewrite("SEQ",  :+:("SEQ","Delta"))
       )(s)
     case _ =>
       InstructionBlock(
         Dup("Old-SEQ", "SEQ"),
         Rewrite("Delta", SymbolicValue()),
-        ContextualRewrite("New-SEQ",  :+:("SEQ","Delta")),
-        Dup("SEQ", "New-SEQ")
+        ContextualRewrite("SEQ",  :+:("SEQ","Delta"))
       )(s)
   }
 }

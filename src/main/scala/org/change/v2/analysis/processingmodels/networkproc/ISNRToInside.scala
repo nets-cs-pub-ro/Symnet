@@ -1,6 +1,6 @@
 package org.change.v2.analysis.processingmodels.networkproc
 
-import org.change.v2.analysis.processingmodels.instructions.{Dup, Same}
+import org.change.v2.analysis.processingmodels.instructions.{:-:, ContextualRewrite, Dup, Same}
 import org.change.v2.analysis.processingmodels.{InstructionBlock, State, Instruction}
 /**
  * Author: Radu Stoenescu
@@ -16,7 +16,6 @@ object ISNRToInside extends Instruction {
    */
   override def apply(s: State): (List[State], List[State]) =
     InstructionBlock(
-      Same("SEQ", "New-SEQ"),
-      Dup("SEQ", "Old-SEQ")
+      ContextualRewrite("SEQ", :-:("SEQ", "Delta"))
     )(s)
 }

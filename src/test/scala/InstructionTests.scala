@@ -67,4 +67,18 @@ class InstructionTests extends FlatSpec with Matchers {
     f should have length (1)
   }
 
+  "Deferrable E" should "pass when applied to the same expression" in {
+    val (s,f) = InstructionBlock(List(
+      Rewrite("A", SymbolicValue()),
+      Rewrite("B", SymbolicValue()),
+
+      ContextualRewrite("S1", :+:("A", "B")),
+      ContextualRewrite("S2", :+:("A", "B")),
+      DeferredConstrain("S1", DE("S2"))
+    ))(State.bigBang)
+
+    s should have length (1)
+    f should have length (0)
+  }
+
 }

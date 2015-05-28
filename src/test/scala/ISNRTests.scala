@@ -1,5 +1,6 @@
+import org.change.v2.analysis.constraint.GT
 import org.change.v2.analysis.expression.concrete.SymbolicValue
-import org.change.v2.analysis.processingmodels.instructions.{Rewrite, Same}
+import org.change.v2.analysis.processingmodels.instructions._
 import org.scalatest.{Matchers, FlatSpec}
 import org.change.v2.analysis.processingmodels.networkproc._
 import org.change.v2.analysis.processingmodels.{InstructionBlock, State}
@@ -13,20 +14,24 @@ class ISNRTests extends FlatSpec with Matchers {
   "ISNRToOutside" should "rewrite SEQ" in {
     val (s,f) = InstructionBlock(
       Rewrite("SEQ", SymbolicValue()),
-      ISNRToOutside(None),
-      Same("SEQ", "New-SEQ")
+      ISNRToOutside(Some(5)),
+      DeferredConstrain("SEQ", DE("Old-SEQ"))
     )(State.bigBang)
 
-    s should have length (1)
-    f should have length (0)
+    s should have length (0)
+    f should have length (1)
   }
 
   "ISNR to outside and back" should "preserve SEQ value" in {
     val (s,f) = InstructionBlock(
       Rewrite("SEQ", SymbolicValue()),
       ISNRToOutside(None),
-      ISNRToInside
+      Constrain("Delta", GT(0)),
+      ISNRToInside,
+      DeferredConstrain("SEQ", DE("Old-SEQ"))
     )(State.bigBang)
+
+    println(s.head)
 
     s should have length (1)
     f should have length (0)
@@ -46,8 +51,6 @@ class ISNRTests extends FlatSpec with Matchers {
       NATFromInternet,
       Same("IP-Dst", "Old-IP-Src")
     )(State.bigBang)
-
-    println(s.head)
 
     s should have length (1)
     f should have length (0)
