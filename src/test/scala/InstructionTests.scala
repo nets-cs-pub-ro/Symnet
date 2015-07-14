@@ -72,8 +72,8 @@ class InstructionTests extends FlatSpec with Matchers {
       Rewrite("A", SymbolicValue()),
       Rewrite("B", SymbolicValue()),
 
-      ContextualRewrite("S1", :+:("A", "B")),
-      ContextualRewrite("S2", :+:("A", "B")),
+      DeferredRewrite("S1", :+:("A", "B")),
+      DeferredRewrite("S2", :+:("A", "B")),
       DeferredConstrain("S1", DE("S2"))
     ))(State.bigBang)
 

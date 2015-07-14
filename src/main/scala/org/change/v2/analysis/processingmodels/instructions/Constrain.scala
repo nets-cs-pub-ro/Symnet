@@ -1,6 +1,6 @@
 package org.change.v2.analysis.processingmodels.instructions
 
-import org.change.v2.analysis.constraint.{:==:, Constraint}
+import org.change.v2.analysis.constraint._
 import org.change.v2.analysis.processingmodels.{State, Instruction}
 
 /**
@@ -36,4 +36,20 @@ trait DeferrableConstraint {
 
 case class DE(id: String) extends DeferrableConstraint {
   override def toConstrain(s: State): Constraint = :==:(s.memory.FGET(id).e)
+}
+
+case class DLT(id: String) extends DeferrableConstraint {
+  override def toConstrain(s: State): Constraint = :<:(s.memory.FGET(id).e)
+}
+
+case class DLTE(id: String) extends DeferrableConstraint {
+  override def toConstrain(s: State): Constraint = :<=:(s.memory.FGET(id).e)
+}
+
+case class DGT(id: String) extends DeferrableConstraint {
+  override def toConstrain(s: State): Constraint = :>:(s.memory.FGET(id).e)
+}
+
+case class DGTE(id: String) extends DeferrableConstraint {
+  override def toConstrain(s: State): Constraint = :>=:(s.memory.FGET(id).e)
 }

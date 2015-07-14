@@ -23,7 +23,7 @@ case class Rewrite(id: String, exp: Expression) extends Instruction {
   }
 }
 
-case class ContextualRewrite(id: String, exp: ContextTransformable) extends Instruction {
+case class DeferredRewrite(id: String, exp: ContextTransformable) extends Instruction {
   /**
    *
    * A state processing block produces a set of new states based on a previous one.
