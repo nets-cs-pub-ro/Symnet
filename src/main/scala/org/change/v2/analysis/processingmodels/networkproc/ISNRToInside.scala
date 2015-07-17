@@ -1,6 +1,6 @@
 package org.change.v2.analysis.processingmodels.networkproc
 
-import org.change.v2.analysis.processingmodels.instructions.{:-:, DeferredRewrite, Dup, Same}
+import org.change.v2.analysis.processingmodels.instructions.{:-:, DeferredRewrite, Dup, Same, :->}
 import org.change.v2.analysis.processingmodels.{InstructionBlock, State, Instruction}
 /**
  * Author: Radu Stoenescu

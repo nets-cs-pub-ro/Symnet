@@ -28,7 +28,8 @@ class ISNRTests extends FlatSpec with Matchers {
       ISNRToOutside(None),
       Constrain("Delta", GT(0)),
       ISNRToInside,
-      DeferredConstrain("SEQ", DE("Old-SEQ"))
+      DeferredConstrain("SEQ", DE("Old-SEQ")),
+      If(Fail, Rewrite("CEVA", Plus(2)), NoOp)
     )(State.bigBang)
 
     println(s.head)
