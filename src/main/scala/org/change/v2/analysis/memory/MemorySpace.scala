@@ -23,7 +23,7 @@ case class MemorySpace(val symbols: Map[String, List[ValueStack]] = Map()) {
    */
   def eval(id: String): Option[Value] = symbols.get(id).flatMap( headOrNone(_) ).flatMap( _.value )
 
-  def symbolIsDefined(id: String): Boolean = { optionToBoolean(eval(id)) }
+  def symbolIsAssigned(id: String): Boolean = { optionToBoolean(eval(id)) }
 
   /**
    * Operational PUBLIC API
