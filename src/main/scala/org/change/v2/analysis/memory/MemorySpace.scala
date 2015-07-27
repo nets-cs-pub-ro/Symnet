@@ -3,7 +3,7 @@ package org.change.v2.analysis.memory
 import org.change.v2.analysis.constraint.Constraint
 import org.change.v2.analysis.expression.abst.Expression
 import org.change.v2.analysis.expression.concrete.SymbolicValue
-import org.change.v2.analysis.types.{NumericType, TypeUtils, Type}
+import org.change.v2.analysis.types.{LongType, NumericType, TypeUtils, Type}
 import org.change.v2.analysis.z3.Z3Util
 import org.change.v2.interval.ValueSet
 import org.change.v2.util.codeabstractions._
@@ -14,29 +14,30 @@ import scala.collection.mutable.{Map => MutableMap}
 *  Author: Radu Stoenescu
 *  Don't be a stranger to symnet.radustoe@spamgourmet.com
 */
-class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap()) {
+case class MemorySpace(val symbols: Map[String, List[ValueStack]] = Map()) {
 
   /**
-   * Introspection PUBLIC API
+   * Get the currently visible value associated with a symbol.
+   * @param id symol name
+   * @return the value or none
    */
+  def eval(id: String): Option[Value] = symbols.get(id).flatMap( headOrNone(_) ).flatMap( _.value )
 
-  def version: Int = age
-
-  def symbolSSAVersion(id: String): Int = symbolSpace.get(id).map(_.valueStack.length).getOrElse(0)
-  def symbolIsDefined(id: String) = { symbolSSAVersion(id) > 0 }
-  def symbolIsDefinedAndVisible(id: String) = { symbolIsDefined(id) && ! symbolSpace(id).hidden }
+  def symbolIsDefined(id: String): Boolean = { optionToBoolean(eval(id)) }
 
   /**
    * Operational PUBLIC API
    */
 
-  /**
-   * Makes the symbol invisible.
-   *
-   * @param id
-   * @return
-   */
-  def REMOVE(id: String): Option[MemorySpace] = { Some(remove(id)) }
+  def Allocate(id: String): Option[MemorySpace] = Some(
+    MemorySpace(addToMapping(symbols, id, ValueStack.empty)))
+
+  def Deallocate(id: String): Option[MemorySpace] = symbols.get(id).flatMap { _ match {
+    case _ :: olderStacks => Some(MemorySpace(symbols + (id -> olderStacks)))
+    case _ => None
+  }}
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   /**
    * Rewrite a symbol to a new expression.
@@ -45,36 +46,8 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
    * @param exp
    * @return
    */
-  def REWRITE(id: String, exp: Expression): Option[MemorySpace] = { Some(rewrite(id, exp)) }
-
-  /**
-   * If defined and visible returns the value currently bound to a given symbol id.
-   *
-   * TODO: This should be moved elsewhere.
-   *
-   * @param id
-   * @return
-   */
-  def GET(id:String): Option[Value] = if (symbolIsDefinedAndVisible(id))
-      Some(symbolSpace(id).currentValueOnly)
-    else
-      None
-
-  /**
-   * Force get value of symbol.
-   * If the symbol is not defined, it is created and bound to a canonical value.
-   *
-   * TODO: This should be moved elsewhere.
-   * OOPS: ssa version remains 0 => it will cause infinite recursion
-   *
-   * @param id
-   * @return
-   */
-  def FGET(id: String): Value =
-    if (symbolIsDefinedAndVisible(id))
-      symbolSpace(id).currentValueOnly
-    else
-      createAndShow(id).FGET(id)
+  def Assign(id: String, exp: Expression, eType: NumericType): Option[MemorySpace] = { assignNewValue(id, exp, eType) }
+  def Assign(id: String, exp: Expression): Option[MemorySpace] = Assign(id, exp, TypeUtils.canonicalForSymbol(id))
 
   /**
    * Checks if the two symbols refer the same value.
@@ -82,10 +55,10 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
    * @param idB Symbol B.
    * @return
    */
-  def SAME(idA: String, idB: String): Option[MemorySpace] =
+  def Same(idA: String, idB: String): Option[MemorySpace] =
     for {
-      vA <- GET(idA)
-      vB <- GET(idB)
+      vA <- eval(idA)
+      vB <- eval(idB)
       if (vA.e.id == vB.e.id)
     } yield (this)
 
@@ -95,15 +68,16 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
    * @param c The constraint.
    * @return
    */
-  def CONSTRAIN(id: String, c: Constraint): Option[MemorySpace] = symbolSpace.get(id).flatMap(smb => {
-      val newSmb = smb.constrain(c)
-      val afterCts = new MemorySpace(symbolSpace + ((id, newSmb)))
-      if (afterCts.isZ3Valid)
-        Some(afterCts)
-      else
-        None
-    }
-  )
+
+//  def CONSTRAIN(id: String, c: Constraint): Option[MemorySpace] = symbolSpace.get(id).flatMap(smb => {
+//      val newSmb = smb.constrain(c)
+//      val afterCts = new MemorySpace(symbolSpace + ((id, newSmb)))
+//      if (afterCts.isZ3Valid)
+//        Some(afterCts)
+//      else
+//        None
+//    }
+//  )
 
   /**
    * Makes the 'where' symbol refer the same value as 'what' symbol
@@ -112,101 +86,36 @@ class MemorySpace(val symbolSpace: MutableMap[String, MemorySymbol] = MutableMap
    * @param what
    * @return
    */
-  def DUP(where: String, what: String): Option[MemorySpace] = symbolSpace.get(what).map(what => {
-    rewrite(where, what.currentValueOnly)
-  })
-
-  private var age = -1
+  def DUP(where: String, what: String): Option[MemorySpace] = ???
 
   /**
-   * The memory is initially void, so there has to be a way to bring a symbol to existence.
-   *
-   * The new symbol is initially hidden because there is no value defined in the SSA stack.
-   * Moreover, this is why it uses update instead of mutate.
-   *
-   * This is method performs the trick of presenting an infinite memory backed by an on-demand
-   * allocation system.
-   *
-   * COMEBACK: Would be nice to access previous args in the expression for default new ones.
-   */
-  private def createSymbol(symbolId: String, symbolType: Option[NumericType] = None): MemorySpace =
-    selfUpdate { m => m.symbolSpace.get(symbolId) match {
-        case None => m.symbolSpace += ((symbolId, new MemorySymbol(
-          symbolType.getOrElse(TypeUtils.canonicalForSymbol(symbolId)))))
-        case _ => // NoOp, a symbol with the same id exists, nothing to do.
-      }
-    }
-
-  /**
-   * ATTENTION: May not be needed
-   *
-   * @param symbolId
-   * @param symbolType
-   * @return
-   */
-  private def createAndShow(symbolId: String, symbolType: Option[NumericType] = None): MemorySpace =
-    createSymbol(symbolId, symbolType).show(symbolId)
-
-  /**
-   * Pushes a new expression on the SSA stack of a symbol.
-   * @param symbolId
+   * Pushes a new expression on the newest SSA stack of a symbol.
+   * @param id
    * @param exp
    * @return
    */
-  def rewrite(symbolId: String, exp: Expression) = createSymbol(symbolId).selfMutate {
-    _.symbolSpace(symbolId).rewrite(exp)
-  }
+  def assignNewValue(id: String, exp: Expression, eType: NumericType): Option[MemorySpace] = assignNewValue(id, Value(exp, eType))
 
-  def rewrite(symbolId: String, v: Value) = createSymbol(symbolId).selfMutate {
-    _.symbolSpace(symbolId).rewrite(v)
-  }
-
-  def duplicateExpression(toSymbol: String, fromSymbol: String) = ???
-
-  /**
-   * If symbol is defined and visible, it is hidden, otherwise, NoOp
-   * @param id
-   * @return
-   */
-  private def remove(id: String) = if (symbolSpace.contains(id) && ! symbolSpace(id).hidden)
-    selfMutate(_.symbolSpace(id).hide)
-  else
-    this
-
-  /**
-   * Make a hidden symbol visible again
-   * @param id
-   * @return
-   */
-  private def show(id: String) = if (symbolSpace.contains(id))
-    selfMutate(_.symbolSpace(id).show)
-  else
-    this
-
-  private def selfUpdate(f: (MemorySpace => Unit)): MemorySpace = {
-    mutateAndReturn(this)(f)
-  }
-
-  private def selfMutate(f: (MemorySpace => Unit)): MemorySpace = {
-    age += 1
-    selfUpdate(f)
+  def assignNewValue(id: String, v: Value): Option[MemorySpace] = symbols.get(id) match {
+    case Some(sl) => Some(MemorySpace(symbols + (id -> replaceHead(sl, sl.head.addDefinition(v)))))
+    case None => Allocate(id).flatMap(_.assignNewValue(id, v))
   }
 
   /**
-   * ATTENTION: Incomplete
+   * TODO: Incomplete
    * @return
    */
-  override def toString = symbolSpace.toString()
+  override def toString = symbols.toString()
 
   def valid: Boolean = isZ3Valid
-  def isZ3Valid: Boolean = {
-    val solver = Z3Util.solver
-    val loadedSolver = symbolSpace.values.foldLeft(solver) { (slv, ms) =>
-      ms.currentValueOnly.toZ3(Some(slv))._2.get
-    }
-
-    loadedSolver.check().get
-  }
+  def isZ3Valid: Boolean = ??? //{
+//    val solver = Z3Util.solver
+//    val loadedSolver = symbolSpace.values.foldLeft(solver) { (slv, ms) =>
+//      ms.currentValueOnly.toZ3(Some(slv))._2.get
+//    }
+//
+//    loadedSolver.check().get
+//  }
 }
 
 object MemorySpace {
@@ -221,5 +130,5 @@ object MemorySpace {
    * @param symbols What symbols should the memory contain initially.
    * @return
    */
-  def cleanWithSymolics(symbols: List[String]) = symbols.foldLeft(clean)((mem, s) => mem.REWRITE(s, SymbolicValue()).get)
+  def cleanWithSymolics(symbols: List[String]) = symbols.foldLeft(clean)((mem, s) => mem.Assign(s, SymbolicValue()).get)
 }

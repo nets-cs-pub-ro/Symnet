@@ -10,6 +10,11 @@ object RepresentationConversion {
     mac.toLowerCase.split(":").map(Integer.parseInt(_, 16)).foldLeft(0L)((a:Long, g:Int)=> a * 256 + g)
   }
 
+  /**
+   * TODO: Check what is the Cisco format.
+   * @param mac
+   * @return
+   */
   def macToNumberCiscoFormat(mac: String): Long = {
     mac.toLowerCase.split("\\.").map(Integer.parseInt(_, 16)).foldLeft(0L)((a:Long, g:Int)=> a * 65536 + g)
   }
