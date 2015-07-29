@@ -29,6 +29,8 @@ case class ValueStack(val vs: List[Value] = Nil) {
     case _ => this
   }
 
+  def replaceLatestValue(v: Value): ValueStack = ValueStack(replaceHead(vs,v))
+
   def constrain(cs: List[Constraint]): ValueStack = cs.foldLeft(this) ( _ constrain _ )
 
   def addDefinition(v: Value): ValueStack = ValueStack( v :: vs)

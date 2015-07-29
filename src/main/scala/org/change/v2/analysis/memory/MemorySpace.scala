@@ -23,21 +23,30 @@ case class MemorySpace(val symbols: Map[String, List[ValueStack]] = Map()) {
    */
   def eval(id: String): Option[Value] = symbols.get(id).flatMap( headOrNone(_) ).flatMap( _.value )
 
+  /**
+   * Checks if a given symbol is assigned to a value.
+   * @param id
+   * @return
+   */
   def symbolIsAssigned(id: String): Boolean = { optionToBoolean(eval(id)) }
 
   /**
-   * Operational PUBLIC API
+   * Allocates a new empty stack for a given symbol.
+   * @param id
+   * @return
    */
-
   def Allocate(id: String): Option[MemorySpace] = Some(
     MemorySpace(addToMapping(symbols, id, ValueStack.empty)))
 
+  /**
+   * Destroys the newest stack assigned to a value.
+   * @param id
+   * @return
+   */
   def Deallocate(id: String): Option[MemorySpace] = symbols.get(id).flatMap { _ match {
     case _ :: olderStacks => Some(MemorySpace(symbols + (id -> olderStacks)))
     case _ => None
   }}
-
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   /**
    * Rewrite a symbol to a new expression.
@@ -62,22 +71,27 @@ case class MemorySpace(val symbols: Map[String, List[ValueStack]] = Map()) {
       if (vA.e.id == vB.e.id)
     } yield (this)
 
-  /**
-   * Applies the constraint c to the symbol.
-   * @param id The sybol to be constrained.
-   * @param c The constraint.
-   * @return
-   */
+  def Constrain(id: String, c: Constraint): Option[MemorySpace] = eval(id).flatMap(smb => {
+      val newSmb = smb.constrain(c)
+      val newMem = replaceValue(id, newSmb).get
+      if (newMem.isZ3Valid)
+        Some(newMem)
+      else
+        None
+    }
+  )
 
-//  def CONSTRAIN(id: String, c: Constraint): Option[MemorySpace] = symbolSpace.get(id).flatMap(smb => {
-//      val newSmb = smb.constrain(c)
-//      val afterCts = new MemorySpace(symbolSpace + ((id, newSmb)))
-//      if (afterCts.isZ3Valid)
-//        Some(afterCts)
-//      else
-//        None
-//    }
-//  )
+  def replaceValue(id: String, v: Value): Option[MemorySpace] = {
+    symbols.get(id) match {
+      case Some(stacks) => {
+        val latestStack = stacks.head
+        val newLatestStack = latestStack.replaceLatestValue(v)
+        val newStacks = replaceHead(stacks, newLatestStack)
+        Some(MemorySpace(symbols + (id -> newStacks)))
+      }
+      case None => None
+    }
+  }
 
   /**
    * Makes the 'where' symbol refer the same value as 'what' symbol

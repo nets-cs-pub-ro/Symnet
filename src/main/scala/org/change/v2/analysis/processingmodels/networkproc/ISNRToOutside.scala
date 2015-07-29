@@ -1,8 +1,8 @@
 package org.change.v2.analysis.processingmodels.networkproc
 
 import org.change.v2.analysis.expression.concrete.{SymbolicValue, ConstantValue}
-import org.change.v2.analysis.expression.concrete.nonprimitive.Plus
-import org.change.v2.analysis.processingmodels.instructions.{DeferredRewrite, Rewrite, Dup, :+:}
+import org.change.v2.analysis.expression.concrete.nonprimitive.{:+:, :@}
+import org.change.v2.analysis.processingmodels.instructions.{Rewrite, Dup}
 import org.change.v2.analysis.processingmodels.{InstructionBlock, State, Instruction}
 
 /**
@@ -22,13 +22,13 @@ case class ISNRToOutside(delta: Option[Long]) extends Instruction {
       InstructionBlock(
         Dup("Old-SEQ", "SEQ"),
         Rewrite("Delta", ConstantValue(l)),
-        DeferredRewrite("SEQ",  :+:("SEQ","Delta"))
+        Rewrite("SEQ",  :+:(:@("SEQ"),:@("Delta")))
       )(s)
     case _ =>
       InstructionBlock(
         Dup("Old-SEQ", "SEQ"),
         Rewrite("Delta", SymbolicValue()),
-        DeferredRewrite("SEQ",  :+:("SEQ","Delta"))
+        Rewrite("SEQ",  :+:(:@("SEQ"),:@("Delta")))
       )(s)
   }
 }

@@ -2,7 +2,7 @@ import org.change.v2.analysis.constraint.E
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
 import org.change.v2.analysis.memory.{Value, MemorySpace}
 import org.change.v2.analysis.processingmodels.{InstructionBlock, State}
-import org.change.v2.analysis.processingmodels.instructions.{Dup, Constrain, Rewrite}
+import org.change.v2.analysis.processingmodels.instructions.{:==:, Dup, Constrain, Rewrite}
 import org.scalatest.{Matchers, FlatSpec}
 
 /**
@@ -23,7 +23,7 @@ class Z3Validity extends FlatSpec with Matchers {
     val stateZero = State(m)
 
     val (s1,f1) = Rewrite("IP", ConstantValue(2))(stateZero)
-    val (s2, f2) = Constrain("IP", E(3))(s1.head)
+    val (s2, f2) = Constrain("IP", :==:(ConstantValue(3)))(s1.head)
 
     s2 should have length (0)
     f2 should have length (1)
@@ -34,8 +34,8 @@ class Z3Validity extends FlatSpec with Matchers {
       Rewrite("IP", SymbolicValue()),
       Dup("IP-Clone", "IP"),
 
-      Constrain("IP", E(2)),
-      Constrain("IP-Clone", E(3))
+      Constrain("IP", :==:(ConstantValue(2))),
+      Constrain("IP-Clone", :==:(ConstantValue(3)))
     ))(State.bigBang)
 
     s should have length (0)

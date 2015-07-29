@@ -1,6 +1,7 @@
 package org.change.v2.analysis.processingmodels.networkproc
 
-import org.change.v2.analysis.processingmodels.instructions.{:-:, DeferredRewrite, Dup, Same, :->}
+import org.change.v2.analysis.expression.concrete.nonprimitive.{:-:, :@}
+import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.analysis.processingmodels.{InstructionBlock, State, Instruction}
 /**
  * Author: Radu Stoenescu
@@ -16,6 +17,6 @@ object ISNRToInside extends Instruction {
    */
   override def apply(s: State): (List[State], List[State]) =
     InstructionBlock(
-      DeferredRewrite("SEQ", :-:("SEQ", "Delta"))
+      Rewrite("SEQ", :-:(:@("SEQ"), :@("Delta")))
     )(s)
 }

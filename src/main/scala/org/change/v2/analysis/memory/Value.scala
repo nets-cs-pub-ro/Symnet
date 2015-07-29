@@ -26,4 +26,6 @@ case class Value(e: Expression, eType: NumericType = LongType, cts: List[Constra
 
     (ast, afterAstBuildSolver)
   }
+
+  def constrain(c: Constraint): Value = Value(e, eType, c :: cts)
 }

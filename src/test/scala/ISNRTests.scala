@@ -1,5 +1,6 @@
 import org.change.v2.analysis.constraint.GT
-import org.change.v2.analysis.expression.concrete.SymbolicValue
+import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
+import org.change.v2.analysis.expression.concrete.nonprimitive.{Plus, :@}
 import org.change.v2.analysis.processingmodels.instructions._
 import org.scalatest.{Matchers, FlatSpec}
 import org.change.v2.analysis.processingmodels.networkproc._
@@ -15,7 +16,7 @@ class ISNRTests extends FlatSpec with Matchers {
     val (s,f) = InstructionBlock(
       Rewrite("SEQ", SymbolicValue()),
       ISNRToOutside(Some(5)),
-      DeferredConstrain("SEQ", DE("Old-SEQ"))
+      Constrain("SEQ", :==:(:@("Old-SEQ")))
     )(State.bigBang)
 
     s should have length (0)
@@ -26,10 +27,10 @@ class ISNRTests extends FlatSpec with Matchers {
     val (s,f) = InstructionBlock(
       Rewrite("SEQ", SymbolicValue()),
       ISNRToOutside(None),
-      Constrain("Delta", GT(0)),
+      Constrain("Delta", :>:(ConstantValue(0))),
       ISNRToInside,
-      DeferredConstrain("SEQ", DE("Old-SEQ")),
-      If(Fail, Rewrite("CEVA", Plus(2)), NoOp)
+      Constrain("SEQ", :==:(:@("Old-SEQ"))),
+      If(Fail(), Rewrite("CEVA", ConstantValue(2)), NoOp)
     )(State.bigBang)
 
     println(s.head)
