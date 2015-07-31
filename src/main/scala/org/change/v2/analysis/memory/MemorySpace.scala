@@ -122,14 +122,14 @@ case class MemorySpace(val symbols: Map[String, List[ValueStack]] = Map()) {
   override def toString = symbols.toString()
 
   def valid: Boolean = isZ3Valid
-  def isZ3Valid: Boolean = ??? //{
-//    val solver = Z3Util.solver
-//    val loadedSolver = symbolSpace.values.foldLeft(solver) { (slv, ms) =>
-//      ms.currentValueOnly.toZ3(Some(slv))._2.get
-//    }
-//
-//    loadedSolver.check().get
-//  }
+  def isZ3Valid: Boolean = {
+    val solver = Z3Util.solver
+    val loadedSolver = symbols.values.map(_.head).foldLeft(solver) { (slv, ms) =>
+      ms.currentValueOnly.toZ3(Some(slv))._2.get
+    }
+
+    loadedSolver.check().get
+  }
 }
 
 object MemorySpace {
