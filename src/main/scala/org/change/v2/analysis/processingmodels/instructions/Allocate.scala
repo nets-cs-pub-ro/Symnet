@@ -6,7 +6,7 @@ import org.change.v2.analysis.processingmodels.{State, Instruction}
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
-case class Dup(where: String, what: String) extends Instruction {
+case class Allocate(id: String) extends Instruction {
   /**
    *
    * A state processing block produces a set of new states based on a previous one.
@@ -15,8 +15,9 @@ case class Dup(where: String, what: String) extends Instruction {
    * @return
    */
   override def apply(s: State): (List[State], List[State]) = {
-    optionToStatePair(s, "Error during 'dup'") {
-      _.memory.DUP(where, what)
+    optionToStatePair(s, s"Cannot allocate $id") {
+      _.memory.Allocate(id)
     }
   }
 }
+

@@ -100,7 +100,7 @@ case class MemorySpace(val symbols: Map[String, List[ValueStack]] = Map()) {
    * @param what
    * @return
    */
-  def DUP(where: String, what: String): Option[MemorySpace] = ???
+  def Duplicate(where: String, what: String): Option[MemorySpace] = eval(what).flatMap( v => Assign(where, v.e))
 
   /**
    * Pushes a new expression on the newest SSA stack of a symbol.

@@ -12,14 +12,14 @@ case class NATToInternet(toOutsideIP: Long) extends Instruction {
 
   override def apply(s: State): (List[State], List[State]) =
     InstructionBlock(
-      Dup("Old-IP-Src", "IP-Src"),
-      Dup("Old-Port-Src", "Port-Src"),
+      Duplicate("Old-IP-Src", "IP-Src"),
+      Duplicate("Old-Port-Src", "Port-Src"),
 
-      Rewrite("New-IP-Src", ConstantValue(toOutsideIP)),
-      Rewrite("New-Port-Src", SymbolicValue()),
+      Assign("New-IP-Src", ConstantValue(toOutsideIP)),
+      Assign("New-Port-Src", SymbolicValue()),
 
-      Dup("IP-Src", "New-IP-Src"),
-      Dup("Port-Src", "New-Port-Src")
+      Duplicate("IP-Src", "New-IP-Src"),
+      Duplicate("Port-Src", "New-Port-Src")
     )(s)
 }
 
@@ -30,8 +30,8 @@ object NATFromInternet extends Instruction {
       If(Same("IP-Dst", "New-IP-Src"),
         If(Same("Port-Dst", "New-Port-Src"),
           InstructionBlock(
-            Dup("IP-Dst", "Old-IP-Src"),
-            Dup("Port-Dst", "Old-Port-Src")
+            Duplicate("IP-Dst", "Old-IP-Src"),
+            Duplicate("Port-Dst", "Old-Port-Src")
           ),
           NoOp
         ),

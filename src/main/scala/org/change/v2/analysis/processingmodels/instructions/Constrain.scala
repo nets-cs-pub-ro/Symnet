@@ -23,6 +23,33 @@ trait FloatingConstraint {
   def instantiate(s: State): Either[Constraint, String]
 }
 
+case class :|:(a: FloatingConstraint, b: FloatingConstraint) extends FloatingConstraint {
+  override def instantiate(s: State): Either[Constraint, String] = a instantiate s match {
+    case Left(ac) => b instantiate s match {
+      case Left(bc) => Left(OR(List(ac, bc)))
+      case err @ Right(_) => err
+    }
+    case err @ Right(_) => err
+  }
+}
+
+case class :&:(a: FloatingConstraint, b: FloatingConstraint) extends FloatingConstraint {
+  override def instantiate(s: State): Either[Constraint, String] = a instantiate s match {
+    case Left(ac) => b instantiate s match {
+      case Left(bc) => Left(AND(List(ac, bc)))
+      case err @ Right(_) => err
+    }
+    case err @ Right(_) => err
+  }
+}
+
+case class :~:(c: FloatingConstraint) extends FloatingConstraint {
+  override def instantiate(s: State): Either[Constraint, String] = c instantiate s match {
+    case Left(c) => Left(NOT(c))
+    case err @ Right(_) => err
+  }
+}
+
 case class :==:(exp: FloatingExpression) extends FloatingConstraint {
   override def instantiate(s: State): Either[Constraint, String] = exp instantiate s match {
     case Left(e) => Left(EQ_E(e))

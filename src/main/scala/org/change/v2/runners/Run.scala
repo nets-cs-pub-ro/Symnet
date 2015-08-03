@@ -1,7 +1,8 @@
 package org.change.v2.runners
 
+import com.googlecode.scalascriptengine.ScalaScriptEngine
 import org.change.v2.analysis.expression.concrete.{SymbolicValue, ConstantValue}
-import org.change.v2.analysis.processingmodels.instructions.{NoOp, Rewrite, Dup}
+import org.change.v2.analysis.processingmodels.instructions.{NoOp, Assign, Duplicate}
 import org.change.v2.analysis.processingmodels.{InstructionBlock, State, Instruction}
 
 /**

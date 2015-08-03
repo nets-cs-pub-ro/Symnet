@@ -14,7 +14,7 @@ class ISNRTests extends FlatSpec with Matchers {
 
   "ISNRToOutside" should "rewrite SEQ" in {
     val (s,f) = InstructionBlock(
-      Rewrite("SEQ", SymbolicValue()),
+      Assign("SEQ", SymbolicValue()),
       ISNRToOutside(Some(5)),
       Constrain("SEQ", :==:(:@("Old-SEQ")))
     )(State.bigBang)
@@ -25,12 +25,12 @@ class ISNRTests extends FlatSpec with Matchers {
 
   "ISNR to outside and back" should "preserve SEQ value" in {
     val (s,f) = InstructionBlock(
-      Rewrite("SEQ", SymbolicValue()),
+      Assign("SEQ", SymbolicValue()),
       ISNRToOutside(None),
       Constrain("Delta", :>:(ConstantValue(0))),
       ISNRToInside,
       Constrain("SEQ", :==:(:@("Old-SEQ"))),
-      If(Fail(), Rewrite("CEVA", ConstantValue(2)), NoOp)
+      If(Fail(), Assign("CEVA", ConstantValue(2)), NoOp)
     )(State.bigBang)
 
     println(s.head)
@@ -41,10 +41,10 @@ class ISNRTests extends FlatSpec with Matchers {
 
   "NAT to outside and back" should "preserve initial values" in {
     val (s,f) = InstructionBlock(
-      Rewrite("IP-Src", SymbolicValue()),
-      Rewrite("IP-Dst", SymbolicValue()),
-      Rewrite("Port-Src", SymbolicValue()),
-      Rewrite("Port-Dst", SymbolicValue()),
+      Assign("IP-Src", SymbolicValue()),
+      Assign("IP-Dst", SymbolicValue()),
+      Assign("Port-Src", SymbolicValue()),
+      Assign("Port-Dst", SymbolicValue()),
 
       NATToInternet(1),
 
