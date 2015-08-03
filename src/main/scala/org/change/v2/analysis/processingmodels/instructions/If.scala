@@ -7,7 +7,7 @@ import org.change.v2.analysis.processingmodels.{InstructionBlock, State, Instruc
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
-case class If(testInstr: Instruction, thenWhat: Instruction, elseWhat:Instruction) extends Instruction {
+case class If(testInstr: Instruction, thenWhat: Instruction, elseWhat:Instruction = NoOp) extends Instruction {
   /**
    *
    * A state processing block produces a set of new states based on a previous one.
@@ -22,8 +22,7 @@ case class If(testInstr: Instruction, thenWhat: Instruction, elseWhat:Instructio
     }
     case i @ Constrain(what, withWhat) => {
       val (sa, fa) = InstructionBlock(i, thenWhat)(s)
-      // TODO: Not, And, Or
-      val (sb, fb) = InstructionBlock(Constrain(what, withWhat), elseWhat)(s)
+      val (sb, fb) = InstructionBlock(Constrain(what, :~:(withWhat)), elseWhat)(s)
       (sa ++ sb, fa ++ fb)
     }
     case _ => stateToError(s, "Bad test instruction")

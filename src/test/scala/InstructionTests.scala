@@ -1,4 +1,3 @@
-import org.change.v2.analysis.constraint.E
 import org.change.v2.analysis.expression.concrete.nonprimitive.{:@, :+:}
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
 import org.change.v2.analysis.memory.{Value, MemorySpace}
@@ -58,6 +57,24 @@ class InstructionTests extends FlatSpec with Matchers {
     f should have length (1)
   }
 
+  "If" should "branch execution correctly in case of symbolics" in {
+    val (s,f) = InstructionBlock(
+      Assign("IP", SymbolicValue()),
+      If(Constrain("IP", :==:(ConstantValue(2))),
+        InstructionBlock(
+          Constrain("IP", :==:(ConstantValue(3)))
+        ),
+        InstructionBlock(
+          Allocate("IP"),
+          Assign("IP", SymbolicValue()),
+          Constrain("IP", :==:(ConstantValue(2)))
+        ))
+    )(State.bigBang)
+
+    s should have length (1)
+    f should have length (1)
+  }
+
   "Deferrable E" should "pass when applied to the same expression" in {
     val (s,f) = InstructionBlock(List(
       Assign("A", SymbolicValue()),
@@ -65,11 +82,11 @@ class InstructionTests extends FlatSpec with Matchers {
 
       Assign("S1", :+:(:@("A"), :@("B"))),
       Assign("S2", :+:(:@("A"), :@("B"))),
-      Constrain("S1", :==:(:@("S2")))
+      Constrain("S1", :~:(:==:(:@("S2"))))
     ))(State.bigBang)
 
-    s should have length (1)
-    f should have length (0)
+    s should have length (0)
+    f should have length (1)
   }
 
 }

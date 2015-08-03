@@ -6,7 +6,7 @@ import org.change.v2.analysis.processingmodels.{State, Instruction}
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
-case class Allocate(id: String) extends Instruction {
+case class Deallocate(id: String) extends Instruction {
   /**
    *
    * A state processing block produces a set of new states based on a previous one.
