@@ -104,6 +104,8 @@ case class OR(constraints: List[Constraint]) extends Constraint {
 
   override def z3Constrain(subject: Z3AST): Z3AST =
     Z3Util.z3Context.mkOr(constraints.map(_.z3Constrain(subject)):_*)
+
+  override def toString = s"|($constraints)"
 }
 
 case class AND(constraints: List[Constraint]) extends Constraint {
@@ -112,6 +114,7 @@ case class AND(constraints: List[Constraint]) extends Constraint {
 
   override def z3Constrain(subject: Z3AST): Z3AST =
     Z3Util.z3Context.mkAnd(constraints.map(_.z3Constrain(subject)):_*)
+  override def toString = s"&($constraints)"
 }
 
 case class NOT(constraint: Constraint) extends Constraint {
@@ -120,5 +123,6 @@ case class NOT(constraint: Constraint) extends Constraint {
 
   override def z3Constrain(subject: Z3AST): Z3AST =
     Z3Util.z3Context.mkNot(constraint.z3Constrain(subject))
+  override def toString = s"~($constraint)"
 }
 

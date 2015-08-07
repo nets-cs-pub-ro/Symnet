@@ -19,4 +19,10 @@ libraryDependencies ++= {
   )
 }
 
+lazy val interpret = taskKey[Unit]("interpreting")
+
+// this can go either in a `build.sbt` or the settings member
+//   of a Project in a full configuration
+fullRunTask(interpret, Compile, "org.change.v2.runners.Run")
+
 seq(Revolver.settings: _*)

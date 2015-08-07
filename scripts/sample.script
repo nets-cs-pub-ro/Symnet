@@ -1,0 +1,14 @@
+InstructionBlock(
+      Assign("IP", SymbolicValue()),
+      If(Constrain("IP", :==:(ConstantValue(2))),
+            InstructionBlock(
+                  Constrain("IP", :==:(ConstantValue(3)))
+            ),
+            InstructionBlock(
+          Allocate("IP"),
+          Assign("IP", SymbolicValue()),
+          Constrain("IP", :==:(ConstantValue(2)))
+            )
+)
+)
+

@@ -15,7 +15,7 @@ case class Duplicate(where: String, what: String) extends Instruction {
    * @return
    */
   override def apply(s: State): (List[State], List[State]) = {
-    optionToStatePair(s, "Error during 'dup'") {
+    optionToStatePair(s, "Error during 'duplicate'") {
       _.memory.Duplicate(where, what)
     }
   }

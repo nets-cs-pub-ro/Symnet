@@ -1,0 +1,14 @@
+)(s)
+  }
+
+  def main(args: Array[String]): Unit = {
+    println(interpret)
+  }
+
+  def interpret: String = {
+    val (s, f) = processor(State.bigBang)
+
+    (s"Successful\n\n$s\n") +
+    (s"Bad\n\n$f")
+  }
+}

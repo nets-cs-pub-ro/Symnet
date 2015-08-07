@@ -17,6 +17,8 @@ case class Plus(a: Value, b: Value) extends Expression {
 
     (Z3Util.z3Context.mkAdd(aAst, bAst), bSolver)
   }
+
+  override def toString = s"($a + $b)"
 }
 
 case class :+:(left: FloatingExpression, right: FloatingExpression) extends FloatingExpression {

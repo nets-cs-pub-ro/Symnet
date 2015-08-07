@@ -18,7 +18,7 @@ case class Assign(id: String, exp: FloatingExpression, t: NumericType = LongType
    */
   override def apply(s: State): (List[State], List[State]) = {
     exp instantiate  s match {
-      case Left(e) => optionToStatePair(s, s"Error during '${this.getClass.getName}'") {
+      case Left(e) => optionToStatePair(s, s"Error during assignment of $id") {
         _.memory.Assign(id, e, t)
       }
       case Right(err) => Fail(err).apply(s)
