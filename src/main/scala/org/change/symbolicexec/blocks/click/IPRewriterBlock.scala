@@ -3,7 +3,7 @@ package org.change.symbolicexec.blocks.click
 import org.change.symbolicexec._
 import org.change.symbolicexec.blocks.{NoopProcessingBlock, ProcessingBlock}
 import org.change.utils.RepresentationConversion
-import parser.generic.ConfigParameter
+import org.change.v2.abstractnet.generic.ConfigParameter
 
 class IPRewriterBlock(id: String, params: List[ConfigParameter]) extends
 //  Warning: We need to be a little bit more clever about this.

@@ -13,11 +13,8 @@ import org.change.v2.analysis.processingmodels.{InstructionBlock, State, Instruc
 object Run {
 
   def processor = new Instruction {
-
     override def apply(s: State): (List[State], List[State]) =
-      InstructionBlock(
-
-InstructionBlock(      Assign("SRC", SymbolicValue()),      Assign("DST", SymbolicValue()),      Assign("PROTO", ConstantValue(6)),      Allocate("SRC"),      Allocate("DST"),      Allocate("PROTO"),      Assign("SRC",ConstantValue(100)),      Assign("DST",ConstantValue(200)),      Assign("PROTO",ConstantValue(4)),))(s)
+      InstructionBlock()(s)
   }
 
   def main(args: Array[String]): Unit = {

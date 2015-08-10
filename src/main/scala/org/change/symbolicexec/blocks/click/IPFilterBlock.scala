@@ -3,7 +3,7 @@ package org.change.symbolicexec.blocks.click
 import org.change.symbolicexec._
 import org.change.symbolicexec.blocks.NoopProcessingBlock
 import org.change.utils.{NumberFor, RepresentationConversion}
-import parser.generic.ConfigParameter
+import org.change.v2.abstractnet.generic.ConfigParameter
 
 class IPFilterBlock(id: String, params: List[ConfigParameter]) extends
   NoopProcessingBlock(id, 1, params.length) {
