@@ -18,7 +18,7 @@ case class Minus(a: Value, b: Value) extends Expression {
     (Z3Util.z3Context.mkSub(aAst, bAst), bSolver)
   }
 
-  override def toString = s"($a - $b)"
+  override def toString = s"(${a.e} - ${b.e})"
 }
 
 case class :-:(left: FloatingExpression, right: FloatingExpression) extends FloatingExpression {
