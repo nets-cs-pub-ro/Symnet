@@ -12,6 +12,7 @@ trait NumericType extends Type {
   def max: Long = Long.MaxValue
   def admissibleRange: Interval = (min, max)
   def admissibleSet: ValueSet = List(admissibleRange)
+  override def toString = name
 }
 
 object LongType extends NumericType

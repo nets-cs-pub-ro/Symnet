@@ -8,7 +8,10 @@ import org.change.v2.analysis.memory.MemorySpace
  */
 case class State(memory: MemorySpace = MemorySpace.clean,
                  history: List[LocationId] = Nil,
-                 errorCause: Option[ErrorCause] = None)
+                 errorCause: Option[ErrorCause] = None) {
+  def status = errorCause.getOrElse("OK")
+  override def toString = s"Path ($status) {\n$memory\n} End Of Path Desc"
+}
 
 object State {
  def bigBang: State = State(MemorySpace.clean)

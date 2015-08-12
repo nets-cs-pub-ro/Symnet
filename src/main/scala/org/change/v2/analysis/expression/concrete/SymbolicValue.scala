@@ -22,5 +22,5 @@ case class SymbolicValue() extends Expression with FloatingExpression {
    */
   override def instantiate(s: State): Either[Expression, String] = Left(this)
 
-  override def toString = "[SymbolicVal]"
+  override def toString = s"[Symbolic #$id]"
 }

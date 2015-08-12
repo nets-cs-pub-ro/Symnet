@@ -11,7 +11,7 @@ import org.change.v2.analysis.processingmodels.{State, Instruction}
 case class Constrain (id: String, dc: FloatingConstraint) extends Instruction {
   override def apply(s: State): (List[State], List[State]) = {
     dc instantiate s match {
-      case Left(c) => optionToStatePair(s, s"Error during 'constrain' for symbol $id") {
+      case Left(c) => optionToStatePair(s, s"Symbol $id cannot $dc") {
         _.memory.Constrain(id, c)
       }
       case Right(err) => Fail(err)(s)

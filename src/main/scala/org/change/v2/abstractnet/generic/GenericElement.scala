@@ -1,6 +1,7 @@
 package org.change.v2.abstractnet.generic
 
 import org.change.symbolicexec.blocks.{NoopProcessingBlock, ProcessingBlock}
+import org.change.v2.analysis.processingmodels.Instruction
 
 /**
  * Generic element, defined by an id (the name), an element type and the input
@@ -24,6 +25,10 @@ case class GenericElement(name: String,
   override def toString = s"\n[ $name $elementType\n$inputPorts\n$outputPorts\n$configParameters]\n"
 
   def toProcessingBlock: ProcessingBlock = new NoopProcessingBlock(name, inputPortCount, outputPortCount)
+
+  def instructions: Map[Int, (Instruction, String)] = Map()
+
+  def namePortToInt(port: Int): Int = (name, port).hashCode()
 }
 
 class GenericElementBuilder(name: String, elementType: String)

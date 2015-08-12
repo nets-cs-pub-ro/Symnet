@@ -1,6 +1,6 @@
 package org.change.v2.analysis.memory
 
-import org.change.v2.analysis.constraint.Constraint
+import org.change.v2.analysis.constraint._
 import org.change.v2.analysis.expression.abst.Expression
 import org.change.v2.analysis.expression.concrete.SymbolicValue
 import org.change.v2.analysis.types.{LongType, NumericType, TypeUtils, Type}
@@ -74,12 +74,25 @@ case class MemorySpace(val symbols: Map[String, List[ValueStack]] = Map()) {
   def Constrain(id: String, c: Constraint): Option[MemorySpace] = eval(id).flatMap(smb => {
       val newSmb = smb.constrain(c)
       val newMem = replaceValue(id, newSmb).get
-      if (newMem.isZ3Valid)
-        Some(newMem)
-      else
-        None
+
+      val subject = newMem.eval(id).get
+
+      c match {
+        case EQ_E(someE) if someE.id == subject.e.id => Some(newMem)
+        case GT_E(someE) if someE.id == subject.e.id => None
+        case GTE_E(someE) if someE.id == subject.e.id => Some(newMem)
+        case LT_E(someE) if someE.id == subject.e.id => None
+        case LTE_E(someE) if someE.id == subject.e.id => Some(newMem)
+        case _ => memoryToOption(newMem)
+      }
     }
   )
+
+  private[this] def memoryToOption(m: MemorySpace): Option[MemorySpace] =
+    if (m.isZ3Valid)
+      Some(m)
+    else
+      None
 
   def replaceValue(id: String, v: Value): Option[MemorySpace] = {
     symbols.get(id) match {
@@ -119,7 +132,7 @@ case class MemorySpace(val symbols: Map[String, List[ValueStack]] = Map()) {
    * TODO: Incomplete
    * @return
    */
-  override def toString = symbols.toString()
+  override def toString = symbols.map(kv => kv._1 -> kv._2.head.currentValueOnly).mkString("\n")
 
   def valid: Boolean = isZ3Valid
   def isZ3Valid: Boolean = {
