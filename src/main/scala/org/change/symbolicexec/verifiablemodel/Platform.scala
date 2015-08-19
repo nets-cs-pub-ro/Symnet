@@ -1,7 +1,7 @@
 package org.change.symbolicexec.verifiablemodel
 
 import org.change.symbolicexec.blocks.artificial.Spanner
-import org.change.v2.abstractnet.click.ToDevice
+import org.change.v2.abstractnet.click.sefl.ToDevice
 import org.change.v2.abstractnet.generic.GenericElement
 
 class Platform(val id: String) {

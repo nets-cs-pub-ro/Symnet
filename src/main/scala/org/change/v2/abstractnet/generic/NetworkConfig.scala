@@ -2,7 +2,7 @@ package org.change.v2.abstractnet.generic
 
 import generated.click.ClickBaseListener
 import generated.click.ClickParser._
-import org.change.v2.abstractnet.click.{ToDevice, FromDevice}
+import org.change.v2.abstractnet.click.sefl.{ToDevice, FromDevice}
 
 import scala.collection.JavaConversions.collectionAsScalaIterable
 import scala.collection.mutable.ArrayBuffer

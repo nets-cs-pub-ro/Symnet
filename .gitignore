@@ -6,7 +6,6 @@ lib_managed/
 src_managed/
 test-output/
 *.iml
-*.click
 vms
 *.log
 *.sc

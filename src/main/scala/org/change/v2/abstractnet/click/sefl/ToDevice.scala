@@ -1,6 +1,8 @@
-package org.change.v2.abstractnet.click
+package org.change.v2.abstractnet.click.sefl
 
 import org.change.v2.abstractnet.generic.{ConfigParameter, ElementBuilder, GenericElement, Port}
+import org.change.v2.analysis.processingmodels._
+import org.change.v2.analysis.processingmodels.instructions.Forward
 
 /**
  * Element corresponding to: "[name] :: ToDevice(deviceName) or FromNetPort(mac)"
@@ -16,6 +18,10 @@ class ToDevice(name: String,
     inputPorts,
     outputPorts,
     configParams) {
+
+  override def instructions: Map[LocationId, Instruction] = Map(
+    (inputPortName(0), Forward(outputPortName(0)))
+  )
 
   }
 

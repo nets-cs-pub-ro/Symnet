@@ -34,5 +34,5 @@ object ClickToAbstractNetwork {
   }
 
   def buildConfig(fileInput: File): NetworkConfig = buildConfig(new FileInputStream(fileInput), fileInput.getName)
-
+  def buildConfig(path: String): NetworkConfig = buildConfig(new File(path))
 }

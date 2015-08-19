@@ -37,6 +37,10 @@ class ClickExecutionContext(
           (Nil, Nil, List(s))
       }).unzip3
 
-      new ClickExecutionContext(instructions, links, ok.flatten, fail.flatten, stuck.flatten)
+      new ClickExecutionContext(instructions,
+        links,
+        ok.flatten,
+        failedStates ++ fail.flatten,
+        stuckStates ++ stuck.flatten)
   }
 }
