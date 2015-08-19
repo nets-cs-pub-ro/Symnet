@@ -4,7 +4,7 @@ package org.change.v2.analysis.processingmodels
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
-trait Instruction extends (State => (List[State], List[State])) {
+abstract class Instruction(id: String = "") extends (State => (List[State], List[State])) {
 
   /**
    *
@@ -14,4 +14,7 @@ trait Instruction extends (State => (List[State], List[State])) {
    * @return
    */
   def apply(s: State): (List[State], List[State]) = (List(s), Nil)
+
+  def getIdHash = id.hashCode
 }
+

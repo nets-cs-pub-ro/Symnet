@@ -9,6 +9,8 @@ import org.change.v2.analysis.memory.MemorySpace
 case class State(memory: MemorySpace = MemorySpace.clean,
                  history: List[LocationId] = Nil,
                  errorCause: Option[ErrorCause] = None) {
+  def location: LocationId = history.head
+  def forwardTo(locationId: LocationId): State = State(memory, locationId :: history, errorCause)
   def status = errorCause.getOrElse("OK")
   override def toString = s"Path ($status) {\n$memory\n} End Of Path Desc"
 }

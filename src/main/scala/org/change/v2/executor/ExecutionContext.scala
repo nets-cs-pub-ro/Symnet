@@ -8,6 +8,12 @@ import org.change.v2.analysis.processingmodels.State
  */
 trait ExecutionContext {
 
-  def execute: (List[State], List[State])
+  def execute: ExecutionContext
+
+  def isDone: Boolean = okStates.isEmpty
+
+  def okStates: List[State]
+  def failedStates: List[State]
+  def stuckStates: List[State]
 
 }
