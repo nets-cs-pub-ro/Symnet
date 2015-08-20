@@ -26,6 +26,10 @@ case class GenericElement(name: String,
 
   def toProcessingBlock: ProcessingBlock = new NoopProcessingBlock(name, inputPortCount, outputPortCount)
 
+  /**
+   * This is the mapping of input ports to SEFL instructions. A location id is an alias for String (no biggie here).
+   * @return
+   */
   def instructions: Map[LocationId, Instruction] = Map()
 
   def namePortToInt(port: Int): Int = (name, port).hashCode()

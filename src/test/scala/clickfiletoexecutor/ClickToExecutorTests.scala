@@ -45,4 +45,11 @@ class ClickToExecutorTests extends FlatSpec with Matchers {
     crtExecutor.stuckStates.head.memory.eval("COLOR").get.e should be (ConstantValue(10))
   }
 
+  "A src-classif-dst click" should "generate a valid executor" in {
+    val absNet = ClickToAbstractNetwork.buildConfig("src/main/resources/click_test_files/Classif.click")
+    val executor = ClickExecutionContextBuilder.buildExecutionContext(absNet)
+
+    executor shouldBe a [ClickExecutionContext]
+  }
+
 }

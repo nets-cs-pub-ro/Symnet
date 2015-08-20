@@ -2,6 +2,11 @@ package org.change.v2.analysis.processingmodels
 
 import org.change.v2.analysis.memory.MemorySpace
 
+import org.change.v2.util.canonicalnames._
+import org.change.v2.analysis.processingmodels.instructions._
+import org.change.v2.analysis.expression.concrete.SymbolicValue
+
+
 /**
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
@@ -16,5 +21,15 @@ case class State(memory: MemorySpace = MemorySpace.clean,
 }
 
 object State {
- def bigBang: State = State(MemorySpace.clean)
+ def bigBang: State = {
+   val init = State(MemorySpace.clean)
+   InstructionBlock (
+     Assign(IPSrc, SymbolicValue()),
+     Assign(IPDst, SymbolicValue()),
+     Assign(PortSrc, SymbolicValue()),
+     Assign(PortDst, SymbolicValue()),
+     Assign(Proto, SymbolicValue())
+   )(init)._1.head
+ }
+
 }
