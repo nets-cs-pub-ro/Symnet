@@ -1,4 +1,6 @@
-package org.change.v2.analysis.processingmodels
+package org.change.v2.analysis.processingmodels.instructions
+
+import org.change.v2.analysis.processingmodels.{State, Instruction}
 
 /**
  * Author: Radu Stoenescu

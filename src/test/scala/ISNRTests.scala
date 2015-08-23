@@ -4,7 +4,7 @@ import org.change.v2.analysis.expression.concrete.nonprimitive.{Plus, :@}
 import org.change.v2.analysis.processingmodels.instructions._
 import org.scalatest.{Matchers, FlatSpec}
 import org.change.v2.analysis.processingmodels.networkproc._
-import org.change.v2.analysis.processingmodels.{InstructionBlock, State}
+import org.change.v2.analysis.processingmodels.State
 
 /**
  * Author: Radu Stoenescu

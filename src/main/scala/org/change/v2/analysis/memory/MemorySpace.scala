@@ -44,7 +44,8 @@ case class MemorySpace(val symbols: Map[String, List[ValueStack]] = Map()) {
    * @return
    */
   def Deallocate(id: String): Option[MemorySpace] = symbols.get(id).flatMap { _ match {
-    case _ :: olderStacks => Some(MemorySpace(symbols + (id -> olderStacks)))
+    case _ :: olderStacks if olderStacks.nonEmpty => Some(MemorySpace(symbols + (id -> olderStacks)))
+    case _ :: Nil => Some(MemorySpace(symbols - id))
     case _ => None
   }}
 

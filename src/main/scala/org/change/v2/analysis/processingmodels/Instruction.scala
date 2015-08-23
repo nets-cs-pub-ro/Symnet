@@ -4,7 +4,8 @@ package org.change.v2.analysis.processingmodels
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
-abstract class Instruction(id: String = "") extends (State => (List[State], List[State])) {
+abstract class Instruction(id: String = "", rewriteMappings: Map[String, String]= Map())
+  extends (State => (List[State], List[State])) {
 
   /**
    *
@@ -13,7 +14,7 @@ abstract class Instruction(id: String = "") extends (State => (List[State], List
    * @param s
    * @return
    */
-  def apply(s: State): (List[State], List[State]) = (List(s), Nil)
+  def apply(s: State): (List[State], List[State])
 
   def getIdHash = id.hashCode
 }

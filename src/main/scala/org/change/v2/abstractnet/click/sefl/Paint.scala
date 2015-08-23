@@ -8,8 +8,8 @@ package org.change.v2.abstractnet.click.sefl
  */
 import org.change.v2.abstractnet.generic.{ConfigParameter, ElementBuilder, GenericElement, Port}
 import org.change.v2.analysis.expression.concrete.ConstantValue
-import org.change.v2.analysis.processingmodels.instructions.{Assign, Forward}
-import org.change.v2.analysis.processingmodels.{InstructionBlock, LocationId, Instruction}
+import org.change.v2.analysis.processingmodels.instructions.{InstructionBlock, Assign, Forward}
+import org.change.v2.analysis.processingmodels.{LocationId, Instruction}
 
 class Paint(name: String,
                    inputPorts: List[Port],

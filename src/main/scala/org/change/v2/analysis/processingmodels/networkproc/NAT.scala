@@ -3,7 +3,7 @@ package org.change.v2.analysis.processingmodels.networkproc
 import org.change.v2.analysis.expression.concrete.{SymbolicValue, ConstantValue}
 import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.analysis.expression.concrete.nonprimitive.:@
-import org.change.v2.analysis.processingmodels.{InstructionBlock, Instruction, State}
+import org.change.v2.analysis.processingmodels.{Instruction, State}
 
 /**
  * Author: Radu Stoenescu

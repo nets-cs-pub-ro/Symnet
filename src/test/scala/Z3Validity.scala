@@ -2,8 +2,8 @@ import org.change.v2.analysis.constraint.E
 import org.change.v2.analysis.expression.concrete.nonprimitive.:@
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
 import org.change.v2.analysis.memory.{Value, MemorySpace}
-import org.change.v2.analysis.processingmodels.{InstructionBlock, State}
-import org.change.v2.analysis.processingmodels.instructions.{:==: , Constrain, Assign}
+import org.change.v2.analysis.processingmodels.{State}
+import org.change.v2.analysis.processingmodels.instructions.{InstructionBlock, :==:, Constrain, Assign}
 import org.scalatest.{Matchers, FlatSpec}
 
 /**

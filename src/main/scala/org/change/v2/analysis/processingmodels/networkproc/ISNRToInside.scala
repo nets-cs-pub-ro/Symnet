@@ -2,7 +2,7 @@ package org.change.v2.analysis.processingmodels.networkproc
 
 import org.change.v2.analysis.expression.concrete.nonprimitive.{:-:, :@}
 import org.change.v2.analysis.processingmodels.instructions._
-import org.change.v2.analysis.processingmodels.{InstructionBlock, State, Instruction}
+import org.change.v2.analysis.processingmodels.{State, Instruction}
 /**
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com

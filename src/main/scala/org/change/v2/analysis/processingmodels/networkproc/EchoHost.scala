@@ -2,8 +2,8 @@ package org.change.v2.analysis.processingmodels.networkproc
 
 import org.change.v2.analysis.expression.concrete.nonprimitive.:@
 import org.change.v2.analysis.expression.concrete.{SymbolicValue, ConstantValue}
-import org.change.v2.analysis.processingmodels.instructions.{Assign}
-import org.change.v2.analysis.processingmodels.{Instruction, InstructionBlock, State}
+import org.change.v2.analysis.processingmodels.instructions.{InstructionBlock, Assign}
+import org.change.v2.analysis.processingmodels.{Instruction, State}
 
 /**
  * Author: Radu Stoenescu

@@ -1,8 +1,9 @@
 import org.change.v2.analysis.expression.concrete.nonprimitive.{:@, :+:}
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
 import org.change.v2.analysis.memory.{Value, MemorySpace}
-import org.change.v2.analysis.processingmodels.{InstructionBlock, State}
+import org.change.v2.analysis.processingmodels.{State}
 import org.change.v2.analysis.processingmodels.instructions._
+import org.change.v2.analysis.processingmodels.instructions.ForAll._
 import org.scalatest.{Matchers, FlatSpec}
 
 /**
@@ -86,6 +87,24 @@ class InstructionTests extends FlatSpec with Matchers {
 
     s should have length (0)
     f should have length (1)
+  }
+
+  "ForAll" should "iterate through all matches and properly set the bindings" in {
+    val (s,f) = InstructionBlock(
+      Assign("A-1", SymbolicValue()),
+      Assign("B-1", :@("A-1")),
+      Assign("Init", :@("A-1")),
+
+      ForAll("x" :<- ".*-1") (
+        Deallocate("x")
+      )
+
+    )(State.bigBang)
+
+    s should have length (1)
+    f should have length (0)
+    s.head.memory.symbols should not contain("B-1")
+    s.head.memory.symbols should not contain("A-1")
   }
 
 }
