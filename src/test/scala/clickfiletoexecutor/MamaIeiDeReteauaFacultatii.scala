@@ -19,4 +19,15 @@ class MamaIeiDeReteauaFacultatii extends FlatSpec with  Matchers {
     executor shouldBe a [ClickExecutionContext]
   }
 
+  "Facultatea" should "work" in {
+    val absNet = ClickToAbstractNetwork.buildConfig(clickFilePath)
+    val executor = ClickExecutionContextBuilder.buildExecutionContext(absNet)
+
+    var crtExecutor = executor
+    while(! crtExecutor.isDone) {
+      crtExecutor = crtExecutor.execute
+    }
+
+    crtExecutor.stuckStates
+  }
 }
