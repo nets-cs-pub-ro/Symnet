@@ -32,8 +32,6 @@ class ISNRTests extends FlatSpec with Matchers {
       Constrain("SEQ", :==:(:@("Old-SEQ")))
     )(State.bigBang)
 
-    println(s.head)
-
     s should have length (1)
     f should have length (0)
   }
@@ -50,11 +48,11 @@ class ISNRTests extends FlatSpec with Matchers {
       EchoHost,
 
       NATFromInternet,
-      Same("IP-Dst", "Old-IP-Src")
+      Constrain("IP-Dst", :==:(:@("Old-IP-Src")))
     )(State.bigBang)
 
     s should have length (1)
-    f should have length (0)
+    f should have length (2)
   }
 
 }

@@ -1,8 +1,9 @@
 import org.change.v2.analysis.constraint.E
+import org.change.v2.analysis.expression.concrete.nonprimitive.:@
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
 import org.change.v2.analysis.memory.{Value, MemorySpace}
 import org.change.v2.analysis.processingmodels.{InstructionBlock, State}
-import org.change.v2.analysis.processingmodels.instructions.{:==:, Duplicate, Constrain, Assign}
+import org.change.v2.analysis.processingmodels.instructions.{:==: , Constrain, Assign}
 import org.scalatest.{Matchers, FlatSpec}
 
 /**
@@ -32,7 +33,7 @@ class Z3Validity extends FlatSpec with Matchers {
   "Dup" should "make symbols equal" in {
     val (s,f) = InstructionBlock(List(
       Assign("IP", SymbolicValue()),
-      Duplicate("IP-Clone", "IP"),
+      Assign("IP-Clone", :@("IP")),
 
       Constrain("IP", :==:(ConstantValue(2))),
       Constrain("IP-Clone", :==:(ConstantValue(3)))

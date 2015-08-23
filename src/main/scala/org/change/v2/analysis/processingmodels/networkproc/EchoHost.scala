@@ -1,7 +1,8 @@
 package org.change.v2.analysis.processingmodels.networkproc
 
+import org.change.v2.analysis.expression.concrete.nonprimitive.:@
 import org.change.v2.analysis.expression.concrete.{SymbolicValue, ConstantValue}
-import org.change.v2.analysis.processingmodels.instructions.{Assign, Duplicate}
+import org.change.v2.analysis.processingmodels.instructions.{Assign}
 import org.change.v2.analysis.processingmodels.{Instruction, InstructionBlock, State}
 
 /**
@@ -22,9 +23,9 @@ case class Swap(a: String, b: String) extends Instruction {
 
   override def apply(s: State): (List[State], List[State]) =
     InstructionBlock(
-      Duplicate("Temp", a),
-      Duplicate(a, b),
-      Duplicate(b, "Temp")
+      Assign("Temp", :@(a)),
+      Assign(a, :@(b)),
+      Assign(b, :@("Temp"))
     )(s)
 
 }

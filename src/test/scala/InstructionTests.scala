@@ -25,15 +25,14 @@ class InstructionTests extends FlatSpec with Matchers {
 
     val (s,f) = InstructionBlock(List(
       Assign("IP", ConstantValue(2)),
-      Duplicate("IP-Clone", "IP"),
-      Same("IP-Clone", "IP")
+      Assign("IP-Clone", :@("IP")),
+      Constrain("IP-Clone", :==:(:@("IP")))
     ))(State.bigBang)
 
     val afterState = s.head
 
     afterState.memory.eval("IP-Clone") shouldBe a [Some[_]]
     afterState.memory.eval("IP").get.e.id shouldEqual afterState.memory.eval("IP-Clone").get.e.id
-    afterState.memory.eval("IP").get.e should be theSameInstanceAs afterState.memory.eval("IP-Clone").get.e
   }
 
   "Constrain" should "correctly add another constraint to a symbol" in {
