@@ -29,8 +29,7 @@ class ISNRTests extends FlatSpec with Matchers {
       ISNRToOutside(None),
       Constrain("Delta", :>:(ConstantValue(0))),
       ISNRToInside,
-      Constrain("SEQ", :==:(:@("Old-SEQ"))),
-      If(Fail(), Assign("CEVA", ConstantValue(2)), NoOp)
+      Constrain("SEQ", :==:(:@("Old-SEQ")))
     )(State.bigBang)
 
     println(s.head)
