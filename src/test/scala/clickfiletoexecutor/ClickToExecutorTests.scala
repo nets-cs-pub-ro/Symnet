@@ -27,8 +27,8 @@ class ClickToExecutorTests extends FlatSpec with Matchers {
       crtExecutor = crtExecutor.execute
     }
 
-    crtExecutor.stuckStates.length should be (1)
-    crtExecutor.stuckStates.head.history.length should be (4)
+    crtExecutor.stuckStates should have length (1)
+    crtExecutor.stuckStates.head.history should have length (4)
   }
 
   "A src-paint-dst executor" should "correctly paint the bloody flow" in {
@@ -40,8 +40,8 @@ class ClickToExecutorTests extends FlatSpec with Matchers {
       crtExecutor = crtExecutor.execute
     }
 
-    crtExecutor.stuckStates.length should be (1)
-    crtExecutor.stuckStates.head.history.length should be (6)
+    crtExecutor.stuckStates should have length (1)
+    crtExecutor.stuckStates.head.history should have length (6)
     crtExecutor.stuckStates.head.memory.eval("COLOR").get.e should be (ConstantValue(10))
   }
 

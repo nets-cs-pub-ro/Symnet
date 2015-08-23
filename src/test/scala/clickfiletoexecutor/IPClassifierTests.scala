@@ -20,7 +20,7 @@ class IPClassifierTests  extends FlatSpec with Matchers {
       crtExecutor = crtExecutor.execute
     }
 
-    crtExecutor.stuckStates.length should be (2)
+    crtExecutor.stuckStates should have length (2)
   }
 
 }

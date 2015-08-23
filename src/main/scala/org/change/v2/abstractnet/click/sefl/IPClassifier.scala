@@ -25,11 +25,13 @@ class IPClassifier(name: String,
 
   val ipProto = ("ip proto (" + number + ")").r
 
-  val srcHostAddr = ("ip? src host (" + ipv4 + ")").r
-  val srcNetAddr = ("ip? src net (" + ipv4 + ")/(" + number + ")").r
+  val srcHostAddr = ("src host (" + ipv4 + ")").r
+  val srcNetAddr = ("src net (" + ipv4 + ")/(" + number + ")").r
+  val srcNetExplicitAddr = ("src net (" + ipv4 + ") mask (" + ipv4 + ")").r
 
-  val dstHostAddr = ("ip? dst host (" + ipv4 + ")").r
-  val dstNetAddr = ("ip? dst net (" + ipv4 + ")/(" + number + ")").r
+  val dstHostAddr = ("dst host (" + ipv4 + ")").r
+  val dstNetAddr = ("dst net (" + ipv4 + ")/(" + number + ")").r
+  val dstNetExplicitAddr = ("dst net (" + ipv4 + ") mask (" + ipv4 + ")").r
 
   val srcPort = ("src (tcp|udp) port (" + number + ")").r
   val dstPort = ("dst (tcp|udp) port (" + number + ")").r
@@ -47,8 +49,16 @@ class IPClassifier(name: String,
       val (lower, upper) = ipAndMaskToInterval(ip, mask)
       Constrain(IPDst, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
+    case dstNetExplicitAddr(ip, mask) => {
+      val (lower, upper) = ipAndExplicitMaskToInterval(ip, mask)
+      Constrain(IPDst, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
+    }
     case srcNetAddr(ip, mask) => {
       val (lower, upper) = ipAndMaskToInterval(ip, mask)
+      Constrain(IPSrc, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
+    }
+    case srcNetExplicitAddr(ip, mask) => {
+      val (lower, upper) = ipAndExplicitMaskToInterval(ip, mask)
       Constrain(IPSrc, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
 

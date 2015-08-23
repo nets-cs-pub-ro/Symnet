@@ -28,4 +28,10 @@ object RepresentationConversion {
     (ipv & lowerM, ipv | higherM)
   }
 
+  def ipAndExplicitMaskToInterval(ip: String, mask: String): (Long, Long) = {
+    val ipv = ipToNumber(ip)
+    val maskv = ipToNumber(mask)
+    (ipv & maskv, (((ipv | (~maskv))  << 32) >>> 32))
+  }
+
 }

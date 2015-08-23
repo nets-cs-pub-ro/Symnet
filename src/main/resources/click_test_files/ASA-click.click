@@ -1,27 +1,47 @@
-global_nat::IPRewriter(keep 0 1,pattern 141.85.225.202 60000-65535 - - 2 3,keep 2 4);
-dest_cl::IPClassifier(dst net 172.16.2.254 mask 255.255.255.0,-);
 
-dest_clp::IPClassifier(dst net 172.16.2.254 mask 255.255.255.0,-);
-unstatic_cl::IPClassifier(-);
-unstatic_rw::IPRewriter(keep 0 1);
-pn_1::Paint(1);
-pn_2::Paint(2);
-pn_3::Paint(3);
-pn_0::Paint(4);
-main_input::FromDevice(eth1,SNIFFER true,OUTBOUND false);
-main_tee::Tee(1);
-out_PROF_CS::Null;
-in_PROF_CS::Null;
-pn_PROF_CS::Paint(80);
-isTCP1::IPClassifier(tcp or udp,-);
-nat_cl_PROF_CS::IPClassifier(src net 172.16.2.0 mask 255.255.255.0,-);
-ps_PROF_CS::PaintSwitch();
-just_pass_paint::Paint(100);
-outside::Null;
-main_output::FromDevice(eth2,SNIFFER true,OUTBOUND false);
-isTCP2::IPClassifier(tcp or udp,-);
-ps::PaintSwitch();
-cl_incoming::IPClassifier(ip dst net 141.85.228.0 mask 255.255.255.192,-);
+global_nat :: IPRewriter(keep 0 1,pattern 141.85.225.202 60000-65535 - - 2 3,keep 2 4);
+
+dest_cl :: IPClassifier(dst net 172.16.2.254 mask 255.255.255.0,-);
+
+dest_clp :: IPClassifier(dst net 172.16.2.254 mask 255.255.255.0,-);
+
+unstatic_cl :: IPClassifier(-);
+
+unstatic_rw :: IPRewriter(keep 0 1);
+
+pn_1 :: Paint(1);
+pn_2 :: Paint(2);
+pn_3 :: Paint(3);
+pn_0 :: Paint(4);
+
+main_input :: FromDevice(eth1,SNIFFER true,OUTBOUND false);
+
+main_tee :: Tee(1);
+
+out_PROF_CS :: Null;
+
+in_PROF_CS :: Null;
+
+pn_PROF_CS :: Paint(80);
+
+isTCP1 :: IPClassifier(tcp,udp,-);
+
+nat_cl_PROF_CS :: IPClassifier(src net 172.16.2.0 mask 255.255.255.0,-);
+
+ps_PROF_CS :: PaintSwitch();
+
+just_pass_paint :: Paint(100);
+
+outside :: Null;
+
+main_output :: FromDevice(eth2,SNIFFER true,OUTBOUND false);
+
+isTCP2 :: IPClassifier(tcp,udp,-);
+
+ps :: PaintSwitch();
+
+cl_incoming :: IPClassifier(dst net 141.85.228.0 mask 255.255.255.192,-);
+
 	global_nat[0]->[0]pn_0;
 		pn_0[0]->[0]unstatic_cl;
 			unstatic_cl[0]->[0]unstatic_rw;
@@ -132,11 +152,13 @@ cl_incoming::IPClassifier(ip dst net 141.85.228.0 mask 255.255.255.192,-);
 			in_PROF_CS[0]->[0]pn_PROF_CS;
 				pn_PROF_CS[0]->[0]isTCP1;
 					isTCP1[0]->[0]nat_cl_PROF_CS;
+					isTCP1[1]->[0]nat_cl_PROF_CS;
 						nat_cl_PROF_CS[0]->[1]global_nat;
 						nat_cl_PROF_CS[1]->[2]global_nat;
-					isTCP1[1]->[0]dest_cl;
+					isTCP1[2]->[0]dest_cl;
 	outside[0]->[0]isTCP2;
 		isTCP2[0]->[0]global_nat;
-		isTCP2[1]->[0]pn_3;
+		isTCP2[1]->[0]global_nat;
+		isTCP2[2]->[0]pn_3;
 	main_output[0]->[0]outside;
 
