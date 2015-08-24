@@ -2,19 +2,23 @@ package org.change.v2.analysis.processingmodels.instructions
 
 import org.change.v2.analysis.constraint._
 import org.change.v2.analysis.expression.abst.FloatingExpression
+import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.analysis.processingmodels.{State, Instruction}
 
 /**
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
-case class Constrain (id: String, dc: FloatingConstraint) extends Instruction {
-  override def apply(s: State): (List[State], List[State]) = {
-    dc instantiate s match {
+case class Constrain (id: String, dc: FloatingConstraint, c: Option[Constraint] = None) extends Instruction {
+  override def apply(s: State): (List[State], List[State]) = c match {
+    case None => dc instantiate s match {
       case Left(c) => optionToStatePair(s, s"Symbol $id cannot $dc") {
         _.memory.Constrain(id, c)
       }
       case Right(err) => Fail(err)(s)
+    }
+    case Some(c) => optionToStatePair(s, s"Symbol $id cannot $dc") {
+      _.memory.Constrain(id, c)
     }
   }
 }

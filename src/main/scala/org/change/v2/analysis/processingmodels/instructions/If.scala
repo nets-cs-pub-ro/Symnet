@@ -16,10 +16,18 @@ case class If(testInstr: Instruction, thenWhat: Instruction, elseWhat:Instructio
    * @return
    */
   override def apply(s: State): (List[State], List[State]) = testInstr match {
-    case i @ Constrain(what, withWhat) => {
-      val (sa, fa) = InstructionBlock(i, thenWhat)(s)
-      val (sb, fb) = InstructionBlock(Constrain(what, :~:(withWhat)), elseWhat)(s)
-      (sa ++ sb, fa ++ fb)
+    // This is quite inappropriate
+    case Fail(_) => elseWhat(s)
+    case i @ Constrain(what, withWhat, _) => {
+      (withWhat instantiate s) match {
+        case Left(c) if s.memory.symbolIsAssigned(what) => {
+          val (sa, fa) = InstructionBlock(Constrain(what, withWhat, Some(c)), thenWhat)(s)
+          val (sb, fb) = InstructionBlock(Constrain(what, :~:(withWhat), Some(c)), elseWhat)(s)
+          (sa ++ sb, fa ++ fb)
+        }
+
+        case _ => elseWhat(s)
+      }
     }
     case _ => stateToError(s, "Bad test instruction")
   }
