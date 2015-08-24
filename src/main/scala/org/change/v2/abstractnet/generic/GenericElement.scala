@@ -31,8 +31,6 @@ case class GenericElement(name: String,
    * @return
    */
   def instructions: Map[LocationId, Instruction] = Map()
-
-  def namePortToInt(port: Int): Int = (name, port).hashCode()
 }
 
 class GenericElementBuilder(name: String, elementType: String)
