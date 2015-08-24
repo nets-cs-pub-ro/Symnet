@@ -110,6 +110,8 @@ class IPClassifier(name: String,
     }
   }
 
+  override def outputPortName(which: Int): String = s"$name-out-$which"
+
 }
 
 class IPClassifierElementBuilder(name: String)
