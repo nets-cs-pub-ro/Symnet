@@ -15,6 +15,7 @@ object BuilderFactory {
 //    case "NAT" => NAT.getBuilder(nameValue)
 //    case "Client" => Client.getBuilder(nameValue)
 //    case "Server"  => Server.getBuilder(nameValue)
+    case "Template"  => Template.getBuilder(nameValue)
     case "IPRewriter"  => IPRewriter.getBuilder(nameValue)
 //    case "IPFilter"  => IPFilter.getBuilder(nameValue)
     case "IPClassifier"  => IPClassifier.getBuilder(nameValue)
