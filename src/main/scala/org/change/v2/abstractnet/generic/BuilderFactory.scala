@@ -1,5 +1,6 @@
 package org.change.v2.abstractnet.generic
 
+import org.change.v2.Template
 import org.change.v2.abstractnet.click.sefl._
 
 object BuilderFactory {
