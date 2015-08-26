@@ -10,7 +10,7 @@ import org.change.v2.analysis.processingmodels.State
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
-class ISNRTests extends FlatSpec with Matchers {
+class BasicProcessingTests extends FlatSpec with Matchers {
 
   "ISNRToOutside" should "rewrite SEQ" in {
     val (s,f) = InstructionBlock(
