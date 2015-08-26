@@ -37,7 +37,7 @@ object IPRewriterRunner {
 
     val pr = new PrintWriter(new FileOutputStream(new File("iprw.output")))
 
-    pr.print(crtExecutor.toString(includeOk = false, includeFailed = true))
+    pr.print(crtExecutor.stringifyStates(includeOk = false, includeFailed = true))
     pr.close()
   }
 

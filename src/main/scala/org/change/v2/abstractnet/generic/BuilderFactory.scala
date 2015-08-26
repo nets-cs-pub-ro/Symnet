@@ -32,6 +32,7 @@ object BuilderFactory {
 //    case "Client" => Client.getBuilder
 //    case "Server" => Server.getBuilder
     case "IPRewriter"  => IPRewriter.getBuilder
+    case "Template"  => Template.getBuilder
 //    case "IPFilter"  => IPFilter.getBuilder
     case "IPClassifier"  => IPClassifier.getBuilder
     case "Paint"  => Paint.getBuilder

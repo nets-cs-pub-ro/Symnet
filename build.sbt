@@ -1,6 +1,6 @@
 organization  := "org.change"
 
-version       := "0.1"
+version       := "0.2"
 
 scalaVersion  := "2.11.1"
 
@@ -16,10 +16,12 @@ libraryDependencies ++= {
   )
 }
 
-lazy val interpret = taskKey[Unit]("interpreting")
+lazy val interpret = taskKey[Unit]("Interpreting")
 
-// this can go either in a `build.sbt` or the settings member
-//   of a Project in a full configuration
 fullRunTask(interpret, Compile, "org.change.v2.runners.Run")
+
+lazy val click = taskKey[Unit]("Symbolically running Template.click")
+
+fullRunTask(click, Compile, "org.change.v2.runners.experiments.TemplateRunner")
 
 seq(Revolver.settings: _*)

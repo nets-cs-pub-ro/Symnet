@@ -45,20 +45,20 @@ class ClickExecutionContext(
   }
 
   private def verboselyStringifyStates(ss: List[State]): String = ss.zipWithIndex.map( si =>
-    si._2 + "\n" + si._1.instructionHistory.reverse.mkString("\n") + si._1.toString)
+    "State #" + si._2 + "\n\n" + si._1.instructionHistory.reverse.mkString("\n") + "\n\n" + si._1.toString)
     .mkString("\n")
 
-  def toString(includeOk: Boolean = true, includeStuck: Boolean = true, includeFailed: Boolean= true) = {
+  def stringifyStates(includeOk: Boolean = true, includeStuck: Boolean = true, includeFailed: Boolean= true) = {
     (if (includeOk)
-      "Ok\n" + verboselyStringifyStates(okStates)
+      s"Ok states (${okStates.length}):\n" + verboselyStringifyStates(okStates)
     else
       "") +
     (if (includeStuck)
-      "Stuck\n" + verboselyStringifyStates(stuckStates)
+      s"Stuck states (${stuckStates.length}):\n" + verboselyStringifyStates(stuckStates)
     else
       "") +
     (if (includeFailed)
-      "Failed\n" + verboselyStringifyStates(failedStates)
+      s"Failed states (${stuckStates.length}): \n" + verboselyStringifyStates(failedStates)
     else
       "")
   }
