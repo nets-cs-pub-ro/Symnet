@@ -1,0 +1,1401 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="headerversion" content="1.74">
+    <meta name="headerdate" content="2010-09-27">
+
+
+
+    <title>Lab for Automated Reasoning and Analysis - LARA: Wiki</title>
+    <link rel="stylesheet" href="Lab%20for%20Automated%20Reasoning%20and%20Analysis%20-%20LARA:%20Wiki-details_files/dokuwiki.css">
+
+    <link rel="stylesheet" href="Lab%20for%20Automated%20Reasoning%20and%20Analysis%20-%20LARA:%20Wiki-details_files/design.css">
+    <link href="Lab%20for%20Automated%20Reasoning%20and%20Analysis%20-%20LARA:%20Wiki-details_files/epfl.css" media="all" rel="stylesheet" type="text/css">
+    <link href="Lab%20for%20Automated%20Reasoning%20and%20Analysis%20-%20LARA:%20Wiki-details_files/ic.css" media="all" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="Lab%20for%20Automated%20Reasoning%20and%20Analysis%20-%20LARA:%20Wiki-details_files/jquery-epfl.js"></script>
+    <script type="text/javascript">jQuery.noConflict();</script> 
+    <script type="text/javascript" src="Lab%20for%20Automated%20Reasoning%20and%20Analysis%20-%20LARA:%20Wiki-details_files/globalnav.js"></script>
+  <link href="Lab%20for%20Automated%20Reasoning%20and%20Analysis%20-%20LARA:%20Wiki-details_files/light.css" type="text/css" rel="stylesheet"><style type="text/css">/**
+ * Highlight style classes
+ * .a background color
+ * .b underline
+ * .c underline + font color
+ */
+ 
+@media screen{
+em.diigoHighlight {
+	text-align:inherit;
+	text-decoration: inherit;
+	line-height:inherit;
+	font:inherit;
+	color:inherit;
+	display:inline;
+	position:relative;
+}
+em.diigoHighlight.a_style.mouseOvered {
+	background-color: #ffc62a !important;
+}	
+
+em.diigoHighlight.b_style.mouseOvered, em.diigoHighlight.c_style.mouseOvered {
+	border-bottom: solid 2px #ffc62a;
+}
+	
+em.diigoHighlight.c_style {
+	color: #000099;
+}
+em.diigoHighlight.c_style.mouseOvered {
+	color: #ffc62a;
+}	
+
+em.diigoHighlight.a_style.yellow {
+	background-color: #FF9;
+}
+
+em.diigoHighlight.b_style.yellow, em.diigoHighlight.c_style.yellow {
+	border-bottom: solid 2px #FF9;
+}
+	
+img.diigoHighlight.yellow {/*image highlight*/
+	cursor: pointer; 
+	outline:2px solid #FF9;
+}
+	
+em.diigoHighlight.a_style.blue {
+	background-color: #ABD5FF;
+}
+
+em.diigoHighlight.b_style.blue, em.diigoHighlight.c_style.blue {
+	border-bottom: solid 2px #ABD5FF;
+}
+	
+img.diigoHighlight.blue {/*image highlight*/
+	cursor: pointer; 
+	outline:2px solid #ABD5FF;
+}
+	
+	
+em.diigoHighlight.a_style.green {
+	background-color: #B2E57E;
+}
+
+em.diigoHighlight.b_style.green, em.diigoHighlight.c_style.green {
+	border-bottom: solid 2px #B2E57E;
+}
+
+img.diigoHighlight.green {/*image highlight*/
+	cursor: pointer; 
+	outline:2px solid #B2E57E;
+}	
+	
+	
+em.diigoHighlight.a_style.pink {
+	background-color: #ffcccc;
+}
+
+em.diigoHighlight.b_style.pink, em.diigoHighlight.c_style.pink {
+	border-bottom: solid 2px #ffcccc;
+}
+	
+img.diigoHighlight.pink {/*image highlight*/
+	cursor: pointer; 
+	outline:2px solid #ffcccc;
+}	
+	
+img.diigoHighlight.mouseOvered {
+	cursor: pointer; 
+	outline:2px solid #ffc62a;
+}	
+	
+
+div.diigotb-inline-cloud{
+	position:fixed !important;
+	width:440px !important;
+	height:370px !important;
+	left:0;top:0;
+	background-color:#fef5c7 !important;
+	z-index:9999999999 !important;
+	display:none;
+	-moz-border-radius:15px !important;
+}
+/*  capture image */
+
+.diigotb-body #diigotb-upload-cover{
+	cursor:crosshair!important;
+	z-index:1999999!important;
+	position:fixed!important;
+	left:0!important;
+	top:31px;
+}
+	
+.diigotb-body #diigotb-upload-tip{
+    color: #fff!important;
+    padding:2px 4px!important;
+    position:fixed!important;
+    z-index:11000001!important;
+}
+	
+.diigotb-body #diigotb-upload-select{
+	position:fixed!important;
+	z-index:1000001;
+}
+	
+.diigotb-body #diigotb-upload-resizer{
+	z-index:11000002!important;
+	position:fixed!important;
+	cursor:move!important;
+	border:1px dashed black!important;
+}
+	
+.diigotb-body #currentColor{
+  background-color: #fff!important;
+  width: 37px!important;
+  height: 37px!important;
+  padding: 1px!important;
+  border: 1px solid #2e68e6!important;
+  float: left!important;
+  margin: 0 5px 0 0!important;
+}
+	
+.diigotb-body #currentColor div{
+  width: 37px!important;
+  height: 37px!important;	
+  margin:0!important;
+}
+.diigotb-body .selectPanel{
+	margin-top:5px!important;
+}
+	
+.diigotb-body .colorCell{
+  float: left!important;
+  margin: 0 1px 1px 0!important;
+  border: 1px solid #5f92ff!important;
+  width: 18px!important;
+  height: 18px!important;
+}
+	
+.diigotb-body .colorCell:hover{
+  border: 1px solid #FF9900!important;
+}
+.diigotb-body .colorCell.actived{
+  border: 1px solid #FF9900!important;
+}	
+	
+.diigotb-body .colorCell div{
+  width: 18px!important;
+  height: 18px!important;
+  cursor:pointer!important;
+  margin:0!important;
+}
+
+.diigotb-body .capture-black{background-color:#000!important;}
+.diigotb-body .capture-white{background-color:#fff!important;}
+.diigotb-body .capture-gray{background-color:#808080!important;}
+.diigotb-body .capture-light-gray{background-color:#c0c0c0!important;}
+
+.diigotb-body .capture-red{background-color:#ff0000!important;}
+.diigotb-body .capture-cyan{background-color:#00ffff!important;}
+.diigotb-body .capture-orange{background-color:#ff9900!important;}
+.diigotb-body .capture-blue{background-color:#0000ff!important;}
+
+.diigotb-body .capture-yellow{background-color:#ffff00!important;}
+.diigotb-body .capture-purple{background-color:#9900ff!important;}
+.diigotb-body .capture-green{background-color:#00ff00!important;}
+.diigotb-body .capture-pink{background-color:#ff00ff!important;}
+	
+.diigotb-body #diigotb-colorpanel{
+	background:transparent url(chrome://diigotb/skin/ann-bar-palette-bg-left.png) no-repeat scroll left center!important;
+	display:block;
+	height:55px!important;
+	position:fixed!important;
+	width:180px!important;
+	z-index:11000022!important;
+	margin:0!important;
+}
+	
+.diigotb-body .diigotb-cbg{
+	background:transparent url(chrome://diigotb/skin/ann-bar-palette-bg-right.png) no-repeat scroll right top!important;
+	height:55px!important;
+	line-height:55px!important;
+	padding-left:6px!important;
+	width:180px!important;
+	margin:0!important;
+}
+
+	
+.diigotb-body #currentArrow{
+	background:transparent url(chrome://diigotb/skin/ann-bar-palette-arrow.png) no-repeat scroll 0 0!important;
+	height:6px!important;
+	left:0;
+	position:relative!important;
+	top:-5px;
+	width:7px!important;
+	margin:0!important;
+}
+	
+.diigotb-body #currentArrow._istop{
+	background:transparent url(chrome://diigotb/skin/ann-bar-palette-arrow-down.png) no-repeat scroll 0 0!important;
+	top:51px!important;
+}
+	
+	
+.diigotb-body #diigotb-text-area{
+	position:fixed!important;
+	z-index:11000010!important;
+}
+	
+.diigotb-body .diigotb-text-input{
+	font: 18px/22px Helvetica,Arial,sans-serif!important;
+	border:0px solid #5f92ff!important;
+	z-index:11000011!important;
+}	
+	
+.diigotb-body #diigotb-editpanel{
+	background:transparent url(chrome://diigotb/skin/ann-bar-bg-right.png) no-repeat scroll right center!important;
+	height:35px!important;
+	position: fixed!important;
+	z-index:11000022!important;
+	margin:0!important;
+}
+	
+	
+.diigotb-body .diigotb-btn div{
+	cursor:pointer!important;
+	width:18px!important;
+	height:18px!important;
+	margin:2px!important;
+}
+.diigotb-body .diigotb-btn{
+	width:23px!important;
+	height:23px!important;
+}
+		
+	
+.diigotb-body #diigotb-editpanel .diigotb-bg{
+	background:transparent url(chrome://diigotb/skin/ann-bar-bg-left.png) repeat-x scroll left center!important;
+	height:35px!important;
+	padding-left:6px!important;
+	line-height:35px!important;
+	margin:0!important;
+}
+	
+		
+.diigotb-body div.diigotb-tip{
+	-moz-border-radius:4px 4px 4px 4px;
+	background-color:#f1f2f7;
+	border:1px solid #767676;
+	color:black;
+	display:none;
+	-moz-box-shadow:5px 5px 5px -5px #767676;
+	font:12px Arial,Helvetica,sans-serif;
+	margin:0 !important;
+	padding:3px 6px !important;
+	position:absolute;
+	z-index:2147483647;
+}
+	
+.diigotb-body #diigotb-editpanel div.diigotb-btn{
+	padding:0px!important;
+	display:inline-table!important;
+	margin-bottom:0 !important;
+	margin-left:0 !important;
+	margin-right:0 !important;
+	margin-top:5px;
+}
+	
+	
+.diigotb-body #diigotb-editpanel div.diigotb-sep img{
+	padding:0!important;
+	margin:0!important;
+}
+	
+.diigotb-body #diigotb-editpanel div.diigotb-sep{
+	padding:4px 0!important;
+	display:inline-table!important;
+	margin:0!important;
+	line-height:0 !important;
+}	
+	
+.diigotb-body #diigotb-editpanel div.diigotb-btn.enabled:hover{
+	background: transparent url('chrome://diigotb/skin/ann-bar-opt-current.png') no-repeat!important;
+}
+	
+.diigotb-body #diigotb-editpanel #diigotb-undo.enabled div{
+	background: transparent url('chrome://diigotb/skin/ann-bar-opt-undo.png') no-repeat center center!important;
+}
+	
+.diigotb-body #diigotb-editpanel div.diigotb-btn.actived{
+	background: transparent url('chrome://diigotb/skin/ann-bar-opt-current.png') no-repeat!important;
+}
+	
+.diigotb-image-border{
+	border:1px solid #666 !important;
+}
+	
+#diigotb-imagepanel{
+	height:22px!important;
+	position: absolute!important;
+	z-index:11000022!important;
+	margin:0!important;
+}
+
+#diigotb-imagepanel .diigotb-btn{
+	cursor:pointer!important;
+	width:20px!important;
+	height:20px!important;
+	margin:2px!important;
+	float:left !important;
+	background:transparent url(chrome://diigotb/skin/save-image-action-icons.png) no-repeat scroll!important;
+}	
+	
+	
+#diigotb-imagepanel #diigotb-quick-save{
+	background-position:0 0!important;
+}
+		
+#diigotb-imagepanel.processing #diigotb-quick-save{
+	background-position:0 -20px!important;
+	cursor:default!important;
+}
+
+		
+#diigotb-imagepanel.needpremium #diigotb-quick-save{
+	background-position:0 -20px!important;
+	cursor:default!important;
+}	
+
+#diigotb-imagepanel.hassaved #diigotb-quick-save{
+	background-position: -60px 0!important;
+	cursor: pointer !important;
+}
+
+.diigotb-imagetip{
+	background:transparent url(chrome://diigotb/skin/notice-bar-bg-right.png) no-repeat scroll right center !important;
+	height:21px !important;
+	margin:0 !important;
+	position:absolute !important;
+	z-index:11000022 !important;
+	width:106px;
+}
+	
+.diigotb-imagebg{
+	background:transparent url(chrome://diigotb/skin/notice-bar-bg-left.png) repeat-x scroll left center !important;
+	height:21px !important;
+	margin:0 !important;
+	padding-left:6px !important;
+	width:90px;
+}
+	
+.diigotb-imagetip-text{
+	padding-left:20px!important;
+	font:11px/13px Helvetica,Arial,sans-serif!important;
+	color:white!important;
+	line-height:20px!important;
+	float:left;
+}
+	
+.diigotb-imagetip.processing .diigotb-imagetip-text{
+	background:transparent url(chrome://diigotb/skin/processing-fb.gif) no-repeat scroll left center !important;
+}
+	
+.diigotb-imagetip.hassaved .diigotb-imagetip-text{
+	background:transparent url(chrome://diigotb/skin/icon-done.png) no-repeat scroll left center !important;
+}
+	
+.diigotb-border{
+	position: absolute!important;
+	z-index:11000000!important;
+	margin:0!important;
+	background-color: #4b8cdc!important;
+}
+.diigotb-left{
+	width:1px!important;
+}
+.diigotb-right{
+	width:1px!important;
+}
+.diigotb-top{
+	height:1px!important;
+}
+.diigotb-bottom{
+	height:1px!important;
+}
+
+.diigotb-body #diigotb-rect div{
+	background: transparent url('chrome://diigotb/skin/ann-bar-opt-rectangle.png') no-repeat center center!important;
+}	
+.diigotb-body #diigotb-round div{
+	background: transparent url('chrome://diigotb/skin/ann-bar-opt-ellipse.png') no-repeat center center!important;
+}
+.diigotb-body #diigotb-text div{
+	background: transparent url('chrome://diigotb/skin/ann-bar-opt-font.png') no-repeat center center!important;
+}
+	
+.diigotb-body #diigotb-arrow div{
+	background: transparent url('chrome://diigotb/skin/ann-bar-opt-arrow.png') no-repeat center center!important;
+}
+	
+.diigotb-body .diigotb-sep{
+	background: transparent url('chrome://diigotb/skin/ann-bar-bg-separator.png') no-repeat center center!important;
+}
+	
+.diigotb-body #diigotb-undo div{
+	background: transparent url('chrome://diigotb/skin/ann-bar-opt-undo-disabled.png') no-repeat center center!important;
+}
+	
+.diigotb-body #diigotb-capture-save div{
+	background: transparent url('chrome://diigotb/skin/ann-bar-opt-quickly-save.png') no-repeat center center!important;
+}
+	
+	
+	
+.diigotb-body #diigotb-upload-resizer div {
+  position: absolute!important;
+  width: 9px!important;
+  height: 9px!important;
+  /*background-color: white;*/
+  z-index:11000002!important;
+  margin:0px!important;
+  background:transparent url(chrome://diigotb/skin/spot.png) no-repeat scroll left center!important;
+}
+
+.diigotb-body #diigotb-upload-resizer div.gleft {
+  left: -9px!important;
+}
+
+.diigotb-body #diigotb-upload-resizer div.gtop {
+  top: -9px!important;
+}
+
+.diigotb-body #diigotb-upload-resizer div.gright {
+  right: -9px!important;
+}
+
+.diigotb-body #diigotb-upload-resizer div.gbottom {
+  bottom: -9px!important;
+}
+
+.diigotb-body #diigotb-upload-resizer div.ghor {
+  margin-left: auto!important;
+  margin-right: auto!important;
+  left: 0px!important;
+  right: 0px!important;
+}
+
+.diigotb-body #diigotb-upload-resizer div.gver {
+  margin-top: auto!important;
+  margin-bottom: auto!important;
+  top: 0px!important;
+  bottom: 0px!important;
+}
+	
+.diigotb-body{
+	padding-top: 31px!important;
+}
+	
+.diigotb-body #diigotb-topbar{
+  background: url(chrome://diigotb/skin/topbar-bg.png) left top repeat-x!important;
+  border-bottom: 1px solid #999!important;
+  color: #555!important;
+  font: 12px/18px Helvetica,Arial,sans-serif!important;
+  height: 30px!important;
+  line-height: 30px!important;
+  position: fixed!important;
+  left: 0!important;
+  top: 0!important;
+  text-align:center!important;
+  z-index:1999999!important;
+}
+
+.diigotb-body #diigotb-msg img{
+  margin:0 5px 0 0!important;
+  vertical-align: middle!important;
+}
+	
+.diigotb-body #diigotb-msg{
+	color:#333!important;
+}
+
+.diigotb-body #diigotb-msg a{
+  color: #0044cc!important;
+  text-decoration: none!important;
+}
+
+.diigotb-body #diigotb-msg a:hover{
+  text-decoration: underline!important;
+}
+
+.diigotb-body #diigotb-escLink{
+  display: block!important;
+  float: right!important;
+  margin: 5px 5px 0 0!important;
+  text-decoration: none!important;
+  width: 50px!important;
+  cursor:pointer!important;
+}
+
+.diigotb-body #diigotb-escLink:hover{
+  text-decoration: underline!important;
+}
+
+.diigotb-body #diigotb-escLink span{
+  background: url(chrome://diigotb/skin/esc-right.png) right top no-repeat!important;
+  display: block!important;
+  padding-right: 9px!important;
+}
+
+.diigotb-body #diigotb-escLink span strong{
+  background: url(chrome://diigotb/skin/esc-left.png) left top no-repeat!important;
+  display: block!important;
+  color: #fff!important;
+  font-weight: 700!important;
+  line-height: 20px!important;
+  text-indent:7px!important;
+}
+	
+	
+
+/*highlight label*/
+.diigoHighlight .diigoHighlightLabel sup {
+	font:normal normal normal 8px/8px "lucida grande",tahoma,verdana,arial,sans-serif;
+	text-decoration:none;
+	background-color:inherit;
+	cursor:default;
+}
+	
+body.diigoHiPen.yellow{
+	cursor:url(chrome://diigotb/skin/highlighter-orange.cur), text !important
+}
+	
+body.diigoHiPen.blue{
+	cursor:url(chrome://diigotb/skin/highlighter-blue.cur), text !important
+}
+
+body.diigoHiPen.green{
+	cursor:url(chrome://diigotb/skin/highlighter-green.cur), text !important
+}	
+	
+body.diigoHiPen.pink{
+	cursor:url(chrome://diigotb/skin/highlighter-pink.cur), text !important
+}
+em.diigoHighlight.type_0.commented {	
+	padding-left:30px;
+}
+	
+/*float note*/
+div.diigoHighlight.type_2 {
+	position:absolute;
+	width:29px;
+	height:36px;
+	text-align:center;
+	background:transparent url('chrome://diigotb/skin/float_icon.png') no-repeat 50% 50%;
+	z-index:9996;
+}
+div.diigoHighlight.type_2.mouseOvered {
+	position:absolute;
+	width:37px;
+	height:31px;
+	text-align:center;
+	background:transparent url('chrome://diigotb/skin/float_icon.png') no-repeat;
+	z-index:9996;
+}	
+div.diigoHighlight.type_2 span {
+	color:#000;
+	font:bold 13px Arial, Helvetica, sans-serif;
+	cursor: default;
+	line-height: 37px;
+	text-shadow: #fff 0 1px 0;
+}
+	
+
+div.diigoIcon.commented.TextIcon.diigoEdit{
+	background-repeat:no-repeat !important;
+	background-position:right !important;
+}
+
+	
+div.diigoIcon.commented.ImageIcon.diigoEdit{
+	background-repeat:no-repeat !important;
+	background-position:right !important;
+}
+
+
+/*mouse over effect*/
+/*
+.diigoHighlight.id_190e5778b533dc0fa1b1660653a4f6f5 {outline: 2px dotted green !important;}
+*/
+div.diigoIcon{
+	cursor:pointer !important;
+	margin: 0pt; 
+	padding: 0px 0px 0px 0px;
+	position: absolute;
+	display:none;
+	width: 24px !important; 
+	z-index:999999;
+	height: 23px !important;
+	background: transparent url('chrome://diigotb/skin/edit-highlight.png') no-repeat left;
+}
+
+div.diigoIcon span{
+	color:#000000;
+	display:block;
+	font-family:Helvetica,Arial,sans-serif;
+	font-size:13px;
+	font-weight:700;
+	line-height:18px;
+	text-align:center;
+	text-shadow:0 1px 1px #FFFFFF;
+}
+
+div.diigoIcon.commented.ImageIcon{
+	display:block !important;
+	background-color: transparent !important;
+}
+	
+div.diigoIcon:hover{
+	background-color: transparent !important;
+	background-repeat:no-repeat !important;
+	background-position:right !important;
+}
+	
+div.diigoIcon.commented.TextIcon{
+	display:block !important;
+	left:0;
+	bottom:0;
+}
+	
+div.diigoIcon.commented.public{
+	background: #FFFFFF url('chrome://diigotb/skin/public-annotation.png') no-repeat left;
+}
+
+div.diigoIcon.commented.private{
+	background: #FFFFFF url('chrome://diigotb/skin/private-annotation.png') no-repeat left;
+}
+	
+div.diigoIcon.commented.group{
+	background: #FFFFFF url('chrome://diigotb/skin/group-annotation.png') no-repeat left;
+}
+	
+/*Clip video*/
+div.diigoClipVideo{
+	float:left;
+	height:16px;
+	padding:0 16px 0 6px;
+	background:#f5f5f5 url(chrome://diigotb/skin/toolbar-clip-bg.gif) no-repeat right 0;
+	border:1px solid #ccc;
+	border-bottom-width:0;
+	font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+	z-index:999;
+	position:absolute;
+}
+
+div.diigoClipVideo.clipped {
+  background-position: right -32px; left: 717px; top: 135px;
+}
+
+	div.diigoClipVideo span{
+		font-weight:bold;
+		font-size:10px;
+		line-height:16px;
+		text-decoration:underline;
+		color:#03f;
+		cursor:pointer;
+		margin-right:6px
+	}
+	div.diigoClipVideo span:hover,div.diigoClipVideo span:active{
+		color:#00f
+	}
+	/*.diigolet input{
+		font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+		font-size:9px;
+	}*/
+	
+/*-----------notice msg--------------*/
+.diigotb-notice-img  {
+	float:left!important;
+	height:16px!important;
+	width:16px!important;
+	margin-top:6px!important;
+	margin-right:3px!important;
+}
+.success .diigotb-notice-img{
+	background:url("chrome://diigotb/skin/notice-icons.png") no-repeat scroll 0 0 transparent!important;
+}
+.failed .diigotb-notice-img{
+	background:url("chrome://diigotb/skin/notice-icons.png") no-repeat scroll -16px 0 transparent!important;
+}
+.info .diigotb-notice-img{
+	background:url("chrome://diigotb/skin/notice-icons.png") no-repeat scroll -32px 0 transparent!important;
+}
+.process .diigotb-notice-img{
+	background:url("chrome://diigotb/skin/processing.gif") no-repeat scroll left 0 transparent!important;
+}	
+	
+.diigotb-notice-msg-rt  {
+	background:url("chrome://diigotb/skin/notice-bar-2-bg-left.png") no-repeat scroll left bottom transparent!important;
+	line-height:28px!important;
+	padding-left:10px!important;
+	height:30px!important;
+}
+.failed .diigotb-notice-msg-rt  {
+	background:url("chrome://diigotb/skin/notice-bar-2-bg-left.png") no-repeat scroll left top transparent!important;
+}
+	
+.diigotb-notice-close{
+	float:right!important;
+	height:16px!important;
+	width:16px!important;
+	margin-left:20px!important;
+	margin-top:6px!important;
+	cursor:pointer;
+	background:url("chrome://diigotb/skin/notice-icons.png") no-repeat scroll -48px 0 transparent!important;
+}
+
+.diigotb-notice-close:hover{
+	background-position: -63px 0!important;
+}
+	
+.diigotb-notice-msg  {
+	background:url("chrome://diigotb/skin/notice-bar-2-bg-right.png") no-repeat scroll right bottom transparent!important;
+	float:right!important;
+	height:30px!important;
+	padding:0 11px 0 0!important;
+	border: none!important;
+	margin:0!important;
+	position:fixed!important;
+	font:12px/14px Helvetica,Arial,sans-serif!important;
+	z-index:100000!important;
+}
+.diigotb-notice-msg a {
+	color:#0044cc!important; 
+	text-decoration:underline!important;
+}
+	
+.failed.diigotb-notice-msg  {
+	background:url("chrome://diigotb/skin/notice-bar-2-bg-right.png") no-repeat scroll right top transparent!important;
+}
+	
+}
+
+
+@media print{
+em.diigoHighlight.a, em.diigoHighlight.b, em.diigoHighlight.c {
+	border-bottom:0.5pt dashed Black;
+}
+
+
+/*image highlight*/
+/*no inline comments*/
+img.diigoHighlight {
+	border:0.5pt dashed Black
+}
+
+/*float note*/
+div.diigoHighlight.type_2 {
+	display:none
+}
+div.diigoHighlight.type_2 span {
+	display:none
+}
+}</style><style id="diigo-activeHighlight" type="text/css">dummyRuleForDigg{}</style></head>
+  <body>
+    <a name="top"></a>
+    <div id="accessibility" class="hidden" title="École Polytechnique Fédérale de Lausanne - Quick access">
+      <ul>
+        <li><a href="http://www.epfl.ch/accessibility.en.shtml" title="Specific informations for persons with disabilities" accesskey="0">Accessibility</a></li>
+        <li><a href="http://www.epfl.ch/" title="EPFL's homepage" accesskey="1">Homepage</a></li>
+        <li><a href="#navigation" accesskey="2">Navigation within EPFL sites</a></li>
+        <li><a href="#main-navigation" accesskey="3">Navigation within this site</a></li>
+        <li><a href="#search" id="searchlink" accesskey="4">Jump to search field</a></li>
+        <li><a href="#content" accesskey="5">Jump to page content</a></li>
+        <li><a href="mailto:webmaster@epfl.ch" accesskey="9">Technical contact</a></li>
+      </ul>
+    </div>
+    <div id="header">
+      <div id="nav-logo"><a href="http://www.epfl.ch/" title="EPFL's homepage"></a></div>
+      <div id="nav-menus">
+        <a name="navigation" id="navigation"></a>
+        <ul id="main-menus">
+          <li class="portal menu" id="public-menu-link">
+            <a class="main-link" href="http://www.epfl.ch/navigate.en.shtml" title="Navigate by profile">You are</a>
+            <div class="navigation-panel hidden" id="public-panel">
+              <ul>
+                <li class="group-2-cols">
+                  <h3><a href="http://futuretudiant.epfl.ch/">Prospective student</a></h3>
+                  <ul>
+                    <li><a href="http://www.epfl.ch/epfl-virtual-tour/virtual-tour.html">EPFL Virtual tour</a></li>
+                    <li><a href="http://sae.epfl.ch/page-27094-en.html">Exchange student</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols">
+                  <h3><a href="http://studying.epfl.ch/">Students</a></h3>
+                  <ul>
+                    <li><a href="http://studying.epfl.ch/student_desk">Student services</a></li>
+                    <li><a href="http://sac.epfl.ch/academic-calendar">Academic calendar</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols last">
+                  <h3><a href="http://recherche.epfl.ch/">Researcher</a></h3>
+                  <ul>
+                    <li><a href="http://grantsoffice.epfl.ch/">Research funding</a></li>
+                    <li><a href="http://phd.epfl.ch/page-19491-en.html">Doctorate at EPFL</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols">
+                  <h3><a href="http://working.epfl.ch/">Staff</a></h3>
+                  <ul>
+                    <li><a href="http://rh.epfl.ch/">Human resources</a></li>
+                    <li><a href="http://help.epfl.ch/">Help</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols">
+                  <h3><a href="http://entreprises.epfl.ch/">Business</a></h3>
+                  <ul>
+                    <li><a href="http://vpiv.epfl.ch/">Innovation &amp; Tech Transfer</a></li>
+                    <li><a href="http://vpiv.epfl.ch/page-23023-en.html">Innovation Square</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols last">
+                  <h3><a href="http://medias.epfl.ch/">Mediacorner</a></h3>
+                  <ul>
+                    <li><a href="http://medias.epfl.ch/press-releases">Press releases</a>, <a href="http://medias.epfl.ch/page-41720-en.html">Reflex</a>, <a href="http://actualites.epfl.ch/index.php?module=Newspaper&amp;func=viewalleditions">Flash</a></li>
+			  <li><a href="http://mediatheque.epfl.ch/">Image library</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols">
+                  <h3><a href="http://a3.epfl.ch/">Alumni A3-EPFL</a></h3>
+                  <ul>
+                    <li><a href="http://www2.epfl.ch/a3/page77902-en.html">Become a member</a></li>
+                    <li><a href="http://www2.epfl.ch/a3/page74871-en.html">A3 agenda</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <div class="clear"></div>
+            </div>
+          </li>
+          <li class="school menu" id="school-menu-link">
+            <a class="main-link" href="http://www.epfl.ch/navigate.en.shtml" title="Navigate by school"><span>By</span> school</a>
+            <div class="navigation-panel hidden" id="school-panel">
+              <ul>
+                <li class="group-2-cols">
+                  <h3><a href="http://enac.epfl.ch/" class="enac">Architecture, Civil and Environmental Engineering <acronym title="Environnement Naturel, Architectural et Construit">ENAC</acronym></a></h3>
+                  <ul>
+                    <li><a href="http://enac.epfl.ch/page-2444.html">Architecture</a></li>
+                    <li><a href="http://enac.epfl.ch/page-2445.html">Civil Engineering</a></li>
+                    <li><a href="http://enac.epfl.ch/page-2446.html">Environmental Engineering</a></li>
+                    <li><a href="http://enac.epfl.ch/page-2447.html">Urban Planning</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols">
+                  <h3><a href="http://sb.epfl.ch/" class="sb">Basic Sciences <acronym title="Sciences de Base">SB</acronym></a></h3>
+                  <ul>
+                    <li><a href="http://sb.epfl.ch/chemistry">Chemistry</a></li>
+                    <li><a href="http://sb.epfl.ch/mathematics">Mathematics</a></li>
+                    <li><a href="http://sb.epfl.ch/physics">Physics</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols last">
+                  <h3><a href="http://sti.epfl.ch/" class="sti">Engineering <acronym title="Sciences et Techniques de l'Ingénieur">STI</acronym></a></h3>
+                  <ul>
+                    <li><a href="http://sti.epfl.ch/page-1545.html">Electrical Engineering</a></li>
+                    <li><a href="http://sti.epfl.ch/page-1592.html">Mechanical Engineering</a></li>
+                    <li><a href="http://sti.epfl.ch/page-1617.html">Materials Science and Engineering</a></li>
+                    <li><a href="http://sti.epfl.ch/page-1674.html">Microengineering</a></li>
+                    <li><a href="http://ibi.epfl.ch/">Bioengineering</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols">
+                  <h3><a href="http://ic.epfl.ch/" class="ic">Computer &amp; Communication Sciences <acronym title="Informatique &amp; Communications">I&amp;C</acronym></a></h3>
+                  <ul>
+                    <li><a href="http://ic.epfl.ch/computer-science">Computer Science</a></li>
+                    <li><a href="http://ic.epfl.ch/communication-systems">Communication Systems</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols">
+                  <h3><a href="http://sv.epfl.ch/" class="sv">Life Sciences <acronym title="Sciences de la Vie">SV</acronym></a></h3>
+                  <ul>
+                    <li><a href="http://sv.epfl.ch/page-37989.html">Bioengineering</a></li>
+                    <li><a href="http://sv.epfl.ch/page-26599.html">Neuroscience Brain Mind &amp; Blue Brain</a></li>
+                    <li><a href="http://sv.epfl.ch/page-37990.html">Global Health</a></li>
+                    <li><a href="http://sv.epfl.ch/page-37991.html">Cancer</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols last">
+                  <h3><a href="http://cdm.epfl.ch/" class="cdm">Management of Technology <acronym title="Collège du Management de la Technologie">CDM</acronym></a></h3>
+                  <ul>
+                    <li><a href="http://mtei.epfl.ch/">Management of Technology</a></li>
+                    <li><a href="http://sfi.epfl.ch/">Financial Engineering</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols" style="clear:left">
+                  <h3><a href="http://cdh.epfl.ch/" class="cdh">College of Humanities <acronym title="Collège des Humanités">CDH</acronym></a></h3>
+                  <ul>
+                    <li><a href="http://cdh.epfl.ch/page-37081.html">Human and Social Science</a></li>
+                    <li><a href="http://cdh.epfl.ch/page-25502.html">Area &amp; Cultural Studies</a></li>
+                    <li><a href="http://cdh.epfl.ch/ontology">Center for Social Ontology</a></li>
+                  </ul>  
+                </li>   
+              </ul>
+              <div class="clear"></div>
+            </div>
+          </li>
+          <li class="short menu" id="brief-menu-link">
+            <a class="main-link" href="http://www.epfl.ch/navigate.en.shtml"><span>about</span> <acronym title="École Polytechnique Fédérale de Lausanne">EPFL</acronym></a>
+            <div class="navigation-panel hidden" id="brief-panel">
+              <ul>
+                <li class="group-2-cols">
+                  <h3><a href="http://information.epfl.ch/page-16430-en.html"><acronym title="École Polytechnique Fédérale de Lausanne">EPFL</acronym></a></h3>
+                  <ul>
+                    <li><a href="http://direction.epfl.ch/">Direction</a></li>
+                    <li><a href="http://www.epfl.ch/organigrammes">EPFL Structure</a></li>
+                    <li><a href="http://information.epfl.ch/">General information</a></li>
+                    <li><a href="http://library.epfl.ch/">Library</a></li>
+                    <li><a href="http://emploi.epfl.ch/page-31605-en.html">Job offers</a></li> 
+                    <li><a href="http://information.epfl.ch/page-60921-en.html">National collaborations</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols">
+                  <h3><a href="http://formation.epfl.ch/">Education</a></h3>
+                  <ul>
+                    <li><a href="http://cms.epfl.ch/">Preparatory course <acronym title="Cours de Mathématiques Spéciales">CMS</acronym></a></li>
+                    <li><a href="http://bachelor.epfl.ch/">Bachelor</a></li>
+                    <li><a href="http://master.epfl.ch/">Master</a></li>
+                    <li><a href="http://phd.epfl.ch/">PhD</a></li>
+                    <li><a href="http://continuing-education.epfl.ch/">Continuing education</a> (EPFL-UNIL Foundation)</li>
+                  </ul>
+                </li>
+                <li class="group-2-cols last">
+                  <h3><a href="http://recherche.epfl.ch/">Research</a></h3>
+                  <ul>
+                    <li><a href="http://vpiv.epfl.ch/page-22996-en.html">Transdisciplinary Centers</a></li>
+                    <li><a href="http://grantsoffice.epfl.ch/">Grants office</a></li>
+                    <li><a href="http://commission-recherche.epfl.ch/page-25053-en.html">Research Commission</a></li>
+                    <li><a href="http://infoscience.epfl.ch/?ln=en"><acronym title="École Polytechnique Fédérale de Lausanne">EPFL</acronym> Publications</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols" style="clear: left;">
+                  <h3><a href="http://vpiv.epfl.ch/">Innovation &amp; Tech Transfer</a></h3>
+                  <ul>
+                    <li><a href="http://vpiv.epfl.ch/page-22997-en.html">Partnerships</a></li>
+                    <li><a href="http://vpiv.epfl.ch/page-22998-en.html">Start-up</a></li>
+                    <li><a href="http://www.alliance-tt.ch/">Industrial liaison</a></li>
+                    <li><a href="http://sri.epfl.ch/">Technology transfer, patents</a></li>
+                  </ul>
+                </li>
+                <li class="group-2-cols">
+                  <h3><a href="http://information.epfl.ch/page-60920-en.html">International</a></h3>
+                  <ul>
+                    <li><a href="http://middleeast.epfl.ch/">EPFL Middle East</a></li>
+                    <li><a href="http://cooperation.epfl.ch/page-8942-en.html">Cooperation</a></li>
+                    <li><a href="http://cooperation.epfl.ch/page-56577-en.html">Network of Excellence RESCIF</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <div class="clear"></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="local-color" id="nav-search">
+        <div id="search-box">
+          <a name="search"></a>
+          <form name="search" action="http://search.epfl.ch/process_web2010" id="searchform">
+            <input checked="checked" class="hidden" name="engine" id="search-engine-person" value="person" title="Find a person" type="radio">
+            <label for="search-engine-person" class="current" title="Find a person">Person</label>
+            <input class="hidden" name="engine" id="search-engine-place" value="place" title="Find a place" type="radio">
+            <label for="search-engine-place" title="Find a place">Place</label>
+            <input class="hidden" name="engine" id="search-engine-epfl" value="epfl" title="Search within EPFL sites" type="radio">
+            <label for="search-engine-epfl" title="Search within EPFL sites"><acronym title="École Polytechnique Fédérale de Lausanne">EPFL</acronym> Web</label>
+            <input class="hidden" name="engine" id="search-engine-local" value="local" title="Search within this site" type="radio">
+            <label for="search-engine-local" title="Search within this site">On this site</label>
+            <input name="lang" value="en" type="hidden">
+            <input autocomplete="off" class="search ui-autocomplete-input" name="q" value="Find a person" id="searchfield" type="text"><span class="ui-helper-hidden-accessible" aria-live="polite" role="status"></span><button type="submit" class="search-button" title="Search">Search</button>
+          <ul aria-disabled="false" style="display: none;" tabindex="0" id="ui-id-1" class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all"></ul></form>
+        </div>
+      </div> 
+      <div class="clear"></div>
+    </div>
+
+    <div id="main-content">
+      <ul id="breadcrumbs" title="Navigation dans l'arborescence de l'EPFL">
+        <li><a href="http://www.epfl.ch/" title="EPFL Homepage">EPFL</a></li>
+
+        <li><a href="http://ic.epfl.ch/" title="IC Faculte">IC</a></li>
+        <li class="last"><a href="http://lara.epfl.ch/w/">Lab for Automated Reasoning and Analysis</a></li>
+      </ul>
+      <ul id="languages" title="Choix de la langue">
+        <li>English only</li>
+      </ul>
+      <div style="clear:both"></div>
+
+      
+      <h1>Lab for Automated Reasoning and Analysis <acronym title="Lab for Automated Reasoning and Analysis" class="local-color-text">LARA</acronym></h1>
+      <div id="main-navigation" class="navigation-bar">
+        <ul class="topnav">
+
+        <!-- menu index start -->
+	
+        <li><a href="http://lara.epfl.ch/w/Start">About</a><br></li>
+        <li><a href="http://lara.epfl.ch/w/News">News</a><br></li>
+        <li><a href="http://lara.epfl.ch/w/impro">IMPRO</a><br></li>
+        <li><a href="http://lara.epfl.ch/w/Publications">Publications</a><br></li>
+        <li><a href="http://lara.epfl.ch/w/Software">Software</a><br></li>
+        <li><a href="http://lara.epfl.ch/w/Teaching">Teaching</a><br></li>
+        <li><a href="http://lara.epfl.ch/w/collaboration">Collaboration</a><br></li>
+        <li><a href="http://lara.epfl.ch/w/funding">Funding</a><br></li>
+        <!-- menu index end -->
+
+
+
+        </ul>
+        <div style="clear:both"></div>
+      </div>
+      
+      <div id="tools">
+  
+      </div>
+      
+      <div id="content" class="content">
+        
+      
+                      <!-- wikipage start -->
+
+
+<meta name="generator" content="DokuWiki">
+<meta name="robots" content="index,follow">
+<meta name="date" content="2011-10-21T16:19:58+0200">
+<meta name="keywords" content="jniz3-scala-examples">
+<link rel="search" type="application/opensearchdescription+xml" href="http://lara.epfl.ch/w/lib/exe/opensearch.php" title="LARA: Laboratory for Automated Reasoning and Analysis">
+<link rel="start" href="http://lara.epfl.ch/w/">
+<link rel="contents" href="http://lara.epfl.ch/w/jniz3-scala-examples?do=index" title="Sitemap">
+<link rel="alternate" type="application/rss+xml" title="Recent Changes" href="http://lara.epfl.ch/w/feed.php">
+<link rel="alternate" type="application/rss+xml" title="Current Namespace" href="http://lara.epfl.ch/w/feed.php?mode=list&amp;ns=">
+<link rel="alternate" type="text/html" title="Plain HTML" href="http://lara.epfl.ch/w/_export/xhtml/jniz3-scala-examples">
+<link rel="alternate" type="text/plain" title="Wiki Markup" href="http://lara.epfl.ch/w/_export/raw/jniz3-scala-examples">
+<link rel="canonical" href="http://lara.epfl.ch/w/jniz3-scala-examples">
+<link rel="stylesheet" type="text/css" href="Lab%20for%20Automated%20Reasoning%20and%20Analysis%20-%20LARA:%20Wiki-details_files/css.css">
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"jniz3-scala-examples","namespace":"","plugin_folded":{"hide":"hide","reveal":"reveal"}};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="Lab%20for%20Automated%20Reasoning%20and%20Analysis%20-%20LARA:%20Wiki-details_files/js.php"></script><style type="text/css" media="screen"><!--/*--><![CDATA[/*><!--*/ .folded.hidden { display: none; } .folder .indicator { visibility: visible; } /*]]>*/--></style>
+
+  <link rel="shortcut icon" href="http://lara.epfl.ch/w/lib/tpl/lara3/images/favicon.ico">
+
+  
+<div class="dokuwiki">
+  
+  <div class="stylehead">
+
+    <div class="header">
+
+      <div class="clearer"></div>
+    </div>
+
+    
+
+      <div class="clearer"></div>
+    </div>
+
+        <div class="breadcrumbs">
+      <span class="bchead">Trace:</span> <span class="bcsep">•</span> <a href="http://lara.epfl.ch/w/scalaz3" class="breadcrumbs" title="scalaz3">scalaz3</a> <span class="bcsep">•</span> <span class="curid"><a href="http://lara.epfl.ch/w/jniz3-scala-examples" class="breadcrumbs" title="jniz3-scala-examples">jniz3-scala-examples</a></span>          </div>
+    
+    
+  </div>
+  
+  
+  <div class="page">
+    <!-- wikipage start -->
+    
+<h1 class="sectionedit1" id="examples_of_using_z3_with_scala">Examples of Using Z3 with Scala</h1>
+<div class="level1">
+
+<p>
+Compiling and running the following examples requires that you obtain <a href="http://lara.epfl.ch/%7Epsuter/jniz3" class="urlextern" title="http://lara.epfl.ch/~psuter/jniz3" rel="nofollow">z3.jar</a>, <code>libz3.so</code>
+ (from Microsoft Research), and use Scala 2.8. The best way to figure 
+out which functions to use is probably to read through the C <abbr title="Application Programming Interface">API</abbr> once, then through the Scala <abbr title="Application Programming Interface">API</abbr>, then looking at examples, and finally, contacting us.
+</p>
+
+</div>
+
+<h2 class="sectionedit2" id="testing_your_setup">Testing your setup</h2>
+<div class="level2">
+
+</div>
+
+<h2 class="sectionedit3" id="nix_systems">*nix Systems</h2>
+<div class="level2">
+
+<p>
+Once you have the required files, try our your setup with the Scala interpreter. Note that you have to make sure that <code>libz3.so</code> is in the dynamically-loaded library path (<code>LD_LIBRARY_PATH</code> in Unix-like systems). You can run <code>scala</code> as follows:
+</p>
+<pre class="code">LD_LIBRARY_PATH=${Z3_LIB_PATH} scala -classpath scalaz3.jar</pre>
+
+<p>
+where <code>${Z3_LIB_PATH}</code> is the directory where you keep <code>libz3.so</code>. (Alternatively, export <code>LD_LIBRARY_PATH</code> once and for all.) Then, try the following:
+</p>
+<pre class="code">scala&gt; z3.scala.version</pre>
+
+<p>
+it should print something like:
+</p>
+<pre class="code">res0: String = Z3 3.2 (build 0, rev. 0), ScalaZ3 3.2.b</pre>
+
+<p>
+If you have an older version of Z3, go get the latest.
+</p>
+
+</div>
+
+<h2 class="sectionedit4" id="windows">Windows</h2>
+<div class="level2">
+
+<p>
+<del>Make sure you have all required files installed and available in the path, including the <a href="http://www.microsoft.com/downloads/en/details.aspx?displaylang=en&amp;FamilyID=a7b7a05e-6de6-4d3a-a423-37bf0912db84" class="urlextern" title="http://www.microsoft.com/downloads/en/details.aspx?displaylang=en&amp;FamilyID=a7b7a05e-6de6-4d3a-a423-37bf0912db84" rel="nofollow">Microsoft Visual C++ 2010 Redistributable Package</a>. The instructions are otherwise similar as above.</del>
+</p>
+
+<p>
+As of ScalaZ3 3.2.a, there are no additional dependencies for the Windows version. 
+</p>
+
+</div>
+
+<h2 class="sectionedit5" id="solving_integer_constraints">Solving integer constraints</h2>
+<div class="level2">
+
+<p>
+The following program reads one integer from the command line and 
+converts that number of seconds into hours, minutes and remaining 
+seconds. Fails if the total is more than a day.
+</p>
+<pre class="code scala"><a href="http://scala-lang.org/"><span class="kw1">import</span></a> z3.<span class="me1">scala</span>.<span class="sy0">_</span>
+&nbsp;
+<a href="http://scala-lang.org/"><span class="kw1">object</span></a> SecondsToTime <span class="br0">{</span>
+  <a href="http://scala-lang.org/"><span class="kw1">def</span></a> main<span class="br0">(</span>args <span class="sy0">:</span> Array<span class="br0">[</span>String<span class="br0">]</span><span class="br0">)</span> <span class="sy0">=</span> <span class="br0">{</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> totSecs <span class="sy0">=</span> args<span class="br0">(</span><span class="nu0">0</span><span class="br0">)</span>.<span class="me1">toInt</span>
+&nbsp;
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> cfg <span class="sy0">=</span> <a href="http://scala-lang.org/"><span class="kw1">new</span></a> Z3Config<span class="br0">(</span><span class="st0">"MODEL"</span> -<span class="sy0">&gt;</span> <a href="http://scala-lang.org/"><span class="kw1">true</span></a><span class="br0">)</span> <span class="co1">// required if you plan to query models of satisfiable constraints</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> z3 <span class="sy0">=</span> <a href="http://scala-lang.org/"><span class="kw1">new</span></a> Z3Context<span class="br0">(</span>cfg<span class="br0">)</span>
+&nbsp;
+    <span class="co1">// prepares the integer sort and three constants (the "unknowns")</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> i <span class="sy0">=</span> z3.<span class="me1">mkIntSort</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> h <span class="sy0">=</span> z3.<span class="me1">mkConst</span><span class="br0">(</span>z3.<span class="me1">mkStringSymbol</span><span class="br0">(</span><span class="st0">"h"</span><span class="br0">)</span>, i<span class="br0">)</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> m <span class="sy0">=</span> z3.<span class="me1">mkConst</span><span class="br0">(</span>z3.<span class="me1">mkStringSymbol</span><span class="br0">(</span><span class="st0">"m"</span><span class="br0">)</span>, i<span class="br0">)</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> s <span class="sy0">=</span> z3.<span class="me1">mkConst</span><span class="br0">(</span>z3.<span class="me1">mkStringSymbol</span><span class="br0">(</span><span class="st0">"s"</span><span class="br0">)</span>, i<span class="br0">)</span>
+    <span class="co1">// builds a constant integer value from the CL arg.</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> t <span class="sy0">=</span> z3.<span class="me1">mkInt</span><span class="br0">(</span>totSecs, i<span class="br0">)</span>
+    <span class="co1">// more integer constants</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> z <span class="sy0">=</span> z3.<span class="me1">mkInt</span><span class="br0">(</span><span class="nu0">0</span>, i<span class="br0">)</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> sx <span class="sy0">=</span> z3.<span class="me1">mkInt</span><span class="br0">(</span><span class="nu0">60</span>, i<span class="br0">)</span>
+&nbsp;
+    <span class="co1">// builds the constraint h*3600 + m * 60 + s == totSecs</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> cs1 <span class="sy0">=</span> z3.<span class="me1">mkEq</span><span class="br0">(</span>
+    z3.<span class="me1">mkAdd</span><span class="br0">(</span>
+      z3.<span class="me1">mkMul</span><span class="br0">(</span>z3.<span class="me1">mkInt</span><span class="br0">(</span><span class="nu0">3600</span>, i<span class="br0">)</span>, h<span class="br0">)</span>,
+      z3.<span class="me1">mkMul</span><span class="br0">(</span>sx, m<span class="br0">)</span>,
+      s<span class="br0">)</span>,
+    t<span class="br0">)</span>
+&nbsp;
+    <span class="co1">// more constraints</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> cs2 <span class="sy0">=</span> z3.<span class="me1">mkAnd</span><span class="br0">(</span>z3.<span class="me1">mkGE</span><span class="br0">(</span>h, z<span class="br0">)</span>, z3.<span class="me1">mkLT</span><span class="br0">(</span>h, z3.<span class="me1">mkInt</span><span class="br0">(</span><span class="nu0">24</span>, i<span class="br0">)</span><span class="br0">)</span><span class="br0">)</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> cs3 <span class="sy0">=</span> z3.<span class="me1">mkAnd</span><span class="br0">(</span>z3.<span class="me1">mkGE</span><span class="br0">(</span>m, z<span class="br0">)</span>, z3.<span class="me1">mkLT</span><span class="br0">(</span>m, sx<span class="br0">)</span><span class="br0">)</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> cs4 <span class="sy0">=</span> z3.<span class="me1">mkAnd</span><span class="br0">(</span>z3.<span class="me1">mkGE</span><span class="br0">(</span>s, z<span class="br0">)</span>, z3.<span class="me1">mkLT</span><span class="br0">(</span>s, sx<span class="br0">)</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1">// pushes the constraints to the Z3 context</span>
+    z3.<span class="me1">assertCnstr</span><span class="br0">(</span>z3.<span class="me1">mkAnd</span><span class="br0">(</span>cs1, cs2, cs3, cs4<span class="br0">)</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1">// attempting to solve the constraints, and reading the result</span>
+    z3.<span class="me1">checkAndGetModel</span> <a href="http://scala-lang.org/"><span class="kw1">match</span></a> <span class="br0">{</span>
+      <a href="http://scala-lang.org/"><span class="kw1">case</span></a> <span class="br0">(</span>None, <span class="sy0">_</span><span class="br0">)</span> <span class="sy0">=&gt;</span> println<span class="br0">(</span><span class="st0">"Z3 failed. The reason is: "</span> + z3.<span class="me1">getSearchFailure</span>.<span class="me1">message</span><span class="br0">)</span>
+      <a href="http://scala-lang.org/"><span class="kw1">case</span></a> <span class="br0">(</span>Some<span class="br0">(</span><a href="http://scala-lang.org/"><span class="kw1">false</span></a><span class="br0">)</span>, <span class="sy0">_</span><span class="br0">)</span> <span class="sy0">=&gt;</span> println<span class="br0">(</span><span class="st0">"Unsat."</span><span class="br0">)</span>
+      <a href="http://scala-lang.org/"><span class="kw1">case</span></a> <span class="br0">(</span>Some<span class="br0">(</span><a href="http://scala-lang.org/"><span class="kw1">true</span></a><span class="br0">)</span>, model<span class="br0">)</span> <span class="sy0">=&gt;</span> <span class="br0">{</span>
+        println<span class="br0">(</span><span class="st0">"h: "</span> + model.<span class="me1">evalAsInt</span><span class="br0">(</span>h<span class="br0">)</span><span class="br0">)</span>
+        println<span class="br0">(</span><span class="st0">"m: "</span> + model.<span class="me1">evalAsInt</span><span class="br0">(</span>m<span class="br0">)</span><span class="br0">)</span>
+        println<span class="br0">(</span><span class="st0">"s: "</span> + model.<span class="me1">evalAsInt</span><span class="br0">(</span>s<span class="br0">)</span><span class="br0">)</span>
+        model.<span class="me1">delete</span>
+      <span class="br0">}</span>
+    <span class="br0">}</span>
+&nbsp;
+    z3.<span class="me1">delete</span>
+  <span class="br0">}</span>
+<span class="br0">}</span></pre>
+
+<p>
+You can compile it simply by running
+</p>
+<pre class="code">scalac -cp scalaz3.jar SecondsToTime.scala</pre>
+
+<p>
+and run it with
+</p>
+<pre class="code">LD_LIBRARY_PATH=${Z3_LIB_PATH} scala -cp scalaz3.jar SecondsToTime 12345</pre>
+
+<p>
+for instance.
+</p>
+
+<p>
+This should print:
+</p>
+<pre class="code">h: Some(3)
+m: Some(25)
+s: Some(45)</pre>
+
+<p>
+Now if you try to run it with 123456 instead, you'll get
+</p>
+<pre class="code">Unsat.</pre>
+
+<p>
+because the number of seconds exceeds one day.
+</p>
+
+</div>
+
+<h2 class="sectionedit6" id="using_quantifiers">Using Quantifiers</h2>
+<div class="level2">
+
+<p>
+The following program uses a quantifier to specify the Fibonacci function and “compute” some values for it.
+</p>
+<pre class="code scala"><a href="http://scala-lang.org/"><span class="kw1">import</span></a> z3.<span class="me1">scala</span>.<span class="sy0">_</span>
+&nbsp;
+<a href="http://scala-lang.org/"><span class="kw1">object</span></a> Fibonacci <span class="br0">{</span>
+  <a href="http://scala-lang.org/"><span class="kw1">def</span></a> main<span class="br0">(</span>args <span class="sy0">:</span> Array<span class="br0">[</span>String<span class="br0">]</span><span class="br0">)</span> <span class="sy0">:</span> Unit <span class="sy0">=</span> <span class="br0">{</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> config <span class="sy0">=</span> <a href="http://scala-lang.org/"><span class="kw1">new</span></a> Z3Config<span class="br0">(</span><span class="st0">"MODEL"</span> -<span class="sy0">&gt;</span> <a href="http://scala-lang.org/"><span class="kw1">true</span></a><span class="br0">)</span>
+&nbsp;
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> z3 <span class="sy0">=</span> <a href="http://scala-lang.org/"><span class="kw1">new</span></a> Z3Context<span class="br0">(</span>config<span class="br0">)</span>
+    toggleWarningMessages<span class="br0">(</span><a href="http://scala-lang.org/"><span class="kw1">true</span></a><span class="br0">)</span>
+&nbsp;
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> intSort <span class="sy0">=</span> z3.<span class="me1">mkIntSort</span>
+&nbsp;
+    <span class="co1">// declares a function symbol of type int-&gt;int</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> fibonacci <span class="sy0">=</span> z3.<span class="me1">mkFreshFuncDecl</span><span class="br0">(</span><span class="st0">"fib"</span>, List<span class="br0">(</span>intSort<span class="br0">)</span>, intSort<span class="br0">)</span>
+&nbsp;
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> fib0 <span class="sy0">=</span> z3.<span class="me1">mkEq</span><span class="br0">(</span>fibonacci<span class="br0">(</span>z3.<span class="me1">mkInt</span><span class="br0">(</span><span class="nu0">0</span>, intSort<span class="br0">)</span><span class="br0">)</span>, z3.<span class="me1">mkInt</span><span class="br0">(</span><span class="nu0">0</span>, intSort<span class="br0">)</span><span class="br0">)</span> <span class="co1">// fib(0) = 0</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> fib1 <span class="sy0">=</span> z3.<span class="me1">mkEq</span><span class="br0">(</span>fibonacci<span class="br0">(</span>z3.<span class="me1">mkInt</span><span class="br0">(</span><span class="nu0">1</span>, intSort<span class="br0">)</span><span class="br0">)</span>, z3.<span class="me1">mkInt</span><span class="br0">(</span><span class="nu0">1</span>, intSort<span class="br0">)</span><span class="br0">)</span> <span class="co1">// fib(1) = 1</span>
+&nbsp;
+    <span class="co1">// FORALL x . x &gt; 1 ==&gt; fib(x) = fib(x-1) + fib(x-2)</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> boundVar <span class="sy0">=</span> z3.<span class="me1">mkBound</span><span class="br0">(</span><span class="nu0">0</span>, intSort<span class="br0">)</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> pattern<span class="sy0">:</span> Z3Pattern <span class="sy0">=</span> z3.<span class="me1">mkPattern</span><span class="br0">(</span>fibonacci<span class="br0">(</span>boundVar<span class="br0">)</span><span class="br0">)</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> axiomTree <span class="sy0">=</span> z3.<span class="me1">mkImplies</span><span class="br0">(</span>
+        z3.<span class="me1">mkGT</span><span class="br0">(</span>boundVar, z3.<span class="me1">mkInt</span><span class="br0">(</span><span class="nu0">1</span>, intSort<span class="br0">)</span><span class="br0">)</span>,
+        z3.<span class="me1">mkEq</span><span class="br0">(</span>
+          fibonacci<span class="br0">(</span>boundVar<span class="br0">)</span>,
+          z3.<span class="me1">mkAdd</span><span class="br0">(</span>
+            fibonacci<span class="br0">(</span>z3.<span class="me1">mkSub</span><span class="br0">(</span>boundVar, z3.<span class="me1">mkInt</span><span class="br0">(</span><span class="nu0">1</span>, intSort<span class="br0">)</span><span class="br0">)</span><span class="br0">)</span>,
+            fibonacci<span class="br0">(</span>z3.<span class="me1">mkSub</span><span class="br0">(</span>boundVar, z3.<span class="me1">mkInt</span><span class="br0">(</span><span class="nu0">2</span>, intSort<span class="br0">)</span><span class="br0">)</span><span class="br0">)</span><span class="br0">)</span>
+          <span class="br0">)</span>
+        <span class="br0">)</span>
+&nbsp;
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> someName<span class="sy0">:</span> Z3Symbol <span class="sy0">=</span> z3.<span class="me1">mkIntSymbol</span><span class="br0">(</span><span class="nu0">0</span><span class="br0">)</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> fibN <span class="sy0">=</span> z3.<span class="me1">mkForAll</span><span class="br0">(</span><span class="nu0">0</span>, List<span class="br0">(</span>pattern<span class="br0">)</span>, List<span class="br0">(</span><span class="br0">(</span>someName, intSort<span class="br0">)</span><span class="br0">)</span>, axiomTree<span class="br0">)</span>
+&nbsp;
+    <span class="co1">// just printing the axioms</span>
+    println<span class="br0">(</span><span class="st0">"fib0 ::: "</span> + fib0<span class="br0">)</span>
+    println<span class="br0">(</span><span class="st0">"fib1 ::: "</span> + fib1<span class="br0">)</span>
+    println<span class="br0">(</span><span class="st0">"fibN ::: "</span> + fibN<span class="br0">)</span>
+&nbsp;
+    z3.<span class="me1">assertCnstr</span><span class="br0">(</span>fib0<span class="br0">)</span>
+    z3.<span class="me1">assertCnstr</span><span class="br0">(</span>fib1<span class="br0">)</span>
+    z3.<span class="me1">assertCnstr</span><span class="br0">(</span>fibN<span class="br0">)</span>
+&nbsp;
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> x <span class="sy0">=</span> z3.<span class="me1">mkConst</span><span class="br0">(</span>z3.<span class="me1">mkStringSymbol</span><span class="br0">(</span><span class="st0">"v"</span><span class="br0">)</span>, intSort<span class="br0">)</span>
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> query <span class="sy0">=</span> z3.<span class="me1">mkEq</span><span class="br0">(</span>x, fibonacci<span class="br0">(</span>z3.<span class="me1">mkInt</span><span class="br0">(</span><span class="nu0">5</span>, intSort<span class="br0">)</span><span class="br0">)</span><span class="br0">)</span>
+    println<span class="br0">(</span><span class="st0">"Query ::: "</span> + query<span class="br0">)</span>
+    z3.<span class="me1">assertCnstr</span><span class="br0">(</span>query<span class="br0">)</span>
+&nbsp;
+    <a href="http://scala-lang.org/"><span class="kw1">val</span></a> <span class="br0">(</span>answer, model<span class="br0">)</span> <span class="sy0">=</span> z3.<span class="me1">checkAndGetModel</span>
+&nbsp;
+    println<span class="br0">(</span><span class="st0">"fibonacci(5) = ?"</span><span class="br0">)</span>
+    answer <a href="http://scala-lang.org/"><span class="kw1">match</span></a> <span class="br0">{</span>
+      <a href="http://scala-lang.org/"><span class="kw1">case</span></a> Some<span class="br0">(</span><a href="http://scala-lang.org/"><span class="kw1">true</span></a><span class="br0">)</span> <span class="sy0">=&gt;</span> println<span class="br0">(</span><span class="st0">"there's a solution: "</span> + model<span class="br0">)</span>
+      <a href="http://scala-lang.org/"><span class="kw1">case</span></a> Some<span class="br0">(</span><a href="http://scala-lang.org/"><span class="kw1">false</span></a><span class="br0">)</span> <span class="sy0">=&gt;</span> println<span class="br0">(</span><span class="st0">"no solution"</span><span class="br0">)</span>
+      <a href="http://scala-lang.org/"><span class="kw1">case</span></a> <span class="sy0">_</span> <span class="sy0">=&gt;</span> <span class="br0">{</span>
+        println<span class="br0">(</span><span class="st0">"Failure reason: "</span> + z3.<span class="me1">getSearchFailure</span>.<span class="me1">message</span><span class="br0">)</span>
+        println<span class="br0">(</span><span class="st0">"Here's a model anyway : "</span> + model<span class="br0">)</span>
+      <span class="br0">}</span>
+    <span class="br0">}</span>
+    z3.<span class="me1">delete</span>
+  <span class="br0">}</span>
+<span class="br0">}</span></pre>
+
+<p>
+Compiling and executing should give you
+</p>
+<pre class="code">...
+Query ::: (= v (fib!0 5))
+fibonacci(5) = ?
+Failure reason: Logical context contains universal quantifiers
+Here's a model anyway : v -&gt; 5
+fib!0 -&gt; {
+  0 -&gt; 0
+  1 -&gt; 1
+  5 -&gt; 5
+  4 -&gt; 3
+  3 -&gt; 2
+  2 -&gt; 1
+  else -&gt; 1
+}  </pre>
+
+<p>
+Note that Z3 does not say <code>sat</code>, because of the 
+universally-quantified axiom (it would have to build an infinite model, 
+to be “really sure”). It gives a candidate model, though. The candidate 
+model does not satisfy the universal axiom (because in its 
+interpretation, fib(6) = 1, for instance), but note that it's enough to 
+get you the result that you wanted (fib is correct up to the required 
+value).
+</p>
+
+</div>
+
+<h2 class="sectionedit7" id="using_algebraic_data_types">Using Algebraic Data Types</h2>
+<div class="level2">
+
+<p>
+More to come later. Contact us if you're can't wait and/or figure it out by looking at the <abbr title="Application Programming Interface">API</abbr>.
+</p>
+
+</div>
+
+<h2 class="sectionedit8" id="writing_theory_plugins">Writing Theory Plugins</h2>
+<div class="level2">
+
+<p>
+More to come later. Contact us if you're can't wait and/or figure it out by looking at the <abbr title="Application Programming Interface">API</abbr>.
+</p>
+
+</div>
+
+    <!-- wikipage stop -->
+  </div>
+
+  <div class="clearer">&nbsp;</div>
+
+  
+  <div class="stylefoot">
+
+    <div class="meta">
+      <div class="user">
+              </div>
+      <div class="doc">
+        jniz3-scala-examples.txt · Last modified: 2011/10/21 16:19 by philippe.suter      </div>
+    </div>
+
+   
+    <div class="bar" id="bar__bottom">
+      <div class="bar-left" id="bar__bottomleft">
+        <form class="button btn_source" method="post" action="/w/jniz3-scala-examples"><div class="no"><input name="do" value="edit" type="hidden"><input name="rev" value="0" type="hidden"><input value="Show pagesource" class="button" accesskey="v" title="Show pagesource [V]" type="submit"></div></form>        <form class="button btn_revs" method="get" action="/w/jniz3-scala-examples"><div class="no"><input name="do" value="revisions" type="hidden"><input value="Old revisions" class="button" accesskey="o" title="Old revisions [O]" type="submit"></div></form>	<form action="/w/start" accept-charset="utf-8" class="search" id="dw__search" method="get"><div class="no"><input name="do" value="search" type="hidden"><input id="qsearch__in" accesskey="f" name="id" class="edit" title="[F]" type="text"><input value="Search" class="button" title="Search" type="submit"><div style="display: none;" id="qsearch__out" class="ajax_qsearch JSpopup"></div></div></form>      </div>
+      <div class="bar-right" id="bar__bottomright">
+                                <form class="button btn_login" method="get" action="/w/jniz3-scala-examples"><div class="no"><input name="do" value="login" type="hidden"><input name="sectok" value="1dfbed3d06bd0257a850d7228791d4a5" type="hidden"><input value="Login" class="button" title="Login" type="submit"></div></form>        <form class="button btn_index" method="get" action="/w/jniz3-scala-examples"><div class="no"><input name="do" value="index" type="hidden"><input value="Sitemap" class="button" accesskey="x" title="Sitemap [X]" type="submit"></div></form>	<form class="button btn_recent" method="get" action="/w/jniz3-scala-examples"><div class="no"><input name="do" value="recent" type="hidden"><input value="Recent changes" class="button" accesskey="r" title="Recent changes [R]" type="submit"></div></form>        <a class="nolink" href="#dokuwiki__top"><input class="button" value="Back to top" onclick="window.scrollTo(0, 0)" title="Back to top" type="button"></a>&nbsp;
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="no"><img src="Lab%20for%20Automated%20Reasoning%20and%20Analysis%20-%20LARA:%20Wiki-details_files/indexer.gif" alt="" width="2" height="1"></div>
+
+
+</div></body></html>

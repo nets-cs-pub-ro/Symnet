@@ -1,0 +1,31 @@
+.local-color{background-color:#1bb5b5;}
+.local-color-text{color:#1bb5b5;}
+acronym, abbr {color:#1bb5b5;}
+
+#main-navigation {background-color:#1bb5b5;}
+#main-navigation li {border-color: #1bb5b5;}
+#main-navigation li:hover { background-color: #007f87; }
+
+.tree li { background-color:#1bb5b5; }
+.tree li.hover  { background-color: #007f87; }
+
+.local-color-light {background-color:#007f87;}
+.local-color-dark {background-color:#004d59;}
+.news-text h2 a:hover {color: #1bb5b5;}
+
+.search-results a {color:#1bb5b5; }
+.search-results cite {color:#004d59;}
+.pagination .current {color:#1bb5b5;}
+
+.print .icon {background-position: 0 -312px; }
+.print:hover .icon {background-position: 0 -288px;}
+.feed .icon {background-position: -24px -312px; }
+.feed:hover .icon {background-position: -24px -288px; }
+.share .icon {background-position: -48px -312px; }
+.share:hover .icon {background-position: -48px -288px; }
+.information .icon {background-position: -72px -312px; }
+.information:hover .icon {background-position: -72px -288px; }
+.question .icon {background-position: -96px -312px; }
+.question:hover .icon {background-position: -96px -288px; }
+.showall .icon {background-position: -120px -312px; }
+.showall:hover .icon {background-position: -120px -288px; }

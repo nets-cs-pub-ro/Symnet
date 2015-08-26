@@ -1,0 +1,740 @@
+@charset "utf-8";
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td, p{margin:0;padding:0;border:0;outline:0;font-weight:inherit;font-style:inherit;font-size:100%;font-family:inherit;}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    background-color: #fff;
+    color: #454545;
+    margin: 0px 8px 24px 30px;
+    padding:0.1px; /* FF3 */
+}
+h1{ font-family: Impact, "Arial Black","DejaVu Sans", Arial, Helvetica , sans-serif;
+    font-size: 26px;
+    color: #000;
+    line-height: 32px;
+    letter-spacing:.08em;
+    margin-top:29px;
+    margin-bottom: 6px;
+    text-transform:uppercase;
+}
+h1 a { background: none; text-decoration: none; }
+h1 a:hover {background: none; }
+h2 {
+    font-family: "Arial Black", Arial, Helvetica, sans-serif;
+    font-size: 23px;
+    color: #000;
+    letter-spacing: 0.05em;
+    line-height: 38px;
+    margin-bottom: 6px;
+ }
+h3 { 
+    font-family: "Arial Black", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: #000;
+    font-size:20px;
+    letter-spacing:1px;
+	line-height:22px;
+    padding-bottom:4px;
+	margin-bottom: 0px;
+}
+h4 { color: #000; font-family: Arial, Helvetica, sans-serif; 
+     font-weight: bold; font-size: 15px; margin-bottom: 2px;
+     line-height: 16px;}
+h5 { color: #000; font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 13px;}
+h6 { color: #000; font-weight: bold;}
+
+p { margin-bottom: 18px; color: #454545; }
+form { margin-bottom: 18px;}
+a { text-decoration: none; color: #000;  }
+a:active, a:link        { color: #003366;  text-decoration: none }
+a:visited, a:hover      { color: #336699;  text-decoration: none }
+
+
+b, strong { color: #000; font-weight: bold;}
+i, em { font-style: italic; }
+ul { padding-left: 0;}
+hr { color: #000; background-color: #000; height: 1px; border: none; padding: 0; margin: 20px 0 20px 0;}
+blockquote img {
+    width: 50px;
+    height: 50px;
+    margin-right: 8px;
+    float: left;
+}
+blockquote p {
+    font-family: Georgia, serif;
+    font-size: 15px;
+    font-style:italic;
+    font-weight:bold;
+    line-height:18px;
+    top: -1px;
+    position: relative;
+    float: left;
+    display: block;
+    width: 266px;
+    color: #000;
+}
+pre, code { 
+    font-family: Monaco, "Andale Mono", "Courier", "Lucida console", "Consolas", "Bitstream Vera Sans Mono", "Nimbus Mono L", monospace;
+    font-size: 10px;           
+}
+pre {display: block; white-space: pre; margin-bottom: 20px;}
+dl dt { position: relative; left: 0; top: 16px; width: 160px; 
+        color: #000; font-family: Arial, Helvetica, sans-serif; 
+        font-weight: bold; font-size: 13px; line-height: 18px;}
+dl dd { border-left: 1px solid #000; margin-left: 160px; padding-left: 4px; }
+
+object { z-index: 0; }
+cite { font-family: Georgia, serif; font-style: italic; letter-spacing: 1px; font-size: 11px;}
+
+sup, sub { font-size: 11px; }
+acronym, abbr {color:#ae0010;}
+
+.table { border-collapse: collapse; border-spacing: 0; margin-bottom: 40px; width: 100%;}
+.table th {
+    padding: 4px 4px 4px 0; color: #000; font-family: Arial, Helvetica, sans-serif; 
+    font-weight: bold; font-size: 13px; line-height: 14px; text-align: left;
+    border-bottom: 1px solid #000;} 
+.table td { padding: 3px 4px 3px 0; vertical-align: top; 
+            background: url(http://www.epfl.ch/img/underline.gif) repeat-x 0 bottom;
+            line-height: 14px}
+
+.sti{ color:#8972d5;}
+.enac{color:#ea5e00;}
+.cdm{color:#990165;}
+.cdh{color:#daa521;}
+.sv{color:#6fba01;}
+.sb{color:#007ba5;}
+.ic{color:#1bb5b5;}
+
+.epfl {background-color: #e2001a; }
+.black { background-color: #000; }
+
+.local-color {background-color: #ae0010; color: #fff;}
+.local-color a { color: #fff; }
+.local-color-text {color:#ae0010;}
+.local-color-light{ background-color: #7e000c; }
+.local-color-dark{ background-color: #5d0009; }
+.hidden{ position: absolute; left: -9999em;}
+.heading {
+    margin-bottom: 18px;
+    font-weight: bold;
+    font-size: 13px;
+    color: #000;
+}
+.heading a{ background-position: 0 14px; }
+
+.clear { clear: both; display: block; overflow: hidden; visibility: hidden; width: 0; height: 0;}
+
+.button { float: left; margin-right: 20px; cursor: pointer;}
+.icon {float: left; background: url(http://www.epfl.ch/img/icons.png) no-repeat; height: 24px; width: 24px; margin-right: 4px; border: none; cursor: pointer;}
+.label {font-family: Georgia, serif; font-size: 11px; letter-spacing: 1px; font-style: italic; background: url(http://www.epfl.ch/img/underline.gif) repeat-x 0 14px; cursor: pointer;}
+.button .label {display: block; float: left; margin-top: 3px; }
+.button:hover .label { background-image: url(http://www.epfl.ch/img/underline-hover.png); } 
+
+.print .icon {background-position: 0 0; }
+.print:hover .icon {background-position: 0 -24px;}
+.feed .icon {background-position: -24px 0; }
+.feed:hover .icon {background-position: -24px -24px; }
+.share .icon {background-position: -48px 0; }
+.share:hover .icon {background-position: -48px -24px; }
+.information .icon {background-position: -72px 0; }
+.information:hover .icon {background-position: -72px -24px; }
+.question .icon {background-position: -96px 0; }
+.question:hover .icon {background-position: -96px -24px; }
+.showall .icon {background-position: -120px 0; }
+.showall:hover .icon {background-position: -120px -24px; }
+
+
+/**************************** Header definition *******************************/
+#header{ margin-left: auto; margin-right: auto; width: 980px; padding: 0 8px; background-color: #fff;}
+#header a{ background: none; }
+#header input{ color: #666;}
+#header input.focused{ color: #000; }
+.portal{ background-color: #999c98; /* light gray */ }
+.school{ background-color: #696f6e; /* dark gray */}
+.short{ background-color: #474e52; /* darker gray */}
+
+#nav-logo {
+    float: left; height: 73px; width: 160px; position: relative; margin: 0 4px 0 0;
+    background: url(http://www.epfl.ch/img/epfl.png) no-repeat 0 5px; border-bottom: 1px solid #474e52; /* darker gray */ }
+#nav-logo a{ display: block; width: 160px; height: 73px;}
+#main-menus { list-style: none; padding: 0; margin: 0;}
+#main-menus li.menu { float: left; height: 74px; width: 160px; position: relative; cursor: pointer; }
+#main-menus li.menu .navigation-panel {cursor: default;}
+#nav-menus{ margin-right: 4px; padding: 0; float: left;}
+#nav-menus li.menu:hover { background-color: #fff; color: #000;}
+#nav-menus a.main-link {
+    color: #fff; background: url(http://www.epfl.ch/img/arrow-menu.gif) no-repeat bottom right;
+    position: absolute;
+    bottom: 8px; left: 8px; padding-right: 12px;
+    font-family: Impact, "Arial Black","DejaVu Sans", Arial, Helvetica , sans-serif; 
+    font-size: 22px; letter-spacing: 0.1em; text-transform: uppercase; }
+#nav-menus a.main-link acronym { color: #fff; }
+#nav-menus li.menu:hover a.main-link { background-image: url(http://www.epfl.ch/img/arrow-menu-on.gif); color: #000;}
+#nav-menus li.menu:hover a.main-link acronym{ color: #000;}
+
+#nav-menus a.main-link span { display: block; margin-bottom: 4px; font-size: 18px; }
+#nav-menus a.main-link:hover{ background-image: url(http://www.epfl.ch/img/arrow-menu-on.gif);}
+#nav-menus a.main-link:active{ background-image: url(http://www.epfl.ch/img/arrow-menu-on.gif);}
+#public-menu-link { margin-right: 4px; font-weight: normal;}
+#school-menu-link { margin-right: 4px; font-weight: normal;}
+#brief-menu-link { font-weight: normal}
+#nav-search {
+    float: left;
+    height: 74px;
+    width: 324px;
+    margin: 0;
+    position: relative;
+}
+#search-box {
+    margin: 0 8px;
+    padding: 0;
+    position: absolute;
+    bottom: 8px;
+}
+#search-box acronym { color: #fff; }
+#searchform label{
+    display: block;
+    float: left;
+    width:77px;
+    height:25px;
+    padding-top: 2px;
+    margin-right: 0;
+    margin-bottom: 4px;
+    overflow:hidden;
+    text-align:center;
+    text-decoration: none;
+    font-size: 12px;
+    font-family: Arial, helvetica, sans-serif;
+    color:#fff;
+}
+#searchform {margin: 0;}
+#searchform label:hover {cursor: pointer;}
+#searchform label.current{
+    font-weight:bold;
+    background:url(http://www.epfl.ch/img/wheretosearch.gif) no-repeat top left;}
+#searchform input.search{
+    width: 277px;
+    height: 22px;
+    line-height: 22px;
+    border: none;
+    border-right: 1px solid #b8b8b8;
+    padding: 0 0 0 8px;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#searchform button{
+    background: url(http://www.epfl.ch/img/search.png) no-repeat top left;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    border: none;
+    vertical-align: bottom;
+    text-indent: -9999em;  
+}
+.navigation-panel {
+    position: absolute;
+    top: 74px;
+	width: 980px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 60px 8px 0 8px;
+	border: none;
+	background-color: #fff;
+	z-index: 999;
+}
+.navigation-panel .group {
+	float: left;
+	width: 160px;
+	margin-right: 4px;
+	padding: 0;
+}
+
+.navigation-panel ul { list-style: none; padding: 0; margin-bottom: 28px; }
+.navigation-panel a{ font-family: Arial, helvetica, sans-serif; font-size: 13px; font-weight: bold; letter-spacing:.05em;}
+.navigation-panel a:hover { text-decoration: underline;}
+.navigation-panel h3 {
+    margin:0 0 4px 0; padding:0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:13px; line-height:14px; font-weight: bold; letter-spacing:.05em;
+}
+.navigation-panel .group-2-cols { float: left; width: 324px; margin-right: 4px; }
+.navigation-panel .last { margin: 0; }
+
+#public-panel {left: -172px;}
+#public-panel.hidden { left: -9999em; }
+#public-panel h3 a { color: red;}
+
+#school-panel { left: -336px;} 
+#school-panel.hidden { left: -9999em; }
+#school-panel h3 acronym { color: #454545;}
+
+#brief-panel { left: -500px; }
+#brief-panel.hidden { left: -9999em; }
+#brief-panel acronym { color: #000;}
+#brief-panel h3 { color: red;}
+#brief-panel h3 acronym { color: red;}
+#brief-panel .large { width: 320px; margin-right:0; }
+
+#breadcrumbs, #languages{
+    padding: 2px 0 0 0;
+    font-family: Georgia, serif;
+    font-style: italic;
+    letter-spacing: 1px;
+    font-size: 11px;
+    font-weight: normal;
+}
+#breadcrumbs { float: left; }
+#breadcrumbs li{
+    display:inline;
+    background: url(http://www.epfl.ch/img/separator.png) no-repeat right center;
+    padding-right: 12px;
+}
+#breadcrumbs li.last{ background: none; }
+#breadcrumbs a, #languages, #languages a{ color: #000; background: none;}
+#breadcrumbs a:hover, #languages a:hover { text-decoration: underline}
+#breadcrumbs .last a, #languages li { color:#454545; background: none }
+#languages a { color:#000; background: none }
+#languages{ color:#000; float: right;}
+#languages li { display:inline; padding:0 0 0 20px;}
+#languages{text-align:right;}
+
+/****************************** Interface Elements ****************************/
+.dropdown {
+    height: 18px; padding: 2px 18px 0 8px; margin-right: 2px;
+    border: 1px solid #b8b8b8;
+    background: url(http://www.epfl.ch/img/homepage-icons.png) no-repeat right -1px;
+    position: relative; /* placement of drop menu */
+}
+.dropdown:hover { border-color: #000; background: url(http://www.epfl.ch/img/dropdown.png) no-repeat right -20px;}
+.dropdown:hover a { color: #fff; }
+.dropdown a { color: #000; background: none; font-weight: bold} /* title of dropdown */
+.dropdown acronym, .dropdown abbr { color: #000; }
+
+.dropdown .menu {
+    width: 178px;
+    position: absolute;
+    left: -1px; top: 20px;
+    z-index: 995;
+    padding: 6px 0 2px 0;
+    border: 1px solid #b8b8b8;
+    background: #fff none;
+    list-style-type: none;
+    line-height: 18px;
+}
+.dropdown .menu a { display: block; padding: 0 7px; font-weight: normal; color: #000;}
+.dropdown .menu a:hover, .dropdown .menu a:hover abbr, .dropdown .menu a:hover acronym { background-color: #000; color: #fff; }
+.dropdown .menu.hidden{ position: absolute; left: -9999em;}
+.dropdown .menu li { display: list-item; float: none; margin-bottom: 0; 
+                     border-bottom: 1px solid #fff; /* MSIE 6 */}
+.dropdown .menu ul { margin-top: 0; margin-bottom: 2px; padding: 0; }
+.dropdown .menu ul li{ margin-bottom: 0; }
+.dropdown .menu ul li a{ font-weight: normal; }
+
+
+.tree { margin-bottom: 40px; font-weight: bold; }
+.tree li {list-style-type: none;
+          border-bottom: 1px solid #fff; 
+          border-top: 1px solid transparent; /* MSIE 6... */ 
+          background-color: #ae0010;}
+.tree li.last {border-bottom: none; }
+.tree li.hover { background-color: #7e000c; }
+.tree li.current.hover { background-color:#000; color: #fff; }
+.tree a { background: none; display: block; clear: right; 
+          margin: 0 0 0 20px; padding: 1px 0 0px 0; 
+          position: relative; width: 298px; }
+.tree a:hover {background: none;} /*MSIE 6*/ 
+.tree li a{left: 0;}
+.tree .hitarea {
+    height: 19px; width: 18px;left: 0;float: left; position: relative;
+    cursor: pointer; background: url(http://www.epfl.ch/img/vertical-nav.gif) no-repeat 0 0; }
+.tree .expandable-hitarea{ background-position: 0 -1px; }
+.tree .collapsable-hitarea{ background-position: -16px -1px;}
+.tree ul { background-color: #fff; }
+.tree ul li {background-color: #fff; color: #000; border-top: 1px solid #a3a3a3; border-bottom: none; }
+.tree ul li.hover { background-color: #cfd0ca;}
+.tree ul li:first-child { border-top: 1px solid #fff;}
+.tree ul li li { border-color: #fff;}
+.tree ul a { color: #000;}
+.tree ul .expandable-hitarea{ background-position: -32px -1px;}
+.tree ul .collapsable-hitarea {background-position: -48px -1px;}
+.tree ul .hitarea, .tree ul a { left: 14px; position: relative;}
+.tree ul a { width: 288px; }
+.tree ul ul .hitarea, .tree ul ul a { left: 28px; }
+.tree ul ul a { width: 274px; }
+.tree ul ul ul .hitarea, .tree ul ul ul a { left: 42px; }
+.tree ul ul ul a { width: 260px; }
+.tree ul ul ul ul .hitarea, .tree ul ul ul ul a { left: 56px; }
+.tree ul ul ul ul a { width: 246px; }
+.tree ul ul ul ul ul .hitarea, .tree ul ul ul ul ul a { left: 70px; }
+.tree ul ul ul ul ul a { width: 232px; }
+.tree ul ul ul ul ul ul .hitarea, .tree ul ul ul ul ul ul a { left: 84px; }
+.tree ul ul ul ul ul ul a { width: 218px; }
+.tree ul ul ul ul ul ul ul .hitarea, .tree ul ul ul ul ul ul ul a { left: 98px; }
+.tree ul ul ul ul ul ul ul a { width: 204px; }
+.tree ul ul ul ul ul ul ul ul .hitarea, .tree ul ul ul ul ul ul ul ul a { left: 112px; }
+.tree ul ul ul ul ul ul ul ul a { width: 190px; }
+.tree ul ul ul ul ul ul ul ul ul .hitarea, .tree ul ul ul ul ul ul ul ul ul a { left: 126px; }
+.tree ul ul ul ul ul ul ul ul ul a { width: 176px; }
+.tree ul ul ul ul ul ul ul ul ul ul .hitarea, .tree ul ul ul ul ul ul ul ul ul ul a { left: 140px; }
+.tree ul ul ul ul ul ul ul ul ul ul a { width: 162px; }
+.tree li.current { background-color:#000; color: #fff; }
+.tree li.current a {color: #fff;}
+.tree li.current li a {color: #000;}
+.tree li.current .expandable-hitarea{ background-position: 0 -1px; }
+.tree li.current .collapsable-hitarea{ background-position: -16px -1px;}
+.tree li.current li .expandable-hitarea{ background-position: -32px -1px;}
+.tree li.current li .collapsable-hitarea {background-position: -48px -1px;}
+
+/******************************** Navigation **********************************/
+.navigation-bar {
+	width: 980px;
+	margin-bottom: 5px;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+	color: #fff;
+	font-weight: bold;
+}
+.navigation-bar .group { float: left; margin: 0 24px 0 8px;}
+
+ul.topnav{ float: left; position: relative; padding: 0; }
+ul.topnav li{ list-style-type: none; position: relative; display: inline; float: left; }
+#main-navigation { background-color:#ae0010; }
+#main-navigation a {
+    color : #fff; display: block;  
+    padding: 4px 8px 2px 8px;
+    background: none;}
+#main-navigation li {
+    border: none;
+    border-left: 1px solid #ae0010;
+    border-right: 1px solid #ae0010;
+}
+#main-navigation .dropdown {
+    top: 0; height: 20px; 
+    margin-right: 0; padding: 4px 8px 0 8px;
+    background: none; 
+}
+#main-navigation:first-child .dropdown { border-left: none;}
+#main-navigation li:hover { border-color: #fff; background-color: #7e000c; }
+#main-navigation .dropdown.inpath, #main-navigation .dropdown.current { border-color: #fff; background-color: #000; }
+#main-navigation .dropdown a{padding: 0; color: #fff; }
+#main-navigation .dropdown:hover a{ color: #fff;  }
+#main-navigation .dropdown .menu {left: 0; top: 24px; padding-bottom: 4px; padding-top:6px; width: 320px; border-color: #000; border-top: none;}
+#main-navigation .dropdown .menu li {border: none; margin-bottom:2px;}
+#main-navigation .dropdown .menu li:hover {background: none;}
+#main-navigation .dropdown .menu li.current a { color: #fff; background-color: #000;}
+#main-navigation .dropdown .menu.hidden {left: -9999em;}
+#main-navigation .dropdown .menu a { padding-left: 7px; display: block; color: #000; font-weight: bold; }
+#main-navigation .dropdown .menu ul a { color: #000; font-weight: normal; }
+#main-navigation .dropdown .menu ul {margin-bottom: 12px;}
+#main-navigation .dropdown .menu a:hover { color: #000; background-color: #cfd0ca;}
+
+/******************************* Main content *********************************/
+#main-content{ margin-left: auto; margin-right: auto; width: 980px; }
+.three-cols #tools, .single-col #tools { border-bottom: 1px solid #000; margin-bottom: 4px; }
+.three-cols .content, .single-col .content { border-top: none; padding-top: 0;}
+.three-cols .content { width: 980px;}
+
+
+#tools{ height: 25px; }
+
+.content{
+    float: left; width: 980px; 
+	margin-right:4px; margin-bottom: 20px;
+	border-top: 1px solid #000; padding-top: 4px;
+}
+.right-col{ width: 324px; float:left; padding: 0;}
+.right-col .box {margin-right: 0; }
+.content .home-navpanel{float: left; margin-right: 4px;}
+.content .last-col{margin-right: 0;}
+.content p { margin-right: 35px; }
+.content blockquote p{margin-right: 35px; width: auto;}
+
+
+.content ol, .content ul { margin-bottom: 18px; margin-right: 35px; margin-left:30px;}
+.content li { 
+    background: url(http://www.epfl.ch/img/NOdot.png) no-repeat 0 5px; 
+    padding-left: 12px; margin-bottom: 2px; line-height: 16px;}
+.content ol li { background: none; padding: 0;  }
+.content-nomenu{ border-top: none}
+.homepage-content{ border-top: none; padding-top: 0;}
+.fullpage-content { width: 980px; margin-right: 0;  }
+ 
+
+.content img { margin-bottom: 0px;}
+.content p img {margin-bottom: 0px; margin-top: 0px; }
+
+.link-list li{
+    list-style-type: none;
+    margin-bottom: 2px; 
+    line-height: 16px;
+    background: url(http://www.epfl.ch/img/NOdot.png) no-repeat 0 5px; 
+    padding-left: 12px; }
+.link-list a {
+    font-family:  Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    color: #000;
+    text-decoration:none;
+    background-position: 0 14px;
+}
+.left { margin-right: 4px; float: left;}
+.right {margin-left: 4px; float: right;}
+
+/********************************** Boxes *************************************/
+.box{ margin-bottom: 40px; margin-right: 4px; width: 324px; }
+.fullbox{ margin-bottom: 40px; margin-right: 4px; width: 644px; }
+
+.content .box { float: left; }
+
+.box h3, .fullbox h3 {    
+    font-family: Impact, "Arial Black","DejaVu Sans", Arial, Helvetica , sans-serif;
+    font-weight: normal; font-size:22px; letter-spacing:0.1em; line-height:26px;
+    color: #000;
+    text-transform: uppercase;
+    padding-bottom:5px;
+    border-bottom:1px solid #000;
+    margin-bottom: 10px;}
+.fullbox h3 { margin-bottom: 4px; }
+.box h4, .fullbox h4 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 13px; margin: 0; line-height: 18px; }
+.box h5, .fullbox h5 {font-weight: bold; font-size: 13px;}
+.box h6, .fullbox h6 {font-size: 13px;}
+.box p, .fullbox p { margin-bottom:2px; padding-top: 0;}
+.box ul, .fullbox ul { list-style-type: none; padding-top: 3px; margin-right: 0;}
+.box.two-cols li, .box .two-cols li, .fullbox.two-cols li, .fullbox .two-cols li{ float: left; width: 144px; padding-right: 4px;}
+.box.two-cols div.box-col, .box .two-cols div.box-col, 
+.fullbox.two-cols div.box-col, .fullbox .two-cols div.box-col { float: left; width: 160px; }
+.box.two-cols div.box-left-col, .box .two-cols div.box-left-col{ margin-right:4px;}
+.box .button { margin-top: 4px; }
+.box blockquote {margin-top: 6px;}
+
+.home-navpanel { margin-bottom: 44px; line-height: 18px;}
+.home-navpanel .unit-col {line-height: 14px; }
+.home-navpanel .unit-col div:first-child {padding-top: 4px; padding-bottom: 5px}
+.homepage-content .home-navpanel .unit-col div:first-child {padding: 2px 8px}
+
+
+.home-navpanel, .home-navpanel a, .home-navpanel p, 
+.home-navpanel h2, .home-navpanel h3, .home-navpanel h4 {color: #fff; }
+.home-navpanel h3 {
+    font-family: "Arial black", Arial, Helvetica, sans-serif;
+    font-weight: bold; text-transform: none; font-size: 18px; line-height: 20px; letter-spacing: 1px;
+    border: none; 
+}
+.home-navpanel a { background-image: url(http://www.epfl.ch/img/underline-white.gif); }
+.box-flat-panel { padding: 8px; width: 308px;} /* could be done as .box.home-navpanel. Say thanks to MSIE6 buggy selectors */
+
+.unit-col{width: 160px; margin: 0 4px 0 0; padding:0;float: left; font-size: 12px;}
+.unit-col a { background-position: 0 13px; }
+.last-col{ margin-right: 0;}
+.unit-cell{ margin: 0 0 4px 0; height: 86px; overflow: hidden; padding: 2px 8px;}
+.unit-2-cells{ height: 180px; padding: 2px 8px; margin: 0 0 4px 0; overflow: hidden; }
+.unit-3-cells{ height: 274px; padding: 2px 8px; margin: 0 0 4px 0; overflow: hidden;}
+.last-cell{ margin: 0;}
+
+
+
+/******************************** News block **********************************/
+.teaser-head {
+   font-family:  Impact, "Arial Black","DejaVu Sans", Arial, Helvetica , sans-serif;
+   font-size: 15px;
+   line-height: 16px;
+   letter-spacing: 0.1em;
+   text-transform: uppercase;
+   padding-bottom: 1px;
+   display: block;
+}
+.news-text { font-family: Arial, Helvetica, sans-serif; line-height: 14px; font-size: 12px; }
+.news-text h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold; font-size: 13px; line-height: 14px; letter-spacing: 0;
+    margin: -1px 0 0 0;
+    padding-bottom: 3px;
+}
+.news-text a{ background:none; }
+.news-text .read-more { background: url(http://www.epfl.ch/img/arrow-more.png) no-repeat 0 4px; width: 12px; height: 12px; margin-left: 4px; display: inline-block; }
+
+.news-text span.date {
+    font-family:  Georgia, serif; font-size: 12px; font-style: italic; font-weight: bold;
+    color: #000; padding-right: 4px; }
+.news-text p { margin: 0; float: left;}
+.news-text p img{ margin: 0; vertical-align: top;}
+.news-text .epfl { color: #f00; }
+.news-text .innovation { color: #0f0;}
+.news-text .campus { color: #0ff;}
+.news-text .education { color: #ff0;}
+.news-text .research { color: #f0f;}
+
+ul.news-list {
+    float: left; width: 652px;
+    margin: 0 0 40px 0; padding: 0;
+    list-style: none;}
+.news-list li { margin: 0 4px 4px 0; padding: 0; background: none;}
+.news-list img.news-img { width: 160px; float: left; margin: 0}
+.news-list li.heading-news h2 {
+    font-family: "Arial black", Arial, Helvetica, sans-serif;
+    letter-spacing: 1px; font-size: 18px; line-height: 20px;
+    padding-bottom: 2px;}
+.news-list li.heading-news .news-img{ width: 324px; height: 184px;}
+
+ul.list-layout { padding-top: 4px; border-top: 1px solid #000; overflow: hidden; width: 656px; }
+.list-layout li { float:left; width: 324px; height: 90px; }
+.list-layout img.news-img{ height: 90px; margin-right: 6px;}
+.list-layout li.heading-news{ height: 278px;}
+.list-layout li.heading-news img.news-img{ margin: 0}
+.list-layout .news-text { width: 158px; height: 89px; float: left; overflow: hidden; border-bottom: 1px solid #000; }
+.list-layout li.heading-news .news-text { width: 324px; height: 92px; margin-top: 1px; }
+
+ul.grid-layout { overflow: hidden; width: 656px;}
+.grid-layout li{ width: 160px; float:left;}
+.grid-layout li.heading-news{ width: 324px; height: 184px; position: relative;}
+.grid-layout li.heading-news .news-text {
+    position: absolute; bottom: 0; left: 0; width: 308px;  overflow: hidden;
+    padding: 2px 8px;
+    color: #fff; border: none;
+    background: rgb(0, 0, 0); 
+    background: rgba(0, 0, 0, 0.5); /* invalid trick, http://css-tricks.com/rgba-browser-support/ */ }
+.grid-layout li.heading-news .news-text a{ color: #fff; }
+
+ul.text-layout { overflow: hidden; width: 656px;}
+.text-layout li {float: left; width: 324px}
+.text-layout li.heading-news{ height: 278px; }
+.text-layout .news-text {
+    float: left; width: 324px; height: 89px; overflow: hidden;
+    border-bottom: 1px solid #000;}
+.text-layout li.heading-news .news-text {height: 91px; margin-top: 2px;}
+ul.simple-layout li { padding-bottom: 4px; margin-bottom: 4px; border-bottom: 1px dotted #000;} 
+ul.simple-layout li h2 {line-height: 18px;}
+ul.simple-layout li img.news-img {margin-right:4px; vertical-align: bottom;}
+ul.simple-layout .news-text {float: left; width: 484px; line-height: 18px;}
+ul.simple-layout .news-text p {margin-right: 30px;}
+
+.single-news { float: left; margin: 0 4px 0 0; padding: 0; width: 324px; border-bottom: 1px solid #000;}
+.single-news p { float: none;}
+.single-news .news-text { height: 91px; float: left;}
+.single-news h2 {
+    font-family: "Arial black", Arial, Helvetica, sans-serif;
+    letter-spacing: 1px; font-size: 18px; line-height: 20px;
+    padding-bottom: 4px; margin:0;}
+.single-news .news-img{ float: left; width: 324px; height: 184px; margin-bottom: 2px; padding: 0;}
+
+
+/******************** Search results ****************************/
+ol.search-results li{
+  list-style-type: none;
+  border-bottom: 1px solid #999C98;
+  margin: 8px 0;
+  padding-bottom: 8px;
+}
+.search-results h3 { 
+    font-family: Arial, Helvetica, sans-serif; 
+    font-size: 13px; text-transform: none; font-weight:bold;
+    margin: 0; padding: 0; border:none;}
+.search-results a { background-position: 0 14px; font-weight: bold; letter-spacing: 0;}
+.search-results p { margin:0; line-height: 18px;}
+.search-results .date {font-family: georgia; font-style: italic; font-weight: normal; color: #999C98; color: #454545; letter-spacing:1px;}
+.search-results .date a {background-position: 0 14px; font-weight: normal;}
+.search-results .highlight {padding: 0 4px; background-color:#000; color: #fff;}
+.search-results cite {color:#999c98;}
+p.results-count{border-top: 1px solid #000; margin-top: 20px; margin-right: 0;}
+
+.pagination ul {float: left;}
+.pagination p {float: right;}
+.pagination li {display: inline; margin-right: 20px; background: none; padding: 0;}
+.pagination .current, .pagination-position { font-weight: normal;}
+.pagination .current { color:#ae0010; }
+
+ol.people-list li {
+    list-style-type: none; 
+    border-bottom:1px dotted #000;
+    margin: 8px 0;
+    padding-bottom:8px;
+    line-height:18px;
+}
+ol.people-list div { float: left; margin-right: 4px;}
+ol.people-list div.clear { float: none; }
+ol.people-list .name { font-weight: bold; width:240px;}
+ol.people-list .role { width: 200px; }
+ol.people-list .place { width: 90px; }
+ol.people-list .phone { width: 110px; margin-right: 0;}
+
+/******************************** Forms ***************************************/
+fieldset { border-left: 1px solid #000; margin: 20px 0 20px 160px; position: relative; padding-left: 4px;}
+legend { 
+    color: #000; font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 13px; line-height: 18px;
+    position: absolute; left: -168px; top: 0; width: 158px; margin: 0; padding: 0;}
+html>body legend {left: -160px;}
+
+.top-aligned label { display: block; }
+.top-aligned fieldset label {display: inline;}
+
+.left-aligned label { display:block; float: left; clear:left; width: 160px; text-align: left;}
+.left-aligned input, .left-aligned textarea {  margin-left: 4px; width: 324px;}
+.left-aligned fieldset label {display: inline; width: auto; float: none;}
+
+/*.left-aligned label { float: left; text-align:left; width:160px; }
+.left-aligned input, .left-aligned textarea { margin-left: 164px; width: 320px; }
+.left-aligned label.check, .left-aligned label.radio { position:relative; text-align:left; }*/
+
+
+/****************************** Publications **********************************/
+
+.infoscience_header1 { 
+    font-family: "Arial Black", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: #000;
+    font-size:18px;
+    letter-spacing:1px;
+	line-height:22px;
+	margin-bottom: 8px;
+	margin-top: 15px;
+}
+.infoscience_header2 { color: #000; font-family: Arial, Helvetica, sans-serif; 
+     font-weight: bold; font-size: 13px; margin-bottom: 8px; margin-top: 1px;
+     line-height: 19px;
+     padding-left: 8px;
+     padding-bottom: 1px;
+     background: url(http://www.epfl.ch/img/main-navigation.png); 
+
+}   
+.infoscience_export .img_file {width: 160px; margin-right: 4px; float: left; }
+.infoscience_record {border-bottom: 1px dotted #000; margin-top: 8px; padding-bottom: 7px; }
+
+
+.infoscience_record h3.infoscience_title { 
+    color: #000; font-family: Arial, Helvetica, sans-serif; letter-spacing: 0;
+    font-weight: bold; font-size: 13px; line-height: 15px; text-transform: none; 
+    padding-bottom: 3px; margin: 0; border: none; }
+.infoscience_record p {margin-bottom: 0;}
+.infoscience_bullet { float: left; text-align: right; width: 3em;}
+
+.infoscience_record_bulleted .infoscience_data { margin-left: 4em; } 
+.infoscience_abstract { padding-top: 8px;}
+.infoscience_links {padding-top: 8px; font-size: 11px; letter-spacing: 1px;font-family: Georgia, serif; font-style: italic;  clear: left;}
+.infoscience_links a {background-position: 0 12px; padding-bottom: 1px; }/*as soon as dashes have been removed... margin-right: 20px;}*/
+
+/*********************************** Footer ***********************************/
+#footer{
+    color: #000;
+    width: 980px;
+    margin: 0 auto 0 auto;
+    border-bottom: 1px solid #000;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding-bottom: 0px;
+
+}
+
+#footer ul{  padding: 0; margin: 0; }
+#footer li { list-style: none; display: inline; margin-right: 16px; }
+
+.copyright { color:#454545}
+#footer li.login {
+    float: right;
+    margin-right: 0;
+    padding-left: 12px;
+    background: url(http://www.epfl.ch/img/arrow-login.png) no-repeat center left;
+}
