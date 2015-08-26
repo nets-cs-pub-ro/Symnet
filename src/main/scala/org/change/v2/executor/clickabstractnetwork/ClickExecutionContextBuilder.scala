@@ -9,7 +9,7 @@ import org.change.v2.executor.{ExecutionContext, ExecutionContextBuilder}
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
 object ClickExecutionContextBuilder extends ExecutionContextBuilder[NetworkConfig] {
-  override def buildExecutionContext(networkModel: NetworkConfig): ExecutionContext = {
+  override def buildExecutionContext(networkModel: NetworkConfig): ClickExecutionContext = {
     val instructions = networkModel.elements.values.foldLeft(Map[LocationId, Instruction]())(_ ++ _.instructions)
     val links = networkModel.paths.flatMap( _.sliding(2).map(pcp => {
       val src = pcp.head
@@ -17,9 +17,7 @@ object ClickExecutionContextBuilder extends ExecutionContextBuilder[NetworkConfi
       (networkModel.elements(src._1).outputPortName(src._3) -> networkModel.elements(dst._1).inputPortName(dst._2))
     })).toMap
 
-    val initialPlace = networkModel.getFirstSource.get.inputPortName(0)
-
-    val initialState = State.bigBang.forwardTo(initialPlace)
+    val initialState = State.bigBang.forwardTo(networkModel.entryLocationId)
 
     new ClickExecutionContext(instructions, links, List(initialState), Nil, Nil)
   }

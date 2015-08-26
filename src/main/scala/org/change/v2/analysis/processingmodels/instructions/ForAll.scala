@@ -11,7 +11,7 @@ import org.change.v2.analysis.expression.concrete.nonprimitive.:@
 case class ForAll(bindingPattern: (String, Regex), instrs: List[Instruction])
   extends Instruction {
 
-  override def apply(s: State): (List[State], List[State]) = {
+  override def apply(s: State, v: Boolean): (List[State], List[State]) = {
     var matched = false
     val (succ,fail) = (for {
       binding <- s.memory.symbols.keys

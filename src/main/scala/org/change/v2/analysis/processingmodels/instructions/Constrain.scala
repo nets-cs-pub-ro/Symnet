@@ -10,16 +10,16 @@ import org.change.v2.analysis.processingmodels.{State, Instruction}
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
 case class Constrain (id: String, dc: FloatingConstraint, c: Option[Constraint] = None) extends Instruction {
-  override def apply(s: State): (List[State], List[State]) = c match {
+  override def apply(s: State, v: Boolean): (List[State], List[State]) = c match {
     case None => dc instantiate s match {
-      case Left(c) => optionToStatePair(s, s"Symbol $id cannot $dc") {
-        _.memory.Constrain(id, c)
-      }
-      case Right(err) => Fail(err)(s)
+      case Left(c) => optionToStatePair(if (v) s.addInstructionToHistory(this) else s, s"Symbol $id cannot $dc") (s => {
+        s.memory.Constrain(id, c)
+      })
+      case Right(err) => Fail(err)(s, v)
     }
-    case Some(c) => optionToStatePair(s, s"Symbol $id cannot $dc") {
-      _.memory.Constrain(id, c)
-    }
+    case Some(c) => optionToStatePair(if (v) s.addInstructionToHistory(this) else s, s"Symbol $id cannot $dc") (s => {
+      s.memory.Constrain(id, c)
+    })
   }
 }
 

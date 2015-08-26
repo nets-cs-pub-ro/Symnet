@@ -21,7 +21,7 @@ class ClickExecutionContext(
                            val stuckStates: List[State]
                              ) extends ExecutionContext {
 
-  override def execute: ClickExecutionContext = {
+  override def execute(verbose: Boolean = false): ClickExecutionContext = {
     val (ok, fail, stuck) = (for {
       sPrime <- okStates
       s = if (links contains sPrime.location)
@@ -31,7 +31,7 @@ class ClickExecutionContext(
       stateLocation = s.location
     } yield {
         if (instructions contains stateLocation) {
-          val r = instructions(stateLocation)(s)
+          val r = instructions(stateLocation)(s, verbose)
           (r._1, r._2, Nil)
         } else
           (Nil, Nil, List(s))
@@ -42,5 +42,24 @@ class ClickExecutionContext(
         ok.flatten,
         failedStates ++ fail.flatten,
         stuckStates ++ stuck.flatten)
+  }
+
+  private def verboselyStringifyStates(ss: List[State]): String = ss.zipWithIndex.map( si =>
+    si._2 + "\n" + si._1.instructionHistory.reverse.mkString("\n") + si._1.toString)
+    .mkString("\n")
+
+  def toString(includeOk: Boolean = true, includeStuck: Boolean = true, includeFailed: Boolean= true) = {
+    (if (includeOk)
+      "Ok\n" + verboselyStringifyStates(okStates)
+    else
+      "") +
+    (if (includeStuck)
+      "Stuck\n" + verboselyStringifyStates(stuckStates)
+    else
+      "") +
+    (if (includeFailed)
+      "Failed\n" + verboselyStringifyStates(failedStates)
+    else
+      "")
   }
 }

@@ -16,12 +16,12 @@ case class Assign(id: String, exp: FloatingExpression, t: NumericType = LongType
    * @param s
    * @return
    */
-  override def apply(s: State): (List[State], List[State]) = {
+  override def apply(s: State, v: Boolean): (List[State], List[State]) = {
     exp instantiate  s match {
-      case Left(e) => optionToStatePair(s, s"Error during assignment of $id") {
-        _.memory.Assign(id, e, t)
-      }
-      case Right(err) => Fail(err).apply(s)
+      case Left(e) => optionToStatePair(if (v) s.addInstructionToHistory(this) else s, s"Error during assignment of $id") (s => {
+        s.memory.Assign(id, e, t)
+      })
+      case Right(err) => Fail(err).apply(s, v)
     }
 
   }

@@ -11,7 +11,7 @@ import org.change.v2.analysis.processingmodels.{Instruction, State}
  */
 case class NATToInternet(toOutsideIP: Long) extends Instruction {
 
-  override def apply(s: State): (List[State], List[State]) =
+  override def apply(s: State, v: Boolean): (List[State], List[State]) =
     InstructionBlock(
       Assign("Old-IP-Src", :@("IP-Src")),
       Assign("Old-Port-Src", :@("Port-Src")),
@@ -21,12 +21,12 @@ case class NATToInternet(toOutsideIP: Long) extends Instruction {
 
       Assign("IP-Src", :@("New-IP-Src")),
       Assign("Port-Src", :@("New-Port-Src"))
-    )(s)
+    )(s,v)
 }
 
 object NATFromInternet extends Instruction {
 
-  override def apply(s: State): (List[State], List[State]) =
+  override def apply(s: State, v: Boolean): (List[State], List[State]) =
     InstructionBlock(
       If(Constrain("IP-Dst", :==:(:@("New-IP-Src"))),
         If(Constrain("Port-Dst", :==:(:@("New-Port-Src"))),
@@ -38,6 +38,6 @@ object NATFromInternet extends Instruction {
         ),
         NoOp
       )
-    )(s)
+    )(s,v)
 }
 

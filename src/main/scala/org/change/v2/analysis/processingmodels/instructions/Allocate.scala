@@ -14,10 +14,10 @@ case class Allocate(id: String) extends Instruction {
    * @param s
    * @return
    */
-  override def apply(s: State): (List[State], List[State]) = {
-    optionToStatePair(s, s"Cannot allocate $id") {
-      _.memory.Allocate(id)
-    }
+  override def apply(s: State, v: Boolean): (List[State], List[State]) = {
+    optionToStatePair(if (v) s.addInstructionToHistory(this) else s, s"Cannot allocate $id") (s => {
+      s.memory.Allocate(id)
+    })
   }
 }
 

@@ -17,18 +17,18 @@ case class ISNRToOutside(delta: Option[Long]) extends Instruction {
    * @param s
    * @return
    */
-  override def apply(s: State): (List[State], List[State]) = delta match {
+  override def apply(s: State, v: Boolean): (List[State], List[State]) = delta match {
     case Some(l) =>
       InstructionBlock(
         Assign("Old-SEQ", :@("SEQ")),
         Assign("Delta", ConstantValue(l)),
         Assign("SEQ",  :+:(:@("SEQ"),:@("Delta")))
-      )(s)
+      )(s,v)
     case _ =>
       InstructionBlock(
         Assign("Old-SEQ", :@("SEQ")),
         Assign("Delta", SymbolicValue()),
         Assign("SEQ",  :+:(:@("SEQ"),:@("Delta")))
-      )(s)
+      )(s,v)
   }
 }

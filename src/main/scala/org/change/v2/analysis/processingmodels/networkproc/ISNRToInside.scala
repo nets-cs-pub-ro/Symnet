@@ -15,8 +15,8 @@ object ISNRToInside extends Instruction {
    * @param s
    * @return
    */
-  override def apply(s: State): (List[State], List[State]) =
+  override def apply(s: State, v: Boolean): (List[State], List[State]) =
     InstructionBlock(
       Assign("SEQ", :-:(:@("SEQ"), :@("Delta")))
-    )(s)
+    )(s,v)
 }

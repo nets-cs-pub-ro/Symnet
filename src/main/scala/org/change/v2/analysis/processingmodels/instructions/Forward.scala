@@ -14,5 +14,6 @@ case class Forward(place: LocationId) extends Instruction {
    * @param s
    * @return
    */
-  override def apply(s: State): (List[State], List[State]) = (List(s.forwardTo(place)), Nil)
+  override def apply(s: State, v: Boolean): (List[State], List[State]) =
+    (List((if (v) s.addInstructionToHistory(this) else s).forwardTo(place)), Nil)
 }

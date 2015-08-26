@@ -150,6 +150,8 @@ case class NetworkConfig(
             elements: Map[String,GenericElement],
             paths: List[List[PathComponent]]) {
 
+  def entryLocationId: String = getFirstSource.get.inputPortName(0)
+
   def addElement(e: GenericElement): NetworkConfig = NetworkConfig(elements + ((e.name, e)), paths)
 
   def addLink(elementA: String, portA: Int = 0, elementB: String, portB: Int = 0) = {

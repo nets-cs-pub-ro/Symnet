@@ -14,9 +14,9 @@ case class Deallocate(id: String) extends Instruction {
    * @param s
    * @return
    */
-  override def apply(s: State): (List[State], List[State]) = {
-    optionToStatePair(s, s"Cannot deallocate $id") {
-      _.memory.Deallocate(id)
-    }
+  override def apply(s: State, v: Boolean): (List[State], List[State]) = {
+    optionToStatePair(if (v) s.addInstructionToHistory(this) else s, s"Cannot deallocate $id") (s => {
+      s.memory.Deallocate(id)
+    })
   }
 }

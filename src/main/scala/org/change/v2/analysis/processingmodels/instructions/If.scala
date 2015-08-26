@@ -15,20 +15,19 @@ case class If(testInstr: Instruction, thenWhat: Instruction, elseWhat:Instructio
    * @param s
    * @return
    */
-  override def apply(s: State): (List[State], List[State]) = testInstr match {
+  override def apply(s: State, v: Boolean): (List[State], List[State]) = testInstr match {
     // This is quite inappropriate
-    case Fail(_) => elseWhat(s)
     case i @ Constrain(what, withWhat, _) => {
-      (withWhat instantiate s) match {
+      withWhat instantiate s match {
         case Left(c) if s.memory.symbolIsAssigned(what) => {
-          val (sa, fa) = InstructionBlock(Constrain(what, withWhat, Some(c)), thenWhat)(s)
-          val (sb, fb) = InstructionBlock(Constrain(what, :~:(withWhat), Some(c)), elseWhat)(s)
+          val (sa, fa) = InstructionBlock(Constrain(what, withWhat, Some(c)), thenWhat)(s, v)
+          val (sb, fb) = InstructionBlock(Constrain(what, :~:(withWhat), Some(NOT(c))), elseWhat)(s, v)
           (sa ++ sb, fa ++ fb)
         }
 
-        case _ => elseWhat(s)
+        case _ => elseWhat(s, v)
       }
     }
-    case _ => stateToError(s, "Bad test instruction")
+    case _ => stateToError(s.addInstructionToHistory(this), "Bad test instruction")
   }
 }

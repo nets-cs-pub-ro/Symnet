@@ -8,7 +8,7 @@ import org.change.v2.analysis.processingmodels.State
  */
 trait ExecutionContext {
 
-  def execute: ExecutionContext
+  def execute(verbose: Boolean = false): ExecutionContext
 
   def isDone: Boolean = okStates.isEmpty
 

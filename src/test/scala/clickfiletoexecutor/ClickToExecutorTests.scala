@@ -24,7 +24,7 @@ class ClickToExecutorTests extends FlatSpec with Matchers {
 
     var crtExecutor = executor
     while(! crtExecutor.isDone) {
-      crtExecutor = crtExecutor.execute
+      crtExecutor = crtExecutor.execute()
     }
 
     crtExecutor.stuckStates should have length (1)
@@ -37,7 +37,7 @@ class ClickToExecutorTests extends FlatSpec with Matchers {
 
     var crtExecutor = executor
     while(! crtExecutor.isDone) {
-      crtExecutor = crtExecutor.execute
+      crtExecutor = crtExecutor.execute()
     }
 
     crtExecutor.stuckStates should have length (1)

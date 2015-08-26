@@ -17,7 +17,7 @@ class IPClassifierTests  extends FlatSpec with Matchers {
 
     var crtExecutor = executor
     while(! crtExecutor.isDone) {
-      crtExecutor = crtExecutor.execute
+      crtExecutor = crtExecutor.execute()
     }
 
     crtExecutor.stuckStates should have length (2)

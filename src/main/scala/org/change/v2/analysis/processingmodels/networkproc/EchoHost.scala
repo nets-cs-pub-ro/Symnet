@@ -11,21 +11,21 @@ import org.change.v2.analysis.processingmodels.{Instruction, State}
  */
 object EchoHost extends Instruction {
 
-  override def apply(s: State): (List[State], List[State]) =
+  override def apply(s: State, v: Boolean): (List[State], List[State]) =
     InstructionBlock(
       Swap("IP-Dst", "IP-Src"),
       Swap("Port-Dst", "Port-Src")
-    )(s)
+    )(s,v)
 
 }
 
 case class Swap(a: String, b: String) extends Instruction {
 
-  override def apply(s: State): (List[State], List[State]) =
+  override def apply(s: State, v: Boolean): (List[State], List[State]) =
     InstructionBlock(
       Assign("Temp", :@(a)),
       Assign(a, :@(b)),
       Assign(b, :@("Temp"))
-    )(s)
+    )(s,v)
 
 }
