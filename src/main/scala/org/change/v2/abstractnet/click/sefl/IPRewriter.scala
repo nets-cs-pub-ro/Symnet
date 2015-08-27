@@ -1,6 +1,5 @@
 package org.change.v2.abstractnet.click.sefl
 
-import org.change.symbolicexec.blocks.click.IPRewriterBlock
 import org.change.v2.abstractnet.generic.{ConfigParameter, ElementBuilder, GenericElement, Port}
 import org.change.v2.analysis.expression.concrete.ConstantValue
 import org.change.v2.analysis.expression.concrete.nonprimitive.:@
@@ -23,8 +22,6 @@ class IPRewriter(name: String,
     inputPorts,
     outputPorts,
     configParams) {
-
-  override def toProcessingBlock = new IPRewriterBlock(name, configParams)
 
   private val passPattern = ("pass (" + number+ ")").r
   private val keepPattern = ("keep (" + number+ ") (" + number+ ")").r

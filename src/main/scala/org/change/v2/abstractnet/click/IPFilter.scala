@@ -21,8 +21,6 @@ class IPFilter(name: String,
   lazy val haskellParam = " [\"" + configParams.map(_.value).mkString("\", \"") + "\"]\n"
 
   override def outputPortName(which: Int): String = s"$name-out-$which"
-
-  override def toProcessingBlock = new IPFilterBlock(name, configParams)
 }
 
 class IPFilterElementBuilder(name: String)

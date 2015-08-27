@@ -14,5 +14,4 @@ package object canonicalnames {
   val Proto = "Proto"
   val TTL = "TTL"
 
-
 }

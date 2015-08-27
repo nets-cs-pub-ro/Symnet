@@ -1,6 +1,5 @@
 package org.change.v2.abstractnet.generic
 
-import org.change.symbolicexec.blocks.{NoopProcessingBlock, ProcessingBlock}
 import org.change.v2.analysis.processingmodels.{LocationId, Instruction}
 
 /**
@@ -23,8 +22,6 @@ case class GenericElement(name: String,
   def outputPortName(which: Int = 0): String = s"$name-out"
 
   override def toString = s"\n[ $name $elementType\n$inputPorts\n$outputPorts\n$configParameters]\n"
-
-  def toProcessingBlock: ProcessingBlock = new NoopProcessingBlock(name, inputPortCount, outputPortCount)
 
   /**
    * This is the mapping of input ports to SEFL instructions. A location id is an alias for String (no biggie here).

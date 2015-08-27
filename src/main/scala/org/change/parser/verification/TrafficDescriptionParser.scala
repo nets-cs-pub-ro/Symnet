@@ -1,58 +1,69 @@
 package org.change.parser.verification
 
+import org.change.v2.analysis.constraint._
+import org.change.v2.analysis.expression.concrete.ConstantValue
+import org.change.v2.analysis.processingmodels.instructions._
+import org.change.v2.util.canonicalnames._
+
 import scala.collection.JavaConverters._
 import generated.reachlang.ReachLangBaseVisitor
 import generated.reachlang.ReachLangParser._
-import org.change.symbolicexec.{E, Range, Constraint, Memory, MemoryState, Symbol}
+import org.change.symbolicexec.{E, Range, Constraint, Symbol}
 import org.change.utils.{NumberFor, RepresentationConversion}
 
-object TrafficDescriptionParser extends ReachLangBaseVisitor[MemoryState] {
-  override def visitTrafficdesc(ctx: TrafficdescContext): MemoryState = {
-    val m = new Memory()
-
-    val ms = ctx.constraint().asScala.foldLeft(m) ((m,c) => {
-      val (s, cns) = ConstraintVisitor.visitConstraint(c)
-      m.constrain(s, cns)
-    }).snapshotOfAll
-
-    ms
-  }
+object TrafficDescriptionParser extends ReachLangBaseVisitor[List[Constrain]] {
+  override def visitTrafficdesc(ctx: TrafficdescContext): List[Constrain] =
+    ctx.constraint().asScala.map(ConstraintVisitor.visitConstraint(_)).toList
 }
 
-object ConstraintVisitor extends ReachLangBaseVisitor[(Symbol, Constraint)] {
+object ConstraintVisitor extends ReachLangBaseVisitor[Constrain] {
 
-  override def visitConstraint(ctx: ConstraintContext): (Symbol, Constraint) = {
-//    TODO: This looks silly
+  override def visitConstraint(ctx: ConstraintContext): Constrain = {
     if (ctx.ipconstraint() != null) visitIpconstraint(ctx.ipconstraint())
     else if (ctx.l4constraint() != null) visitL4constraint(ctx.l4constraint())
     else visitProtoconstraint(ctx.protoconstraint())
   }
 
-  override def visitIpconstraint(ctx: IpconstraintContext): (Symbol, Constraint) =
-    (
-      ctx.ipfield().getText match {
-        case "src" => "IP-Src"
-        case "dst" => "IP-Dst"
-      },
-      if (ctx.ipv4() != null) {
-        E(RepresentationConversion.ipToNumber(ctx.ipv4().getText))
-      } else {
-        Range(RepresentationConversion.ipAndMaskToInterval(ctx.mask.ipv4().getText, ctx.mask.NUMBER().getText))
-      }
-    )
+  override def visitIpconstraint(ctx: IpconstraintContext): Constrain = {
+    val symb = ctx.ipfield().getText match {
+      case "src" => IPSrc
+      case "dst" => IPDst
+    }
 
-  override def visitL4constraint(ctx: L4constraintContext): (Symbol, Constraint) =
-    (
-      ctx.l4field().getText match {
-        case "src port" => "Port-Src"
-        case "dst port" => "Port-Dst"
-      },
-      if (ctx.range() != null) {
-        Range(java.lang.Long.parseLong(ctx.range().NUMBER(0).getText), java.lang.Long.parseLong(ctx.range().NUMBER(1).getText))
-      } else {
-        E(java.lang.Long.parseLong(ctx.NUMBER().getText))
-      }
-    )
+    val (floatingConstraint, instatiatedConstraint) = if (ctx.ipv4() != null) {
+      val whatValue = ConstantValue(RepresentationConversion.ipToNumber(ctx.ipv4().getText))
+      (:==:(whatValue), EQ_E(whatValue))
+    } else {
+      val (lower, upper) = RepresentationConversion.ipAndMaskToInterval(ctx.mask.ipv4().getText, ctx.mask.NUMBER().getText)
+      val lowerValue = ConstantValue(lower)
+      val upperValue = ConstantValue(upper)
+      (:&:(:>=:(lowerValue), :<=:(upperValue)), AND(List(GTE_E(lowerValue), LTE_E(upperValue))))
+    }
 
-  override def visitProtoconstraint(ctx: ProtoconstraintContext): (Symbol, Constraint) = ("Proto", E(NumberFor(ctx.getText)))
+    Constrain(symb, floatingConstraint, Some(instatiatedConstraint))
+  }
+
+  override def visitL4constraint(ctx: L4constraintContext): Constrain = {
+    val symb = ctx.l4field().getText match {
+      case "src port" => PortSrc
+      case "dst port" => PortDst
+    }
+
+    val (floatingConstraint, instatiatedConstraint) = if (ctx.range() != null) {
+      val lowerValue = ConstantValue(java.lang.Long.parseLong(ctx.range().NUMBER(0).getText))
+      val upperValue = ConstantValue(java.lang.Long.parseLong(ctx.range().NUMBER(1).getText))
+      (:&:(:>=:(lowerValue), :<=:(upperValue)), AND(List(GTE_E(lowerValue), LTE_E(upperValue))))
+    } else {
+      val whatValue = ConstantValue(java.lang.Long.parseLong(ctx.NUMBER().getText))
+      (:==:(whatValue), EQ_E(whatValue))
+    }
+
+    Constrain(symb, floatingConstraint, Some(instatiatedConstraint))
+  }
+
+  override def visitProtoconstraint(ctx: ProtoconstraintContext): Constrain = {
+    val whatValue = ConstantValue(NumberFor(ctx.getText))
+    val (floatingConstraint, instatiatedConstraint) = (:==:(whatValue), EQ_E(whatValue))
+    Constrain(Proto, floatingConstraint, Some(instatiatedConstraint))
+  }
 }
