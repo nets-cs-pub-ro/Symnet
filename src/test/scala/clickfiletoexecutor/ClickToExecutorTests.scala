@@ -13,14 +13,14 @@ class ClickToExecutorTests extends FlatSpec with Matchers {
 
   "A src-dst click" should "generate a valid no op executor" in {
     val absNet = ClickToAbstractNetwork.buildConfig("src/main/resources/click_test_files/SrcDst.click")
-    val executor = ClickExecutionContextBuilder.buildExecutionContext(absNet)
+    val executor = ClickExecutionContext(absNet)
 
     executor shouldBe a [ClickExecutionContext]
   }
 
   "A src-dst click executor" should "propagate the bing-bang state to dst, becoming stuck" in {
     val absNet = ClickToAbstractNetwork.buildConfig("src/main/resources/click_test_files/SrcDst.click")
-    val executor = ClickExecutionContextBuilder.buildExecutionContext(absNet)
+    val executor = ClickExecutionContext(absNet)
 
     var crtExecutor = executor
     while(! crtExecutor.isDone) {
@@ -33,7 +33,7 @@ class ClickToExecutorTests extends FlatSpec with Matchers {
 
   "A src-paint-dst executor" should "correctly paint the bloody flow" in {
     val absNet = ClickToAbstractNetwork.buildConfig("src/main/resources/click_test_files/SrcPaintDst.click")
-    val executor = ClickExecutionContextBuilder.buildExecutionContext(absNet)
+    val executor = ClickExecutionContext(absNet)
 
     var crtExecutor = executor
     while(! crtExecutor.isDone) {
@@ -47,7 +47,7 @@ class ClickToExecutorTests extends FlatSpec with Matchers {
 
   "A src-classif-dst click" should "generate a valid executor" in {
     val absNet = ClickToAbstractNetwork.buildConfig("src/main/resources/click_test_files/Classif.click")
-    val executor = ClickExecutionContextBuilder.buildExecutionContext(absNet)
+    val executor = ClickExecutionContext(absNet)
 
     executor shouldBe a [ClickExecutionContext]
   }

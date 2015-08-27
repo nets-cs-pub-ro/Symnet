@@ -1,7 +1,7 @@
 package org.change.v2.executor.clickabstractnetwork
 
+import org.change.v2.abstractnet.generic.NetworkConfig
 import org.change.v2.analysis.processingmodels.{LocationId, Instruction, State}
-import org.change.v2.executor.ExecutionContext
 
 /**
  * Author: Radu Stoenescu
@@ -19,9 +19,11 @@ class ClickExecutionContext(
                            val okStates: List[State],
                            val failedStates: List[State],
                            val stuckStates: List[State]
-                             ) extends ExecutionContext {
+                             ) {
 
-  override def execute(verbose: Boolean = false): ClickExecutionContext = {
+  def isDone: Boolean = okStates.isEmpty
+
+  def execute(verbose: Boolean = false): ClickExecutionContext = {
     val (ok, fail, stuck) = (for {
       sPrime <- okStates
       s = if (links contains sPrime.location)
@@ -61,5 +63,20 @@ class ClickExecutionContext(
       s"Failed states (${stuckStates.length}): \n" + verboselyStringifyStates(failedStates)
     else
       "")
+  }
+}
+
+object ClickExecutionContext {
+  def apply(networkModel: NetworkConfig): ClickExecutionContext = {
+    val instructions = networkModel.elements.values.foldLeft(Map[LocationId, Instruction]())(_ ++ _.instructions)
+    val links = networkModel.paths.flatMap( _.sliding(2).map(pcp => {
+      val src = pcp.head
+      val dst = pcp.last
+      (networkModel.elements(src._1).outputPortName(src._3) -> networkModel.elements(dst._1).inputPortName(dst._2))
+    })).toMap
+
+    val initialState = State.bigBang.forwardTo(networkModel.entryLocationId)
+
+    new ClickExecutionContext(instructions, links, List(initialState), Nil, Nil)
   }
 }

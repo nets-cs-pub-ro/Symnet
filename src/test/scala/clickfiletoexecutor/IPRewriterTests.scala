@@ -2,7 +2,7 @@ package clickfiletoexecutor
 
 import org.change.parser.clickfile.ClickToAbstractNetwork
 import org.change.v2.analysis.expression.concrete.ConstantValue
-import org.change.v2.executor.clickabstractnetwork.{ClickExecutionContext, ClickExecutionContextBuilder}
+import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
 import org.scalatest.{Matchers, FlatSpec}
 
 /**
@@ -14,7 +14,7 @@ class IPRewriterTests extends FlatSpec with Matchers {
   "An executor context" should "be built from a click having and IPRewriter" in {
     val clickConfig = "src/main/resources/click_test_files/IPRewriter.click"
     val absNet = ClickToAbstractNetwork.buildConfig(clickConfig)
-    val executor = ClickExecutionContextBuilder.buildExecutionContext(absNet)
+    val executor = ClickExecutionContext(absNet)
 
     var crtExecutor = executor
     while(! crtExecutor.isDone) {
