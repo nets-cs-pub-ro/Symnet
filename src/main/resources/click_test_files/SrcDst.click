@@ -1,4 +1,4 @@
-src :: FromDevice
-dst :: ToDevice
+source :: FromDevice
+dest :: ToDevice
 
-src -> dst
+source -> dest

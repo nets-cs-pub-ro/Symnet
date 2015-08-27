@@ -64,6 +64,6 @@ object ConstraintVisitor extends ReachLangBaseVisitor[Constrain] {
   override def visitProtoconstraint(ctx: ProtoconstraintContext): Constrain = {
     val whatValue = ConstantValue(NumberFor(ctx.getText))
     val (floatingConstraint, instatiatedConstraint) = (:==:(whatValue), EQ_E(whatValue))
-    Constrain(Proto, floatingConstraint, Some(instatiatedConstraint))
+    Constrain(L4Proto, floatingConstraint, Some(instatiatedConstraint))
   }
 }

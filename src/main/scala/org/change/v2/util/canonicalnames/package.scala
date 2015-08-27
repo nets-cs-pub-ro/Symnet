@@ -11,7 +11,7 @@ package object canonicalnames {
   val IPDst = "IP-Dst"
   val PortSrc = "Port-Src"
   val PortDst = "Port-Dst"
-  val Proto = "Proto"
+  val L4Proto = "Proto"
   val TTL = "TTL"
 
 }

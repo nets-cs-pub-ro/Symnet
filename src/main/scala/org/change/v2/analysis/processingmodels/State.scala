@@ -30,7 +30,7 @@ object State {
      Assign(IPDst, SymbolicValue()),
      Assign(PortSrc, SymbolicValue()),
      Assign(PortDst, SymbolicValue()),
-     Assign(Proto, SymbolicValue())
+     Assign(L4Proto, SymbolicValue())
    )(init)._1.head
  }
 
