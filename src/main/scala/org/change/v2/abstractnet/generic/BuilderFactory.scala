@@ -16,6 +16,10 @@ object BuilderFactory {
 //    case "Client" => Client.getBuilder(nameValue)
 //    case "Server"  => Server.getBuilder(nameValue)
     case "IPRewriter"  => IPRewriter.getBuilder(nameValue)
+    case "IPEncap" => IPEncap.getBuilder(nameValue)
+    case "IPDecap" => IPDecap.getBuilder(nameValue)
+    case "StripIPHeader" => StripIPHeader.getBuilder(nameValue)
+    case "CheckIPHeader" => CheckIPHeader.getBuilder(nameValue)
 //    case "IPFilter"  => IPFilter.getBuilder(nameValue)
     case "IPClassifier"  => IPClassifier.getBuilder(nameValue)
     case "Paint"  => Paint.getBuilder(nameValue)
@@ -33,6 +37,10 @@ object BuilderFactory {
 //    case "Client" => Client.getBuilder
 //    case "Server" => Server.getBuilder
     case "IPRewriter"  => IPRewriter.getBuilder
+    case "IPEncap" => IPEncap.getBuilder
+    case "IPDecap" => IPDecap.getBuilder
+    case "StripIPHeader" => StripIPHeader.getBuilder
+    case "CheckIPHeader" => CheckIPHeader.getBuilder
     case "Template"  => Template.getBuilder
 //    case "IPFilter"  => IPFilter.getBuilder
     case "IPClassifier"  => IPClassifier.getBuilder
