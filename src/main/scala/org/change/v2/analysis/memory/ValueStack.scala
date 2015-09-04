@@ -20,7 +20,7 @@ case class ValueStack(val vs: List[Value] = Nil) {
    */
   override def toString = vs.toString()
 
-  def value: Option[Value] = headOrNone(vs)
+  def value: Option[Value] = vs.headOption
 
   def currentValueOnly: Value = vs.head
 
