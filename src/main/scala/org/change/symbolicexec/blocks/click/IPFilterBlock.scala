@@ -1,12 +1,10 @@
 package org.change.symbolicexec.blocks.click
 
 import org.change.symbolicexec._
-import org.change.symbolicexec.blocks.NoopProcessingBlock
 import org.change.utils.{NumberFor, RepresentationConversion}
 import org.change.v2.abstractnet.generic.ConfigParameter
 
-class IPFilterBlock(id: String, params: List[ConfigParameter]) extends
-  NoopProcessingBlock(id, 1, params.length) {
+class IPFilterBlock(id: String, params: List[ConfigParameter]) {
 
 //  Extract filtering rules
   private var rules = params.map(IPFilterBlock.configParamToConstraints(_))
@@ -19,14 +17,6 @@ class IPFilterBlock(id: String, params: List[ConfigParameter]) extends
         (c._1, NOT(c._2))
       })
     }).flatten)
-  }
-
-  override def process(p: Path): List[Path] = {
-    (for {
-      entry <- 0 until exitCount
-    } yield rules(entry)
-      .foldLeft(p)((p, cs) => p.modifyWith({_.constrainCurrent(cs._1, cs._2)}))
-      .move(PathLocation(p.location.vmId, id, entry, Output))).toList
   }
 }
 

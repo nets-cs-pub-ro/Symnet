@@ -10,9 +10,6 @@ package object symbolicexec {
 //  The memory consists of a set of symbols to which values are assigned
 //  Observation: because the type is an attribute of the value, not of the symbol,
 //  a symbol may refer to values of different types at different times.
-  type MemStore = Map[Symbol, List[SymbExpr]]
-//  TODO: exmplin this
-  type HookFunction = (List[Path], List[Path], List[Path]) => Unit
 
   /**
    * Check if two intervals intersect.

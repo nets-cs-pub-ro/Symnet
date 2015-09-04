@@ -1,0 +1,313 @@
+/**
+ * Tableless Layout for default template
+ *
+ * @author Andreas Gohr <andi@splitbrain.org>
+ * @author moraes <moraes@tipos.com.br>
+ */
+
+
+/* -------------- top row --------------- */
+
+/* ---------------  top and bottom bar ---------------- */
+.bar {
+	height:25px;
+	width:980px;
+	border-top:1px solid #8CACBB;
+	border-bottom:1px solid #8CACBB;
+	background:#DEE7EC;
+	padding:2px;
+	margin:0;
+  clear: both;
+}
+
+.bar-left {
+	float:left;
+}
+
+.bar-right {
+	float:right;
+  text-align:right;
+}
+
+#bar_bottom {
+  margin-bottom:3px;
+}
+
+
+/* --------- buttons ------------------- */
+
+
+input.button, button.button{
+  border: 1px solid #8cacbb;
+  color: Black;
+  background-color: white;
+  vertical-align: middle;
+  text-decoration:none;
+  font-size: 100%;
+  cursor: pointer;
+  height: 22px !important;
+  max-height: 22px !important;
+  min-height: 22px !important;
+  margin: 1px;
+  display: inline;
+}
+
+div.secedit input.button {
+  border: 1px solid #8cacbb;
+  color: Black;
+  background-color: white;
+  vertical-align: middle;
+  text-decoration:none;
+  margin: 0px;
+  padding: 0px;
+  font-size: 10px;
+  cursor: pointer;
+  height: 15px !important;
+  max-height: 15px !important;
+  min-height: 15px !important;
+  float:right;
+  display: inline;
+}
+
+
+/* ---------------- forms ------------------------ */
+
+form {
+  border: none;
+  margin: 0;
+  display: inline;
+}
+
+
+
+
+/* --------------- Links ------------------ */
+
+a {
+  color:#436976;
+  text-decoration:none;
+}
+a:hover {
+  color:#000000;
+  text-decoration:underline;
+}
+
+/* external link */
+a.urlextern{
+    background: transparent url(../images/link_icon.gif) 0px 1px no-repeat;
+    padding: 1px 0px 1px 16px;
+    color:#436976;
+    text-decoration:none;
+}
+a.urlextern:visited {
+  color:Purple;
+}
+a.urlextern:hover {
+  text-decoration:underline;
+}
+
+/* windows share */
+a.windows{
+    background: transparent url(../images/windows.gif) 0px 1px no-repeat;
+    padding: 1px 0px 1px 16px;
+    color:#436976;
+    text-decoration:none;
+} 
+a.windows:visited {
+  color:Purple;
+}
+a.windows:hover { 
+  text-decoration:underline;
+}
+
+/* interwiki link */
+a.interwiki{
+    background: transparent url(../images/interwiki.png) 0px 1px no-repeat;
+		padding-left: 16px;
+    color:#436976;
+    text-decoration:none;
+}
+a.interwiki:visited {
+  color:Purple;
+}
+a.interwiki:hover {
+  text-decoration:underline;
+}
+
+/* link to some embedded media */
+a.media {
+  color:#436976;
+  text-decoration:none;
+  border:0;
+}
+a.media:hover {
+  color:#436976;
+  text-decoration:underline
+}
+
+/* email link */
+a.mail {
+  background: transparent url(../images/mail_icon.gif) 0px 1px no-repeat;
+  padding: 1px 0px 1px 16px;
+  color:#436976;
+  text-decoration:none;
+}
+a.mail:hover {
+  text-decoration:underline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* special headlines */
+h1 {font-size: 160%; margin-left: 0px; font-weight: bold;}
+h2 {font-size: 150%; margin-left: 20px;}
+h3 {font-size: 140%; margin-left: 40px; border-bottom: none; font-weight: bold;}
+h4 {font-size: 120%; margin-left: 60px; border-bottom: none; font-weight: bold;}
+h5 {font-size: 100%; margin-left: 80px; border-bottom: none; font-weight: bold;}
+
+blockquote {
+  border-left: 2px solid #8cacbb;
+  padding-left: 3px;
+  margin-left: 0;
+}
+
+/* code blocks by indention */
+pre.pre {
+  font-size: 120%;
+  padding: 0.5em;
+  border: 1px dashed #8cacbb;
+  color: Black;
+  background-color: #f7f9fa;
+  overflow: auto;
+}
+
+/* code blocks by code tag */
+pre.code {
+  font-size: 120%;
+  padding: 0.5em;
+  border: 1px dashed #8cacbb;
+  color: Black;
+  background-color: #f7f9fa;
+  overflow: auto;
+}
+
+/* inline code words */
+code {
+  font-size: 120%;
+}
+
+/* code blocks by file tag */
+pre.file {
+  font-size: 120%;
+  padding: 0.5em;
+  border: 1px dashed #8cacbb;
+  color: Black;
+  background-color: #dee7ec;
+  overflow: auto;
+}
+
+/* inline tables */
+table.inline {
+  background-color: #ffffff;
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+
+table.inline th {
+  padding: 3px;
+  border: 1px solid #8cacbb;
+  background-color: #dee7ec;
+}
+
+table.inline td {
+  padding: 8px;
+  border: 1px solid #8cacbb;
+}
+
+.leftalign{
+  text-align: left;
+}
+
+.centeralign{
+  text-align: center;
+}
+
+.rightalign{
+  text-align: right;
+}
+
+
+
+
+table {
+  font-size: 110%;
+  padding:0;
+  margin:0;
+}
+
+
+
+
+
+/* embedded images */
+img.media {
+  border: 0;
+  margin: 3px;
+}
+
+img.medialeft {
+  border: 0;
+  float: left;
+  margin: 0 1.5em 0 0;
+}
+
+img.mediaright {
+  border: 0;
+  float: right;
+  margin: 0 0 0 1.5em;
+}
+
+img.mediacenter {
+  border: 0;
+	display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.inline img.media {
+  border: 0;
+  margin: 0 0 0 4;
+}
+
+.content .secedit form.button {
+    float: none;
+    display: block;
+    clear: both;
+    text-align: right;
+}
+.content .secedit form.button input[type="submit"] {
+    display: inline;
+    padding: 5px;
+    height: 22px !important;
+    max-height: none !important;
+}
+
+
+.content .page pre, .content .page code {
+    font-size: 1.2em;
+}

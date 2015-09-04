@@ -65,8 +65,8 @@ class IPClassifier(name: String,
     case srcPort(port) => Constrain(PortSrc, :==:(ConstantValue(port.toInt)))
     case dstPort(port) => Constrain(PortDst, :==:(ConstantValue(port.toInt)))
 
-    case tcp() => Constrain(Proto, :==:(ConstantValue(NumberFor("tcp"))))
-    case udp() => Constrain(Proto, :==:(ConstantValue(NumberFor("udp"))))
+    case tcp() => Constrain(L4Proto, :==:(ConstantValue(NumberFor("tcp"))))
+    case udp() => Constrain(L4Proto, :==:(ConstantValue(NumberFor("udp"))))
 
   }
 

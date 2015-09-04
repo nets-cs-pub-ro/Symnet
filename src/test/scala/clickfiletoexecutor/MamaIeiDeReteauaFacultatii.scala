@@ -1,7 +1,7 @@
 package clickfiletoexecutor
 
 import org.change.parser.clickfile.ClickToAbstractNetwork
-import org.change.v2.executor.clickabstractnetwork.{ClickExecutionContext, ClickExecutionContextBuilder}
+import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
 import org.scalatest.{Matchers, FlatSpec}
 
 /**
@@ -14,14 +14,14 @@ class MamaIeiDeReteauaFacultatii extends FlatSpec with  Matchers {
 
   "The ASA" should "be parsable" in {
     val absNet = ClickToAbstractNetwork.buildConfig(clickFilePath)
-    val executor = ClickExecutionContextBuilder.buildExecutionContext(absNet)
+    val executor = ClickExecutionContext(absNet)
 
     executor shouldBe a [ClickExecutionContext]
   }
 
   "Facultatea" should "work" in {
     val absNet = ClickToAbstractNetwork.buildConfig(clickFilePath)
-    val executor = ClickExecutionContextBuilder.buildExecutionContext(absNet)
+    val executor = ClickExecutionContext(absNet)
 
     var crtExecutor = executor
     while(! crtExecutor.isDone) {

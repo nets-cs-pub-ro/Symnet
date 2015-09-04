@@ -1,6 +1,5 @@
 package org.change.v2.abstractnet.click.sefl
 
-import org.change.symbolicexec.blocks.click.IPRewriterBlock
 import org.change.v2.abstractnet.generic.{ConfigParameter, ElementBuilder, GenericElement, Port}
 import org.change.v2.analysis.expression.concrete.ConstantValue
 import org.change.v2.analysis.expression.concrete.nonprimitive.:@
@@ -24,8 +23,6 @@ class IPRewriter(name: String,
     outputPorts,
     configParams) {
 
-  override def toProcessingBlock = new IPRewriterBlock(name, configParams)
-
   private val passPattern = ("pass (" + number+ ")").r
   private val keepPattern = ("keep (" + number+ ") (" + number+ ")").r
 
@@ -35,7 +32,7 @@ class IPRewriter(name: String,
     Assign(s"$name-$whichRule-check-da", :@(IPDst)),
     Assign(s"$name-$whichRule-check-sp", :@(PortSrc)),
     Assign(s"$name-$whichRule-check-dp", :@(PortDst)),
-    Assign(s"$name-$whichRule-check-proto", :@(Proto)),
+    Assign(s"$name-$whichRule-check-proto", :@(L4Proto)),
 
     Assign(s"$name-$whichRule-apply-sa", :@(IPSrc)),
     Assign(s"$name-$whichRule-apply-da", :@(IPDst)),
@@ -47,7 +44,7 @@ class IPRewriter(name: String,
     Assign(s"$name-${whichRule+1}-check-da", :@(IPSrc)),
     Assign(s"$name-${whichRule+1}-check-sp", :@(PortDst)),
     Assign(s"$name-${whichRule+1}-check-dp", :@(PortSrc)),
-    Assign(s"$name-${whichRule+1}-check-proto", :@(Proto)),
+    Assign(s"$name-${whichRule+1}-check-proto", :@(L4Proto)),
 
     Assign(s"$name-${whichRule+1}-apply-sa", :@(IPDst)),
     Assign(s"$name-${whichRule+1}-apply-da", :@(IPSrc)),
@@ -76,7 +73,7 @@ class IPRewriter(name: String,
           If(Constrain(IPDst, :==:(:@(s"$name-$which-check-da"))),
             If(Constrain(PortSrc, :==:(:@(s"$name-$which-check-sp"))),
               If(Constrain(PortDst, :==:(:@(s"$name-$which-check-dp"))),
-                If(Constrain(Proto, :==:(:@(s"$name-$which-check-proto"))),
+                If(Constrain(L4Proto, :==:(:@(s"$name-$which-check-proto"))),
                   InstructionBlock(
                     Assign(IPSrc, :@(s"$name-$which-apply-sa")),
                     Assign(IPDst, :@(s"$name-$which-apply-da")),

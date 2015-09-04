@@ -1,1 +1,0 @@
-InstructionBlock(      Assign("SRC", SymbolicValue()),      Assign("DST", SymbolicValue()),      Assign("PROTO", ConstantValue(6)),      Allocate("SRC"),      Allocate("DST"),      Allocate("PROTO"),      Assign("SRC",ConstantValue(100)),      Assign("DST",ConstantValue(200)),      Assign("PROTO",ConstantValue(4)),)

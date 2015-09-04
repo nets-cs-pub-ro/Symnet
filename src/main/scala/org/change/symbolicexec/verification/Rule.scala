@@ -1,25 +1,14 @@
 package org.change.symbolicexec.verification
 
-import org.change.symbolicexec.{Path, MemoryState, PathLocation}
+import org.change.v2.analysis.processingmodels.instructions.Constrain
+import org.change.v2.executor.clickabstractnetwork.verificator.PathLocation
 
+/**
+ * A rule defines a set of conditions imposed on a flow in a point of the network..
+ * @param where the output port where the rule is checked
+ * @param whatTraffic the constraints on traffic
+ * @param whatInvariants the invariants
+ */
 case class Rule(where: PathLocation,
-                whatTraffic: Option[MemoryState] = None,
-                whatInvariants: Option[List[String]] = None,
-                invariantTimeStamps: Map[String, Int] = Map()) extends Verifiable {
-
-  override def verifyTraffic(p: MemoryState): Boolean = whatTraffic match {
-    case Some(description) => p supersetOf description
-    case None => true
-  }
-
-  override def verifyInvariants(p: Path): Boolean =
-    if (invariantTimeStamps.isEmpty) true
-    else whatInvariants match {
-      case Some(invariants) => invariants.forall(i => invariantTimeStamps(i) == p.symbolWriteCount(i) )
-      case None => true
-    }
-}
-
-object Rule {
-  def apply(r: Rule, stamps: Map[String, Int]): Rule = Rule(r.where, r.whatTraffic, r.whatInvariants, stamps)
-}
+                whatTraffic: List[Constrain] = Nil,
+                whatInvariants: Option[List[String]] = None)

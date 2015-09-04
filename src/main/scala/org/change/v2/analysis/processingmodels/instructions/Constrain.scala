@@ -2,12 +2,14 @@ package org.change.v2.analysis.processingmodels.instructions
 
 import org.change.v2.analysis.constraint._
 import org.change.v2.analysis.expression.abst.FloatingExpression
-import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.analysis.processingmodels.{State, Instruction}
 
 /**
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
+ *
+ * TODO: When an already instantiated constrain is provided, one should be able not to provide the
+ * floating one (This is also going to affect how the toString method works)
  */
 case class Constrain (id: String, dc: FloatingConstraint, c: Option[Constraint] = None) extends Instruction {
   override def apply(s: State, v: Boolean): (List[State], List[State]) = c match {

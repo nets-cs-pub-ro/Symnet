@@ -3,7 +3,8 @@ package org.change.parser.verification
 import generated.reachlang.ReachLangBaseVisitor
 import generated.reachlang.ReachLangParser._
 import org.change.symbolicexec.verification.{ReachabilityTest, ReachabilityTestGroup, Rule}
-import org.change.symbolicexec.{Output, PathLocation, MemoryState}
+import org.change.v2.analysis.processingmodels.instructions.Constrain
+import org.change.v2.executor.clickabstractnetwork.verificator.{Output, PathLocation}
 
 //REMINDER
 import scala.collection.JavaConverters._
@@ -17,10 +18,12 @@ object TestParser extends ReachLangBaseVisitor[ReachabilityTest] {
   override def visitTest(ctx: TestContext): ReachabilityTest = ctx.middle().asScala.map(_.accept(RuleVisitor)).toList
 }
 
-object ConditionVisitor extends ReachLangBaseVisitor[Option[MemoryState]] {
-  override def visitCondition(ctx: ConditionContext): Option[MemoryState] =
-    if (ctx.trafficdesc() != null) Some(ctx.trafficdesc().accept(TrafficDescriptionParser))
-    else None
+object ConditionVisitor extends ReachLangBaseVisitor[List[Constrain]] {
+  override def visitCondition(ctx: ConditionContext): List[Constrain] =
+    if (ctx.trafficdesc() != null)
+      ctx.trafficdesc().accept(TrafficDescriptionParser)
+    else
+      Nil
 }
 
 object PathLocationVisitor extends ReachLangBaseVisitor[PathLocation] {
@@ -36,12 +39,12 @@ object PathLocationVisitor extends ReachLangBaseVisitor[PathLocation] {
 
 object RuleVisitor extends ReachLangBaseVisitor[Rule] {
   override def visitMiddle(ctx: MiddleContext): Rule = {
-    val memState = ctx.condition().accept(ConditionVisitor)
+    val conditions = ctx.condition().accept(ConditionVisitor)
     val port = ctx.nport().accept(PathLocationVisitor)
     val invariants = if (ctx.condition() != null && ctx.condition().invariant() != null)
       ctx.condition().invariant().accept(InvariantListParser)
     else
       Nil
-    Rule(port, memState, if (invariants.nonEmpty) Some(invariants) else None)
+    Rule(port, conditions, if (invariants.nonEmpty) Some(invariants) else None)
   }
 }

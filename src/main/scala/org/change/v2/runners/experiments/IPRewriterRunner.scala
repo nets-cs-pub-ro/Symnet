@@ -4,7 +4,7 @@ import java.io.{FileOutputStream, PrintWriter}
 import java.io.File
 
 import org.change.parser.clickfile.ClickToAbstractNetwork
-import org.change.v2.executor.clickabstractnetwork.{ClickExecutionContext, ClickExecutionContextBuilder}
+import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
 
 /**
  * Author: Radu Stoenescu
@@ -15,7 +15,7 @@ object IPRewriterRunner {
   def main (args: Array[String]) {
     val clickConfig = "src/main/resources/click_test_files/IPRewriter.click"
     val absNet = ClickToAbstractNetwork.buildConfig(clickConfig)
-    val executor = ClickExecutionContextBuilder.buildExecutionContext(absNet)
+    val executor = ClickExecutionContext(absNet)
 
     var crtExecutor = executor
     while(! crtExecutor.isDone) {
