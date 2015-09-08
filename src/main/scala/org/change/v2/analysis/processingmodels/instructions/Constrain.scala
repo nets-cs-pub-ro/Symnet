@@ -25,6 +25,20 @@ case class Constrain (id: String, dc: FloatingConstraint, c: Option[Constraint] 
   }
 }
 
+case class ConstrainRaw (a: Int, dc: FloatingConstraint, c: Option[Constraint] = None) extends Instruction {
+  override def apply(s: State, v: Boolean): (List[State], List[State]) = c match {
+    case None => dc instantiate s match {
+      case Left(c) => optionToStatePair(if (v) s.addInstructionToHistory(this) else s, s"Memory object @ $a cannot $dc") (s => {
+        s.memory.Constrain(a, c)
+      })
+      case Right(err) => Fail(err)(s, v)
+    }
+    case Some(c) => optionToStatePair(if (v) s.addInstructionToHistory(this) else s, s"Memory object @ $a cannot $dc") (s => {
+      s.memory.Constrain(a, c)
+    })
+  }
+}
+
 trait FloatingConstraint {
   def instantiate(s: State): Either[Constraint, String]
 }

@@ -5,7 +5,7 @@ import org.change.v2.analysis.expression.abst.Expression
 import org.change.v2.analysis.expression.concrete.SymbolicValue
 import org.change.v2.analysis.types.{LongType, NumericType, TypeUtils, Type}
 import org.change.v2.analysis.z3.Z3Util
-import org.change.v2.interval.ValueSet
+import org.change.v2.interval.{IntervalOps, ValueSet}
 import org.change.v2.util.codeabstractions._
 
 import scala.collection.mutable.{Map => MutableMap}
@@ -14,40 +14,91 @@ import scala.collection.mutable.{Map => MutableMap}
 *  Author: Radu Stoenescu
 *  Don't be a stranger to symnet.radustoe@spamgourmet.com
 */
-case class MemorySpace(val symbols: Map[String, List[ValueStack]] = Map()) {
+case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
+                       val rawObjects: Map[Int, MemoryObject] = Map.empty,
+                       val memTags: Map[String, Int] = Map.empty) {
+
+  private def resolveBy[K](id: K, m: Map[K, MemoryObject]): Option[Value] =
+    m.get(id).flatMap(_.value)
+
+  def Tag(name: String, value: Int): MemorySpace = MemorySpace(symbols, rawObjects, memTags + (name -> value))
 
   /**
    * Get the currently visible value associated with a symbol.
    * @param id symol name
    * @return the value or none
    */
-  def eval(id: String): Option[Value] = symbols.get(id).flatMap( headOrNone(_) ).flatMap( _.value )
+  def eval(id: String): Option[Value] = resolveBy(id, symbols)
+  def eval(a: Int): Option[Value] = resolveBy(a, rawObjects)
+
+  def canRead(a: Int): Boolean = resolveBy(a, rawObjects).isDefined
+
+  private def doesNotOverlap(a: Int, size: Int): Boolean = {
+    ! rawObjects.contains(a) &&
+      rawObjects.forall(kv => ! IntervalOps.doIntersect(a, size, kv._1, kv._2.size))
+  }
+
+  def canModify(a: Int, size: Int): Boolean = (doesNotOverlap(a, size) || rawObjects(a).size == size)
+
+  def canModifyExisting(a: Int, size: Int): Boolean = rawObjects.contains(a) && rawObjects(a).size == size
 
   /**
    * Checks if a given symbol is assigned to a value.
    * @param id
    * @return
    */
-  def symbolIsAssigned(id: String): Boolean = { optionToBoolean(eval(id)) }
+  def symbolIsAssigned(id: String): Boolean = { eval(id).isDefined }
+  def symbolIsDefined(id: String): Boolean = { symbols.contains(id) }
 
   /**
    * Allocates a new empty stack for a given symbol.
    * @param id
    * @return
    */
-  def Allocate(id: String): Option[MemorySpace] = Some(
-    MemorySpace(addToMapping(symbols, id, ValueStack.empty)))
+  def Allocate(id: String): Option[MemorySpace] =
+    Some(MemorySpace(
+      symbols + ( id -> (if (! symbolIsDefined(id)) MemoryObject() else symbols(id).allocateNewStack)),
+      rawObjects,
+      memTags
+    ))
+
+  def Allocate(a: Int, size: Int): Option[MemorySpace] = if (canModifyExisting(a, size))
+    Some(MemorySpace(
+      symbols,
+      rawObjects + ( a -> rawObjects(a).allocateNewStack),
+      memTags
+    ))
+  else if (canModify(a, size))
+    Some(MemorySpace(
+      symbols,
+      rawObjects + ( a -> MemoryObject(size = size)),
+      memTags
+    ))
+  else None
 
   /**
    * Destroys the newest stack assigned to a value.
    * @param id
    * @return
    */
-  def Deallocate(id: String): Option[MemorySpace] = symbols.get(id).flatMap { _ match {
-    case _ :: olderStacks if olderStacks.nonEmpty => Some(MemorySpace(symbols + (id -> olderStacks)))
-    case _ :: Nil => Some(MemorySpace(symbols - id))
-    case _ => None
-  }}
+  def Deallocate(id: String): Option[MemorySpace] = symbols.get(id).flatMap(_.deallocateStack).map( o =>
+    MemorySpace(
+      if (o.isVoid) symbols - id else symbols + (id -> o),
+      rawObjects,
+      memTags
+    )
+  )
+
+  def Deallocate(a: Int, size: Int): Option[MemorySpace] = if (canModifyExisting(a, size))
+    rawObjects.get(a).flatMap(_.deallocateStack).map( o =>
+      MemorySpace(
+        symbols,
+        if (o.isVoid) rawObjects - a else rawObjects + (a -> o),
+        memTags
+      )
+    )
+  else
+    None
 
   /**
    * Rewrite a symbol to a new expression.
@@ -58,36 +109,46 @@ case class MemorySpace(val symbols: Map[String, List[ValueStack]] = Map()) {
    */
   def Assign(id: String, exp: Expression, eType: NumericType): Option[MemorySpace] = { assignNewValue(id, exp, eType) }
   def Assign(id: String, exp: Expression): Option[MemorySpace] = Assign(id, exp, TypeUtils.canonicalForSymbol(id))
-
-  /**
-   * Checks if the two symbols refer the same value.
-   * @param idA Symbol A.
-   * @param idB Symbol B.
-   * @return
-   */
-  def Same(idA: String, idB: String): Option[MemorySpace] =
-    for {
-      vA <- eval(idA)
-      vB <- eval(idB)
-      if (vA.e.id == vB.e.id)
-    } yield (this)
+  def Assign(a: Int, exp: Expression): Option[MemorySpace] = if (canRead(a))
+    Some(MemorySpace(
+      symbols,
+      rawObjects + (a -> rawObjects(a).addValue(Value(exp))),
+      memTags
+    ))
+  else
+    None
 
   def Constrain(id: String, c: Constraint): Option[MemorySpace] = eval(id).flatMap(smb => {
-      val newSmb = smb.constrain(c)
-      val newMem = replaceValue(id, newSmb).get
+    val newSmb = smb.constrain(c)
+    val newMem = replaceValue(id, newSmb).get
 
-      val subject = newMem.eval(id).get
+    val subject = newMem.eval(id).get
 
-      c match {
-        case EQ_E(someE) if someE.id == subject.e.id => Some(newMem)
-        case GT_E(someE) if someE.id == subject.e.id => None
-        case GTE_E(someE) if someE.id == subject.e.id => Some(newMem)
-        case LT_E(someE) if someE.id == subject.e.id => None
-        case LTE_E(someE) if someE.id == subject.e.id => Some(newMem)
-        case _ => memoryToOption(newMem)
-      }
+    c match {
+      case EQ_E(someE) if someE.id == subject.e.id => Some(newMem)
+      case GT_E(someE) if someE.id == subject.e.id => None
+      case GTE_E(someE) if someE.id == subject.e.id => Some(newMem)
+      case LT_E(someE) if someE.id == subject.e.id => None
+      case LTE_E(someE) if someE.id == subject.e.id => Some(newMem)
+      case _ => memoryToOption(newMem)
     }
-  )
+  })
+
+  def Constrain(a: Int, c: Constraint): Option[MemorySpace] = eval(a).flatMap(smb => {
+    val newSmb = smb.constrain(c)
+    val newMem = replaceValue(a, newSmb).get
+
+    val subject = newMem.eval(a).get
+
+    c match {
+      case EQ_E(someE) if someE.id == subject.e.id => Some(newMem)
+      case GT_E(someE) if someE.id == subject.e.id => None
+      case GTE_E(someE) if someE.id == subject.e.id => Some(newMem)
+      case LT_E(someE) if someE.id == subject.e.id => None
+      case LTE_E(someE) if someE.id == subject.e.id => Some(newMem)
+      case _ => memoryToOption(newMem)
+    }
+  })
 
   private[this] def memoryToOption(m: MemorySpace): Option[MemorySpace] =
     if (m.isZ3Valid)
@@ -95,26 +156,21 @@ case class MemorySpace(val symbols: Map[String, List[ValueStack]] = Map()) {
     else
       None
 
-  def replaceValue(id: String, v: Value): Option[MemorySpace] = {
-    symbols.get(id) match {
-      case Some(stacks) => {
-        val latestStack = stacks.head
-        val newLatestStack = latestStack.replaceLatestValue(v)
-        val newStacks = replaceHead(stacks, newLatestStack)
-        Some(MemorySpace(symbols + (id -> newStacks)))
-      }
-      case None => None
-    }
-  }
+  def replaceValue(id: String, v: Value): Option[MemorySpace] = symbols.get(id).flatMap(_.replaceValue(v)).map(
+    mo => MemorySpace(
+      symbols + (id -> mo),
+      rawObjects,
+      memTags
+    )
+  )
 
-  /**
-   * Makes the 'where' symbol refer the same value as 'what' symbol
-   *
-   * @param where
-   * @param what
-   * @return
-   */
-  def Duplicate(where: String, what: String): Option[MemorySpace] = eval(what).flatMap( v => Assign(where, v.e))
+  def replaceValue(id: Int, v: Value): Option[MemorySpace] = rawObjects.get(id).flatMap(_.replaceValue(v)).map(
+    mo => MemorySpace(
+      symbols,
+      rawObjects + (id -> mo),
+      memTags
+    )
+  )
 
   /**
    * Pushes a new expression on the newest SSA stack of a symbol.
@@ -124,23 +180,28 @@ case class MemorySpace(val symbols: Map[String, List[ValueStack]] = Map()) {
    */
   def assignNewValue(id: String, exp: Expression, eType: NumericType): Option[MemorySpace] = assignNewValue(id, Value(exp, eType))
 
-  def assignNewValue(id: String, v: Value): Option[MemorySpace] = symbols.get(id) match {
-    case Some(sl) => Some(MemorySpace(symbols + (id -> replaceHead(sl, sl.head.addDefinition(v)))))
-    case None => Allocate(id).flatMap(_.assignNewValue(id, v))
-  }
+  def assignNewValue(id: String, v: Value): Option[MemorySpace] =
+    Some(MemorySpace(
+      symbols + (id -> (if (symbolIsDefined(id)) symbols(id).addValue(v) else MemoryObject().addValue(v))),
+      rawObjects,
+      memTags
+    ))
 
   /**
    *
    * TODO: Incomplete
    * @return
    */
-  override def toString = symbols.map(kv => kv._1 -> (kv._2.head.currentValueOnly, kv._2.last.bottomValue)).mkString("\n")
+  override def toString = symbols.map(kv => kv._1 -> (kv._2.value, kv._2.initialValue)).mkString("\n")
 
   def valid: Boolean = isZ3Valid
   def isZ3Valid: Boolean = {
     val solver = Z3Util.solver
-    val loadedSolver = symbols.values.map(_.head).foldLeft(solver) { (slv, ms) =>
-      ms.currentValueOnly.toZ3(Some(slv))._2.get
+    val loadedSolver = (symbols.values ++ rawObjects.values).foldLeft(solver) { (slv, mo) =>
+      mo.value match {
+        case Some(v) => v.toZ3(Some(slv))._2.get
+        case _ => slv
+      }
     }
 
     loadedSolver.check().get

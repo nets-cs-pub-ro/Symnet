@@ -20,11 +20,11 @@ case class ValueStack(val vs: List[Value] = Nil) {
    */
   override def toString = vs.toString()
 
-  def value: Option[Value] = headOrNone(vs)
+  def value: Option[Value] = vs.headOption
 
   def currentValueOnly: Value = vs.head
 
-  def bottomValue: Value = vs.last
+  def initialValue: Value = vs.last
 
   def constrain(c: Constraint): ValueStack = vs match {
     case v :: otherVs => ValueStack(Value(v.e, v.eType, c :: v.cts) :: otherVs)

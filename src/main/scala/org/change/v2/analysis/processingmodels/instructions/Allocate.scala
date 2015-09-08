@@ -21,3 +21,17 @@ case class Allocate(id: String) extends Instruction {
   }
 }
 
+case class AllocateRaw(a: Int, size: Int) extends Instruction {
+  /**
+   *
+   * A state processing block produces a set of new states based on a previous one.
+   *
+   * @param s
+   * @return
+   */
+  override def apply(s: State, v: Boolean): (List[State], List[State]) = {
+    optionToStatePair(if (v) s.addInstructionToHistory(this) else s, s"Cannot allocate at $a size $size") (s => {
+      s.memory.Allocate(a, size)
+    })
+  }
+}
