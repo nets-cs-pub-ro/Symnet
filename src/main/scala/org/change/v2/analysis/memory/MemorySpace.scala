@@ -21,7 +21,7 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
   private def resolveBy[K](id: K, m: Map[K, MemoryObject]): Option[Value] =
     m.get(id).flatMap(_.value)
 
-  def Tag(name: String, value: Int): MemorySpace = MemorySpace(symbols, rawObjects, memTags + (name -> value))
+  def Tag(name: String, value: Int): Option[MemorySpace] = Some(MemorySpace(symbols, rawObjects, memTags + (name -> value)))
 
   /**
    * Get the currently visible value associated with a symbol.

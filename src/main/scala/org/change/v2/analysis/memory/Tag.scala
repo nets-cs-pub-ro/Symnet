@@ -1,6 +1,8 @@
 package org.change.v2.analysis.memory
 
-import org.change.v2.analysis.processingmodels.State
+import org.change.v2.analysis.processingmodels.instructions.ForAll
+import org.change.v2.analysis.processingmodels.{Instruction, State}
+
 /**
   * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
@@ -32,3 +34,11 @@ case class TagExp(plusTags: List[Tag], minusTags: List[Tag], rest: Int) extends 
 }
 
 trait Intable extends ((State) => Option[Int])
+
+object TagExp {
+
+  implicit class IntImprovements(val value: Int) extends Intable {
+    override def apply(v1: State): Option[Int] = Some(value)
+  }
+
+}

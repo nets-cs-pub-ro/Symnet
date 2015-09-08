@@ -43,3 +43,8 @@ case class AssignRaw(a: Int, exp: FloatingExpression, t: NumericType = LongType)
     }
   }
 }
+
+object AssignObj {
+  def apply(a: Int, exp: FloatingExpression, t: NumericType = LongType): Instruction =
+    AssignRaw(a, exp, t)
+}
