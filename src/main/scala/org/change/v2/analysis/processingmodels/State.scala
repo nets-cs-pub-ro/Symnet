@@ -30,13 +30,13 @@ object State {
      Assign(IPDst, SymbolicValue()),
      Assign(PortSrc, SymbolicValue()),
      Assign(PortDst, SymbolicValue()),
-     Assign(Proto, SymbolicValue()),
+//     Assign(Proto, SymbolicValue()),
      Assign(TTL, SymbolicValue()),
-     Assign(IPLength, SymbolicValue()),
-     Assign(IPHeaderLength, SymbolicValue()),
-     Assign(IPVersion, SymbolicValue()),
-     Assign(IPID, SymbolicValue()),
-     Assign(Payload, SymbolicValue())
+//     Assign(IPLength, SymbolicValue()),
+//     Assign(IPHeaderLength, SymbolicValue()),
+//     Assign(IPID, SymbolicValue()),
+     //     Assign(Payload, SymbolicValue())
+     Assign(IPVersion, SymbolicValue())
    )(init)._1.head
  }
 }

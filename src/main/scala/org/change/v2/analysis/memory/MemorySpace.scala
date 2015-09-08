@@ -134,7 +134,7 @@ case class MemorySpace(val symbols: Map[String, List[ValueStack]] = Map()) {
    * TODO: Incomplete
    * @return
    */
-  override def toString = symbols.map(kv => kv._1 -> kv._2.head.currentValueOnly).mkString("\n")
+  override def toString = symbols.map(kv => kv._1 -> (kv._2.head.currentValueOnly, kv._2.last.bottomValue)).mkString("\n")
 
   def valid: Boolean = isZ3Valid
   def isZ3Valid: Boolean = {
