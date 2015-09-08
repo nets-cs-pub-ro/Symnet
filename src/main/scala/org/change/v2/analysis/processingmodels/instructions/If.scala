@@ -17,11 +17,11 @@ case class If(testInstr: Instruction, thenWhat: Instruction, elseWhat:Instructio
    */
   override def apply(s: State, v: Boolean): (List[State], List[State]) = testInstr match {
     // This is quite inappropriate
-    case i @ Constrain(what, withWhat, _) => {
+    case i @ ConstrainNamedSymbol(what, withWhat, _) => {
       withWhat instantiate s match {
         case Left(c) if s.memory.symbolIsAssigned(what) => {
-          val (sa, fa) = InstructionBlock(Constrain(what, withWhat, Some(c)), thenWhat)(s, v)
-          val (sb, fb) = InstructionBlock(Constrain(what, :~:(withWhat), Some(NOT(c))), elseWhat)(s, v)
+          val (sa, fa) = InstructionBlock(ConstrainNamedSymbol(what, withWhat, Some(c)), thenWhat)(s, v)
+          val (sb, fb) = InstructionBlock(ConstrainNamedSymbol(what, :~:(withWhat), Some(NOT(c))), elseWhat)(s, v)
           (sa ++ sb, fa ++ fb)
         }
 

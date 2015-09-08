@@ -8,7 +8,7 @@ package org.change.v2.abstractnet.click.sefl
  */
 import org.change.v2.abstractnet.generic.{ConfigParameter, ElementBuilder, GenericElement, Port}
 import org.change.v2.analysis.expression.concrete.ConstantValue
-import org.change.v2.analysis.processingmodels.instructions.{InstructionBlock, Assign, Forward}
+import org.change.v2.analysis.processingmodels.instructions.{InstructionBlock, AssignNamedSymbol, Forward}
 import org.change.v2.analysis.processingmodels.{LocationId, Instruction}
 
 class Paint(name: String,
@@ -27,12 +27,12 @@ class Paint(name: String,
     (inputPortName(0), if (configParams.length == 2)
       InstructionBlock(
         // If the optional ANNO param is present, then we assign this symbol too
-        Assign("COLOR", ConstantValue(configParams(0).value.toInt)),
-        Assign("ANNO", ConstantValue(configParams(1).value.toInt)),
+        AssignNamedSymbol("COLOR", ConstantValue(configParams(0).value.toInt)),
+        AssignNamedSymbol("ANNO", ConstantValue(configParams(1).value.toInt)),
         Forward(outputPortName(0))
       ) else InstructionBlock(
       // If only the COLOR param is present, then no ANNO assignment.
-      Assign("COLOR", ConstantValue(configParams(0).value.toInt)),
+      AssignNamedSymbol("COLOR", ConstantValue(configParams(0).value.toInt)),
       Forward(outputPortName(0))
     ))
   )

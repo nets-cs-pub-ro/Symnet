@@ -1,8 +1,8 @@
 package org.change.v2.analysis.processingmodels.networkproc
 
-import org.change.v2.analysis.expression.concrete.nonprimitive.:@
+import org.change.v2.analysis.expression.concrete.nonprimitive.Symbol
 import org.change.v2.analysis.expression.concrete.{SymbolicValue, ConstantValue}
-import org.change.v2.analysis.processingmodels.instructions.{InstructionBlock, Assign}
+import org.change.v2.analysis.processingmodels.instructions.{InstructionBlock, AssignNamedSymbol}
 import org.change.v2.analysis.processingmodels.{Instruction, State}
 
 /**
@@ -23,9 +23,9 @@ case class Swap(a: String, b: String) extends Instruction {
 
   override def apply(s: State, v: Boolean): (List[State], List[State]) =
     InstructionBlock(
-      Assign("Temp", :@(a)),
-      Assign(a, :@(b)),
-      Assign(b, :@("Temp"))
+      AssignNamedSymbol("Temp", Symbol(a)),
+      AssignNamedSymbol(a, Symbol(b)),
+      AssignNamedSymbol(b, Symbol("Temp"))
     )(s,v)
 
 }

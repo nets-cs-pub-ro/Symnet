@@ -3,7 +3,7 @@ package org.change.parser.verification
 import generated.reachlang.ReachLangBaseVisitor
 import generated.reachlang.ReachLangParser._
 import org.change.symbolicexec.verification.{ReachabilityTest, ReachabilityTestGroup, Rule}
-import org.change.v2.analysis.processingmodels.instructions.Constrain
+import org.change.v2.analysis.processingmodels.instructions.ConstrainNamedSymbol
 import org.change.v2.executor.clickabstractnetwork.verificator.{Output, PathLocation}
 
 //REMINDER
@@ -18,8 +18,8 @@ object TestParser extends ReachLangBaseVisitor[ReachabilityTest] {
   override def visitTest(ctx: TestContext): ReachabilityTest = ctx.middle().asScala.map(_.accept(RuleVisitor)).toList
 }
 
-object ConditionVisitor extends ReachLangBaseVisitor[List[Constrain]] {
-  override def visitCondition(ctx: ConditionContext): List[Constrain] =
+object ConditionVisitor extends ReachLangBaseVisitor[List[ConstrainNamedSymbol]] {
+  override def visitCondition(ctx: ConditionContext): List[ConstrainNamedSymbol] =
     if (ctx.trafficdesc() != null)
       ctx.trafficdesc().accept(TrafficDescriptionParser)
     else

@@ -1,6 +1,6 @@
 import org.change.v2.analysis.constraint.GT
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
-import org.change.v2.analysis.expression.concrete.nonprimitive.{Plus, :@}
+import org.change.v2.analysis.expression.concrete.nonprimitive.{Plus, Symbol}
 import org.change.v2.analysis.processingmodels.instructions._
 import org.scalatest.{Matchers, FlatSpec}
 import org.change.v2.analysis.processingmodels.networkproc._
@@ -14,9 +14,9 @@ class BasicProcessingTests extends FlatSpec with Matchers {
 
   "ISNRToOutside" should "rewrite SEQ" in {
     val (s,f) = InstructionBlock(
-      Assign("SEQ", SymbolicValue()),
+      AssignNamedSymbol("SEQ", SymbolicValue()),
       ISNRToOutside(Some(5)),
-      Constrain("SEQ", :==:(:@("Old-SEQ")))
+      ConstrainNamedSymbol("SEQ", :==:(Symbol("Old-SEQ")))
     )(State.bigBang)
 
     s should have length (0)
@@ -25,11 +25,11 @@ class BasicProcessingTests extends FlatSpec with Matchers {
 
   "ISNR to outside and back" should "preserve SEQ value" in {
     val (s,f) = InstructionBlock(
-      Assign("SEQ", SymbolicValue()),
+      AssignNamedSymbol("SEQ", SymbolicValue()),
       ISNRToOutside(None),
-      Constrain("Delta", :>:(ConstantValue(0))),
+      ConstrainNamedSymbol("Delta", :>:(ConstantValue(0))),
       ISNRToInside,
-      Constrain("SEQ", :==:(:@("Old-SEQ")))
+      ConstrainNamedSymbol("SEQ", :==:(Symbol("Old-SEQ")))
     )(State.bigBang)
 
     s should have length (1)
@@ -38,17 +38,17 @@ class BasicProcessingTests extends FlatSpec with Matchers {
 
   "NAT to outside and back" should "preserve initial values" in {
     val (s,f) = InstructionBlock(
-      Assign("IP-Src", SymbolicValue()),
-      Assign("IP-Dst", SymbolicValue()),
-      Assign("Port-Src", SymbolicValue()),
-      Assign("Port-Dst", SymbolicValue()),
+      AssignNamedSymbol("IP-Src", SymbolicValue()),
+      AssignNamedSymbol("IP-Dst", SymbolicValue()),
+      AssignNamedSymbol("Port-Src", SymbolicValue()),
+      AssignNamedSymbol("Port-Dst", SymbolicValue()),
 
       NATToInternet(1),
 
       EchoHost,
 
       NATFromInternet,
-      Constrain("IP-Dst", :==:(:@("Old-IP-Src")))
+      ConstrainNamedSymbol("IP-Dst", :==:(Symbol("Old-IP-Src")))
     )(State.bigBang)
 
     s should have length (1)

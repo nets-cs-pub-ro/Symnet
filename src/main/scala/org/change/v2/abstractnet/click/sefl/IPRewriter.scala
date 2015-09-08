@@ -2,7 +2,7 @@ package org.change.v2.abstractnet.click.sefl
 
 import org.change.v2.abstractnet.generic.{ConfigParameter, ElementBuilder, GenericElement, Port}
 import org.change.v2.analysis.expression.concrete.ConstantValue
-import org.change.v2.analysis.expression.concrete.nonprimitive.:@
+import org.change.v2.analysis.expression.concrete.nonprimitive.Symbol
 import org.change.v2.analysis.processingmodels.Instruction
 import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.util.regexes._
@@ -28,29 +28,29 @@ class IPRewriter(name: String,
 
   private def installKeepPatterns(whichRule: Int, portA: Int, portB: Int) = InstructionBlock(
     // Install forward mappings
-    Assign(s"$name-$whichRule-check-sa", :@(IPSrc)),
-    Assign(s"$name-$whichRule-check-da", :@(IPDst)),
-    Assign(s"$name-$whichRule-check-sp", :@(PortSrc)),
-    Assign(s"$name-$whichRule-check-dp", :@(PortDst)),
-    Assign(s"$name-$whichRule-check-proto", :@(L4Proto)),
+    AssignNamedSymbol(s"$name-$whichRule-check-sa", Symbol(IPSrc)),
+    AssignNamedSymbol(s"$name-$whichRule-check-da", Symbol(IPDst)),
+    AssignNamedSymbol(s"$name-$whichRule-check-sp", Symbol(PortSrc)),
+    AssignNamedSymbol(s"$name-$whichRule-check-dp", Symbol(PortDst)),
+    AssignNamedSymbol(s"$name-$whichRule-check-proto", Symbol(L4Proto)),
 
-    Assign(s"$name-$whichRule-apply-sa", :@(IPSrc)),
-    Assign(s"$name-$whichRule-apply-da", :@(IPDst)),
-    Assign(s"$name-$whichRule-apply-sp", :@(PortSrc)),
-    Assign(s"$name-$whichRule-apply-dp", :@(PortDst)),
-    Assign(s"$name-$whichRule-apply-fwport", ConstantValue(portA)),
+    AssignNamedSymbol(s"$name-$whichRule-apply-sa", Symbol(IPSrc)),
+    AssignNamedSymbol(s"$name-$whichRule-apply-da", Symbol(IPDst)),
+    AssignNamedSymbol(s"$name-$whichRule-apply-sp", Symbol(PortSrc)),
+    AssignNamedSymbol(s"$name-$whichRule-apply-dp", Symbol(PortDst)),
+    AssignNamedSymbol(s"$name-$whichRule-apply-fwport", ConstantValue(portA)),
     // Install reply mappings
-    Assign(s"$name-${whichRule+1}-check-sa", :@(IPDst)),
-    Assign(s"$name-${whichRule+1}-check-da", :@(IPSrc)),
-    Assign(s"$name-${whichRule+1}-check-sp", :@(PortDst)),
-    Assign(s"$name-${whichRule+1}-check-dp", :@(PortSrc)),
-    Assign(s"$name-${whichRule+1}-check-proto", :@(L4Proto)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-sa", Symbol(IPDst)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-da", Symbol(IPSrc)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-sp", Symbol(PortDst)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-dp", Symbol(PortSrc)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-proto", Symbol(L4Proto)),
 
-    Assign(s"$name-${whichRule+1}-apply-sa", :@(IPDst)),
-    Assign(s"$name-${whichRule+1}-apply-da", :@(IPSrc)),
-    Assign(s"$name-${whichRule+1}-apply-sp", :@(PortDst)),
-    Assign(s"$name-${whichRule+1}-apply-dp", :@(PortSrc)),
-    Assign(s"$name-${whichRule+1}-apply-fwport", ConstantValue(portB)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-apply-sa", Symbol(IPDst)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-apply-da", Symbol(IPSrc)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-apply-sp", Symbol(PortDst)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-apply-dp", Symbol(PortSrc)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-apply-fwport", ConstantValue(portB)),
     // Forward the flow
     Forward(outputPortName(portA))
   )
@@ -69,16 +69,16 @@ class IPRewriter(name: String,
         looper(which + 1)
 
 
-      val i = If(Constrain(IPSrc, :==:(:@(s"$name-$which-check-sa"))),
-          If(Constrain(IPDst, :==:(:@(s"$name-$which-check-da"))),
-            If(Constrain(PortSrc, :==:(:@(s"$name-$which-check-sp"))),
-              If(Constrain(PortDst, :==:(:@(s"$name-$which-check-dp"))),
-                If(Constrain(L4Proto, :==:(:@(s"$name-$which-check-proto"))),
+      val i = If(ConstrainNamedSymbol(IPSrc, :==:(Symbol(s"$name-$which-check-sa"))),
+          If(ConstrainNamedSymbol(IPDst, :==:(Symbol(s"$name-$which-check-da"))),
+            If(ConstrainNamedSymbol(PortSrc, :==:(Symbol(s"$name-$which-check-sp"))),
+              If(ConstrainNamedSymbol(PortDst, :==:(Symbol(s"$name-$which-check-dp"))),
+                If(ConstrainNamedSymbol(L4Proto, :==:(Symbol(s"$name-$which-check-proto"))),
                   InstructionBlock(
-                    Assign(IPSrc, :@(s"$name-$which-apply-sa")),
-                    Assign(IPDst, :@(s"$name-$which-apply-da")),
-                    Assign(PortSrc, :@(s"$name-$which-apply-sp")),
-                    Assign(PortDst, :@(s"$name-$which-apply-dp")),
+                    AssignNamedSymbol(IPSrc, Symbol(s"$name-$which-apply-sa")),
+                    AssignNamedSymbol(IPDst, Symbol(s"$name-$which-apply-da")),
+                    AssignNamedSymbol(PortSrc, Symbol(s"$name-$which-apply-sp")),
+                    AssignNamedSymbol(PortDst, Symbol(s"$name-$which-apply-dp")),
                     // Biggie here
                     Forward(outputPortName(fwPorts(which)))
                   ),

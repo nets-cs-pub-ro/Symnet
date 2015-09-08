@@ -11,20 +11,20 @@ import generated.reachlang.ReachLangParser._
 import org.change.symbolicexec.{E, Range, Constraint, Symbol}
 import org.change.utils.{NumberFor, RepresentationConversion}
 
-object TrafficDescriptionParser extends ReachLangBaseVisitor[List[Constrain]] {
-  override def visitTrafficdesc(ctx: TrafficdescContext): List[Constrain] =
+object TrafficDescriptionParser extends ReachLangBaseVisitor[List[ConstrainNamedSymbol]] {
+  override def visitTrafficdesc(ctx: TrafficdescContext): List[ConstrainNamedSymbol] =
     ctx.constraint().asScala.map(ConstraintVisitor.visitConstraint(_)).toList
 }
 
-object ConstraintVisitor extends ReachLangBaseVisitor[Constrain] {
+object ConstraintVisitor extends ReachLangBaseVisitor[ConstrainNamedSymbol] {
 
-  override def visitConstraint(ctx: ConstraintContext): Constrain = {
+  override def visitConstraint(ctx: ConstraintContext): ConstrainNamedSymbol = {
     if (ctx.ipconstraint() != null) visitIpconstraint(ctx.ipconstraint())
     else if (ctx.l4constraint() != null) visitL4constraint(ctx.l4constraint())
     else visitProtoconstraint(ctx.protoconstraint())
   }
 
-  override def visitIpconstraint(ctx: IpconstraintContext): Constrain = {
+  override def visitIpconstraint(ctx: IpconstraintContext): ConstrainNamedSymbol = {
     val symb = ctx.ipfield().getText match {
       case "src" => IPSrc
       case "dst" => IPDst
@@ -40,10 +40,10 @@ object ConstraintVisitor extends ReachLangBaseVisitor[Constrain] {
       (:&:(:>=:(lowerValue), :<=:(upperValue)), AND(List(GTE_E(lowerValue), LTE_E(upperValue))))
     }
 
-    Constrain(symb, floatingConstraint, Some(instatiatedConstraint))
+    ConstrainNamedSymbol(symb, floatingConstraint, Some(instatiatedConstraint))
   }
 
-  override def visitL4constraint(ctx: L4constraintContext): Constrain = {
+  override def visitL4constraint(ctx: L4constraintContext): ConstrainNamedSymbol = {
     val symb = ctx.l4field().getText match {
       case "src port" => PortSrc
       case "dst port" => PortDst
@@ -58,12 +58,12 @@ object ConstraintVisitor extends ReachLangBaseVisitor[Constrain] {
       (:==:(whatValue), EQ_E(whatValue))
     }
 
-    Constrain(symb, floatingConstraint, Some(instatiatedConstraint))
+    ConstrainNamedSymbol(symb, floatingConstraint, Some(instatiatedConstraint))
   }
 
-  override def visitProtoconstraint(ctx: ProtoconstraintContext): Constrain = {
+  override def visitProtoconstraint(ctx: ProtoconstraintContext): ConstrainNamedSymbol = {
     val whatValue = ConstantValue(NumberFor(ctx.getText))
     val (floatingConstraint, instatiatedConstraint) = (:==:(whatValue), EQ_E(whatValue))
-    Constrain(L4Proto, floatingConstraint, Some(instatiatedConstraint))
+    ConstrainNamedSymbol(L4Proto, floatingConstraint, Some(instatiatedConstraint))
   }
 }

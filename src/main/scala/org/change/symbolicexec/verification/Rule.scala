@@ -1,6 +1,6 @@
 package org.change.symbolicexec.verification
 
-import org.change.v2.analysis.processingmodels.instructions.Constrain
+import org.change.v2.analysis.processingmodels.instructions.ConstrainNamedSymbol
 import org.change.v2.executor.clickabstractnetwork.verificator.PathLocation
 
 /**
@@ -10,5 +10,5 @@ import org.change.v2.executor.clickabstractnetwork.verificator.PathLocation
  * @param whatInvariants the invariants
  */
 case class Rule(where: PathLocation,
-                whatTraffic: List[Constrain] = Nil,
+                whatTraffic: List[ConstrainNamedSymbol] = Nil,
                 whatInvariants: Option[List[String]] = None)

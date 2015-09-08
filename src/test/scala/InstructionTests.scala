@@ -1,9 +1,8 @@
-import org.change.v2.analysis.expression.concrete.nonprimitive.{:@, :+:}
+import org.change.v2.analysis.expression.concrete.nonprimitive.{Symbol, :+:}
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
 import org.change.v2.analysis.memory.{Value, MemorySpace}
 import org.change.v2.analysis.processingmodels.{State}
 import org.change.v2.analysis.processingmodels.instructions._
-import org.change.v2.analysis.processingmodels.instructions.ForAll._
 import org.scalatest.{Matchers, FlatSpec}
 
 /**
@@ -15,7 +14,7 @@ class InstructionTests extends FlatSpec with Matchers {
   "Rewrite" should "push another value on the assignment stack" in {
 
     val (s,f) = InstructionBlock(
-      Assign("IP", SymbolicValue())
+      AssignNamedSymbol("IP", SymbolicValue())
 
     )(State.bigBang)
 
@@ -25,9 +24,9 @@ class InstructionTests extends FlatSpec with Matchers {
   "Dup" should "make two symbol refer the same value" in {
 
     val (s,f) = InstructionBlock(List(
-      Assign("IP", ConstantValue(2)),
-      Assign("IP-Clone", :@("IP")),
-      Constrain("IP-Clone", :==:(:@("IP")))
+      AssignNamedSymbol("IP", ConstantValue(2)),
+      AssignNamedSymbol("IP-Clone", Symbol("IP")),
+      ConstrainNamedSymbol("IP-Clone", :==:(Symbol("IP")))
     ))(State.bigBang)
 
     val afterState = s.head
@@ -37,7 +36,7 @@ class InstructionTests extends FlatSpec with Matchers {
   }
 
   "Constrain" should "correctly add another constraint to a symbol" in {
-    val rwIP = Assign("IP", SymbolicValue())
+    val rwIP = AssignNamedSymbol("IP", SymbolicValue())
 
     val m = MemorySpace.clean
     val stateZero = State(m)
@@ -49,8 +48,8 @@ class InstructionTests extends FlatSpec with Matchers {
 
   "If" should "branch execution correctly" in {
     val (s,f) = InstructionBlock(List(
-      Assign("IP", ConstantValue(2)),
-      If(Constrain("IP", :==:(ConstantValue(2))), NoOp, NoOp)
+      AssignNamedSymbol("IP", ConstantValue(2)),
+      If(ConstrainNamedSymbol("IP", :==:(ConstantValue(2))), NoOp, NoOp)
     ))(State.bigBang)
 
     s should have length (1)
@@ -59,15 +58,15 @@ class InstructionTests extends FlatSpec with Matchers {
 
   "If" should "branch execution correctly in case of symbolics" in {
     val (s,f) = InstructionBlock(
-      Assign("IP", SymbolicValue()),
-      If(Constrain("IP", :==:(ConstantValue(2))),
+      AssignNamedSymbol("IP", SymbolicValue()),
+      If(ConstrainNamedSymbol("IP", :==:(ConstantValue(2))),
         InstructionBlock(
-          Constrain("IP", :==:(ConstantValue(3)))
+          ConstrainNamedSymbol("IP", :==:(ConstantValue(3)))
         ),
         InstructionBlock(
-          Allocate("IP"),
-          Assign("IP", SymbolicValue()),
-          Constrain("IP", :==:(ConstantValue(2)))
+          AllocateSymbol("IP"),
+          AssignNamedSymbol("IP", SymbolicValue()),
+          ConstrainNamedSymbol("IP", :==:(ConstantValue(2)))
         ))
     )(State.bigBang)
 
@@ -77,34 +76,16 @@ class InstructionTests extends FlatSpec with Matchers {
 
   "Deferrable E" should "pass when applied to the same expression" in {
     val (s,f) = InstructionBlock(List(
-      Assign("A", SymbolicValue()),
-      Assign("B", SymbolicValue()),
+      AssignNamedSymbol("A", SymbolicValue()),
+      AssignNamedSymbol("B", SymbolicValue()),
 
-      Assign("S1", :+:(:@("A"), :@("B"))),
-      Assign("S2", :+:(:@("A"), :@("B"))),
-      Constrain("S1", :~:(:==:(:@("S2"))))
+      AssignNamedSymbol("S1", :+:(Symbol("A"), Symbol("B"))),
+      AssignNamedSymbol("S2", :+:(Symbol("A"), Symbol("B"))),
+      ConstrainNamedSymbol("S1", :~:(:==:(Symbol("S2"))))
     ))(State.bigBang)
 
     s should have length (0)
     f should have length (1)
-  }
-
-  "ForAll" should "iterate through all matches and properly set the bindings" in {
-    val (s,f) = InstructionBlock(
-      Assign("A-1", SymbolicValue()),
-      Assign("B-1", :@("A-1")),
-      Assign("Init", :@("A-1")),
-
-      ForAll("x" :<- ".*-1") (
-        Deallocate("x")
-      )
-
-    )(State.bigBang)
-
-//    s should have length (1)
-//    f should have length (0)
-//    s.head.memory.symbols should not contain("B-1")
-//    s.head.memory.symbols should not contain("A-1")
   }
 
 }

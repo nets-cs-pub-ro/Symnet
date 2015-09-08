@@ -1,6 +1,6 @@
 package org.change.v2.analysis.processingmodels.instructions
 
-import org.change.v2.analysis.memory.Intable
+import org.change.v2.analysis.memory.{TagExp, Intable}
 import org.change.v2.analysis.processingmodels.{State, Instruction}
 
 /**
@@ -20,7 +20,7 @@ case class CreateTag(name: String, value: Intable)extends Instruction {
       case Some(int) => optionToStatePair(if (v) s.addInstructionToHistory(this) else s, s"Error during tagging of $name") (s => {
         s.memory.Tag(name, int)
       })
-      case None => Fail("Cannot resolve expression to an int address").apply(s, v)
+      case None => Fail(TagExp.brokenTagExpErrorMessage).apply(s, v)
     }
   }
 }

@@ -1,8 +1,8 @@
 package org.change.v2.analysis.processingmodels.networkproc
 
 import org.change.v2.analysis.expression.concrete.{SymbolicValue, ConstantValue}
-import org.change.v2.analysis.expression.concrete.nonprimitive.{:+:, :@}
-import org.change.v2.analysis.processingmodels.instructions.{InstructionBlock, Assign}
+import org.change.v2.analysis.expression.concrete.nonprimitive.{:+:, Symbol}
+import org.change.v2.analysis.processingmodels.instructions.{InstructionBlock, AssignNamedSymbol}
 import org.change.v2.analysis.processingmodels.{State, Instruction}
 
 /**
@@ -20,15 +20,15 @@ case class ISNRToOutside(delta: Option[Long]) extends Instruction {
   override def apply(s: State, v: Boolean): (List[State], List[State]) = delta match {
     case Some(l) =>
       InstructionBlock(
-        Assign("Old-SEQ", :@("SEQ")),
-        Assign("Delta", ConstantValue(l)),
-        Assign("SEQ",  :+:(:@("SEQ"),:@("Delta")))
+        AssignNamedSymbol("Old-SEQ", Symbol("SEQ")),
+        AssignNamedSymbol("Delta", ConstantValue(l)),
+        AssignNamedSymbol("SEQ",  :+:(Symbol("SEQ"),Symbol("Delta")))
       )(s,v)
     case _ =>
       InstructionBlock(
-        Assign("Old-SEQ", :@("SEQ")),
-        Assign("Delta", SymbolicValue()),
-        Assign("SEQ",  :+:(:@("SEQ"),:@("Delta")))
+        AssignNamedSymbol("Old-SEQ", Symbol("SEQ")),
+        AssignNamedSymbol("Delta", SymbolicValue()),
+        AssignNamedSymbol("SEQ",  :+:(Symbol("SEQ"),Symbol("Delta")))
       )(s,v)
   }
 }

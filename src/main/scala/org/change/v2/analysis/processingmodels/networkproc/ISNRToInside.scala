@@ -1,6 +1,6 @@
 package org.change.v2.analysis.processingmodels.networkproc
 
-import org.change.v2.analysis.expression.concrete.nonprimitive.{:-:, :@}
+import org.change.v2.analysis.expression.concrete.nonprimitive.{:-:, Symbol}
 import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.analysis.processingmodels.{State, Instruction}
 /**
@@ -17,6 +17,6 @@ object ISNRToInside extends Instruction {
    */
   override def apply(s: State, v: Boolean): (List[State], List[State]) =
     InstructionBlock(
-      Assign("SEQ", :-:(:@("SEQ"), :@("Delta")))
+      AssignNamedSymbol("SEQ", :-:(Symbol("SEQ"), Symbol("Delta")))
     )(s,v)
 }

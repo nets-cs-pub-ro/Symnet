@@ -3,6 +3,7 @@ package org.change.v2.analysis.processingmodels.instructions
 import org.change.v2.analysis.constraint._
 import org.change.v2.analysis.expression.abst.FloatingExpression
 import org.change.v2.analysis.processingmodels.{State, Instruction}
+import org.change.v2.analysis.memory.{TagExp, Intable}
 
 /**
  * Author: Radu Stoenescu
@@ -11,7 +12,7 @@ import org.change.v2.analysis.processingmodels.{State, Instruction}
  * TODO: When an already instantiated constrain is provided, one should be able not to provide the
  * floating one (This is also going to affect how the toString method works)
  */
-case class Constrain (id: String, dc: FloatingConstraint, c: Option[Constraint] = None) extends Instruction {
+case class ConstrainNamedSymbol (id: String, dc: FloatingConstraint, c: Option[Constraint] = None) extends Instruction {
   override def apply(s: State, v: Boolean): (List[State], List[State]) = c match {
     case None => dc instantiate s match {
       case Left(c) => optionToStatePair(if (v) s.addInstructionToHistory(this) else s, s"Symbol $id cannot $dc") (s => {
@@ -25,18 +26,30 @@ case class Constrain (id: String, dc: FloatingConstraint, c: Option[Constraint] 
   }
 }
 
-case class ConstrainRaw (a: Int, dc: FloatingConstraint, c: Option[Constraint] = None) extends Instruction {
-  override def apply(s: State, v: Boolean): (List[State], List[State]) = c match {
-    case None => dc instantiate s match {
-      case Left(c) => optionToStatePair(if (v) s.addInstructionToHistory(this) else s, s"Memory object @ $a cannot $dc") (s => {
-        s.memory.Constrain(a, c)
-      })
-      case Right(err) => Fail(err)(s, v)
-    }
-    case Some(c) => optionToStatePair(if (v) s.addInstructionToHistory(this) else s, s"Memory object @ $a cannot $dc") (s => {
-      s.memory.Constrain(a, c)
-    })
+case class ConstrainRaw (a: Intable, dc: FloatingConstraint, c: Option[Constraint] = None) extends Instruction {
+  override def apply(s: State, v: Boolean): (List[State], List[State]) = a(s) match {
+    case Some(int) => c match {
+        case None => dc instantiate s match {
+          case Left(c) => optionToStatePair(if (v) s.addInstructionToHistory(this) else s, s"Memory object @ $a cannot $dc") (s => {
+            s.memory.Constrain(int, c)
+          })
+          case Right(err) => Fail(err)(s, v)
+        }
+        case Some(c) => optionToStatePair(if (v) s.addInstructionToHistory(this) else s, s"Memory object @ $a cannot $dc") (s => {
+          s.memory.Constrain(int, c)
+        })
+      }
+    case None => Fail(TagExp.brokenTagExpErrorMessage)(s,v)
   }
+}
+
+object Constrain {
+  def apply(id: String, dc: FloatingConstraint, c: Option[Constraint] = None): Instruction =
+    ConstrainNamedSymbol(id, dc, c)
+  def apply (a: Intable, dc: FloatingConstraint, c: Option[Constraint]): Instruction =
+    ConstrainRaw(a, dc, c)
+  def apply (a: Intable, dc: FloatingConstraint): Instruction =
+    ConstrainRaw(a, dc, None)
 }
 
 trait FloatingConstraint {

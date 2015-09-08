@@ -33,6 +33,8 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
 
   def canRead(a: Int): Boolean = resolveBy(a, rawObjects).isDefined
 
+  def isAllocated(a: Int): Boolean = rawObjects.contains(a)
+
   private def doesNotOverlap(a: Int, size: Int): Boolean = {
     ! rawObjects.contains(a) &&
       rawObjects.forall(kv => ! IntervalOps.doIntersect(a, size, kv._1, kv._2.size))
@@ -109,12 +111,16 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
    */
   def Assign(id: String, exp: Expression, eType: NumericType): Option[MemorySpace] = { assignNewValue(id, exp, eType) }
   def Assign(id: String, exp: Expression): Option[MemorySpace] = Assign(id, exp, TypeUtils.canonicalForSymbol(id))
-  def Assign(a: Int, exp: Expression): Option[MemorySpace] = if (canRead(a))
-    Some(MemorySpace(
-      symbols,
-      rawObjects + (a -> rawObjects(a).addValue(Value(exp))),
-      memTags
-    ))
+  def Assign(a: Int, exp: Expression): Option[MemorySpace] = if (isAllocated(a))
+    {
+      val nm = Some(MemorySpace(
+        symbols,
+        rawObjects + (a -> rawObjects(a).addValue(Value(exp))),
+        memTags
+      ))
+      nm
+    }
+
   else
     None
 

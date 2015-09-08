@@ -1,6 +1,5 @@
 package org.change.v2.analysis.memory
 
-import org.change.v2.analysis.processingmodels.instructions.ForAll
 import org.change.v2.analysis.processingmodels.{Instruction, State}
 
 /**
@@ -33,9 +32,9 @@ case class TagExp(plusTags: List[Tag], minusTags: List[Tag], rest: Int) extends 
     None
 }
 
-trait Intable extends ((State) => Option[Int])
-
 object TagExp {
+
+  val brokenTagExpErrorMessage = "Cannot resolve expression to an int address"
 
   implicit class IntImprovements(val value: Int) extends Intable {
     override def apply(v1: State): Option[Int] = Some(value)

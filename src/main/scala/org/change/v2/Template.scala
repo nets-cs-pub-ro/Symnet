@@ -2,7 +2,7 @@ package org.change.v2
 
 import org.change.v2.abstractnet.generic.{ConfigParameter, ElementBuilder, GenericElement, Port}
 import org.change.v2.analysis.expression.concrete.ConstantValue
-import org.change.v2.analysis.processingmodels.instructions.{Assign, Forward, InstructionBlock}
+import org.change.v2.analysis.processingmodels.instructions.{AssignNamedSymbol, Forward, InstructionBlock}
 import org.change.v2.analysis.processingmodels.{Instruction, LocationId}
 import org.change.v2.util.conversion.RepresentationConversion._
 
@@ -19,7 +19,7 @@ class Template(name: String,
 
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
-      Assign("NoPlaceLike", ConstantValue( ipToNumber( configParams(0).value ) )),
+      AssignNamedSymbol("NoPlaceLike", ConstantValue( ipToNumber( configParams(0).value ) )),
       Forward(outputPortName(0))
     )
   )
