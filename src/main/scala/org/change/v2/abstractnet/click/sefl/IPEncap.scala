@@ -25,11 +25,15 @@ class IPEncap(name: String,
     inputPortName(0) -> InstructionBlock(
       Allocate("t"),
       Allocate("t2"),
+
       Assign("t",:@(Tag("L3")+IPLength)),
       Assign("t2",:@(Tag("L3")+TTL)),
-      Assign("L3",:-:(:@("L3"),ConstantValue(20))),
+
+      CreateTag("L3",Tag("L3")+20),
+
       Allocate(Tag("L3")+IPVersion,4),
       Assign(Tag("L3")+IPVersion,ConstantValue(4)),
+
       Allocate(Tag("L3")+IPHeaderLength,4),
       Assign(Tag("L3")+IPHeaderLength,ConstantValue(20)),
       Allocate(Tag("L3")+IPLength,16),
@@ -60,7 +64,7 @@ class IPEncapElementBuilder(name: String, elementType: String)
   addOutputPort(Port())
 
   override def buildElement: GenericElement = {
-    new ESPEncap(name, elementType, getInputPorts, getOutputPorts, getConfigParameters)
+    new IPEncap(name, elementType, getInputPorts, getOutputPorts, getConfigParameters)
   }
 }
 
@@ -73,10 +77,10 @@ object IPEncap {
     unnamedCount += 1
   }
 
-  def getBuilder(name: String): ESPEncapElementBuilder = {
-    increment ; new ESPEncapElementBuilder(name, "IPEncap")
+  def getBuilder(name: String): IPEncapElementBuilder = {
+    increment ; new IPEncapElementBuilder(name, "IPEncap")
   }
 
-  def getBuilder: ESPEncapElementBuilder =
+  def getBuilder: IPEncapElementBuilder =
     getBuilder(s"$genericElementName-$unnamedCount")
 }

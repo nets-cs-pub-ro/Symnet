@@ -33,9 +33,7 @@ case class TagExp(plusTags: List[Tag], minusTags: List[Tag], rest: Int) extends 
   else
     None
 
-  override def toString = plusTags.mkString("+") +
-    (if (minusTags.nonEmpty) "-" + minusTags.mkString("-")
-    else "") + rest
+  override def toString = plusTags.mkString("+") + (if (minusTags.nonEmpty) "-" + minusTags.mkString("-") else "") + TagExp.IntImprovements(rest)
 }
 
 object TagExp {

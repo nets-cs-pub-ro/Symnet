@@ -37,7 +37,7 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
 
   private def doesNotOverlap(a: Int, size: Int): Boolean = {
     (! rawObjects.contains(a)) &&
-      rawObjects.forall(kv => ! IntervalOps.doIntersect(a, size, kv._1, kv._2.size))
+      rawObjects.forall(kv => ! IntervalOps.intervalIntersectionIsInterval(a, size, kv._1, kv._2.size))
   }
 
   def canModify(a: Int, size: Int): Boolean = doesNotOverlap(a, size) ||
@@ -199,7 +199,10 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
    * TODO: Incomplete
    * @return
    */
-  override def toString = symbols.map(kv => kv._1 -> (kv._2.value, kv._2.initialValue)).mkString("\n")
+  override def toString = "Tags:" + memTags.mkString("\n") +
+    "Memory values:\n" +
+    symbols.map(kv => kv._1 -> ("Crt:" + kv._2.value, "Initital: " + kv._2.initialValue)).mkString("\n") +
+    rawObjects.map(kv => kv._1 -> ("Crt:" + kv._2.value, "Initital: " + kv._2.initialValue)).mkString("\n") + "\n"
 
   def valid: Boolean = isZ3Valid
   def isZ3Valid: Boolean = {

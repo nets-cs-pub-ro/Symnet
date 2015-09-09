@@ -5,6 +5,8 @@ import org.change.v2.analysis.memory.MemorySpace
 import org.change.v2.util.canonicalnames._
 import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.analysis.expression.concrete.SymbolicValue
+import org.change.v2.analysis.memory.TagExp._
+import org.change.v2.analysis.memory.Tag
 
 
 /**
@@ -24,19 +26,31 @@ case class State(memory: MemorySpace = MemorySpace.clean,
 
 object State {
  def bigBang: State = {
-   val init = State(MemorySpace.clean)
-   InstructionBlock (
+   val bigBang = State(MemorySpace.clean)
+
+   val afterBigBang = InstructionBlock (
      Assign(IPSrcString, SymbolicValue()),
      Assign(IPDstString, SymbolicValue()),
      Assign(PortSrcString, SymbolicValue()),
      Assign(PortDstString, SymbolicValue()),
      Assign(L4ProtoString, SymbolicValue()),
-//     AssignNamedSymbol(TTL, SymbolicValue()),
-//     Assign(IPLength, SymbolicValue()),
-//     Assign(IPHeaderLength, SymbolicValue()),
-//     Assign(IPID, SymbolicValue()),
-     //     Assign(Payload, SymbolicValue())
-     Assign(IPVersionString, SymbolicValue())
-   )(init)._1.head
+     Assign(IPVersionString, SymbolicValue()),
+
+     CreateTag("L3", 0),
+
+     Allocate(Tag("L3") + TTL, 8),
+     Assign(Tag("L3") +TTL, SymbolicValue()),
+
+     Allocate(Tag("L3") + IPLength, 16),
+     Assign(Tag("L3") + IPLength, SymbolicValue()),
+
+     Allocate(Tag("L3") + IPHeaderLength, 4),
+     Assign(Tag("L3") + IPHeaderLength, SymbolicValue()),
+
+     Allocate(Tag("L3") + IPID, 16),
+     Assign(Tag("L3") +IPID, SymbolicValue())
+   )(bigBang, true)
+
+   afterBigBang._1.head
  }
 }

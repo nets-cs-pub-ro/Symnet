@@ -7,8 +7,8 @@ package org.change.v2.analysis.memory
 case class MemoryObject(val valueStack: List[ValueStack] = List(ValueStack.empty),
                         val size: Int = 0) {
 
-  def value: Option[Value] = valueStack.headOption.map(_.currentValueOnly)
-  def initialValue: Option[Value] = valueStack.lastOption.map(_.initialValue)
+  def value: Option[Value] = valueStack.headOption.flatMap(_.value)
+  def initialValue: Option[Value] = valueStack.lastOption.flatMap(_.initialValue)
 
   def addValue(v: Value): MemoryObject = if (isVoid)
       MemoryObject(List(ValueStack.empty.addDefinition(v)), size)

@@ -24,7 +24,7 @@ case class ValueStack(val vs: List[Value] = Nil) {
 
   def currentValueOnly: Value = vs.head
 
-  def initialValue: Value = vs.last
+  def initialValue: Option[Value] = vs.lastOption
 
   def constrain(c: Constraint): ValueStack = vs match {
     case v :: otherVs => ValueStack(Value(v.e, v.eType, c :: v.cts) :: otherVs)
