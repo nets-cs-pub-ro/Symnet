@@ -26,17 +26,17 @@ object State {
  def bigBang: State = {
    val init = State(MemorySpace.clean)
    InstructionBlock (
-//     AssignNamedSymbol(IPSrc, SymbolicValue()),
-//     AssignNamedSymbol(IPDst, SymbolicValue()),
-//     AssignNamedSymbol(PortSrc, SymbolicValue()),
-//     AssignNamedSymbol(PortDst, SymbolicValue()),
-//     Assign(Proto, SymbolicValue()),
+     Assign(IPSrcString, SymbolicValue()),
+     Assign(IPDstString, SymbolicValue()),
+     Assign(PortSrcString, SymbolicValue()),
+     Assign(PortDstString, SymbolicValue()),
+     Assign(L4ProtoString, SymbolicValue()),
 //     AssignNamedSymbol(TTL, SymbolicValue()),
 //     Assign(IPLength, SymbolicValue()),
 //     Assign(IPHeaderLength, SymbolicValue()),
 //     Assign(IPID, SymbolicValue()),
      //     Assign(Payload, SymbolicValue())
-//     AssignNamedSymbol(IPVersion, SymbolicValue())
+     Assign(IPVersionString, SymbolicValue())
    )(init)._1.head
  }
 }

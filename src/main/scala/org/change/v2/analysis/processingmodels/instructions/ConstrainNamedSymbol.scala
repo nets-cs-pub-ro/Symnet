@@ -44,10 +44,8 @@ case class ConstrainRaw (a: Intable, dc: FloatingConstraint, c: Option[Constrain
 }
 
 object Constrain {
-  def apply(id: String, dc: FloatingConstraint, c: Option[Constraint] = None): Instruction =
-    ConstrainNamedSymbol(id, dc, c)
-  def apply (a: Intable, dc: FloatingConstraint, c: Option[Constraint]): Instruction =
-    ConstrainRaw(a, dc, c)
+  def apply(id: String, dc: FloatingConstraint): Instruction =
+    ConstrainNamedSymbol(id, dc, None)
   def apply (a: Intable, dc: FloatingConstraint): Instruction =
     ConstrainRaw(a, dc, None)
 }

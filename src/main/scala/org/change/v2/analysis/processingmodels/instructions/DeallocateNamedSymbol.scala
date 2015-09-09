@@ -37,3 +37,8 @@ case class DeallocateRaw(a: Intable, size: Int) extends Instruction {
     case None => Fail(TagExp.brokenTagExpErrorMessage).apply(s, v)
   }
 }
+
+object Deallocate {
+  def apply(id: String): Instruction = DeallocateNamedSymbol(id)
+  def apply(a: Intable, size: Int): Instruction =  DeallocateRaw(a, size)
+}

@@ -40,33 +40,33 @@ class IPClassifier(name: String,
   val udp = "udp".r
 
   private def conditionToConstraint(condition: String): ConstrainNamedSymbol = condition match {
-    case ipProto(v) => ConstrainNamedSymbol(IPVersion, :==:(ConstantValue(v.toInt)))
+    case ipProto(v) => ConstrainNamedSymbol(IPVersionString, :==:(ConstantValue(v.toInt)))
 
-    case srcHostAddr(ip) => ConstrainNamedSymbol(IPSrc, :==:(ConstantValue(ipToNumber(ip))))
-    case dstHostAddr(ip) => ConstrainNamedSymbol(IPDst, :==:(ConstantValue(ipToNumber(ip))))
+    case srcHostAddr(ip) => ConstrainNamedSymbol(IPSrcString, :==:(ConstantValue(ipToNumber(ip))))
+    case dstHostAddr(ip) => ConstrainNamedSymbol(IPDstString, :==:(ConstantValue(ipToNumber(ip))))
 
     case dstNetAddr(ip, mask) => {
       val (lower, upper) = ipAndMaskToInterval(ip, mask)
-      ConstrainNamedSymbol(IPDst, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
+      ConstrainNamedSymbol(IPDstString, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
     case dstNetExplicitAddr(ip, mask) => {
       val (lower, upper) = ipAndExplicitMaskToInterval(ip, mask)
-      ConstrainNamedSymbol(IPDst, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
+      ConstrainNamedSymbol(IPDstString, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
     case srcNetAddr(ip, mask) => {
       val (lower, upper) = ipAndMaskToInterval(ip, mask)
-      ConstrainNamedSymbol(IPSrc, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
+      ConstrainNamedSymbol(IPSrcString, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
     case srcNetExplicitAddr(ip, mask) => {
       val (lower, upper) = ipAndExplicitMaskToInterval(ip, mask)
-      ConstrainNamedSymbol(IPSrc, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
+      ConstrainNamedSymbol(IPSrcString, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
 
-    case srcPort(port) => ConstrainNamedSymbol(PortSrc, :==:(ConstantValue(port.toInt)))
-    case dstPort(port) => ConstrainNamedSymbol(PortDst, :==:(ConstantValue(port.toInt)))
+    case srcPort(port) => ConstrainNamedSymbol(PortSrcString, :==:(ConstantValue(port.toInt)))
+    case dstPort(port) => ConstrainNamedSymbol(PortDstString, :==:(ConstantValue(port.toInt)))
 
-    case tcp() => ConstrainNamedSymbol(L4Proto, :==:(ConstantValue(NumberFor("tcp"))))
-    case udp() => ConstrainNamedSymbol(L4Proto, :==:(ConstantValue(NumberFor("udp"))))
+    case tcp() => ConstrainNamedSymbol(L4ProtoString, :==:(ConstantValue(NumberFor("tcp"))))
+    case udp() => ConstrainNamedSymbol(L4ProtoString, :==:(ConstantValue(NumberFor("udp"))))
 
   }
 

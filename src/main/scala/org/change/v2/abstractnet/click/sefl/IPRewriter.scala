@@ -28,28 +28,28 @@ class IPRewriter(name: String,
 
   private def installKeepPatterns(whichRule: Int, portA: Int, portB: Int) = InstructionBlock(
     // Install forward mappings
-    AssignNamedSymbol(s"$name-$whichRule-check-sa", Symbol(IPSrc)),
-    AssignNamedSymbol(s"$name-$whichRule-check-da", Symbol(IPDst)),
-    AssignNamedSymbol(s"$name-$whichRule-check-sp", Symbol(PortSrc)),
-    AssignNamedSymbol(s"$name-$whichRule-check-dp", Symbol(PortDst)),
-    AssignNamedSymbol(s"$name-$whichRule-check-proto", Symbol(L4Proto)),
+    AssignNamedSymbol(s"$name-$whichRule-check-sa", Symbol(IPSrcString)),
+    AssignNamedSymbol(s"$name-$whichRule-check-da", Symbol(IPDstString)),
+    AssignNamedSymbol(s"$name-$whichRule-check-sp", Symbol(PortSrcString)),
+    AssignNamedSymbol(s"$name-$whichRule-check-dp", Symbol(PortDstString)),
+    AssignNamedSymbol(s"$name-$whichRule-check-proto", Symbol(L4ProtoString)),
 
-    AssignNamedSymbol(s"$name-$whichRule-apply-sa", Symbol(IPSrc)),
-    AssignNamedSymbol(s"$name-$whichRule-apply-da", Symbol(IPDst)),
-    AssignNamedSymbol(s"$name-$whichRule-apply-sp", Symbol(PortSrc)),
-    AssignNamedSymbol(s"$name-$whichRule-apply-dp", Symbol(PortDst)),
+    AssignNamedSymbol(s"$name-$whichRule-apply-sa", Symbol(IPSrcString)),
+    AssignNamedSymbol(s"$name-$whichRule-apply-da", Symbol(IPDstString)),
+    AssignNamedSymbol(s"$name-$whichRule-apply-sp", Symbol(PortSrcString)),
+    AssignNamedSymbol(s"$name-$whichRule-apply-dp", Symbol(PortDstString)),
     AssignNamedSymbol(s"$name-$whichRule-apply-fwport", ConstantValue(portA)),
     // Install reply mappings
-    AssignNamedSymbol(s"$name-${whichRule+1}-check-sa", Symbol(IPDst)),
-    AssignNamedSymbol(s"$name-${whichRule+1}-check-da", Symbol(IPSrc)),
-    AssignNamedSymbol(s"$name-${whichRule+1}-check-sp", Symbol(PortDst)),
-    AssignNamedSymbol(s"$name-${whichRule+1}-check-dp", Symbol(PortSrc)),
-    AssignNamedSymbol(s"$name-${whichRule+1}-check-proto", Symbol(L4Proto)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-sa", Symbol(IPDstString)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-da", Symbol(IPSrcString)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-sp", Symbol(PortDstString)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-dp", Symbol(PortSrcString)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-proto", Symbol(L4ProtoString)),
 
-    AssignNamedSymbol(s"$name-${whichRule+1}-apply-sa", Symbol(IPDst)),
-    AssignNamedSymbol(s"$name-${whichRule+1}-apply-da", Symbol(IPSrc)),
-    AssignNamedSymbol(s"$name-${whichRule+1}-apply-sp", Symbol(PortDst)),
-    AssignNamedSymbol(s"$name-${whichRule+1}-apply-dp", Symbol(PortSrc)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-apply-sa", Symbol(IPDstString)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-apply-da", Symbol(IPSrcString)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-apply-sp", Symbol(PortDstString)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-apply-dp", Symbol(PortSrcString)),
     AssignNamedSymbol(s"$name-${whichRule+1}-apply-fwport", ConstantValue(portB)),
     // Forward the flow
     Forward(outputPortName(portA))
@@ -69,16 +69,16 @@ class IPRewriter(name: String,
         looper(which + 1)
 
 
-      val i = If(ConstrainNamedSymbol(IPSrc, :==:(Symbol(s"$name-$which-check-sa"))),
-          If(ConstrainNamedSymbol(IPDst, :==:(Symbol(s"$name-$which-check-da"))),
-            If(ConstrainNamedSymbol(PortSrc, :==:(Symbol(s"$name-$which-check-sp"))),
-              If(ConstrainNamedSymbol(PortDst, :==:(Symbol(s"$name-$which-check-dp"))),
-                If(ConstrainNamedSymbol(L4Proto, :==:(Symbol(s"$name-$which-check-proto"))),
+      val i = If(ConstrainNamedSymbol(IPSrcString, :==:(Symbol(s"$name-$which-check-sa"))),
+          If(ConstrainNamedSymbol(IPDstString, :==:(Symbol(s"$name-$which-check-da"))),
+            If(ConstrainNamedSymbol(PortSrcString, :==:(Symbol(s"$name-$which-check-sp"))),
+              If(ConstrainNamedSymbol(PortDstString, :==:(Symbol(s"$name-$which-check-dp"))),
+                If(ConstrainNamedSymbol(L4ProtoString, :==:(Symbol(s"$name-$which-check-proto"))),
                   InstructionBlock(
-                    AssignNamedSymbol(IPSrc, Symbol(s"$name-$which-apply-sa")),
-                    AssignNamedSymbol(IPDst, Symbol(s"$name-$which-apply-da")),
-                    AssignNamedSymbol(PortSrc, Symbol(s"$name-$which-apply-sp")),
-                    AssignNamedSymbol(PortDst, Symbol(s"$name-$which-apply-dp")),
+                    AssignNamedSymbol(IPSrcString, Symbol(s"$name-$which-apply-sa")),
+                    AssignNamedSymbol(IPDstString, Symbol(s"$name-$which-apply-da")),
+                    AssignNamedSymbol(PortSrcString, Symbol(s"$name-$which-apply-sp")),
+                    AssignNamedSymbol(PortDstString, Symbol(s"$name-$which-apply-dp")),
                     // Biggie here
                     Forward(outputPortName(fwPorts(which)))
                   ),
