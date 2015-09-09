@@ -18,7 +18,7 @@ object IntervalOps {
     (a._1 <= b._1 && b._1 <= a._2) || (a._1 <= b._1 && b._2 <= a._2)
 
   def intervalIntersectionIsInterval(al: Int, au: Int, bl: Int, bu: Int): Boolean =
-    ! ((au < bl) || (bu < al))
+    ! ((au <= bl) || (bu <= al))
 
   def intersect(a: Interval, b: Interval): Option[Interval] =
     if (a._1 <= b._1 && b._1 <= a._2) Some((b._1, Math.min(b._2, a._2)))
