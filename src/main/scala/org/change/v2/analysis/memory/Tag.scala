@@ -15,6 +15,8 @@ case class Tag(val name: String) extends Intable {
   def -(other: Int): TagExp = TagExp(List(this), Nil , -other)
 
   override def apply(v1: State): Option[Int] = v1.memory.memTags.get(name)
+
+  override def toString = name
 }
 
 case class TagExp(plusTags: List[Tag], minusTags: List[Tag], rest: Int) extends Intable {
@@ -30,6 +32,10 @@ case class TagExp(plusTags: List[Tag], minusTags: List[Tag], rest: Int) extends 
     Some(minusTags.foldLeft(plusTags.foldLeft(rest)((acc, t) => acc + v1.memory.memTags(t.name))) ((acc, t) => acc - v1.memory.memTags(t.name)))
   else
     None
+
+  override def toString = plusTags.mkString("+") +
+    (if (minusTags.nonEmpty) "-" + minusTags.mkString("-")
+    else "") + rest
 }
 
 object TagExp {
@@ -38,6 +44,7 @@ object TagExp {
 
   implicit class IntImprovements(val value: Int) extends Intable {
     override def apply(v1: State): Option[Int] = Some(value)
+    override def toString = if (value >= 0) s"+$value" else s"-$value"
   }
 
 }
