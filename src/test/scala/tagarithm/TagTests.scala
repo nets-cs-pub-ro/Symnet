@@ -36,6 +36,30 @@ class TagTests extends FlatSpec with Matchers{
     finalState._1.head.memory.memTags("L4") should be (33)
   }
 
+  "Overwriting a raw object with one of a different size, yet the same start address" should "cause a failure" in {
+    val s = State.bigBang
+
+    val finalState = InstructionBlock (
+      Allocate(0, 10),
+      Allocate(0, 5)
+    )(s)
+
+    finalState._1 should have length (0)
+    finalState._2 should have length (1)
+  }
+
+  "Raw objects" should "not be ovelapping" in {
+    val s = State.bigBang
+
+    val finalState = InstructionBlock (
+      Allocate(0, 10),
+      Allocate(-1, 5)
+    )(s)
+
+    finalState._1 should have length (0)
+    finalState._2 should have length (1)
+  }
+
   "Basic instructions involving tags" should "work" in {
     val s = State.bigBang
 

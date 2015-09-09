@@ -40,5 +40,5 @@ case class AllocateRaw(a: Intable, size: Int) extends Instruction {
 
 object Allocate {
   def apply(id: String): Instruction = AllocateSymbol(id)
-  def apply(a: TagExp, size: Int): Instruction = AllocateRaw(a, size)
+  def apply(a: Intable, size: Int): Instruction = AllocateRaw(a, size)
 }

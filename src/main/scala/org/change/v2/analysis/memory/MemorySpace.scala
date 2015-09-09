@@ -36,11 +36,12 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
   def isAllocated(a: Int): Boolean = rawObjects.contains(a)
 
   private def doesNotOverlap(a: Int, size: Int): Boolean = {
-    ! rawObjects.contains(a) &&
+    (! rawObjects.contains(a)) &&
       rawObjects.forall(kv => ! IntervalOps.doIntersect(a, size, kv._1, kv._2.size))
   }
 
-  def canModify(a: Int, size: Int): Boolean = (doesNotOverlap(a, size) || rawObjects(a).size == size)
+  def canModify(a: Int, size: Int): Boolean = doesNotOverlap(a, size) ||
+    (rawObjects.contains(a) && rawObjects(a).size == size)
 
   def canModifyExisting(a: Int, size: Int): Boolean = rawObjects.contains(a) && rawObjects(a).size == size
 
