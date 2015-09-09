@@ -22,6 +22,7 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
     m.get(id).flatMap(_.value)
 
   def Tag(name: String, value: Int): Option[MemorySpace] = Some(MemorySpace(symbols, rawObjects, memTags + (name -> value)))
+  def UnTag(name: String): Option[MemorySpace] = Some(MemorySpace(symbols, rawObjects, memTags - name))
 
   /**
    * Get the currently visible value associated with a symbol.

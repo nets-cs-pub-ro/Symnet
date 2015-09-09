@@ -71,6 +71,7 @@ object IntervalOps {
           .takeWhile(i._2 >= _._1)
           .map(that =>
           intersect(i, that))
+
           .filter(_ match {
           case Some(_) => true
           case _ => false})
