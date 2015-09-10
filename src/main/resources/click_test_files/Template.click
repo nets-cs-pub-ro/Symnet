@@ -1,4 +1,4 @@
 src :: FromDevice
 dst :: ToDevice
 
-src -> IPEncap(7,10.0.0.1,141.85.37.8) -> dst
+src -> IPEncap(94,10.0.0.1,141.85.37.8) -> EtherEncap(800,0,1000) -> dst

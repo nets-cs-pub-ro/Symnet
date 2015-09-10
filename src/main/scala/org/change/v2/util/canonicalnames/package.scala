@@ -14,6 +14,17 @@ package object canonicalnames {
   val L4ProtoString = "Proto"
   val TTLString = "TTL"
 
+  //Ethernet header offsets
+  val EtherDst = 0
+  val EtherSrc = 48
+  val EtherType = 96
+  val PCP = 112
+  val DEI = 115
+  val VLANTag = 116
+
+  val EtherProtoIP = 2048
+  val EtherProtoVLAN = 33024
+
   //IP Header offsets
   val IPVersion = 0
   val IPHeaderLength = 4
@@ -32,6 +43,7 @@ package object canonicalnames {
   val ICMPProto = 1
   val UDPProto = 17
   val TCPProto = 6
+  val IPIPProto = 94
 
   //UDP header offsets
   val UDPSrc = 0
@@ -55,5 +67,5 @@ package object canonicalnames {
 
   val MinPacketSize = 64
 
-  val ProtoIPIP = 94
+
 }

@@ -10,7 +10,7 @@ import org.change.v2.util.canonicalnames._
 import org.change.v2.analysis.memory.TagExp._
 import org.change.v2.analysis.memory.Tag
 
-class StripIPHeader(name: String,
+class EtherDecap(name: String,
                    elementType: String,
                    inputPorts: List[Port],
                    outputPorts: List[Port],
@@ -23,55 +23,41 @@ class StripIPHeader(name: String,
 
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
-      Allocate("t"),
-      Assign("t",:@(Tag("L3")+Proto)),
-
-      Deallocate(Tag("L3")+IPVersion, 4),
-      Deallocate(Tag("L3")+IPHeaderLength, 4),
-      Deallocate(Tag("L3")+IPLength,16),
-      Deallocate(Tag("L3")+IPID, 16),
-      Deallocate(Tag("L3")+TTL, 8),
-      Deallocate(Tag("L3")+Proto, 8),
-      Deallocate(Tag("L3")+HeaderChecksum, 16),
-      Deallocate(Tag("L3")+IPSrc, 32),
-      Deallocate(Tag("L3")+IPDst, 32),
-
-      If (Constrain("t",:==:(ConstantValue(IPIPProto))),
-        InstructionBlock(
-          CreateTag("L3",Tag("L3") + 160),
-          CreateTag("L4",Tag("L3")+IPHeaderLength)
-        ),
-        Deallocate(Tag("L3"),0) // TODO: Should correct this
-      ),
+      Constrain(Tag("L2")+EtherType,:==:(ConstantValue(EtherProtoIP))),
+      CreateTag("L3",Tag("L2") + 112),
+      Deallocate(Tag("L2")+EtherSrc, 48),
+      Deallocate(Tag("L2")+EtherDst, 48),
+      Deallocate(Tag("L3")+EtherType,16),
+      DestroyTag("L2"),
       Forward(outputPortName(0))
     )
   )
 }
 
-class StripIPHeaderElementBuilder(name: String, elementType: String)
+class EtherDecapElementBuilder(name: String, elementType: String)
   extends ElementBuilder(name, elementType) {
 
   addInputPort(Port())
   addOutputPort(Port())
 
   override def buildElement: GenericElement = {
-    new StripIPHeader(name, elementType, getInputPorts, getOutputPorts, getConfigParameters)
+    new EtherDecap(name, elementType, getInputPorts, getOutputPorts, getConfigParameters)
   }
 }
 
-object StripIPHeader {
+object EtherDecap {
   private var unnamedCount = 0
 
-  private val genericElementName = "stripIPheader"
+  private val genericElementName = "etherDecap"
 
   private def increment {
     unnamedCount += 1
   }
 
-  def getBuilder(name: String): StripIPHeaderElementBuilder = {
-    increment ; new StripIPHeaderElementBuilder(name, "StripIPHeader")
+  def getBuilder(name: String): EtherDecapElementBuilder = {
+    increment ; new EtherDecapElementBuilder(name, "EtherDecap")
   }
 
-  def getBuilder: StripIPHeaderElementBuilder =
+  def getBuilder: EtherDecapElementBuilder =
     getBuilder(s"$genericElementName-$unnamedCount")
 }

@@ -17,6 +17,7 @@ object BuilderFactory {
 //    case "Server"  => Server.getBuilder(nameValue)
     case "IPRewriter"  => IPRewriter.getBuilder(nameValue)
     case "IPEncap" => IPEncap.getBuilder(nameValue)
+    case "EtherEncap" => EtherEncap.getBuilder(nameValue)
     case "IPDecap" => IPDecap.getBuilder(nameValue)
     case "StripIPHeader" => StripIPHeader.getBuilder(nameValue)
     case "CheckIPHeader" => CheckIPHeader.getBuilder(nameValue)
@@ -39,6 +40,7 @@ object BuilderFactory {
 //    case "Server" => Server.getBuilder
     case "IPRewriter"  => IPRewriter.getBuilder
     case "IPEncap" => IPEncap.getBuilder
+    case "EtherEncap" => EtherEncap.getBuilder
     case "IPDecap" => IPDecap.getBuilder
     case "StripIPHeader" => StripIPHeader.getBuilder
     case "CheckIPHeader" => CheckIPHeader.getBuilder

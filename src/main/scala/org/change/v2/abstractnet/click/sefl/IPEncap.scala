@@ -29,7 +29,7 @@ class IPEncap(name: String,
       Assign("t",:@(Tag("L3")+IPLength)),
       Assign("t2",:@(Tag("L3")+TTL)),
 
-      CreateTag("L3",Tag("L3")+20),
+      CreateTag("L3",Tag("L3")-160),
 
       Allocate(Tag("L3")+IPVersion,4),
       Assign(Tag("L3")+IPVersion,ConstantValue(4)),
