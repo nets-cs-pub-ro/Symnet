@@ -23,14 +23,14 @@ class VLANDecap(name: String,
 
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
-      Constrain(Tag("L2")+EtherType,:=:(ConstantValue(EtherProtoVLAN))),
+      Constrain(Tag("L2")+EtherType,:==:(ConstantValue(EtherProtoVLAN))),
       Allocate("s"),
       Assign("s",:@(Tag("L2")+EtherSrc)),
       Allocate("d"),
       Assign("d",:@(Tag("L2")+EtherDst)),
-      Deallocate(Tag("L2")+EtherSrc),
-      Deallocate(Tag("L2")+EtherDst),
-      Allocate(Tag("L2")+EtherDst),
+      Deallocate(Tag("L2")+EtherSrc, 48),
+      Deallocate(Tag("L2")+EtherDst, 48),
+      Allocate(Tag("L2")+EtherDst, 48),
       CreateTag("L2",Tag("L2")+16),
       Allocate(Tag("L2")+EtherSrc,48),
       Assign(Tag("L2")+EtherSrc,:@("s")),
