@@ -17,10 +17,14 @@ object BuilderFactory {
 //    case "Server"  => Server.getBuilder(nameValue)
     case "IPRewriter"  => IPRewriter.getBuilder(nameValue)
     case "IPEncap" => IPEncap.getBuilder(nameValue)
-    case "EtherEncap" => EtherEncap.getBuilder(nameValue)
     case "IPDecap" => IPDecap.getBuilder(nameValue)
     case "StripIPHeader" => StripIPHeader.getBuilder(nameValue)
     case "CheckIPHeader" => CheckIPHeader.getBuilder(nameValue)
+    case "EtherEncap" => EtherEncap.getBuilder(nameValue)
+    case "EtherDecap" => EtherDecap.getBuilder(nameValue)
+    case "VLANEncap" => VLANEncap.getBuilder(nameValue)
+    case "VLANDecap" => VLANDecap.getBuilder(nameValue)
+    case "HostEtherFilter" => HostEtherFilter.getBuilder(nameValue)
     case "Template"  => Template.getBuilder(nameValue)
     //    case "IPFilter"  => IPFilter.getBuilder(nameValue)
     case "IPClassifier"  => IPClassifier.getBuilder(nameValue)
@@ -40,10 +44,14 @@ object BuilderFactory {
 //    case "Server" => Server.getBuilder
     case "IPRewriter"  => IPRewriter.getBuilder
     case "IPEncap" => IPEncap.getBuilder
-    case "EtherEncap" => EtherEncap.getBuilder
     case "IPDecap" => IPDecap.getBuilder
     case "StripIPHeader" => StripIPHeader.getBuilder
     case "CheckIPHeader" => CheckIPHeader.getBuilder
+    case "EtherEncap" => EtherEncap.getBuilder
+    case "EtherDecap" => EtherDecap.getBuilder
+    case "VLANEncap" => VLANEncap.getBuilder
+    case "VLANDecap" => VLANDecap.getBuilder
+    case "HostEtherFilter" => HostEtherFilter.getBuilder
     case "Template"  => Template.getBuilder
 //    case "IPFilter"  => IPFilter.getBuilder
     case "IPClassifier"  => IPClassifier.getBuilder
@@ -51,3 +59,7 @@ object BuilderFactory {
     case _ => NoOpClickElm.getBuilder(elementType)
   }
 }
+
+CheckIPHeader.scala  EtherEncap.scala       #IPClassifier.scala#  IPEncap.scala       Paint.scala          VLANDecap.scala
+ESPEncap.scala       FromDevice.scala       IPClassifier.scala    IPRewriter.scala    StripIPHeader.scala  VLANEncap.scala
+EtherDecap.scala     HostEtherFilter.scala  IPDecap.scala         NoOpClickElm.scala  ToDevice.scala
