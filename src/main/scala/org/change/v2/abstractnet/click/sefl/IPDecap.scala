@@ -23,17 +23,17 @@ class IPDecap(name: String,
 
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
-      Constrain(Proto, :==:(ConstantValue(configParams(0).value.toInt))),
-      Deallocate(Proto, 8),
-      Deallocate(IPDst, 32),
-      Deallocate(IPSrc, 32),
-      Deallocate(IPVersion, 4),
-      Assign("t",:@(IPLength)),
-      Deallocate(IPLength, 16),
-      Constrain("t",:==:(:+:(:@(IPLength),ConstantValue(20)))),
-      Deallocate(IPHeaderLength, 4),
-      Deallocate(TTL, 8),
-      Deallocate(IPID, 16),
+      Constrain(ProtoOffset, :==:(ConstantValue(configParams(0).value.toInt))),
+      Deallocate(ProtoOffset, 8),
+      Deallocate(IPDstOffset, 32),
+      Deallocate(IPSrcOffset, 32),
+      Deallocate(IPVersionOffset, 4),
+      Assign("t",:@(IPLengthOffset)),
+      Deallocate(IPLengthOffset, 16),
+      Constrain("t",:==:(:+:(:@(IPLengthOffset),ConstantValue(20)))),
+      Deallocate(IPHeaderLengthOffset, 4),
+      Deallocate(TTLOffset, 8),
+      Deallocate(IPIDOffset, 16),
       Forward(outputPortName(0))
     )
   )

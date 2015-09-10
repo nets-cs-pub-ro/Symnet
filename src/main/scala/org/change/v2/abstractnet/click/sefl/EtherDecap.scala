@@ -23,11 +23,11 @@ class EtherDecap(name: String,
 
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
-      Constrain(Tag("L2")+EtherType,:==:(ConstantValue(EtherProtoIP))),
+      Constrain(Tag("L2")+EtherTypeOffset,:==:(ConstantValue(EtherProtoIP))),
       CreateTag("L3",Tag("L2") + 112),
-      Deallocate(Tag("L2")+EtherSrc, 48),
-      Deallocate(Tag("L2")+EtherDst, 48),
-      Deallocate(Tag("L3")+EtherType,16),
+      Deallocate(Tag("L2")+EtherSrcOffset, 48),
+      Deallocate(Tag("L2")+EtherDstOffset, 48),
+      Deallocate(Tag("L3")+EtherTypeOffset,16),
       DestroyTag("L2"),
       Forward(outputPortName(0))
     )

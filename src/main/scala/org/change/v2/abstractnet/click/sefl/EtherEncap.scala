@@ -24,12 +24,12 @@ class EtherEncap(name: String,
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
       CreateTag("L2",Tag("L3")-112),
-      Allocate(Tag("L2")+EtherSrc,48),
-      Assign(Tag("L2")+EtherSrc,ConstantValue(configParams(1).value.toInt)),
-      Allocate(Tag("L2")+EtherDst,48),
-      Assign(Tag("L2")+EtherDst,ConstantValue(configParams(2).value.toInt)),
-      Allocate(Tag("L2")+EtherType,16),
-      Assign(Tag("L2")+EtherType,ConstantValue(configParams(0).value.toInt)),
+      Allocate(Tag("L2")+EtherSrcOffset,48),
+      Assign(Tag("L2")+EtherSrcOffset,ConstantValue(configParams(1).value.toInt)),
+      Allocate(Tag("L2")+EtherDstOffset,48),
+      Assign(Tag("L2")+EtherDstOffset,ConstantValue(configParams(2).value.toInt)),
+      Allocate(Tag("L2")+EtherTypeOffset,16),
+      Assign(Tag("L2")+EtherTypeOffset,ConstantValue(configParams(0).value.toInt)),
       Forward(outputPortName(0))
     )
   )
