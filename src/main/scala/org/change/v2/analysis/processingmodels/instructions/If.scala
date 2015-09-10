@@ -28,6 +28,18 @@ case class If(testInstr: Instruction, thenWhat: Instruction, elseWhat:Instructio
         case _ => elseWhat(s, v)
       }
     }
+    case rawi @ ConstrainRaw(what, withWhat, _) => what(s) match {
+      case Some(i) => withWhat instantiate s match {
+        case Left(c) if s.memory.canRead(i) => {
+          val (sa, fa) = InstructionBlock(ConstrainRaw(what, withWhat, Some(c)), thenWhat)(s, v)
+          val (sb, fb) = InstructionBlock(ConstrainRaw(what, :~:(withWhat), Some(NOT(c))), elseWhat)(s, v)
+          (sa ++ sb, fa ++ fb)
+        }
+
+        case _ => elseWhat(s, v)
+      }
+      case None => elseWhat(s,v)
+    }
     case _ => stateToError(s.addInstructionToHistory(this), "Bad test instruction")
   }
 }
