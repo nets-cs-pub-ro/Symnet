@@ -21,6 +21,7 @@ class IPClassifier(name: String,
 
   val lastIndex = configParams.length - 1
 
+  // Supported condition formats.
   val conditionSeparator = """\s+(and|&&)\s+"""
 
   val ipProto = ("ip proto (" + number + ")").r
@@ -39,34 +40,34 @@ class IPClassifier(name: String,
   val tcp = "tcp".r
   val udp = "udp".r
 
-  private def conditionToConstraint(condition: String): ConstrainNamedSymbol = condition match {
-    case ipProto(v) => ConstrainNamedSymbol(IPVersionString, :==:(ConstantValue(v.toInt)))
+  private def conditionToConstraint(condition: String): Instruction = condition match {
+    case ipProto(v) => ConstrainRaw(IPVersion, :==:(ConstantValue(v.toInt)))
 
-    case srcHostAddr(ip) => ConstrainNamedSymbol(IPSrcString, :==:(ConstantValue(ipToNumber(ip))))
-    case dstHostAddr(ip) => ConstrainNamedSymbol(IPDstString, :==:(ConstantValue(ipToNumber(ip))))
+    case srcHostAddr(ip) => ConstrainRaw(IPSrc, :==:(ConstantValue(ipToNumber(ip))))
+    case dstHostAddr(ip) => ConstrainRaw(IPDst, :==:(ConstantValue(ipToNumber(ip))))
 
     case dstNetAddr(ip, mask) => {
       val (lower, upper) = ipAndMaskToInterval(ip, mask)
-      ConstrainNamedSymbol(IPDstString, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
+      ConstrainRaw(IPDst, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
     case dstNetExplicitAddr(ip, mask) => {
       val (lower, upper) = ipAndExplicitMaskToInterval(ip, mask)
-      ConstrainNamedSymbol(IPDstString, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
+      ConstrainRaw(IPDst, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
     case srcNetAddr(ip, mask) => {
       val (lower, upper) = ipAndMaskToInterval(ip, mask)
-      ConstrainNamedSymbol(IPSrcString, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
+      ConstrainRaw(IPSrc, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
     case srcNetExplicitAddr(ip, mask) => {
       val (lower, upper) = ipAndExplicitMaskToInterval(ip, mask)
-      ConstrainNamedSymbol(IPSrcString, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
+      ConstrainRaw(IPSrc, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
 
-    case srcPort(port) => ConstrainNamedSymbol(PortSrcString, :==:(ConstantValue(port.toInt)))
-    case dstPort(port) => ConstrainNamedSymbol(PortDstString, :==:(ConstantValue(port.toInt)))
+    case srcPort(port) => ConstrainRaw(TcpSrc, :==:(ConstantValue(port.toInt)))
+    case dstPort(port) => ConstrainRaw(TcpDst, :==:(ConstantValue(port.toInt)))
 
-    case tcp() => ConstrainNamedSymbol(L4ProtoString, :==:(ConstantValue(NumberFor("tcp"))))
-    case udp() => ConstrainNamedSymbol(L4ProtoString, :==:(ConstantValue(NumberFor("udp"))))
+    case tcp() => ConstrainRaw(Proto, :==:(ConstantValue(TCPProto)))
+    case udp() => ConstrainRaw(Proto, :==:(ConstantValue(UDPProto)))
 
   }
 

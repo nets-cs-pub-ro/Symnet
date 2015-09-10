@@ -8,6 +8,7 @@ import org.change.v2.analysis.processingmodels.{State}
 import org.change.v2.analysis.processingmodels.instructions._
 import org.scalatest.{Matchers, FlatSpec}
 import org.change.v2.analysis.memory.TagExp._
+import org.change.v2.util.canonicalnames._
 
 /**
  * Author: Radu Stoenescu
@@ -64,14 +65,14 @@ class TagTests extends FlatSpec with Matchers{
     val s = State.bigBang
 
     val finalState = InstructionBlock (
-      CreateTag("L3", 10),
-      Allocate(Tag("L3")+20, 10),
-      Assign(Tag("L3")+20, SymbolicValue()),
-      CreateTag("L4", Tag("L3") + 20),
-      Assign("VAL", :@(Tag("L4")))
+      CreateTag("L3", -100),
+      Allocate(L3Tag+20, 10),
+      Assign(L3Tag+20, SymbolicValue()),
+      CreateTag("L4", L3Tag+20),
+      Assign("VAL", :@(L4Tag))
     )(s)
 
-    finalState._1.head.memory.eval("VAL").get.e.id should be (finalState._1.head.memory.eval(30).get.e.id)
+    finalState._1.head.memory.eval("VAL").get.e.id should be (finalState._1.head.memory.eval(-80).get.e.id)
   }
 
 }

@@ -24,22 +24,22 @@ class StripIPHeader(name: String,
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
       Allocate("t"),
-      Assign("t",:@(Tag("L3")+Proto)),
+      Assign("t",:@(Tag("L3")+ProtoOffset)),
 
-      Deallocate(Tag("L3")+IPVersion, 4),
-      Deallocate(Tag("L3")+IPHeaderLength, 4),
-      Deallocate(Tag("L3")+IPLength,16),
-      Deallocate(Tag("L3")+IPID, 16),
-      Deallocate(Tag("L3")+TTL, 8),
-      Deallocate(Tag("L3")+Proto, 8),
-      Deallocate(Tag("L3")+HeaderChecksum, 16),
-      Deallocate(Tag("L3")+IPSrc, 32),
-      Deallocate(Tag("L3")+IPDst, 32),
+      Deallocate(Tag("L3")+IPVersionOffset, 4),
+      Deallocate(Tag("L3")+IPHeaderLengthOffset, 4),
+      Deallocate(Tag("L3")+IPLengthOffset,16),
+      Deallocate(Tag("L3")+IPIDOffset, 16),
+      Deallocate(Tag("L3")+TTLOffset, 8),
+      Deallocate(Tag("L3")+ProtoOffset, 8),
+      Deallocate(Tag("L3")+HeaderChecksumOffset, 16),
+      Deallocate(Tag("L3")+IPSrcOffset, 32),
+      Deallocate(Tag("L3")+IPDstOffset, 32),
 
       If (Constrain("t",:==:(ConstantValue(IPIPProto))),
         InstructionBlock(
           CreateTag("L3",Tag("L3") + 160),
-          CreateTag("L4",Tag("L3")+IPHeaderLength)
+          CreateTag("L4",Tag("L3")+IPHeaderLengthOffset)
         ),
         Deallocate(Tag("L3"),0) // TODO: Should correct this
       ),

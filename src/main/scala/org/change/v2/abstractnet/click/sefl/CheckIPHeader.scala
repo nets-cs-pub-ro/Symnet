@@ -21,10 +21,10 @@ class CheckIPHeader(name: String,
 
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
-      Constrain(IPVersion,:==:(ConstantValue(4))),
-      Constrain(IPLength,:>=:(ConstantValue(MinPacketSize))),
-      Constrain(IPHeaderLength,:>=:(ConstantValue(MinPacketSize))),
-      Constrain(IPLength,:>=:(:@(IPHeaderLength))),
+      Constrain(IPVersionOffset,:==:(ConstantValue(4))),
+      Constrain(IPLengthOffset,:>=:(ConstantValue(MinPacketSize))),
+      Constrain(IPHeaderLengthOffset,:>=:(ConstantValue(MinPacketSize))),
+      Constrain(IPLengthOffset,:>=:(:@(IPHeaderLengthOffset))),
       Forward(outputPortName(0))
     )
   )

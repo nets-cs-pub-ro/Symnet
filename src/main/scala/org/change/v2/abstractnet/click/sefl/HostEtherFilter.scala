@@ -23,7 +23,7 @@ class HostEtherFilter(name: String,
 
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
-      Constrain(Tag("L2")+EtherType,:==:(ConstantValue(configParams(0).value.toInt))),
+      Constrain(Tag("L2")+EtherTypeOffset,:==:(ConstantValue(configParams(0).value.toInt))),
       Forward(outputPortName(0))
     )
   )

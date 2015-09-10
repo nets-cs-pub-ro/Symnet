@@ -29,9 +29,8 @@ object BuilderFactory {
     //    case "IPFilter"  => IPFilter.getBuilder(nameValue)
     case "IPClassifier"  => IPClassifier.getBuilder(nameValue)
     case "Paint"  => Paint.getBuilder(nameValue)
-    case _ => NoOpClickElm.getBuilder(nameValue, elementType)
-  }
-
+    case _ => NoOpClickElm.getBuilder(nameValue, elementTypegsts
+    gsts
   def getBuilder(elementType: String) = elementType match {
     case "ToDevice" | "ToNetPort" | "ToNetFront" => ToDevice.getBuilder
     case "FromDevice" | "FromNetPort" | "FromNetFront" => FromDevice.getBuilder
