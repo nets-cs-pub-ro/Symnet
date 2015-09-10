@@ -42,7 +42,7 @@ package object canonicalnames {
 
   //IP Header offsets
   val IPVersionOffset = 0
-  val iPVersion = L3Tag + IPVersionOffset
+  val IPVersion = L3Tag + IPVersionOffset
   val IPHeaderLengthOffset = 4
   val IPHeaderLength = L3Tag + IPHeaderLengthOffset
   val DSCPOffset = 8

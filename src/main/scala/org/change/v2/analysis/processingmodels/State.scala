@@ -38,17 +38,37 @@ object State {
 
      CreateTag("L3", 0),
 
-     Allocate(Tag("L3") + TTLOffset, 8),
-     Assign(Tag("L3") +TTLOffset, SymbolicValue()),
+      Allocate(IPVersion, 4),
+      Assign(IPVersion, SymbolicValue()),
 
-     Allocate(Tag("L3") + IPLengthOffset, 16),
-     Assign(Tag("L3") + IPLengthOffset, SymbolicValue()),
+      Allocate(Proto, 8),
+      Assign(Proto, SymbolicValue()),
 
-     Allocate(Tag("L3") + IPHeaderLengthOffset, 4),
-     Assign(Tag("L3") + IPHeaderLengthOffset, SymbolicValue()),
+     Allocate(IPSrc, 32),
+     Assign(IPSrc, SymbolicValue()),
+     Allocate(IPDst, 32),
+     Assign(IPDst, SymbolicValue()),
 
-     Allocate(Tag("L3") + IPIDOffset, 16),
-     Assign(Tag("L3") +IPIDOffset, SymbolicValue())
+     Allocate(TTL, 8),
+     Assign(TTL, SymbolicValue()),
+
+     Allocate(IPLength, 16),
+     Assign(IPLength, SymbolicValue()),
+
+     Allocate(IPHeaderLength, 4),
+     Assign(IPHeaderLength, SymbolicValue()),
+
+     Allocate(IPID, 16),
+     Assign(IPID, SymbolicValue()),
+
+     CreateTag("L4", L3Tag + 160),
+
+     Allocate(TcpSrc, 16),
+     Assign(TcpSrc, SymbolicValue()),
+
+     Allocate(TcpDst, 16),
+     Assign(TcpDst, SymbolicValue())
+
    )(bigBang, true)
 
    afterBigBang._1.head
