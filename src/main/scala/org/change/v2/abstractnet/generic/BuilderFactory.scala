@@ -18,6 +18,8 @@ object BuilderFactory {
     case "IPRewriter" => IPRewriter.getBuilder(nameValue)
     case "IPEncap" => IPEncap.getBuilder(nameValue)
     case "IPDecap" => IPDecap.getBuilder(nameValue)
+    case "IPsecESPEncap" => IPsecESPEncap.getBuilder(nameValue)
+    case "IPsecESPDecap" => IPsecESPDecap.getBuilder(nameValue)
     case "IPClassifier" => IPClassifier.getBuilder(nameValue)
     case "StripIPHeader" => StripIPHeader.getBuilder(nameValue)
     case "CheckIPHeader" => CheckIPHeader.getBuilder(nameValue)
@@ -44,6 +46,8 @@ object BuilderFactory {
     case "IPRewriter"  => IPRewriter.getBuilder
     case "IPEncap" => IPEncap.getBuilder
     case "IPDecap" => IPDecap.getBuilder
+    case "IPsecESPEncap" => IPsecESPEncap.getBuilder
+    case "IPsecESPDecap" => IPsecESPDecap.getBuilder
     case "IPClassifier"  => IPClassifier.getBuilder
     case "StripIPHeader" => StripIPHeader.getBuilder
     case "CheckIPHeader" => CheckIPHeader.getBuilder

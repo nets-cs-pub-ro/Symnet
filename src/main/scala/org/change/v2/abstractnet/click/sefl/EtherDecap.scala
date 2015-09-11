@@ -27,7 +27,7 @@ class EtherDecap(name: String,
       CreateTag("L3",Tag("L2") + 112),
       Deallocate(Tag("L2")+EtherSrcOffset, 48),
       Deallocate(Tag("L2")+EtherDstOffset, 48),
-      Deallocate(Tag("L3")+EtherTypeOffset,16),
+      Deallocate(Tag("L2")+EtherTypeOffset,16),
       DestroyTag("L2"),
       Forward(outputPortName(0))
     )
