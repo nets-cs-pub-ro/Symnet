@@ -7,6 +7,7 @@ import org.change.v2.analysis.types.{LongType, NumericType, TypeUtils, Type}
 import org.change.v2.analysis.z3.Z3Util
 import org.change.v2.interval.{IntervalOps, ValueSet}
 import org.change.v2.util.codeabstractions._
+import z3.scala.{Z3Model, Z3Solver}
 
 import scala.collection.mutable.{Map => MutableMap}
 
@@ -206,17 +207,43 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
     rawObjects.map(kv => kv._1 -> ("Crt:" + kv._2.value, "Initital: " + kv._2.initialValue)).mkString("\n") + "\n"
 
   def valid: Boolean = isZ3Valid
-  def isZ3Valid: Boolean = {
-    val solver = Z3Util.solver
-    val loadedSolver = (symbols.values ++ rawObjects.values).foldLeft(solver) { (slv, mo) =>
+
+  def buildSolver: Z3Solver = if (isZ3SolverCacheValid)
+    solverCache
+  else {
+    solverCache = (symbols.values ++ rawObjects.values).foldLeft(Z3Util.solver) { (slv, mo) =>
       mo.value match {
         case Some(v) => v.toZ3(Some(slv))._2.get
         case _ => slv
       }
     }
-
-    loadedSolver.check().get
+    isZ3SolverCacheValid = true
+    solverCache
   }
+
+
+  private var isZ3SolverCacheValid = false
+  private var solverCache: Z3Solver = _
+  private var isZ3ModelCacheValid = false
+  private var modelCache: Z3Model = _
+
+  def isZ3Valid: Boolean = buildSolver.check().get
+
+  def buildModel: Z3Model = if (isZ3ModelCacheValid)
+    modelCache
+  else {
+    modelCache = buildSolver.getModel()
+    isZ3ModelCacheValid = true
+    modelCache
+  }
+
+  def exampleFor(id: String): Option[Int] = resolveBy(id, symbols).flatMap( v => {
+    buildModel.evalAs[Int](v.e.toZ3(Some(buildSolver))._1)
+  })
+
+  def exampleFor(a: Int): Option[Int] = resolveBy(a, rawObjects).flatMap( v => {
+    buildModel.evalAs[Int](v.e.toZ3(Some(buildSolver))._1)
+  })
 }
 
 object MemorySpace {

@@ -1,6 +1,7 @@
 package clickfiletoexecutor
 
 import org.change.parser.clickfile.ClickToAbstractNetwork
+import org.change.v2.abstractnet.click.sefl.IPRewriter
 import org.change.v2.analysis.expression.concrete.ConstantValue
 import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
 import org.scalatest.{Matchers, FlatSpec}
@@ -35,6 +36,28 @@ class IPRewriterTests extends FlatSpec with Matchers {
     while(! crtExecutor.isDone) {
       crtExecutor = crtExecutor.execute()
     }
+  }
+
+  "IPRewriter patterns" should "match valid input patterns" in {
+    assert("pattern 1.0.0.0 1 10.0.0.1 2 0 1" match {
+      case IPRewriter.rewritePattern(_,_,_,_,_,_) => true
+      case _ => false
+    })
+
+    assert("pattern 1.0.0.0 1-2 10.0.0.1 2-15 0 1" match {
+      case IPRewriter.rewritePattern(_,_,_,_,_,_) => true
+      case _ => false
+    })
+
+    assert("pattern - - - - 0 1" match {
+      case IPRewriter.rewritePattern(_,_,_,_,_,_) => true
+      case _ => false
+    })
+
+    assert("pattern - 1-10 - 14-20 0 1" match {
+      case IPRewriter.rewritePattern(_,_,_,_,_,_) => true
+      case _ => false
+    })
   }
 
 }

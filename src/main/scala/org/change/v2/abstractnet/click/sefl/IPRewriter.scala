@@ -2,17 +2,18 @@ package org.change.v2.abstractnet.click.sefl
 
 import org.change.v2.abstractnet.generic.{ConfigParameter, ElementBuilder, GenericElement, Port}
 import org.change.v2.analysis.expression.concrete.ConstantValue
-import org.change.v2.analysis.expression.concrete.nonprimitive.Symbol
+import org.change.v2.analysis.expression.concrete.nonprimitive.{:@, Symbol}
+import org.change.v2.analysis.memory.TagExp
 import org.change.v2.analysis.processingmodels.Instruction
 import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.util.regexes._
 import org.change.v2.util.canonicalnames._
+import org.change.v2.util.conversion.RepresentationConversion._
 
 /**
  * radu
  * 3/5/14
  */
-
 class IPRewriter(name: String,
          inputPorts: List[Port],
          outputPorts: List[Port],
@@ -23,8 +24,16 @@ class IPRewriter(name: String,
     outputPorts,
     configParams) {
 
-  private val passPattern = ("pass (" + number+ ")").r
-  private val keepPattern = ("keep (" + number+ ") (" + number+ ")").r
+  def installRewritePatternForIPAddress(whichRule: Int, portA: Int, portB: Int,
+                                        symbolNameSuffix: String, sAddr: TagExp,
+                                        dAddr: TagExp, withwhat: String): Instruction = {
+    val rwAddress = ipToNumber(withwhat)
+
+    InstructionBlock(
+      AssignNamedSymbol(s"$name-$whichRule-check-" + symbolNameSuffix, :@(sAddr)),
+      AssignNamedSymbol(s"$name-$whichRule-apply-" + symbolNameSuffix, ConstantValue(rwAddress))
+    )
+  }
 
   private def installKeepPatterns(whichRule: Int, portA: Int, portB: Int) = InstructionBlock(
     // Install forward mappings
@@ -100,14 +109,14 @@ class IPRewriter(name: String,
   }
 
   def buildSpecIntructions(inputspec: String, port: Int) = inputspec match {
-    case keepPattern(fwPort, rpPort) => {
+    case IPRewriter.keepPattern(fwPort, rpPort) => {
       installInstructions += (inputPortName(port) -> installKeepPatterns(port * 2, fwPort.toInt, rpPort.toInt))
       lastCheck += 2
       fwPorts += (2 * port -> fwPort.toInt)
       fwPorts += (2 * port + 1-> rpPort.toInt)
       buildCheckAndApplyFor(inputPortName(port))
     }
-    case passPattern(outputPort) => Forward(outputPortName(outputPort.toInt))
+    case IPRewriter.passPattern(outputPort) => Forward(outputPortName(outputPort.toInt))
     case "drop" | "discard" => NoOp
   }
 
@@ -137,6 +146,13 @@ class IPRewriterElementBuilder(name: String)
 }
 
 object IPRewriter {
+  val passPattern = ("pass (" + number+ ")").r
+  val keepPattern = ("keep (" + number+ ") (" + number+ ")").r
+  val addrPattern = ipv4+ "|-"
+  val portPattern = number + "|" + number + "-" + number + "|-"
+  val rewritePattern = ("pattern (" + addrPattern + ") (" + portPattern + ") (" + addrPattern + ") (" +
+    portPattern + ") (" + number + ") (" + number + ")").r
+
   private var unnamedCount = 0
 
   private val genericElementName = "ipRewriter"
