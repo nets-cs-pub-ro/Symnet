@@ -17,13 +17,17 @@ object BuilderFactory {
     //    case "Server"  => Server.getBuilder(nameValue)
     case "IPRewriter" => IPRewriter.getBuilder(nameValue)
     case "IPEncap" => IPEncap.getBuilder(nameValue)
-    case "EtherEncap" => EtherEncap.getBuilder(nameValue)
     case "IPDecap" => IPDecap.getBuilder(nameValue)
+    case "IPClassifier" => IPClassifier.getBuilder(nameValue)
     case "StripIPHeader" => StripIPHeader.getBuilder(nameValue)
     case "CheckIPHeader" => CheckIPHeader.getBuilder(nameValue)
-    case "Template" => Template.getBuilder(nameValue)
+    case "EtherEncap" => EtherEncap.getBuilder(nameValue)
+    case "EtherDecap" => EtherDecap.getBuilder(nameValue)
+    case "VLANEncap" => VLANEncap.getBuilder(nameValue)
+    case "VLANDecap" => VLANDecap.getBuilder(nameValue)
+    case "HostEtherFilter" => HostEtherFilter.getBuilder(nameValue)
+    case "Template"  => Template.getBuilder(nameValue)
     //    case "IPFilter"  => IPFilter.getBuilder(nameValue)
-    case "IPClassifier" => IPClassifier.getBuilder(nameValue)
     case "Paint" => Paint.getBuilder(nameValue)
     case _ => NoOpClickElm.getBuilder(nameValue, elementType)
   }
@@ -39,14 +43,19 @@ object BuilderFactory {
 //    case "Server" => Server.getBuilder
     case "IPRewriter"  => IPRewriter.getBuilder
     case "IPEncap" => IPEncap.getBuilder
-    case "EtherEncap" => EtherEncap.getBuilder
     case "IPDecap" => IPDecap.getBuilder
+    case "IPClassifier"  => IPClassifier.getBuilder
     case "StripIPHeader" => StripIPHeader.getBuilder
     case "CheckIPHeader" => CheckIPHeader.getBuilder
+    case "EtherEncap" => EtherEncap.getBuilder
+    case "EtherDecap" => EtherDecap.getBuilder
+    case "VLANEncap" => VLANEncap.getBuilder
+    case "VLANDecap" => VLANDecap.getBuilder
+    case "HostEtherFilter" => HostEtherFilter.getBuilder
     case "Template"  => Template.getBuilder
 //    case "IPFilter"  => IPFilter.getBuilder
-    case "IPClassifier"  => IPClassifier.getBuilder
     case "Paint"  => Paint.getBuilder
     case _ => NoOpClickElm.getBuilder(elementType)
   }
 }
+
