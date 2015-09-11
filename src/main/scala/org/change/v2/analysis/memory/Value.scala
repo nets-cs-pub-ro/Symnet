@@ -12,7 +12,8 @@ import z3.scala.{Z3Solver, Z3AST}
  *
  * A value is a typed expression, together with its constraints.
  */
-case class Value(e: Expression, eType: NumericType = LongType, cts: List[Constraint] = Nil) extends Z3Able {
+case class Value(e: Expression, eType: NumericType = LongType, cts: List[Constraint] = Nil)
+  extends Z3Able {
 
   override def toZ3(solver: Option[Z3Solver] = None): (Z3AST, Option[Z3Solver]) = {
     val (ast, afterAstBuildSolver) = e.toZ3(solver)
@@ -32,6 +33,5 @@ case class Value(e: Expression, eType: NumericType = LongType, cts: List[Constra
   override def toString = s"Value {\n" +
     s"Exprssion: $e\n" +
     s"Type: $eType\n" +
-    s"Constraints:\n\t ${cts.mkString("\n")}\n" +
-    "} End Of Value Desc\n"
+    s"Constraints:\n\t ${cts.mkString("\n")}\n} End Of Value Desc\n"
 }

@@ -2,6 +2,7 @@ package org.change.v2.executor.clickabstractnetwork
 
 import org.change.symbolicexec.verification.Rule
 import org.change.v2.abstractnet.generic.NetworkConfig
+import org.change.v2.analysis.memory.MemoryObject
 import org.change.v2.analysis.processingmodels.instructions.InstructionBlock
 import org.change.v2.analysis.processingmodels.{LocationId, Instruction, State}
 
@@ -59,6 +60,10 @@ class ClickExecutionContext(
     "State #" + si._2 + "\n\n" + si._1.instructionHistory.reverse.mkString("\n") + "\n\n" + si._1.toString)
     .mkString("\n")
 
+  private def verboselyStringifyStatesWithExample(ss: List[State]): String = ss.zipWithIndex.map( si =>
+    "State #" + si._2 + "\n\n" + si._1.instructionHistory.reverse.mkString("\n") + "\n\n" + si._1.memory.verboseToString)
+    .mkString("\n")
+
   def stringifyStates(includeOk: Boolean = true, includeStuck: Boolean = true, includeFailed: Boolean= true) = {
     (if (includeOk)
       s"Ok states (${okStates.length}):\n" + verboselyStringifyStates(okStates)
@@ -72,6 +77,23 @@ class ClickExecutionContext(
       s"Failed states (${failedStates.length}): \n" + verboselyStringifyStates(failedStates)
     else
       "")
+  }
+
+  def concretizeStates: String = (stuckStates ++ okStates).map(_.memory.concretizeSymbols).mkString("\n----------\n")
+
+  def verboselyStringifyStates(includeOk: Boolean = true, includeStuck: Boolean = true, includeFailed: Boolean= true) = {
+    (if (includeOk)
+      s"Ok states (${okStates.length}):\n" + verboselyStringifyStatesWithExample(okStates)
+    else
+      "") +
+      (if (includeStuck)
+        s"Stuck states (${stuckStates.length}):\n" + verboselyStringifyStatesWithExample(stuckStates)
+      else
+        "") +
+      (if (includeFailed)
+        s"Failed states (${failedStates.length}): \n" + verboselyStringifyStatesWithExample(failedStates)
+      else
+        "")
   }
 }
 
