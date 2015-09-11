@@ -20,6 +20,7 @@ object BuilderFactory {
     case "IPDecap" => IPDecap.getBuilder(nameValue)
     case "IPsecESPEncap" => IPsecESPEncap.getBuilder(nameValue)
     case "IPsecESPDecap" => IPsecESPDecap.getBuilder(nameValue)
+    case "IPsecAES" => IPsecAES.getBuilder(nameValue)
     case "IPClassifier" => IPClassifier.getBuilder(nameValue)
     case "StripIPHeader" => StripIPHeader.getBuilder(nameValue)
     case "CheckIPHeader" => CheckIPHeader.getBuilder(nameValue)
@@ -48,6 +49,7 @@ object BuilderFactory {
     case "IPDecap" => IPDecap.getBuilder
     case "IPsecESPEncap" => IPsecESPEncap.getBuilder
     case "IPsecESPDecap" => IPsecESPDecap.getBuilder
+    case "IPsecAES" => IPsecAES.getBuilder
     case "IPClassifier"  => IPClassifier.getBuilder
     case "StripIPHeader" => StripIPHeader.getBuilder
     case "CheckIPHeader" => CheckIPHeader.getBuilder

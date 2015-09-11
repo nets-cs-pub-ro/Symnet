@@ -73,6 +73,12 @@ object State {
      Allocate(TcpDst, 16),
      Assign(TcpDst, SymbolicValue()),
 
+     Allocate(TcpSeq, 32),
+     Assign(TcpSeq, SymbolicValue()),
+
+     Allocate(TcpAck, 32),
+     Assign(TcpAck, SymbolicValue()),
+
      CreateTag("END", L4Tag + 12000)
 
    )(bigBang, true)
