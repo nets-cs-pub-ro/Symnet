@@ -30,6 +30,8 @@ object BuilderFactory {
     case "VLANDecap" => VLANDecap.getBuilder(nameValue)
     case "HostEtherFilter" => HostEtherFilter.getBuilder(nameValue)
     case "Template"  => Template.getBuilder(nameValue)
+    case "AddTCPOptions"  => AddTCPOptions.getBuilder(nameValue)
+    case "ScanTCPOptions"  => ScanTCPOptions.getBuilder(nameValue)
     //    case "IPFilter"  => IPFilter.getBuilder(nameValue)
     case "Paint" => Paint.getBuilder(nameValue)
     case _ => NoOpClickElm.getBuilder(nameValue, elementType)
@@ -59,6 +61,8 @@ object BuilderFactory {
     case "VLANDecap" => VLANDecap.getBuilder
     case "HostEtherFilter" => HostEtherFilter.getBuilder
     case "Template"  => Template.getBuilder
+    case "AddTCPOptions"  => AddTCPOptions.getBuilder
+    case "ScanTCPOptions"  => ScanTCPOptions.getBuilder
 //    case "IPFilter"  => IPFilter.getBuilder
     case "Paint"  => Paint.getBuilder
     case _ => NoOpClickElm.getBuilder(elementType)
