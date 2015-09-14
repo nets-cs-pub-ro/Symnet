@@ -36,13 +36,14 @@ object State {
      Assign(L4ProtoString, SymbolicValue()),
      Assign(IPVersionString, SymbolicValue()),
 
+     CreateTag("START",0),
      CreateTag("L3", 0),
 
-      Allocate(IPVersion, 4),
-      Assign(IPVersion, SymbolicValue()),
+     Allocate(IPVersion, 4),
+     Assign(IPVersion, SymbolicValue()),
 
-      Allocate(Proto, 8),
-      Assign(Proto, SymbolicValue()),
+     Allocate(Proto, 8),
+     Assign(Proto, SymbolicValue()),
 
      Allocate(IPSrc, 32),
      Assign(IPSrc, SymbolicValue()),
@@ -58,6 +59,9 @@ object State {
      Allocate(IPHeaderLength, 4),
      Assign(IPHeaderLength, SymbolicValue()),
 
+     Allocate(HeaderChecksum,16),
+     Assign(HeaderChecksum, SymbolicValue()),
+
      Allocate(IPID, 16),
      Assign(IPID, SymbolicValue()),
 
@@ -67,7 +71,15 @@ object State {
      Assign(TcpSrc, SymbolicValue()),
 
      Allocate(TcpDst, 16),
-     Assign(TcpDst, SymbolicValue())
+     Assign(TcpDst, SymbolicValue()),
+
+     Allocate(TcpSeq, 32),
+     Assign(TcpSeq, SymbolicValue()),
+
+     Allocate(TcpAck, 32),
+     Assign(TcpAck, SymbolicValue()),
+
+     CreateTag("END", L4Tag + 12000)
 
    )(bigBang, true)
 

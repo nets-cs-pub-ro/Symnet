@@ -9,9 +9,11 @@ import org.change.v2.analysis.memory.Tag
 package object canonicalnames {
 
   // Avoid unnecessary tag object creation if we can
-  val L4Tag = Tag("L4")
-  val L3Tag = Tag("L3")
+  val StartTag = Tag("START")
+  val EndTag = Tag("END")
   val L2Tag = Tag("L2")
+  val L3Tag = Tag("L3")
+  val L4Tag = Tag("L4")
 
   val IPVersionString = "IP-Version"
   val IPSrcString = "IP-Src"
@@ -20,7 +22,6 @@ package object canonicalnames {
   val PortDstString = "Port-Dst"
   val L4ProtoString = "Proto"
   val TTLString = "TTL"
-
 
   //Ethernet header offsets and fields
   val EtherDstOffset = 0
@@ -73,6 +74,18 @@ package object canonicalnames {
   val UDPProto = 17
   val TCPProto = 6
   val IPIPProto = 94
+  val ESPProto = 50
+
+  //IPSEC ESP Header offsets
+  val ESPSPIOffset = 0
+  val ESPSPI = L4Tag + ESPSPIOffset
+  val ESPSEQOffset = 32
+  val ESPSEQ = L4Tag + ESPSEQOffset
+
+  val ESPPadLengthOffset = -16
+  val ESPPadLength = EndTag - ESPPadLengthOffset
+  val ESPNextProtoOffset = -8
+  val ESPNextProto = EndTag - ESPNextProtoOffset
 
   //UDP header offsets
   val UDPSrcOffset = 0

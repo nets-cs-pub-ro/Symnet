@@ -1,4 +1,4 @@
 src :: FromDevice
 dst :: ToDevice
 
-src -> EtherEncap(2048,0,1000) -> dst
+src -> IPsecESPEncap(15) -> IPsecAES(1,blabla) -> IPsecAES(0,blabla1) -> IPsecESPDecap() -> dst
