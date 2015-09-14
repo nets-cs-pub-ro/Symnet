@@ -7,10 +7,10 @@ import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
-object TemplateRunner {
+object TemplateRunnerWithExamples {
 
   def main (args: Array[String]) {
-    val clickConfig = "src/main/resources/click_test_files/Template.click"
+    val clickConfig = "src/main/resources/click_test_files/TemplateExampl.click"
     val absNet = ClickToAbstractNetwork.buildConfig(clickConfig)
     val executor = ClickExecutionContext(absNet)
 
@@ -19,6 +19,7 @@ object TemplateRunner {
       crtExecutor = crtExecutor.execute(verbose = true)
     }
 
-    println(crtExecutor.stringifyStates())
+    println(crtExecutor.concretizeStates)
   }
 }
+

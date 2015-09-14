@@ -27,8 +27,11 @@ class TestModelExample extends FlatSpec with Matchers {
     val a = finalState._1.apply(0)
     val b = finalState._1.apply(1)
 
-    assert(a.memory.exampleFor("a").get < 10)
-    assert(b.memory.exampleFor("a").get >= 10)
+    val ea = a.memory.exampleFor("a").get
+    val eb = b.memory.exampleFor("a").get
+
+    assert(ea < 10)
+    assert(eb >= 10)
 
     b.memory.exampleFor("b").get should be (0)
   }

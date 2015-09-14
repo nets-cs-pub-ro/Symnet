@@ -37,6 +37,9 @@ class IPClassifier(name: String,
   val srcPort = ("src (tcp|udp) port (" + number + ")").r
   val dstPort = ("dst (tcp|udp) port (" + number + ")").r
 
+  val etherSrc = ("ether src (" + macCisco +")").r
+  val etherDst = ("ether dst (" + macCisco +")").r
+
   val tcp = "tcp".r
   val udp = "udp".r
 
@@ -45,6 +48,9 @@ class IPClassifier(name: String,
 
     case srcHostAddr(ip) => ConstrainRaw(IPSrc, :==:(ConstantValue(ipToNumber(ip))))
     case dstHostAddr(ip) => ConstrainRaw(IPDst, :==:(ConstantValue(ipToNumber(ip))))
+
+    case etherSrc(macSrc) => ConstrainRaw(EtherSrc, :==:(ConstantValue(macToNumberCiscoFormat(macSrc))))
+    case etherDst(macDst) => ConstrainRaw(EtherDst, :==:(ConstantValue(macToNumberCiscoFormat(macDst))))
 
     case dstNetAddr(ip, mask) => {
       val (lower, upper) = ipAndMaskToInterval(ip, mask)

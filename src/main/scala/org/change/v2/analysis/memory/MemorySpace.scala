@@ -206,6 +206,23 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
     symbols.map(kv => kv._1 -> ("Crt:" + kv._2.value, "Initital: " + kv._2.initialValue)).mkString("\n") +
     rawObjects.map(kv => kv._1 -> ("Crt:" + kv._2.value, "Initital: " + kv._2.initialValue)).mkString("\n") + "\n"
 
+  def verboselyPrintObject[A](kv: (A, MemoryObject)): String = (kv._1 ->
+    ("Crt:" + kv._2.value +
+      "Example:" + (kv._2.value match {
+      case Some(v) => exampleFor(v).toString
+      case _ => "-"
+    })  +
+      "Initital: " + kv._2.initialValue +
+      "Example:" + (kv._2.initialValue match {
+      case Some(v) => exampleFor(v).toString
+      case _ => "-"
+    }))).toString()
+
+  def verboseToString = "Tags:" + memTags.mkString("\n") +
+    "Memory values:\n" +
+    symbols.map(verboselyPrintObject(_)).mkString("\n") +
+    rawObjects.map(verboselyPrintObject(_)).mkString("\n") + "\n"
+
   def valid: Boolean = isZ3Valid
 
   def buildSolver: Z3Solver = if (isZ3SolverCacheValid)
@@ -225,25 +242,30 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
   private var isZ3SolverCacheValid = false
   private var solverCache: Z3Solver = _
   private var isZ3ModelCacheValid = false
-  private var modelCache: Z3Model = _
+  private var modelCache: Option[Z3Model] = _
 
   def isZ3Valid: Boolean = buildSolver.check().get
 
-  def buildModel: Z3Model = if (isZ3ModelCacheValid)
+  def buildModel: Option[Z3Model] = if (isZ3ModelCacheValid)
     modelCache
   else {
-    modelCache = buildSolver.getModel()
+    modelCache = if (buildSolver.check().get) Some(buildSolver.getModel()) else None
     isZ3ModelCacheValid = true
     modelCache
   }
 
-  def exampleFor(id: String): Option[Int] = resolveBy(id, symbols).flatMap( v => {
-    buildModel.evalAs[Int](v.e.toZ3(Some(buildSolver))._1)
+  def exampleFor(id: String): Option[Int] = resolveBy(id, symbols).flatMap(exampleFor(_))
+
+  def exampleFor(a: Int): Option[Int] = resolveBy(a, rawObjects).flatMap(exampleFor(_))
+
+  def exampleFor(v: Value): Option[Int] = buildModel.flatMap(m => {
+    val e = m.evalAs[Int](v.e.toZ3(Some(buildSolver))._1)
+    e
   })
 
-  def exampleFor(a: Int): Option[Int] = resolveBy(a, rawObjects).flatMap( v => {
-    buildModel.evalAs[Int](v.e.toZ3(Some(buildSolver))._1)
-  })
+  def concretizeSymbols = (symbols ++ rawObjects.map(kv => kv._1.toString -> kv._2)).map { kv =>
+    (kv._1 -> kv._2.value.flatMap(exampleFor(_)))
+  }
 }
 
 object MemorySpace {

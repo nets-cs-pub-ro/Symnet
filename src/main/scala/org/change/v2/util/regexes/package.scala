@@ -17,4 +17,12 @@ package object regexes {
 
   val portInterval = number + "-" + number
   val portIntervalRegex = portInterval.r
+
+  val mac =
+    """[0-9A-F][0-9A-F][:-][0-9A-F][0-9A-F][:-][0-9A-F][0-9A-F][:-]
+      |[0-9A-F][0-9A-F][:-][0-9A-F][0-9A-F][:-][0-9A-F][0-9A-F]""".stripMargin
+  val macRegex = mac.r
+
+  val macCisco ="""[0-9a-f]{4}\.[0-9a-f]{4}\.[0-9a-f]{4}"""
+  val macCiscoRegex = macCisco.r
 }

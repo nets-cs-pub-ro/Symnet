@@ -4,8 +4,8 @@ package org.change.v2.analysis.memory
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
-case class MemoryObject(val valueStack: List[ValueStack] = List(ValueStack.empty),
-                        val size: Int = 0) {
+case class MemoryObject(valueStack: List[ValueStack] = List(ValueStack.empty),
+                        size: Int = 0) {
 
   def value: Option[Value] = valueStack.headOption.flatMap(_.value)
   def initialValue: Option[Value] = valueStack.lastOption.flatMap(_.initialValue)
