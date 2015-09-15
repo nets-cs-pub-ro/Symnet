@@ -1,8 +1,8 @@
 package org.change.v2.abstractnet.click.sefl
 
 import org.change.v2.abstractnet.generic.{ConfigParameter, ElementBuilder, GenericElement, Port}
-import org.change.v2.analysis.expression.concrete.ConstantValue
-import org.change.v2.analysis.expression.concrete.nonprimitive.{:@, Symbol}
+import org.change.v2.analysis.expression.concrete.{SymbolicValue, ConstantValue}
+import org.change.v2.analysis.expression.concrete.nonprimitive.{Address, :@, Symbol}
 import org.change.v2.analysis.memory.TagExp
 import org.change.v2.analysis.processingmodels.Instruction
 import org.change.v2.analysis.processingmodels.instructions._
@@ -24,48 +24,134 @@ class IPRewriter(name: String,
     outputPorts,
     configParams) {
 
-  def installRewritePatternForIPAddress(whichRule: Int, portA: Int, portB: Int,
-                                        symbolNameSuffix: String, sAddr: TagExp,
-                                        dAddr: TagExp, withwhat: String): Instruction = {
-    val rwAddress = ipToNumber(withwhat)
+  def installRulesForPattern(whichRule: Int,
+                            sp: String, dp: String,
+                            sAddr: String, dAddr: String,
+                            portA: Int, portB: Int): Instruction = {
+    // First installed mapping (forward)
+    val fwMapping = InstructionBlock(
+      // Check patterns
+      AssignNamedSymbol(s"$name-$whichRule-check-sa", Address(IPSrc)),
+      AssignNamedSymbol(s"$name-$whichRule-check-da", Address(IPDst)),
+      AssignNamedSymbol(s"$name-$whichRule-check-sp", Address(TcpSrc)),
+      AssignNamedSymbol(s"$name-$whichRule-check-dp", Address(TcpDst)),
+      AssignNamedSymbol(s"$name-$whichRule-check-proto", Address(Proto)),
+      // Apply patterns
+      AssignNamedSymbol(s"$name-$whichRule-apply-sa", sAddr match {
+        case ipv4Regex() => ConstantValue(ipToNumber(sAddr))
+        case _ => Address(IPSrc)
+      }),
+      AssignNamedSymbol(s"$name-$whichRule-apply-da", dAddr match {
+        case ipv4Regex() => ConstantValue(ipToNumber(dAddr))
+        case _ => Address(IPDst)
+      }),
+      sp match {
+        case numberRegex() => AssignNamedSymbol(s"$name-$whichRule-apply-sp", ConstantValue(sp.toInt))
+        case portIntervalRegexWithGroups(l, u) => InstructionBlock(
+          AssignNamedSymbol(s"$name-$whichRule-apply-sp", SymbolicValue()),
+          ConstrainNamedSymbol(s"$name-$whichRule-apply-sp", :&:(:>=:(ConstantValue(l.toInt)), :<=:(ConstantValue(u.toInt))))
+        )
+        case _ => AssignNamedSymbol(s"$name-$whichRule-apply-sp", Address(TcpSrc))
+      },
+      dp match {
+        case numberRegex() => AssignNamedSymbol(s"$name-$whichRule-apply-dp", ConstantValue(dp.toInt))
+        case portIntervalRegexWithGroups(l, u) => InstructionBlock(
+          AssignNamedSymbol(s"$name-$whichRule-apply-dp", SymbolicValue()),
+          ConstrainNamedSymbol(s"$name-$whichRule-apply-dp", :&:(:>=:(ConstantValue(l.toInt)), :<=:(ConstantValue(u.toInt))))
+        )
+        case _ => AssignNamedSymbol(s"$name-$whichRule-apply-dp", Address(TcpDst))
+      },
+      AssignNamedSymbol(s"$name-$whichRule-apply-fwport", ConstantValue(portA))
+    )
+
+    // Second installed mapping (backwards)
+    val bkMapping = InstructionBlock(
+      // Check patterns
+      AssignNamedSymbol(s"$name-${whichRule+1}-check-da", sAddr match {
+        case ipv4Regex() => ConstantValue(ipToNumber(sAddr))
+        case _ => Address(IPSrc)
+      }),
+      AssignNamedSymbol(s"$name-${whichRule+1}-check-sa", dAddr match {
+        case ipv4Regex() => ConstantValue(ipToNumber(dAddr))
+        case _ => Address(IPDst)
+      }),
+      sp match {
+        case numberRegex() => AssignNamedSymbol(s"$name-${whichRule+1}-check-dp", ConstantValue(sp.toInt))
+        case portIntervalRegexWithGroups(l, u) => InstructionBlock(
+          AssignNamedSymbol(s"$name-${whichRule+1}-check-dp", SymbolicValue()),
+          ConstrainNamedSymbol(s"$name-${whichRule+1}-check-dp", :&:(:>=:(ConstantValue(l.toInt)), :<=:(ConstantValue(u.toInt))))
+        )
+        case _ => AssignNamedSymbol(s"$name-${whichRule+1}-check-dp", Address(TcpSrc))
+      },
+      dp match {
+        case numberRegex() => AssignNamedSymbol(s"$name-${whichRule+1}-check-sp", ConstantValue(dp.toInt))
+        case portIntervalRegexWithGroups(l, u) => InstructionBlock(
+          AssignNamedSymbol(s"$name-${whichRule+1}-check-sp", SymbolicValue()),
+          ConstrainNamedSymbol(s"$name-${whichRule+1}-check-sp", :&:(:>=:(ConstantValue(l.toInt)), :<=:(ConstantValue(u.toInt))))
+        )
+        case _ => AssignNamedSymbol(s"$name-${whichRule+1}-check-sp", Address(TcpDst))
+      },
+      AssignNamedSymbol(s"$name-${whichRule+1}-check-proto", Address(Proto)),
+
+      // Apply patterns
+      AssignNamedSymbol(s"$name-${whichRule+1}-apply-sa", Address(IPDst)),
+      AssignNamedSymbol(s"$name-${whichRule+1}-apply-da", Address(IPSrc)),
+      AssignNamedSymbol(s"$name-${whichRule+1}-apply-sp", Address(TcpDst)),
+      AssignNamedSymbol(s"$name-${whichRule+1}-apply-dp", Address(TcpSrc)),
+
+      AssignNamedSymbol(s"$name-${whichRule+1}-apply-fwport", ConstantValue(portB))
+    )
 
     InstructionBlock(
-      AssignNamedSymbol(s"$name-$whichRule-check-" + symbolNameSuffix, :@(sAddr)),
-      AssignNamedSymbol(s"$name-$whichRule-apply-" + symbolNameSuffix, ConstantValue(rwAddress))
+      fwMapping,
+
+      //bkMapping,
+
+      AssignRaw(IPSrc, Symbol(s"$name-$whichRule-apply-sa")),
+      AssignRaw(IPDst, Symbol(s"$name-$whichRule-apply-da")),
+      AssignRaw(TcpSrc, Symbol(s"$name-$whichRule-apply-sp")),
+      AssignRaw(TcpDst, Symbol(s"$name-$whichRule-apply-dp")),
+      // Biggie here
+      Forward(outputPortName(portA))
     )
   }
 
-  private def installKeepPatterns(whichRule: Int, portA: Int, portB: Int) = InstructionBlock(
+  private def installRulesForKeep(whichRule: Int, portA: Int, portB: Int) = InstructionBlock(
     // Install forward mappings
-    AssignNamedSymbol(s"$name-$whichRule-check-sa", Symbol(IPSrcString)),
-    AssignNamedSymbol(s"$name-$whichRule-check-da", Symbol(IPDstString)),
-    AssignNamedSymbol(s"$name-$whichRule-check-sp", Symbol(PortSrcString)),
-    AssignNamedSymbol(s"$name-$whichRule-check-dp", Symbol(PortDstString)),
-    AssignNamedSymbol(s"$name-$whichRule-check-proto", Symbol(L4ProtoString)),
+    AssignNamedSymbol(s"$name-$whichRule-check-sa", Address(IPSrc)),
+    AssignNamedSymbol(s"$name-$whichRule-check-da", Address(IPDst)),
+    AssignNamedSymbol(s"$name-$whichRule-check-sp", Address(TcpSrc)),
+    AssignNamedSymbol(s"$name-$whichRule-check-dp", Address(TcpDst)),
+    AssignNamedSymbol(s"$name-$whichRule-check-proto", Address(Proto)),
 
-    AssignNamedSymbol(s"$name-$whichRule-apply-sa", Symbol(IPSrcString)),
-    AssignNamedSymbol(s"$name-$whichRule-apply-da", Symbol(IPDstString)),
-    AssignNamedSymbol(s"$name-$whichRule-apply-sp", Symbol(PortSrcString)),
-    AssignNamedSymbol(s"$name-$whichRule-apply-dp", Symbol(PortDstString)),
+    AssignNamedSymbol(s"$name-$whichRule-apply-sa", Address(IPSrc)),
+    AssignNamedSymbol(s"$name-$whichRule-apply-da", Address(IPDst)),
+    AssignNamedSymbol(s"$name-$whichRule-apply-sp", Address(TcpSrc)),
+    AssignNamedSymbol(s"$name-$whichRule-apply-dp", Address(TcpDst)),
     AssignNamedSymbol(s"$name-$whichRule-apply-fwport", ConstantValue(portA)),
-    // Install reply mappings
-    AssignNamedSymbol(s"$name-${whichRule+1}-check-sa", Symbol(IPDstString)),
-    AssignNamedSymbol(s"$name-${whichRule+1}-check-da", Symbol(IPSrcString)),
-    AssignNamedSymbol(s"$name-${whichRule+1}-check-sp", Symbol(PortDstString)),
-    AssignNamedSymbol(s"$name-${whichRule+1}-check-dp", Symbol(PortSrcString)),
-    AssignNamedSymbol(s"$name-${whichRule+1}-check-proto", Symbol(L4ProtoString)),
 
-    AssignNamedSymbol(s"$name-${whichRule+1}-apply-sa", Symbol(IPDstString)),
-    AssignNamedSymbol(s"$name-${whichRule+1}-apply-da", Symbol(IPSrcString)),
-    AssignNamedSymbol(s"$name-${whichRule+1}-apply-sp", Symbol(PortDstString)),
-    AssignNamedSymbol(s"$name-${whichRule+1}-apply-dp", Symbol(PortSrcString)),
+    // Install reply mappings
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-sa", Address(IPDst)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-da", Address(IPSrc)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-sp", Address(TcpDst)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-dp", Address(TcpSrc)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-check-proto", Address(Proto)),
+
+    AssignNamedSymbol(s"$name-${whichRule+1}-apply-sa", Address(IPDst)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-apply-da", Address(IPSrc)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-apply-sp", Address(TcpDst)),
+    AssignNamedSymbol(s"$name-${whichRule+1}-apply-dp", Address(TcpSrc)),
     AssignNamedSymbol(s"$name-${whichRule+1}-apply-fwport", ConstantValue(portB)),
+
     // Forward the flow
     Forward(outputPortName(portA))
   )
 
+  // For every port there will exist an install instruction block.
   private val installInstructions: scala.collection.mutable.Map[String, Instruction] = scala.collection.mutable.Map()
+
   private var lastCheck = -1
+
   private val fwPorts: scala.collection.mutable.Map[Int, Int] = scala.collection.mutable.Map()
 
   def buildCheckAndApplyFor(inputPort: String): Instruction = {
@@ -78,16 +164,17 @@ class IPRewriter(name: String,
         looper(which + 1)
 
 
-      val i = If(ConstrainNamedSymbol(IPSrcString, :==:(Symbol(s"$name-$which-check-sa"))),
-          If(ConstrainNamedSymbol(IPDstString, :==:(Symbol(s"$name-$which-check-da"))),
-            If(ConstrainNamedSymbol(PortSrcString, :==:(Symbol(s"$name-$which-check-sp"))),
-              If(ConstrainNamedSymbol(PortDstString, :==:(Symbol(s"$name-$which-check-dp"))),
-                If(ConstrainNamedSymbol(L4ProtoString, :==:(Symbol(s"$name-$which-check-proto"))),
+      val i =
+        If(ConstrainRaw(IPSrc, :==:(Symbol(s"$name-$which-check-sa"))),
+          If(ConstrainRaw(IPDst, :==:(Symbol(s"$name-$which-check-da"))),
+            If(ConstrainRaw(TcpSrc, :==:(Symbol(s"$name-$which-check-sp"))),
+              If(ConstrainRaw(TcpDst, :==:(Symbol(s"$name-$which-check-dp"))),
+                If(ConstrainRaw(Proto, :==:(Symbol(s"$name-$which-check-proto"))),
                   InstructionBlock(
-                    AssignNamedSymbol(IPSrcString, Symbol(s"$name-$which-apply-sa")),
-                    AssignNamedSymbol(IPDstString, Symbol(s"$name-$which-apply-da")),
-                    AssignNamedSymbol(PortSrcString, Symbol(s"$name-$which-apply-sp")),
-                    AssignNamedSymbol(PortDstString, Symbol(s"$name-$which-apply-dp")),
+                    AssignRaw(IPSrc, Symbol(s"$name-$which-apply-sa")),
+                    AssignRaw(IPDst, Symbol(s"$name-$which-apply-da")),
+                    AssignRaw(TcpSrc, Symbol(s"$name-$which-apply-sp")),
+                    AssignRaw(TcpDst, Symbol(s"$name-$which-apply-dp")),
                     // Biggie here
                     Forward(outputPortName(fwPorts(which)))
                   ),
@@ -108,16 +195,23 @@ class IPRewriter(name: String,
     looper(0)
   }
 
-  def buildSpecIntructions(inputspec: String, port: Int) = inputspec match {
+  def buildFullIntructions(inputspec: String, port: Int) = inputspec match {
     case IPRewriter.keepPattern(fwPort, rpPort) => {
-      installInstructions += (inputPortName(port) -> installKeepPatterns(port * 2, fwPort.toInt, rpPort.toInt))
+      installInstructions += (inputPortName(port) -> installRulesForKeep(port * 2, fwPort.toInt, rpPort.toInt))
+      lastCheck += 2
+      fwPorts += (2 * port -> fwPort.toInt)
+      fwPorts += (2 * port + 1-> rpPort.toInt)
+      buildCheckAndApplyFor(inputPortName(port))
+    }
+    case IPRewriter.rewritePattern(sa, sp, da, dp, fwPort, rpPort) => {
+      installInstructions += (inputPortName(port) -> installRulesForPattern(port * 2, sp, dp, sa, da, fwPort.toInt, rpPort.toInt))
       lastCheck += 2
       fwPorts += (2 * port -> fwPort.toInt)
       fwPorts += (2 * port + 1-> rpPort.toInt)
       buildCheckAndApplyFor(inputPortName(port))
     }
     case IPRewriter.passPattern(outputPort) => Forward(outputPortName(outputPort.toInt))
-    case "drop" | "discard" => NoOp
+    case "drop" | "discard" => Fail("Flow dropped.")
   }
 
   private val iCache: scala.collection.mutable.Map[String, Instruction] = scala.collection.mutable.Map()
@@ -125,7 +219,7 @@ class IPRewriter(name: String,
   for (
     (cp, i) <- configParams.zipWithIndex
   ) {
-    iCache += (inputPortName(i) -> buildSpecIntructions(cp.value, i))
+    iCache += (inputPortName(i) -> buildFullIntructions(cp.value, i))
   }
 
   override val instructions = iCache.toMap
@@ -136,9 +230,6 @@ class IPRewriter(name: String,
 
 class IPRewriterElementBuilder(name: String)
   extends ElementBuilder(name, "IPRewriter") {
-
-  addInputPort(Port())
-  addOutputPort(Port())
 
   override def buildElement: GenericElement = {
     new IPRewriter(name, getInputPorts, getOutputPorts, getConfigParameters)

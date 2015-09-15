@@ -12,7 +12,7 @@ import org.scalatest.{Matchers, FlatSpec}
  */
 class IPRewriterTests extends FlatSpec with Matchers {
 
-  "An executor context" should "be built from a click having and IPRewriter" in {
+  "An executor context" should "be built from a click having an IPRewriter" in {
     val clickConfig = "src/main/resources/click_test_files/IPRewriter.click"
     val absNet = ClickToAbstractNetwork.buildConfig(clickConfig)
     val executor = ClickExecutionContext(absNet)
@@ -58,6 +58,19 @@ class IPRewriterTests extends FlatSpec with Matchers {
       case IPRewriter.rewritePattern(_,_,_,_,_,_) => true
       case _ => false
     })
+  }
+
+  "An executor context" should "be built from a click having an IPRewriter with rewrite patterns" in {
+    val clickConfig = "src/main/resources/click_test_files/IPRewriter2.click"
+    val absNet = ClickToAbstractNetwork.buildConfig(clickConfig)
+    val executor = ClickExecutionContext(absNet)
+
+    var crtExecutor = executor
+    while(! crtExecutor.isDone) {
+      crtExecutor = crtExecutor.execute()
+    }
+
+    crtExecutor.stuckStates should have length (1)
   }
 
 }
