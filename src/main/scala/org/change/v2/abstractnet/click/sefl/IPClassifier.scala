@@ -43,6 +43,11 @@ class IPClassifier(name: String,
   val tcp = "tcp".r
   val udp = "udp".r
 
+  /**
+   * The method takes an atomic tcpdump condition and creates it's associated constraint.
+   * @param condition
+   * @return
+   */
   private def conditionToConstraint(condition: String): Instruction = condition match {
     case ipProto(v) => ConstrainRaw(IPVersion, :==:(ConstantValue(v.toInt)))
 
@@ -82,6 +87,10 @@ class IPClassifier(name: String,
 
   val portToInstr = scala.collection.mutable.Map[Int, Instruction]()
 
+  /**
+   * The construction of instructions from config params works backwards since the i-th
+   * if needs the i+1-th if as its the else branch.
+   */
   for {
     (p,i) <- configParams.zipWithIndex.reverse
   } {
@@ -92,24 +101,32 @@ class IPClassifier(name: String,
 
   def paramsToInstructionBlock(param: String, whichOne: Int): Instruction = param match {
     case any(_) => Forward(outputPortName(whichOne))
+
     case none() => if (whichOne < lastIndex)
-        portToInstr(whichOne + 1)
+//      If the none/false condition is found, then nothing is processed here, the next instruction
+//      gets executed instead.
+      portToInstr(whichOne + 1)
+//      Otherwise, nothing is done here
       else
-        NoOp
+        Fail(IPClassifier.failErrorMessage)
+
+//      Conversion of tcpdump rules
     case _ => {
       val conditions = param.split(conditionSeparator).toList
 
       def conditionsToInstruction(conds: List[String]): Instruction = {
         val cond = conds.head
         If(conditionToConstraint(cond),
+          // then branch (if condition is met)
           if (conds.length == 1)
             Forward(outputPortName(whichOne))
           else
             conditionsToInstruction(conds.tail),
+          // else branch,
           if (whichOne < lastIndex)
             portToInstr(whichOne + 1)
           else
-            NoOp
+            Fail(IPClassifier.failErrorMessage)
         )
       }
 
@@ -137,6 +154,8 @@ class IPClassifierElementBuilder(name: String)
 }
 
 object IPClassifier {
+
+  val failErrorMessage = "No other alternative output port remaining."
 
   private var unnamedCount = 0
 

@@ -10,7 +10,7 @@ import org.scalatest.{Matchers, FlatSpec}
  */
 class IPClassifierTests  extends FlatSpec with Matchers {
 
-  "A src-classif-dst click" should "classify correctly" in {
+  "A src-classif-dst click" should "branch correctly" in {
     val absNet = ClickToAbstractNetwork.buildConfig("src/main/resources/click_test_files/Classif.click")
     val executor = ClickExecutionContext(absNet)
 
@@ -20,6 +20,25 @@ class IPClassifierTests  extends FlatSpec with Matchers {
     }
 
     crtExecutor.stuckStates should have length (2)
+
+    crtExecutor.stuckStates(0).history.head should be ("dst-out")
+    crtExecutor.stuckStates(1).history.head should be ("dst-out")
+
+    crtExecutor.failedStates should have length (1)
+  }
+
+  "A src-classif-dst click" should "classify correctly" in {
+    val absNet = ClickToAbstractNetwork.buildConfig("src/main/resources/click_test_files/Classif2.click")
+    val executor = ClickExecutionContext(absNet)
+
+    var crtExecutor = executor
+    while(! crtExecutor.isDone) {
+      crtExecutor = crtExecutor.execute()
+    }
+
+    crtExecutor.stuckStates should have length (1)
+
+    crtExecutor.failedStates should have length (2)
   }
 
 
