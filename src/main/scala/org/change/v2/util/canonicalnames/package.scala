@@ -129,5 +129,13 @@ package object canonicalnames {
   val TcpOptions = L4Tag + TcpOptionsOffset
   //val TcpPayload = "TCP-Payload"
 
+  //ICMP header
+  val ICMPType = L4Tag + 0
+  val ICMPCode = L4Tag + 8
+  val ICMPHeaderChecksum = L4Tag + 16
+  val ICMPIdentifier = L4Tag + 32
+  val ICMPSEQ = L4Tag + 48
+  val ICMPData = L4Tag + 64
+
   val MinPacketSize = 64
 }

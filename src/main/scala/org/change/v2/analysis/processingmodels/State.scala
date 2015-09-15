@@ -52,7 +52,7 @@ object State {
      Assign(IPDst, SymbolicValue()),
 
      Allocate(TTL, 8),
-     Assign(TTL, SymbolicValue()),
+     Assign(TTL, ConstantValue(255)),
 
      Allocate(IPLength, 16),
      Assign(IPLength, SymbolicValue()),
