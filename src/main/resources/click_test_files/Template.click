@@ -1,4 +1,6 @@
 src :: FromDevice
 dst :: ToDevice
+ps :: ICMPPingSource
+pr :: ICMPPingResponder
 
-src -> DecIPTTL() -> IPMirror() -> dst
+src -> ps -> pr -> dst

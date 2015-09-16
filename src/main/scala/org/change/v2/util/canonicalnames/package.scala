@@ -137,5 +137,16 @@ package object canonicalnames {
   val ICMPSEQ = L4Tag + 48
   val ICMPData = L4Tag + 64
 
+  //ARP Header
+  val ARPHWAddrSpace = L3Tag + 0
+  val ARPProtoAddrSpace = L3Tag + 16
+  val ARPHWAddrSize = L3Tag + 32
+  val ARPProtoAddrSize = L3Tag + 40
+  val ARPOpCode = L3Tag + 48
+  val ARPHWSender = L3Tag + 64
+  val ARPProtoSender = L3Tag + 112
+  val ARPHWReceiver = L3Tag + 368
+  val ARPProtoReceiver = L3Tag + 416
+
   val MinPacketSize = 64
 }
