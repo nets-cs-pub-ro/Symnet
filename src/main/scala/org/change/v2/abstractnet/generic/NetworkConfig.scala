@@ -112,7 +112,7 @@ class NetworkConfigBuilder(val configName: String) extends ClickBaseListener {
    * @return The network config corresponding to that particular config file.
    */
   def buildNetworkConfig() =
-    new NetworkConfig(elements.map(element => (element.name, element)).toMap, foundPaths.toList)
+    new NetworkConfig(configName, elements.map(element => (element.name, element)).toMap, foundPaths.toList)
 
   private def buildElementName(elementName: String, configName: String = this.configName): String =
     elementName
@@ -147,17 +147,18 @@ class NetworkConfigBuilder(val configName: String) extends ClickBaseListener {
 }
 
 case class NetworkConfig(
+            id: String,
             elements: Map[String,GenericElement],
             paths: List[List[PathComponent]]) {
 
   def entryLocationId: String = getFirstSource.get.inputPortName(0)
 
-  def addElement(e: GenericElement): NetworkConfig = NetworkConfig(elements + ((e.name, e)), paths)
+  def addElement(e: GenericElement): NetworkConfig = NetworkConfig(id, elements + ((e.name, e)), paths)
 
   def addLink(elementA: String, portA: Int = 0, elementB: String, portB: Int = 0) = {
     elements.get(elementA) match {
       case Some(a) => elements.get(elementB) match {
-        case Some(b) => NetworkConfig(elements, List((elementA, 0, portA), (elementB, portB, 0)) :: paths)
+        case Some(b) => NetworkConfig(id, elements, List((elementA, 0, portA), (elementB, portB, 0)) :: paths)
         case None => this
       }
       case None => this

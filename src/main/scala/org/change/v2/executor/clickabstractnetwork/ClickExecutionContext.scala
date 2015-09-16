@@ -101,13 +101,13 @@ object ClickExecutionContext {
   def apply(networkModel: NetworkConfig, verificationConditions: List[Rule] = Nil): ClickExecutionContext = {
     val instructions = networkModel.elements.values.foldLeft(Map[LocationId, Instruction]())(_ ++ _.instructions)
     val checkInstructions = verificationConditions.map( r => {
-        (networkModel.elements(r.where.element).outputPortName(r.where.port)) -> InstructionBlock(r.whatTraffic)
+        networkModel.elements(r.where.element).outputPortName(r.where.port) -> InstructionBlock(r.whatTraffic)
       }).toMap
 
     val links = networkModel.paths.flatMap( _.sliding(2).map(pcp => {
       val src = pcp.head
       val dst = pcp.last
-      (networkModel.elements(src._1).outputPortName(src._3) -> networkModel.elements(dst._1).inputPortName(dst._2))
+      networkModel.elements(src._1).outputPortName(src._3) -> networkModel.elements(dst._1).inputPortName(dst._2)
     })).toMap
 
     val initialState = State.bigBang.forwardTo(networkModel.entryLocationId)
