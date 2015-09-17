@@ -115,7 +115,7 @@ class ClickExecutionContext(
 }
 
 object ClickExecutionContext {
-  def apply(networkModel: NetworkConfig, verificationConditions: List[Rule] = Nil): ClickExecutionContext = {
+  def apply(networkModel: NetworkConfig, verificationConditions: List[Rule] = Nil, includeBigBang: Boolean = true): ClickExecutionContext = {
     // Collect instructions for every element.
     val instructions = networkModel.elements.values.foldLeft(Map[LocationId, Instruction]())(_ ++ _.instructions)
     // Collect check instructions corresponding to network rules.
@@ -129,31 +129,39 @@ object ClickExecutionContext {
       networkModel.elements(src._1).outputPortName(src._3) -> networkModel.elements(dst._1).inputPortName(dst._2)
     })).toMap
     // TODO: This should be configurable.
-    val initialState = State.bigBang.forwardTo(networkModel.entryLocationId)
+    val initialStates = if (includeBigBang) List(State.bigBang.forwardTo(networkModel.entryLocationId)) else Nil
 
-    new ClickExecutionContext(instructions, links, List(initialState), Nil, Nil, checkInstructions)
+    new ClickExecutionContext(instructions, links, initialStates, Nil, Nil, checkInstructions)
   }
 
-  def buildAggregated(configs: Iterable[NetworkConfig],
-            interClickLinks: Iterable[(String, String, Int, String, String, Int)] = Nil): ClickExecutionContext = {
+  def buildAggregated(
+            configs: Iterable[NetworkConfig],
+            interClickLinks: Iterable[(String, String, Int, String, String, Int)],
+            verificationConditions: List[Rule] = Nil): ClickExecutionContext = {
     // Create a context for every network config.
-    val ctxes = configs.map(ClickExecutionContext(_))
+    val ctxes = configs.map(ClickExecutionContext(_, includeBigBang = false))
     // Keep the configs for name resolution.
     val configMap: Map[String, NetworkConfig] = configs.map(c => c.id.get -> c).toMap
     // Add forwarding links between click files.
     val links = interClickLinks.map(l => {
       val ela = l._1 + "-" + l._2
       val elb = l._4 + "-" + l._5
-      configMap(l._1).elements(ela).outputPortName(l._3) -> configMap(l._4).elements(elb).outputPortName(l._6)
+      configMap(l._1).elements(ela).outputPortName(l._3) -> configMap(l._4).elements(elb).inputPortName(l._6)
+    }).toMap
+    // Collect check instructions corresponding to network rules.
+    val checkInstructions = verificationConditions.map( r => {
+      val elementName = r.where.vm + "-" + r.where.element
+      configMap(r.where.vm).elements(elementName).outputPortName(r.where.port) -> InstructionBlock(r.whatTraffic)
     }).toMap
     // Build the unified execution context.
     ctxes.foldLeft(new ClickExecutionContext(
       Map.empty,
       links,
+      // TODO: Should be configurable
+      List(State.bigBang.forwardTo(configs.head.entryLocationId)),
       Nil,
       Nil,
-      Nil,
-      Map.empty
+      checkInstructions
     ))(_ + _)
   }
 }

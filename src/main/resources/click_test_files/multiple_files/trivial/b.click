@@ -1,4 +1,4 @@
-a :: FromDevice()
-b :: FromDevice()
+c :: FromDevice()
+d :: ToDevice()
 
-a -> b
+c -> d
