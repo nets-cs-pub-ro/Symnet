@@ -9,7 +9,8 @@ import org.change.v2.analysis.processingmodels.{LocationId, Instruction}
  * @param name
  * @param elementType
  */
-case class GenericElement(name: String,
+case class GenericElement(
+                   var name: String,
                    elementType: String,
                    inputPorts: List[Port] = Nil,
                    outputPorts: List[Port] = Nil,

@@ -5,6 +5,7 @@ import org.change.v2.abstractnet.generic.NetworkConfig
 import org.change.v2.analysis.memory.MemoryObject
 import org.change.v2.analysis.processingmodels.instructions.InstructionBlock
 import org.change.v2.analysis.processingmodels.{LocationId, Instruction, State}
+import org.change.v2.executor.clickabstractnetwork.verificator.PathLocation
 
 /**
  * Author: Radu Stoenescu
@@ -24,6 +25,15 @@ class ClickExecutionContext(
                            val stuckStates: List[State],
                            val checkInstructions: Map[LocationId, Instruction] = Map.empty
 ) {
+
+  def +(that: ClickExecutionContext) = new ClickExecutionContext(
+    this.instructions ++ that.instructions,
+    this.links ++ that.links,
+    this.okStates ++ that.okStates,
+    this.failedStates ++ that.failedStates,
+    this.stuckStates ++ that.stuckStates,
+    this.checkInstructions ++ that.checkInstructions
+  )
 
   def isDone: Boolean = okStates.isEmpty
 
@@ -113,5 +123,21 @@ object ClickExecutionContext {
     val initialState = State.bigBang.forwardTo(networkModel.entryLocationId)
 
     new ClickExecutionContext(instructions, links, List(initialState), Nil, Nil, checkInstructions)
+  }
+
+  def buildAggregated(configs: Iterable[NetworkConfig],
+            interClickLinks: List[(PathLocation, PathLocation)] = Nil): ClickExecutionContext = {
+    val ctxes = configs.map(c => ClickExecutionContext(c))
+
+    val configMap = configs.map(c => c.id -> c)
+
+    ctxes.foldLeft(new ClickExecutionContext(
+      Map.empty,
+      Map.empty,
+      Nil,
+      Nil,
+      Nil,
+      Map.empty
+    ))(_ + _)
   }
 }
