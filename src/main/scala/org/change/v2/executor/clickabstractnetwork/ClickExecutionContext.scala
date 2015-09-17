@@ -2,7 +2,6 @@ package org.change.v2.executor.clickabstractnetwork
 
 import org.change.symbolicexec.verification.Rule
 import org.change.v2.abstractnet.generic.NetworkConfig
-import org.change.v2.analysis.memory.MemoryObject
 import org.change.v2.analysis.processingmodels.instructions.InstructionBlock
 import org.change.v2.analysis.processingmodels.{LocationId, Instruction, State}
 import org.change.v2.executor.clickabstractnetwork.verificator.PathLocation
@@ -126,14 +125,20 @@ object ClickExecutionContext {
   }
 
   def buildAggregated(configs: Iterable[NetworkConfig],
-            interClickLinks: List[(PathLocation, PathLocation)] = Nil): ClickExecutionContext = {
+            interClickLinks: Iterable[(String, String, Int, String, String, Int)] = Nil): ClickExecutionContext = {
     val ctxes = configs.map(c => ClickExecutionContext(c))
 
-    val configMap = configs.map(c => c.id -> c)
+    val configMap: Map[String, NetworkConfig] = configs.map(c => c.id.get -> c).toMap
+
+    val links = interClickLinks.map(l => {
+      val ela = l._1 + "-" + l._2
+      val elb = l._4 + "-" + l._5
+      configMap(l._1).elements(ela).outputPortName(l._3) -> configMap(l._4).elements(elb).outputPortName(l._6)
+    }).toMap
 
     ctxes.foldLeft(new ClickExecutionContext(
       Map.empty,
-      Map.empty,
+      links,
       Nil,
       Nil,
       Nil,

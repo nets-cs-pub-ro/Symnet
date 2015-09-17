@@ -1,6 +1,7 @@
 package clickfiletoexecutor.multipleclicks
 
 import org.change.parser.clickfile.ClickToAbstractNetwork
+import org.change.parser.interclicklinks.InterClickLinksParser
 import org.change.v2.abstractnet.generic.NetworkConfig
 import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
 import org.scalatest.{FlatSpec, Matchers}
@@ -17,12 +18,13 @@ class ExecuteMultipleClicks extends FlatSpec with Matchers {
         "src/main/resources/click_test_files/multiple_files/trivial/a.click",
         "src/main/resources/click_test_files/multiple_files/trivial/b.click",
         "src/main/resources/click_test_files/multiple_files/trivial/c.click"
-      ).map(ClickToAbstractNetwork.buildConfig(_, prefixedElements = true))
+      ).map(ClickToAbstractNetwork.buildConfig(_, prefixedElements = true)),
+      InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/trivial/abc.links")
     )
 
     ctx shouldBe a [ClickExecutionContext]
     ctx.instructions should have size 6
-    ctx.links should have size 3
+    ctx.links should have size 5
   }
 
 }
