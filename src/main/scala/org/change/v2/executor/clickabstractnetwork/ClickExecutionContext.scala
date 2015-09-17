@@ -69,6 +69,7 @@ class ClickExecutionContext(
     "State #" + si._2 + "\n\n" + si._1.instructionHistory.reverse.mkString("\n") + "\n\n" + si._1.toString)
     .mkString("\n")
 
+  // TODO: MOve this elsewhere, and allow some sort of customization.
   private def verboselyStringifyStatesWithExample(ss: List[State]): String = ss.zipWithIndex.map( si =>
     "State #" + si._2 + "\n\n" + si._1.instructionHistory.reverse.mkString("\n") + "\n\n" + si._1.memory.verboseToString)
     .mkString("\n")
@@ -90,6 +91,13 @@ class ClickExecutionContext(
 
   def concretizeStates: String = (stuckStates ++ okStates).map(_.memory.concretizeSymbols).mkString("\n----------\n")
 
+  /**
+   * TODO: This stringification should stay in a different place.
+   * @param includeOk
+   * @param includeStuck
+   * @param includeFailed
+   * @return
+   */
   def verboselyStringifyStates(includeOk: Boolean = true, includeStuck: Boolean = true, includeFailed: Boolean= true) = {
     (if (includeOk)
       s"Ok states (${okStates.length}):\n" + verboselyStringifyStatesWithExample(okStates)
@@ -108,17 +116,19 @@ class ClickExecutionContext(
 
 object ClickExecutionContext {
   def apply(networkModel: NetworkConfig, verificationConditions: List[Rule] = Nil): ClickExecutionContext = {
+    // Collect instructions for every element.
     val instructions = networkModel.elements.values.foldLeft(Map[LocationId, Instruction]())(_ ++ _.instructions)
+    // Collect check instructions corresponding to network rules.
     val checkInstructions = verificationConditions.map( r => {
         networkModel.elements(r.where.element).outputPortName(r.where.port) -> InstructionBlock(r.whatTraffic)
       }).toMap
-
+    // Create forwarding links.
     val links = networkModel.paths.flatMap( _.sliding(2).map(pcp => {
       val src = pcp.head
       val dst = pcp.last
       networkModel.elements(src._1).outputPortName(src._3) -> networkModel.elements(dst._1).inputPortName(dst._2)
     })).toMap
-
+    // TODO: This should be configurable.
     val initialState = State.bigBang.forwardTo(networkModel.entryLocationId)
 
     new ClickExecutionContext(instructions, links, List(initialState), Nil, Nil, checkInstructions)
@@ -126,16 +136,17 @@ object ClickExecutionContext {
 
   def buildAggregated(configs: Iterable[NetworkConfig],
             interClickLinks: Iterable[(String, String, Int, String, String, Int)] = Nil): ClickExecutionContext = {
-    val ctxes = configs.map(c => ClickExecutionContext(c))
-
+    // Create a context for every network config.
+    val ctxes = configs.map(ClickExecutionContext(_))
+    // Keep the configs for name resolution.
     val configMap: Map[String, NetworkConfig] = configs.map(c => c.id.get -> c).toMap
-
+    // Add forwarding links between click files.
     val links = interClickLinks.map(l => {
       val ela = l._1 + "-" + l._2
       val elb = l._4 + "-" + l._5
       configMap(l._1).elements(ela).outputPortName(l._3) -> configMap(l._4).elements(elb).outputPortName(l._6)
     }).toMap
-
+    // Build the unified execution context.
     ctxes.foldLeft(new ClickExecutionContext(
       Map.empty,
       links,
