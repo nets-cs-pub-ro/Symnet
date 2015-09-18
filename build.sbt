@@ -28,4 +28,8 @@ lazy val click_exampl = taskKey[Unit]("Symbolically running TemplateExampl.click
 
 fullRunTask(click_exampl, Compile, "org.change.v2.runners.experiments.TemplateRunnerWithExamples")
 
+lazy val mc = taskKey[Unit]("Running multiple VMs")
+
+fullRunTask(mc, Compile, "org.change.v2.runners.experiments.MultipleVms")
+
 seq(Revolver.settings: _*)
