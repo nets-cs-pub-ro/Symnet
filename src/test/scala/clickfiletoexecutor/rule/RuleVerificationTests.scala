@@ -14,14 +14,14 @@ class RuleVerificationTests extends FlatSpec with Matchers{
   "A file with rules" should "be parsable and result in an executor" in {
     val absNet = ClickToAbstractNetwork.buildConfig("src/main/resources/click_test_files/SrcDst.click")
     val rules = RuleSetBuilder.buildRuleSetFromFile("src/main/resources/spec_lang_tests/simple")
-    val executor = ClickExecutionContext(absNet, rules)
+    val executor = ClickExecutionContext.fromSingle(absNet, rules)
     executor shouldBe a [ClickExecutionContext]
   }
 
   "Rules" should "should add constraints to ports" in {
     val absNet = ClickToAbstractNetwork.buildConfig("src/main/resources/click_test_files/SrcDst.click")
     val rules = RuleSetBuilder.buildRuleSetFromFile("src/main/resources/spec_lang_tests/simple")
-    val executor = ClickExecutionContext(absNet, rules)
+    val executor = ClickExecutionContext.fromSingle(absNet, rules)
 
     executor.checkInstructions.keys should contain ("source-out")
   }

@@ -14,14 +14,14 @@ class MamaIeiDeReteauaFacultatii extends FlatSpec with  Matchers {
 
   "The ASA" should "be parsable" in {
     val absNet = ClickToAbstractNetwork.buildConfig(clickFilePath)
-    val executor = ClickExecutionContext(absNet)
+    val executor = ClickExecutionContext.fromSingle(absNet)
 
     executor shouldBe a [ClickExecutionContext]
   }
 
   "Facultatea" should "work" in {
     val absNet = ClickToAbstractNetwork.buildConfig(clickFilePath)
-    val executor = ClickExecutionContext(absNet)
+    val executor = ClickExecutionContext.fromSingle(absNet)
 
     var crtExecutor = executor
     while(! crtExecutor.isDone) {

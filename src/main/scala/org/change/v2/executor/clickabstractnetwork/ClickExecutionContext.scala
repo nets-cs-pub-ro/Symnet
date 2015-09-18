@@ -115,11 +115,22 @@ class ClickExecutionContext(
 }
 
 object ClickExecutionContext {
-  def apply(networkModel: NetworkConfig, verificationConditions: List[Rule] = Nil, includeBigBang: Boolean = true): ClickExecutionContext = {
+
+  /**
+   * Builds a symbolic execution context out of a single click config file.
+   *
+   * @param networkModel
+   * @param verificationConditions
+   * @param includeBigBang
+   * @return
+   */
+  def fromSingle( networkModel: NetworkConfig,
+                  verificationConditions: List[List[Rule]] = Nil,
+                  includeBigBang: Boolean = true): ClickExecutionContext = {
     // Collect instructions for every element.
     val instructions = networkModel.elements.values.foldLeft(Map[LocationId, Instruction]())(_ ++ _.instructions)
     // Collect check instructions corresponding to network rules.
-    val checkInstructions = verificationConditions.map( r => {
+    val checkInstructions = verificationConditions.flatten.map( r => {
         networkModel.elements(r.where.element).outputPortName(r.where.port) -> InstructionBlock(r.whatTraffic)
       }).toMap
     // Create forwarding links.
@@ -137,9 +148,9 @@ object ClickExecutionContext {
   def buildAggregated(
             configs: Iterable[NetworkConfig],
             interClickLinks: Iterable[(String, String, Int, String, String, Int)],
-            verificationConditions: List[Rule] = Nil): ClickExecutionContext = {
+            verificationConditions: List[List[Rule]] = Nil): ClickExecutionContext = {
     // Create a context for every network config.
-    val ctxes = configs.map(ClickExecutionContext(_, includeBigBang = false))
+    val ctxes = configs.map(ClickExecutionContext.fromSingle(_, includeBigBang = false))
     // Keep the configs for name resolution.
     val configMap: Map[String, NetworkConfig] = configs.map(c => c.id.get -> c).toMap
     // Add forwarding links between click files.
@@ -149,7 +160,7 @@ object ClickExecutionContext {
       configMap(l._1).elements(ela).outputPortName(l._3) -> configMap(l._4).elements(elb).inputPortName(l._6)
     }).toMap
     // Collect check instructions corresponding to network rules.
-    val checkInstructions = verificationConditions.map( r => {
+    val checkInstructions = verificationConditions.flatten.map( r => {
       val elementName = r.where.vm + "-" + r.where.element
       configMap(r.where.vm).elements(elementName).outputPortName(r.where.port) -> InstructionBlock(r.whatTraffic)
     }).toMap

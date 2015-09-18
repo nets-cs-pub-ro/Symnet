@@ -15,14 +15,14 @@ import org.change.v2.abstractnet.generic.NetworkConfigBuilder
  */
 object RuleSetBuilder {
 
-  def buildRuleSetFromFile(path: String): List[Rule] = {
+  def buildRuleSetFromFile(path: String): List[List[Rule]] = {
     val input = new FileInputStream(new File(path))
     val parserInput = new ANTLRInputStream(input)
     val lexer: ReachLangLexer = new ReachLangLexer(parserInput)
     val tokens: CommonTokenStream = new CommonTokenStream(lexer)
     val parser: ReachLangParser = new ReachLangParser(tokens)
 
-    TestsParser.visitRequirements(parser.requirements()).flatten
+    TestsParser.visitRequirements(parser.requirements())
   }
 
 }

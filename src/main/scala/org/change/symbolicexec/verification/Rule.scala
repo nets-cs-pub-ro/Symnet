@@ -1,5 +1,6 @@
 package org.change.symbolicexec.verification
 
+import org.change.v2.analysis.memory.TagExp
 import org.change.v2.analysis.processingmodels.Instruction
 import org.change.v2.executor.clickabstractnetwork.verificator.PathLocation
 
@@ -11,4 +12,4 @@ import org.change.v2.executor.clickabstractnetwork.verificator.PathLocation
  */
 case class Rule(where: PathLocation,
                 whatTraffic: List[Instruction ] = Nil,
-                whatInvariants: Option[List[String]] = None)
+                whatInvariants: Option[List[TagExp]] = None)

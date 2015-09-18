@@ -12,7 +12,7 @@ class CiscoBehemotSwitch extends FlatSpec with Matchers {
 
   "The behemot" should "be parseable to a click executor" in {
     val absNet = ClickToAbstractNetwork.buildConfig("src/main/resources/click_test_files/CiscoEtherSwitch.click")
-    val executor = ClickExecutionContext(absNet)
+    val executor = ClickExecutionContext.fromSingle(absNet)
   }
 
 }

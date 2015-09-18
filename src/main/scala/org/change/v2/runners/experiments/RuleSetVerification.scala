@@ -16,7 +16,7 @@ object RuleSetVerification {
     val clickConfig = "src/main/resources/click_test_files/SrcDst.click"
     val absNet = ClickToAbstractNetwork.buildConfig(clickConfig)
     val rules = RuleSetBuilder.buildRuleSetFromFile("src/main/resources/spec_lang_tests/simple")
-    val executor = ClickExecutionContext(absNet, rules)
+    val executor = ClickExecutionContext.fromSingle(absNet, rules)
 
     var crtExecutor = executor
     while(! crtExecutor.isDone) {

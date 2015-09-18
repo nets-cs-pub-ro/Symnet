@@ -15,7 +15,7 @@ object IPRewriterRunner {
   def main (args: Array[String]) {
     val clickConfig = "src/main/resources/click_test_files/IPRewriter.click"
     val absNet = ClickToAbstractNetwork.buildConfig(clickConfig)
-    val executor = ClickExecutionContext(absNet)
+    val executor = ClickExecutionContext.fromSingle(absNet)
 
     var crtExecutor = executor
     while(! crtExecutor.isDone) {

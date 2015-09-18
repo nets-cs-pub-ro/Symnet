@@ -12,7 +12,7 @@ class IPClassifierTests  extends FlatSpec with Matchers {
 
   "A src-classif-dst click" should "branch correctly" in {
     val absNet = ClickToAbstractNetwork.buildConfig("src/main/resources/click_test_files/Classif.click")
-    val executor = ClickExecutionContext(absNet)
+    val executor = ClickExecutionContext.fromSingle(absNet)
 
     var crtExecutor = executor
     while(! crtExecutor.isDone) {
@@ -29,7 +29,7 @@ class IPClassifierTests  extends FlatSpec with Matchers {
 
   "A src-classif-dst click" should "classify correctly" in {
     val absNet = ClickToAbstractNetwork.buildConfig("src/main/resources/click_test_files/Classif2.click")
-    val executor = ClickExecutionContext(absNet)
+    val executor = ClickExecutionContext.fromSingle(absNet)
 
     var crtExecutor = executor
     while(! crtExecutor.isDone) {
