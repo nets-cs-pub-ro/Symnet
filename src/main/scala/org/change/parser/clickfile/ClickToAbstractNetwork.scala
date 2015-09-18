@@ -19,7 +19,7 @@ object ClickToAbstractNetwork {
    * @param input Click
    * @return Resulting Abstract Network.
    */
-  def buildConfig(input: InputStream, configId: String): NetworkConfig = {
+  def buildConfig(input: InputStream, configId: String, prefixedElements: Boolean): NetworkConfig = {
     val parserInput = new ANTLRInputStream(input)
     val lexer: ClickLexer = new ClickLexer(parserInput)
     val tokens: CommonTokenStream = new CommonTokenStream(lexer)
@@ -28,11 +28,13 @@ object ClickToAbstractNetwork {
     val tree: ParseTree = parser.configFile
 
     val walker = new ParseTreeWalker
-    val newConfig = new NetworkConfigBuilder(configId)
+    val newConfig = new NetworkConfigBuilder(Some(configId))
     walker.walk(newConfig, tree)
-    newConfig.buildNetworkConfig()
+    if (! prefixedElements) newConfig.buildNetworkConfig() else newConfig.buildNetworkConfigWithPrefixes().get
   }
 
-  def buildConfig(fileInput: File): NetworkConfig = buildConfig(new FileInputStream(fileInput), fileInput.getName)
-  def buildConfig(path: String): NetworkConfig = buildConfig(new File(path))
+  def buildConfig(fileInput: File, prefixedElements: Boolean): NetworkConfig =
+    buildConfig(new FileInputStream(fileInput), fileInput.getName.stripSuffix(".click"), prefixedElements)
+  def buildConfig(path: String, prefixedElements: Boolean = false): NetworkConfig =
+    buildConfig(new File(path), prefixedElements)
 }

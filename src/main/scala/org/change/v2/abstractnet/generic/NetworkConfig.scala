@@ -7,14 +7,7 @@ import org.change.v2.abstractnet.click.sefl.{ToDevice, FromDevice}
 import scala.collection.JavaConversions.collectionAsScalaIterable
 import scala.collection.mutable.ArrayBuffer
 
-class NetworkConfigBuilder(val configName: String) extends ClickBaseListener {
-
-  /**
-   * Build the config and output the results.
-   **/
-  override def exitConfigFile(ctx: ConfigFileContext) {
-
-  }
+class NetworkConfigBuilder(val configName: Option[String] = None) extends ClickBaseListener {
 
   /**
    * Start of line, just count it.
@@ -108,13 +101,30 @@ class NetworkConfigBuilder(val configName: String) extends ClickBaseListener {
   }
 
   /**
+   * Build a config name with prefixed elements.
+   * @return
+   */
+  def buildNetworkConfigWithPrefixes(): Option[NetworkConfig] = configName map { id =>
+    new NetworkConfig(configName, elements.map(element => {
+      val name = id +"-" + element.name
+      element.name = name
+      name -> element
+    }).toMap,
+      foundPaths.map(pcp => {
+        pcp.map( cmp => {
+          (id + "-" + cmp._1, cmp._2, cmp._3)
+        })
+      }).toList)
+  }
+
+  /**
    * Builds a network config once the parsing is finished
    * @return The network config corresponding to that particular config file.
    */
   def buildNetworkConfig() =
-    new NetworkConfig(elements.map(element => (element.name, element)).toMap, foundPaths.toList)
+    new NetworkConfig(configName, elements.map(element => (element.name, element)).toMap, foundPaths.toList)
 
-  private def buildElementName(elementName: String, configName: String = this.configName): String =
+  private def buildElementName(elementName: String): String =
     elementName
 
   /**
@@ -147,17 +157,18 @@ class NetworkConfigBuilder(val configName: String) extends ClickBaseListener {
 }
 
 case class NetworkConfig(
+            id: Option[String],
             elements: Map[String,GenericElement],
             paths: List[List[PathComponent]]) {
 
   def entryLocationId: String = getFirstSource.get.inputPortName(0)
 
-  def addElement(e: GenericElement): NetworkConfig = NetworkConfig(elements + ((e.name, e)), paths)
+  def addElement(e: GenericElement): NetworkConfig = NetworkConfig(id, elements + ((e.name, e)), paths)
 
   def addLink(elementA: String, portA: Int = 0, elementB: String, portB: Int = 0) = {
     elements.get(elementA) match {
       case Some(a) => elements.get(elementB) match {
-        case Some(b) => NetworkConfig(elements, List((elementA, 0, portA), (elementB, portB, 0)) :: paths)
+        case Some(b) => NetworkConfig(id, elements, List((elementA, 0, portA), (elementB, portB, 0)) :: paths)
         case None => this
       }
       case None => this

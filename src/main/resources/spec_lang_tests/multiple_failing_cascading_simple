@@ -1,0 +1,2 @@
+reach from client -> a:a src 0.0.0.1 -> b:d dst 0.0.0.1 -> internet .
+reach from client -> c:f src 0.0.0.2 -> internet .
