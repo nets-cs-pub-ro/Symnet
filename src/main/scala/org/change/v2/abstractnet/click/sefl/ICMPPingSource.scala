@@ -56,7 +56,7 @@ class ICMPPingSource(name: String,
       Assign(ICMPIdentifier, SymbolicValue()),
       Allocate(ICMPSEQ,16),
       Assign(ICMPSEQ, SymbolicValue()),
-      Allocate(ICMPData,ConstantValue(configParams(2).value.toInt)),
+      Allocate(ICMPData,configParams(2).value.toInt),
       Assign(ICMPData, SymbolicValue()),
       Forward(outputPortName(0))
     )
