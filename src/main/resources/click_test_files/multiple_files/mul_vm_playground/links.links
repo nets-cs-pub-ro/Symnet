@@ -1,2 +1,11 @@
-a:b:0 -> b:c:0
-b:d:0 -> c:e:0
+1_client:if2_out:0 -> 2_ap:if1_in:0
+2_ap:if1_out:0 -> 1_client:if2_in:0 
+
+2_ap:if2_out:0 -> 3_router:if1_in:0
+3_router:if1_out:0 -> 2_ap:if2_in:0
+
+3_router:if2_out:0 -> 5_exit_router:if1_in:0
+5_exit_router:if1_out:0 -> 3_router:if2_in:0
+
+3_router:if3_out:0 -> 4_middlebox:if1_in:0
+4_middlebox:if1_out:0 -> 3_router:if3_in:0

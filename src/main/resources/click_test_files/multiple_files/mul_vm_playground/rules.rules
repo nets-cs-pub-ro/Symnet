@@ -1,1 +1,1 @@
-reach from client -> a:a src 0.0.0.1 ; src && dst -> b:d dst 0.0.0.1 -> c:f src 0.0.0.1 -> internet .
+reach from client -> 1_client:if1_in src 192.168.0.1 -> 5_exit_router:if1_in -> internet .

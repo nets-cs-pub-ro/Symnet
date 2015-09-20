@@ -10,7 +10,7 @@ import org.change.v2.util.canonicalnames._
 import org.change.v2.analysis.memory.TagExp._
 import org.change.v2.analysis.memory.Tag
 
-class EtherEncap(name: String,
+class Discard(name: String,
                    elementType: String,
                    inputPorts: List[Port],
                    outputPorts: List[Port],
@@ -22,43 +22,34 @@ class EtherEncap(name: String,
     configParams) {
 
   override def instructions: Map[LocationId, Instruction] = Map(
-    inputPortName(0) -> InstructionBlock(
-      CreateTag("L2",Tag("L3")-112),
-      Allocate(Tag("L2")+EtherSrcOffset,48),
-      Assign(Tag("L2")+EtherSrcOffset,ConstantValue(macToNumberCiscoFormat(configParams(1).value))),
-      Allocate(Tag("L2")+EtherDstOffset,48),
-      Assign(Tag("L2")+EtherDstOffset,ConstantValue(macToNumberCiscoFormat(configParams(2).value))),
-      Allocate(Tag("L2")+EtherTypeOffset,16),
-      Assign(Tag("L2")+EtherTypeOffset,ConstantValue(configParams(0).value.toInt)),
-      Forward(outputPortName(0))
-    )
+    inputPortName(0) -> Fail("unexpected packet dropped")
   )
 }
 
-class EtherEncapElementBuilder(name: String, elementType: String)
+class DiscardElementBuilder(name: String, elementType: String)
   extends ElementBuilder(name, elementType) {
 
   addInputPort(Port())
   addOutputPort(Port())
 
   override def buildElement: GenericElement = {
-    new EtherEncap(name, elementType, getInputPorts, getOutputPorts, getConfigParameters)
+    new Discard(name, elementType, getInputPorts, getOutputPorts, getConfigParameters)
   }
 }
 
-object EtherEncap {
+object Discard {
   private var unnamedCount = 0
 
-  private val genericElementName = "etherencap"
+  private val genericElementName = "Discard"
 
   private def increment {
     unnamedCount += 1
   }
 
-  def getBuilder(name: String): EtherEncapElementBuilder = {
-    increment ; new EtherEncapElementBuilder(name, "EtherEncap")
+  def getBuilder(name: String): DiscardElementBuilder = {
+    increment ; new DiscardElementBuilder(name, "Discard")
   }
 
-  def getBuilder: EtherEncapElementBuilder =
+  def getBuilder: DiscardElementBuilder =
     getBuilder(s"$genericElementName-$unnamedCount")
 }
