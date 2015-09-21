@@ -1,10 +1,11 @@
-1_client:if2_out:0 -> 2_ap:if1_in:0
-2_ap:if1_out:0 -> 1_client:if2_in:0
+a_client:ifb_out:0 -> b_ap:ifa_in:0
+b_ap:ifa_out:0 -> a_client:ifb_in:0
 
-2_ap:if2_out:0 -> 3_router:if1_in:0
-3_router:if1_out:0 -> 2_ap:if2_in:0
+b_ap:ifb_out:0 -> c_router:ifa_in:0
+c_router:ifa_out:0 -> b_ap:ifb_in:0
 
-3_router:if2_out:0 -> 5_exit_router:if1_in:0
+c_router:ifb_out:0 -> e_exit_router:ifa_in:0
+e_exit_router:ifa_out:0 -> c_router:ifb_in:0
 
-3_router:if3_out:0 -> 4_middlebox:if1_in:0
-4_middlebox:if1_out:0 -> 3_router:if3_in:0
+c_router:ifc_out:0 -> d_middlebox:ifa_in:0
+d_middlebox:ifa_out:0 -> c_router:ifc_in:0
