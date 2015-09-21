@@ -32,7 +32,7 @@ range   : NUMBER '-' NUMBER ;
 NUMBER  : [0-9]+ ;
 CLIENT  : 'client' ;
 INTERNET    : 'internet' ;
-ID      : [a-zA-Z\-_]+ ;
+ID      : [0-9a-zA-Z\-_]+ ;
 
 ARROW   : '->' ;
 

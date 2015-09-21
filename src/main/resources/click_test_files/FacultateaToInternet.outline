@@ -1,2 +1,0 @@
-Host -> Encap VLAN 304 -> ether switch lab -> ether switch agregare ->
-ASA: VLAN Decap -> Filtering (după access groups) -> Routing -> Gateway (Switch Central) -> Internet
