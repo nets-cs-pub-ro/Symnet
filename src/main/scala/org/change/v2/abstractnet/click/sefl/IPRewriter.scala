@@ -4,7 +4,7 @@ import org.change.v2.abstractnet.generic.{ConfigParameter, ElementBuilder, Gener
 import org.change.v2.analysis.expression.concrete.{SymbolicValue, ConstantValue}
 import org.change.v2.analysis.expression.concrete.nonprimitive.{Address, :@, Symbol}
 import org.change.v2.analysis.memory.TagExp
-import org.change.v2.analysis.processingmodels.Instruction
+import org.change.v2.analysis.processingmodels.{LocationId, Instruction}
 import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.util.regexes._
 import org.change.v2.util.canonicalnames._
@@ -105,7 +105,7 @@ class IPRewriter(name: String,
     InstructionBlock(
       fwMapping,
 
-      //bkMapping,
+      bkMapping,
 
       AssignRaw(IPSrc, Symbol(s"$name-$whichRule-apply-sa")),
       AssignRaw(IPDst, Symbol(s"$name-$whichRule-apply-da")),
@@ -163,7 +163,6 @@ class IPRewriter(name: String,
       else
         looper(which + 1)
 
-
       val i =
         If(ConstrainRaw(IPSrc, :==:(Symbol(s"$name-$which-check-sa"))),
           If(ConstrainRaw(IPDst, :==:(Symbol(s"$name-$which-check-da"))),
@@ -216,13 +215,22 @@ class IPRewriter(name: String,
 
   private val iCache: scala.collection.mutable.Map[String, Instruction] = scala.collection.mutable.Map()
 
-  for (
+  private def buildRewriter(): Unit = for (
     (cp, i) <- configParams.zipWithIndex
   ) {
     iCache += (inputPortName(i) -> buildFullIntructions(cp.value, i))
   }
 
-  override val instructions = iCache.toMap
+  private var iCacheMap: Map[LocationId, Instruction] = _
+
+  override val instructions = {
+    if (iCache.isEmpty) {
+      buildRewriter()
+      iCacheMap = iCache.toMap
+    }
+
+    iCacheMap
+  }
 
   override def outputPortName(which: Int): String = s"$name-out-$which"
   override def inputPortName(which: Int): String = s"$name-in-$which"
