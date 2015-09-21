@@ -8,7 +8,7 @@ pn_LABS_CS :: Paint(5);
 
 isTCP1 :: IPClassifier(tcp, udp,-);
 
-main_input[0] -> main_tee[0] -> [0]in_LABS_CS -> pn_LABS_CS;
+main_input[0] -> VLANDecap() -> main_tee[0] -> [0]in_LABS_CS -> pn_LABS_CS;
                                                  pn_LABS_CS -> isTCP1;
 
 nat_cl_LABS_CS :: IPClassifier(src net 172.16.4.0/10,-);
