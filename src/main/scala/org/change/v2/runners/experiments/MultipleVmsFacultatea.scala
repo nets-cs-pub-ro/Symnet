@@ -25,7 +25,7 @@ object MultipleVmsFacultatea {
 
     val ctx = ClickExecutionContext.buildAggregated(
       clicks.map(ClickToAbstractNetwork.buildConfig(_, prefixedElements = true)),
-      Nil,//InterClickLinksParser.parseLinks("src/main/resources/click_test_files/facultatea/links.links"),
+      InterClickLinksParser.parseLinks("src/main/resources/facultatea/links.links"),
       verificationConditions = Nil, //RuleSetBuilder.buildRuleSetFromFile("src/main/resources/click_test_files/facultatea/rules.rules"),
       startElems = Some(StartPointParser.parseStarts(
         "src/main/resources/facultatea/start.start"
