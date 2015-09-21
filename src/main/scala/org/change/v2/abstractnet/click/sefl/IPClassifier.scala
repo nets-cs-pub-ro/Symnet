@@ -28,6 +28,8 @@ class IPClassifier(name: String,
    * @return
    */
   private def conditionToConstraint(condition: String): Instruction = condition match {
+    case IPClassifier.color(v) => ConstrainNamedSymbol(Paint.COLOR, :==:(ConstantValue(v.toInt)))
+
     case IPClassifier.ipProto(v) => ConstrainRaw(IPVersion, :==:(ConstantValue(v.toInt)))
 
     case IPClassifier.srcHostAddr(ip) => ConstrainRaw(IPSrc, :==:(ConstantValue(ipToNumber(ip))))
@@ -131,6 +133,8 @@ class IPClassifierElementBuilder(name: String)
 object IPClassifier {
   // Supported condition formats.
   val conditionSeparator = """\s+(and|&&)\s+"""
+
+  val color = ("paint color (" + number + ")").r
 
   val ipProto = ("ip proto (" + number + ")").r
 

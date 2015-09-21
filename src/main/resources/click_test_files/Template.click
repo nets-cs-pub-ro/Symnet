@@ -25,4 +25,12 @@ dest_cl :: IPClassifier(dst net 172.16.4.254/10,-);
 
 global_nat[2]->[0]dest_cl;
 
+ps_LABS_CS :: IPClassifier(paint color 5, -);
+
+dest_cl[0] -> ps_LABS_CS;
+            ps_LABS_CS[0]->[0]Discard;
+            ps_LABS_CS[1]->[0]Discard;
+
+dest_cl[1] -> [0]Discard;
+
 main_tee[1] -> ToDevice()

@@ -27,12 +27,12 @@ class Paint(name: String,
     (inputPortName(0), if (configParams.length == 2)
       InstructionBlock(
         // If the optional ANNO param is present, then we assign this symbol too
-        AssignNamedSymbol("COLOR", ConstantValue(configParams(0).value.toInt)),
-        AssignNamedSymbol("ANNO", ConstantValue(configParams(1).value.toInt)),
+        AssignNamedSymbol(Paint.COLOR, ConstantValue(configParams(0).value.toInt)),
+        AssignNamedSymbol(Paint.ANNO, ConstantValue(configParams(1).value.toInt)),
         Forward(outputPortName(0))
       ) else InstructionBlock(
       // If only the COLOR param is present, then no ANNO assignment.
-      AssignNamedSymbol("COLOR", ConstantValue(configParams(0).value.toInt)),
+      AssignNamedSymbol(Paint.COLOR, ConstantValue(configParams(0).value.toInt)),
       Forward(outputPortName(0))
     ))
   )
@@ -55,6 +55,9 @@ class PaintBuilder(name: String)
 }
 
 object Paint {
+
+  val COLOR = "COLOR"
+  val ANNO = "ANNO"
 
   private var unnamedCount = 0
 
