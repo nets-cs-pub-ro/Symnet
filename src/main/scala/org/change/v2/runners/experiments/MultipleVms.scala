@@ -34,7 +34,7 @@ object MultipleVms {
 
     var crtExecutor = ctx
     while(! crtExecutor.isDone) {
-      crtExecutor = crtExecutor.execute()
+      crtExecutor = crtExecutor.execute(verbose=true)
     }
 
     println(crtExecutor.stringifyStates())
