@@ -1,1 +1,1 @@
-reach from client -> 1_client:if1_in src 192.168.0.1 -> 5_exit_router:if1_in -> internet .
+reach from 1_client:if1_in src 192.168.0.1 -> 5_exit_router:if1_in -> internet .
