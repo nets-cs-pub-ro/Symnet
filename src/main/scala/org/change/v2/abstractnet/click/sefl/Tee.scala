@@ -39,13 +39,12 @@ class Tee(name: String,
       )
     )
   )
+
+  override def outputPortName(which: Int): String = s"$getName-out-$which"
 }
 
 class TeeElementBuilder(name: String, elementType: String)
   extends ElementBuilder(name, elementType) {
-
-  addInputPort(Port())
-  addOutputPort(Port())
 
   override def buildElement: GenericElement = {
     new Tee(name, elementType, getInputPorts, getOutputPorts, getConfigParameters)
