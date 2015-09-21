@@ -31,7 +31,7 @@ case class Value(e: Expression, eType: NumericType = LongType, cts: List[Constra
   def constrain(c: Constraint): Value = Value(e, eType, c :: cts)
 
   override def toString = s"Value {\n" +
-    s"Exprssion: $e\n" +
+    s"Expression: $e\n" +
     s"Type: $eType\n" +
     s"Constraints:\n\t ${cts.mkString("\n")}\n} End Of Value Desc\n"
 }
