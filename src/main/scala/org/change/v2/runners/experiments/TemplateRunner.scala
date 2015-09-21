@@ -1,5 +1,7 @@
 package org.change.v2.runners.experiments
 
+import java.io.{File, FileOutputStream, PrintStream}
+
 import org.change.parser.clickfile.ClickToAbstractNetwork
 import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
 
@@ -19,6 +21,9 @@ object TemplateRunner {
       crtExecutor = crtExecutor.execute(verbose = true)
     }
 
-    println(crtExecutor.stringifyStates())
+    val output = new PrintStream(new FileOutputStream(new File("template.output")))
+    output.println(crtExecutor.stringifyStates())
+    output.close()
+    println("Done")
   }
 }
