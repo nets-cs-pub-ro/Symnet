@@ -22,5 +22,3 @@ nat_cl_LABS_CS[0] -> [1]global_nat;
 nat_cl_LABS_CS[1] -> [2]global_nat;
 
 main_tee[1] -> ToDevice()
-
-
