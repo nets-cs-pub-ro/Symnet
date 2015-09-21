@@ -22,6 +22,8 @@ object MultipleVms {
       override def accept(dir: File, name: String): Boolean = name.endsWith(".click")
     }).sorted.map(clicksFolder.getPath + File.separatorChar + _)
 
+    val startOfBuild = System.currentTimeMillis()
+
     val ctx = ClickExecutionContext.buildAggregated(
       clicks.map(ClickToAbstractNetwork.buildConfig(_, prefixedElements = true)),
       InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/mul_vm_playground/links.links"),
@@ -31,6 +33,8 @@ object MultipleVms {
       ))
     )
 
+    val startOfExec = System.currentTimeMillis()
+
     var crtExecutor = ctx
     var steps = 0
     while(! crtExecutor.isDone && steps < 100) {
@@ -38,10 +42,12 @@ object MultipleVms {
       crtExecutor = crtExecutor.execute(verbose=true)
     }
 
+    val doneExec = System.currentTimeMillis()
+
     val output = new PrintStream(new FileOutputStream(new File("mc.output")))
     output.println(crtExecutor.stringifyStates())
     output.close()
-    println("Done")
+    println(s"Done, se spent ${startOfExec - startOfBuild} of code generation and ${doneExec - startOfExec} of execution.")
   }
 
 }
