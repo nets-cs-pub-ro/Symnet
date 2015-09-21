@@ -16,6 +16,8 @@ case class GenericElement(
                    outputPorts: List[Port] = Nil,
                    configParameters: List[ConfigParameter] = Nil) {
 
+  def getName = name
+
   def inputPortCount = inputPorts.length
   def outputPortCount = outputPorts.length
 

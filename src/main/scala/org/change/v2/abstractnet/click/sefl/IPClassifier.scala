@@ -134,7 +134,7 @@ class IPClassifier(name: String,
     }
   }
 
-  override def outputPortName(which: Int): String = s"$name-out-$which"
+  override def outputPortName(which: Int): String = s"$getName-out-$which"
 
 }
 
@@ -147,10 +147,6 @@ class IPClassifierElementBuilder(name: String)
     new IPClassifier(name, getInputPorts, getOutputPorts, getConfigParameters)
   }
 
-  override def handleConfigParameter(paramString: String): ElementBuilder = {
-    super.handleConfigParameter(paramString)
-    addOutputPort(Port(Some(paramString)))
-  }
 }
 
 object IPClassifier {
