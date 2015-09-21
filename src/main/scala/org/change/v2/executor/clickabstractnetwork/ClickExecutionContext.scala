@@ -71,7 +71,10 @@ class ClickExecutionContext(
 
   // TODO: MOve this elsewhere, and allow some sort of customization.
   private def verboselyStringifyStatesWithExample(ss: List[State]): String = ss.zipWithIndex.map( si =>
-    "State #" + si._2 + "\n\n" + si._1.instructionHistory.reverse.mkString("\n") + "\n\n" + si._1.memory.verboseToString)
+    "State #" + si._2 + "\n\n" +
+      si._1.history.reverse.mkString("\n") +
+      si._1.instructionHistory.reverse.mkString("\n") + "\n\n" +
+      si._1.memory.verboseToString)
     .mkString("\n")
 
   def stringifyStates(includeOk: Boolean = true, includeStuck: Boolean = true, includeFailed: Boolean= true) = {
