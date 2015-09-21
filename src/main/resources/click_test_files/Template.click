@@ -21,4 +21,8 @@ global_nat :: IPRewriter(keep 0 1, pattern 141.85.225.204 60000-65535 - - 2 3, k
 nat_cl_LABS_CS[0] -> [1]global_nat;
 nat_cl_LABS_CS[1] -> [2]global_nat;
 
+dest_cl :: IPClassifier(dst net 172.16.4.254/10,-);
+
+global_nat[2]->[0]dest_cl;
+
 main_tee[1] -> ToDevice()
