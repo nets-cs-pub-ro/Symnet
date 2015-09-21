@@ -4,8 +4,10 @@ import java.io.{FilenameFilter, File}
 
 import org.change.parser.clickfile.ClickToAbstractNetwork
 import org.change.parser.interclicklinks.InterClickLinksParser
+import org.change.parser.startpoints.StartPointParser
 import org.change.symbolicexec.verification.RuleSetBuilder
 import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
+import org.change.parser.startpoints.StartPointParser
 
 /**
  * Author: Radu Stoenescu
@@ -23,7 +25,11 @@ object MultipleVms {
     val ctx = ClickExecutionContext.buildAggregated(
       clicks.map(ClickToAbstractNetwork.buildConfig(_, prefixedElements = true)),
       InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/mul_vm_playground/links.links"),
-      RuleSetBuilder.buildRuleSetFromFile("src/main/resources/click_test_files/multiple_files/mul_vm_playground/rules.rules")
+      verificationConditions = Nil,
+      //,RuleSetBuilder.buildRuleSetFromFile("src/main/resources/click_test_files/multiple_files/mul_vm_playground/rules.rules"),
+      startElems = Some(StartPointParser.parseStarts(
+        "src/main/resources/click_test_files/multiple_files/mul_vm_playground/start.start"
+      ))
     )
 
     var crtExecutor = ctx

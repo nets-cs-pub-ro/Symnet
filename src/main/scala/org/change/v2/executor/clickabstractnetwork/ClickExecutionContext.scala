@@ -148,7 +148,8 @@ object ClickExecutionContext {
   def buildAggregated(
             configs: Iterable[NetworkConfig],
             interClickLinks: Iterable[(String, String, Int, String, String, Int)],
-            verificationConditions: List[List[Rule]] = Nil): ClickExecutionContext = {
+            verificationConditions: List[List[Rule]] = Nil,
+            startElems: Option[Iterable[(String, String, Int)]] = None): ClickExecutionContext = {
     // Create a context for every network config.
     val ctxes = configs.map(ClickExecutionContext.fromSingle(_, includeBigBang = false))
     // Keep the configs for name resolution.
@@ -164,12 +165,18 @@ object ClickExecutionContext {
       val elementName = r.where.vm + "-" + r.where.element
       configMap(r.where.vm).elements(elementName).outputPortName(r.where.port) -> InstructionBlock(r.whatTraffic)
     }).toMap
+    // Create initial states
+    val startStates = startElems match {
+      case Some(initialPoints) => initialPoints.map(ip =>
+        State.bigBang.forwardTo(configMap(ip._1).elements(ip._1 + "-" + ip._2).inputPortName(ip._3)))
+      case None => List(State.bigBang.forwardTo(configs.head.entryLocationId))
+    }
     // Build the unified execution context.
     ctxes.foldLeft(new ClickExecutionContext(
       Map.empty,
       links,
       // TODO: Should be configurable
-      List(State.bigBang.forwardTo(configs.head.entryLocationId)),
+      startStates.toList,
       Nil,
       Nil,
       checkInstructions
