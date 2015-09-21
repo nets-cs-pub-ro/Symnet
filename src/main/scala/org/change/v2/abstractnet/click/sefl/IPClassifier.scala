@@ -21,27 +21,6 @@ class IPClassifier(name: String,
 
   val lastIndex = configParams.length - 1
 
-  // Supported condition formats.
-  val conditionSeparator = """\s+(and|&&)\s+"""
-
-  val ipProto = ("ip proto (" + number + ")").r
-
-  val srcHostAddr = ("src host (" + ipv4 + ")").r
-  val srcNetAddr = ("src net (" + ipv4 + ")/(" + number + ")").r
-  val srcNetExplicitAddr = ("src net (" + ipv4 + ") mask (" + ipv4 + ")").r
-
-  val dstHostAddr = ("dst host (" + ipv4 + ")").r
-  val dstNetAddr = ("dst net (" + ipv4 + ")/(" + number + ")").r
-  val dstNetExplicitAddr = ("dst net (" + ipv4 + ") mask (" + ipv4 + ")").r
-
-  val srcPort = ("src (tcp|udp) port (" + number + ")").r
-  val dstPort = ("dst (tcp|udp) port (" + number + ")").r
-
-  val etherSrc = ("ether src (" + macCisco +")").r
-  val etherDst = ("ether dst (" + macCisco +")").r
-
-  val tcp = "tcp".r
-  val udp = "udp".r
 
   /**
    * The method takes an atomic tcpdump condition and creates it's associated constraint.
@@ -49,41 +28,38 @@ class IPClassifier(name: String,
    * @return
    */
   private def conditionToConstraint(condition: String): Instruction = condition match {
-    case ipProto(v) => ConstrainRaw(IPVersion, :==:(ConstantValue(v.toInt)))
+    case IPClassifier.ipProto(v) => ConstrainRaw(IPVersion, :==:(ConstantValue(v.toInt)))
 
-    case srcHostAddr(ip) => ConstrainRaw(IPSrc, :==:(ConstantValue(ipToNumber(ip))))
-    case dstHostAddr(ip) => ConstrainRaw(IPDst, :==:(ConstantValue(ipToNumber(ip))))
+    case IPClassifier.srcHostAddr(ip) => ConstrainRaw(IPSrc, :==:(ConstantValue(ipToNumber(ip))))
+    case IPClassifier.dstHostAddr(ip) => ConstrainRaw(IPDst, :==:(ConstantValue(ipToNumber(ip))))
 
-    case etherSrc(macSrc) => ConstrainRaw(EtherSrc, :==:(ConstantValue(macToNumberCiscoFormat(macSrc))))
-    case etherDst(macDst) => ConstrainRaw(EtherDst, :==:(ConstantValue(macToNumberCiscoFormat(macDst))))
+    case IPClassifier.etherSrc(macSrc) => ConstrainRaw(EtherSrc, :==:(ConstantValue(macToNumberCiscoFormat(macSrc))))
+    case IPClassifier.etherDst(macDst) => ConstrainRaw(EtherDst, :==:(ConstantValue(macToNumberCiscoFormat(macDst))))
 
-    case dstNetAddr(ip, mask) => {
+    case IPClassifier.dstNetAddr(ip, mask) => {
       val (lower, upper) = ipAndMaskToInterval(ip, mask)
       ConstrainRaw(IPDst, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
-    case dstNetExplicitAddr(ip, mask) => {
+    case IPClassifier.dstNetExplicitAddr(ip, mask) => {
       val (lower, upper) = ipAndExplicitMaskToInterval(ip, mask)
       ConstrainRaw(IPDst, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
-    case srcNetAddr(ip, mask) => {
+    case IPClassifier.srcNetAddr(ip, mask) => {
       val (lower, upper) = ipAndMaskToInterval(ip, mask)
       ConstrainRaw(IPSrc, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
-    case srcNetExplicitAddr(ip, mask) => {
+    case IPClassifier.srcNetExplicitAddr(ip, mask) => {
       val (lower, upper) = ipAndExplicitMaskToInterval(ip, mask)
       ConstrainRaw(IPSrc, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
 
-    case srcPort(port) => ConstrainRaw(TcpSrc, :==:(ConstantValue(port.toInt)))
-    case dstPort(port) => ConstrainRaw(TcpDst, :==:(ConstantValue(port.toInt)))
+    case IPClassifier.srcPort(port) => ConstrainRaw(TcpSrc, :==:(ConstantValue(port.toInt)))
+    case IPClassifier.dstPort(port) => ConstrainRaw(TcpDst, :==:(ConstantValue(port.toInt)))
 
-    case tcp() => ConstrainRaw(Proto, :==:(ConstantValue(TCPProto)))
-    case udp() => ConstrainRaw(Proto, :==:(ConstantValue(UDPProto)))
+    case IPClassifier.tcp() => ConstrainRaw(Proto, :==:(ConstantValue(TCPProto)))
+    case IPClassifier.udp() => ConstrainRaw(Proto, :==:(ConstantValue(UDPProto)))
 
   }
-
-  val any = """\s*(true|\-)\s*""".r
-  val none = """\s*false\s*""".r
 
   val portToInstr = scala.collection.mutable.Map[Int, Instruction]()
 
@@ -91,18 +67,23 @@ class IPClassifier(name: String,
    * The construction of instructions from config params works backwards since the i-th
    * if needs the i+1-th if as its the else branch.
    */
-  for {
+  private def buildClassifier(): Unit = for {
     (p,i) <- configParams.zipWithIndex.reverse
   } {
     portToInstr += ((i, paramsToInstructionBlock(p.value,i)))
   }
 
-  override def instructions: Map[LocationId, Instruction] = Map( inputPortName(0) -> portToInstr(0) )
+  override def instructions: Map[LocationId, Instruction] = {
+    // Build it first
+    if (portToInstr.isEmpty) buildClassifier() else ()
+    // Return it later
+    Map( inputPortName(0) -> portToInstr(0) )
+  }
 
   def paramsToInstructionBlock(param: String, whichOne: Int): Instruction = param match {
-    case any(_) => Forward(outputPortName(whichOne))
+    case IPClassifier.any(_) => Forward(outputPortName(whichOne))
 
-    case none() => if (whichOne < lastIndex)
+    case IPClassifier.none() => if (whichOne < lastIndex)
 //      If the none/false condition is found, then nothing is processed here, the next instruction
 //      gets executed instead.
       portToInstr(whichOne + 1)
@@ -112,7 +93,7 @@ class IPClassifier(name: String,
 
 //      Conversion of tcpdump rules
     case _ => {
-      val conditions = param.split(conditionSeparator).toList
+      val conditions = param.split(IPClassifier.conditionSeparator).toList
 
       def conditionsToInstruction(conds: List[String]): Instruction = {
         val cond = conds.head
@@ -135,7 +116,6 @@ class IPClassifier(name: String,
   }
 
   override def outputPortName(which: Int): String = s"$getName-out-$which"
-
 }
 
 class IPClassifierElementBuilder(name: String)
@@ -146,10 +126,33 @@ class IPClassifierElementBuilder(name: String)
   override def buildElement: GenericElement = {
     new IPClassifier(name, getInputPorts, getOutputPorts, getConfigParameters)
   }
-
 }
 
 object IPClassifier {
+  // Supported condition formats.
+  val conditionSeparator = """\s+(and|&&)\s+"""
+
+  val ipProto = ("ip proto (" + number + ")").r
+
+  val srcHostAddr = ("src host (" + ipv4 + ")").r
+  val srcNetAddr = ("src net (" + ipv4 + ")/(" + number + ")").r
+  val srcNetExplicitAddr = ("src net (" + ipv4 + ") mask (" + ipv4 + ")").r
+
+  val dstHostAddr = ("dst host (" + ipv4 + ")").r
+  val dstNetAddr = ("dst net (" + ipv4 + ")/(" + number + ")").r
+  val dstNetExplicitAddr = ("dst net (" + ipv4 + ") mask (" + ipv4 + ")").r
+
+  val srcPort = ("src (tcp|udp) port (" + number + ")").r
+  val dstPort = ("dst (tcp|udp) port (" + number + ")").r
+
+  val etherSrc = ("ether src (" + macCisco +")").r
+  val etherDst = ("ether dst (" + macCisco +")").r
+
+  val tcp = "tcp".r
+  val udp = "udp".r
+
+  val any = """\s*(true|\-)\s*""".r
+  val none = """\s*false\s*""".r
 
   val failErrorMessage = "No other alternative output port remaining."
 
