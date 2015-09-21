@@ -83,11 +83,11 @@ class ClickExecutionContext(
     else
       "") +
     (if (includeStuck)
-      s"Stuck states (${stuckStates.length}):\n" + verboselyStringifyStates(stuckStates)
+      s"\nStuck states (${stuckStates.length}):\n" + verboselyStringifyStates(stuckStates)
     else
       "") +
     (if (includeFailed)
-      s"Failed states (${failedStates.length}): \n" + verboselyStringifyStates(failedStates)
+      s"\nFailed states (${failedStates.length}): \n" + verboselyStringifyStates(failedStates)
     else
       "")
   }

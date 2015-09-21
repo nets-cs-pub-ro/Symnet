@@ -1,1 +1,1 @@
-FromDevice() -> EtherEncap
+FromDevice() -> ToDevice()

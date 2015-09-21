@@ -55,8 +55,8 @@ class IPClassifier(name: String,
       ConstrainRaw(IPSrc, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper))))
     }
 
-    case IPClassifier.srcPort(port) => ConstrainRaw(TcpSrc, :==:(ConstantValue(port.toInt)))
-    case IPClassifier.dstPort(port) => ConstrainRaw(TcpDst, :==:(ConstantValue(port.toInt)))
+    case IPClassifier.srcPort(_, port) => ConstrainRaw(TcpSrc, :==:(ConstantValue(port.toInt)))
+    case IPClassifier.dstPort(_, port) => ConstrainRaw(TcpDst, :==:(ConstantValue(port.toInt)))
 
     case IPClassifier.tcp() => ConstrainRaw(Proto, :==:(ConstantValue(TCPProto)))
     case IPClassifier.udp() => ConstrainRaw(Proto, :==:(ConstantValue(UDPProto)))

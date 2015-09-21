@@ -22,7 +22,7 @@ class Discard(name: String,
     configParams) {
 
   override def instructions: Map[LocationId, Instruction] = Map(
-    inputPortName(0) -> Fail("unexpected packet dropped")
+    inputPortName(0) -> Fail("Unexpected packet dropped @ " + getName)
   )
 }
 
