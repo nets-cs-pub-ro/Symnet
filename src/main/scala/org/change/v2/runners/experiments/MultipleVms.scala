@@ -1,6 +1,6 @@
 package org.change.v2.runners.experiments
 
-import java.io.{FilenameFilter, File}
+import java.io.{FileOutputStream, PrintStream, FilenameFilter, File}
 
 import org.change.parser.clickfile.ClickToAbstractNetwork
 import org.change.parser.interclicklinks.InterClickLinksParser
@@ -39,7 +39,10 @@ object MultipleVms {
       crtExecutor = crtExecutor.execute(verbose=true)
     }
 
-    println(crtExecutor.stringifyStates())
+    val output = new PrintStream(new FileOutputStream(new File("mc.output")))
+    output.println(crtExecutor.stringifyStates())
+    output.close()
+    println("Done")
   }
 
 }
