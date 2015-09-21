@@ -1,5 +1,5 @@
 
-bal_nat :: IPRewriter(keep 0 1, pattern 141.85.225.204 60000-65535 - - 2 3, keep 2 4);
+global_nat :: IPRewriter(keep 0 1, pattern 141.85.225.204 60000-65535 - - 2 3, keep 2 4);
 
 dest_cl :: IPClassifier(dst net 172.16.4.254/10,-);
 
