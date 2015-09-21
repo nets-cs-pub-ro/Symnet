@@ -248,7 +248,7 @@ object IPRewriter {
   val passPattern = ("pass (" + number+ ")").r
   val keepPattern = ("keep (" + number+ ") (" + number+ ")").r
   val addrPattern = ipv4+ "|-"
-  val portPattern = number + "|" + number + "-" + number + "|-"
+  val portPattern = number + "\\s*-\\s*" + number + "|-|" + number
   val rewritePattern = ("pattern (" + addrPattern + ") (" + portPattern + ") (" + addrPattern + ") (" +
     portPattern + ") (" + number + ") (" + number + ")").r
 
