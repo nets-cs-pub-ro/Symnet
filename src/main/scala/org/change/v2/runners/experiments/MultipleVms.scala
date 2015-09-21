@@ -25,8 +25,7 @@ object MultipleVms {
     val ctx = ClickExecutionContext.buildAggregated(
       clicks.map(ClickToAbstractNetwork.buildConfig(_, prefixedElements = true)),
       InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/mul_vm_playground/links.links"),
-      verificationConditions = Nil,
-      //,RuleSetBuilder.buildRuleSetFromFile("src/main/resources/click_test_files/multiple_files/mul_vm_playground/rules.rules"),
+      verificationConditions = RuleSetBuilder.buildRuleSetFromFile("src/main/resources/click_test_files/multiple_files/mul_vm_playground/rules.rules"),
       startElems = Some(StartPointParser.parseStarts(
         "src/main/resources/click_test_files/multiple_files/mul_vm_playground/start.start"
       ))

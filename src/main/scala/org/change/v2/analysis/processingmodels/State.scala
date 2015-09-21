@@ -30,13 +30,6 @@ object State {
    val bigBang = State(MemorySpace.clean)
 
    val afterBigBang = InstructionBlock (
-     Assign(IPSrcString, SymbolicValue()),
-     Assign(IPDstString, SymbolicValue()),
-     Assign(PortSrcString, SymbolicValue()),
-     Assign(PortDstString, SymbolicValue()),
-     Assign(L4ProtoString, SymbolicValue()),
-     Assign(IPVersionString, SymbolicValue()),
-
      CreateTag("START",0),
      CreateTag("L3", 0),
 

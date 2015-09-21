@@ -1,1 +1,1 @@
-reach from a_client:ifa_in src 192.168.0.1 -> e_exit_router:ifa_in .
+reach from client -> a_client:ifa_in src 192.168.0.1 -> e_exit_router:ifa_in -> internet .
