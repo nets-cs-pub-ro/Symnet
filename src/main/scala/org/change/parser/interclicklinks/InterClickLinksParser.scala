@@ -9,7 +9,7 @@ import org.change.v2.abstractnet.generic._
  */
 object InterClickLinksParser {
 
-  val linkRegex = """(\w+):(\w+):(\d+)\s*->\s*(\w+):(\w+):(\d+)""".r
+  val linkRegex = """\s*(\w+):(\w+):(\d+)\s*->\s*(\w+):(\w+):(\d+)\s*""".r
 
   def parseLinks(file: String): Iterable[(String, String, Int, String, String, Int)] = {
     val links = Source.fromFile(file).getLines().map(link => link match {

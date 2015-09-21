@@ -33,7 +33,9 @@ object MultipleVms {
     )
 
     var crtExecutor = ctx
-    while(! crtExecutor.isDone) {
+    var steps = 0
+    while(! crtExecutor.isDone && steps < 100) {
+      steps += 1
       crtExecutor = crtExecutor.execute(verbose=true)
     }
 
