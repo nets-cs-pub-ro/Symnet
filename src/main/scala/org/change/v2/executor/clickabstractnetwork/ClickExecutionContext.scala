@@ -36,6 +36,8 @@ class ClickExecutionContext(
 
   def isDone: Boolean = okStates.isEmpty
 
+  def untilDone(verbose: Boolean): ClickExecutionContext = if (isDone) this else this.execute(verbose).untilDone(verbose)
+
   def execute(verbose: Boolean = false): ClickExecutionContext = {
     val (ok, fail, stuck) = (for {
       sPrime <- okStates

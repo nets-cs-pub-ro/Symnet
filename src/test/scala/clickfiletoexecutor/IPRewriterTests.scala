@@ -22,7 +22,7 @@ class IPRewriterTests extends FlatSpec with Matchers {
       crtExecutor = crtExecutor.execute()
     }
 
-    crtExecutor.stuckStates should have length (1)
+    crtExecutor.stuckStates should have length 1
 
     val replayExecutor = new ClickExecutionContext(
       crtExecutor.instructions,
