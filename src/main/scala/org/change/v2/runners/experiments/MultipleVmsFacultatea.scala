@@ -44,9 +44,9 @@ object MultipleVmsFacultatea {
     val doneExec = System.currentTimeMillis()
 
     val output = new PrintStream(new FileOutputStream(new File("facultatea.output")))
-    output.println(crtExecutor.stringifyStates())
+    output.println(crtExecutor.verboselyStringifyStates())
     output.close()
-    println(s"Done, se spent ${startOfExec - startOfBuild} of code generation and ${doneExec - startOfExec} of execution.")
+    println(s"Done, we spent ${startOfExec - startOfBuild} of code generation and ${doneExec - startOfExec} of execution.")
   }
 
 }

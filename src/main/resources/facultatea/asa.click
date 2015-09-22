@@ -17,7 +17,7 @@ isTCP1[0] -> nat_cl_LABS_CS;
 isTCP1[1] -> nat_cl_LABS_CS;
 isTCP1[2] -> dest_cl;
 
-global_nat :: IPRewriter(keep 0 1, pattern 141.85.225.204 60000-65535 - - 2 3, keep 2 4);
+    global_nat :: IPRewriter(keep 0 1, pattern 141.85.225.204 60000-65535 - - 2 3, keep 2 4);
 
 nat_cl_LABS_CS[0] -> [1]global_nat;
 nat_cl_LABS_CS[1] -> [2]global_nat;
