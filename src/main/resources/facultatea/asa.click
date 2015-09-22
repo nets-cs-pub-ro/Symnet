@@ -8,7 +8,7 @@ pn_LABS_CS :: Paint(5);
 
 isTCP1 :: IPClassifier(tcp, udp,-);
 
-main_input[0] -> VLANDecap() -> main_tee[0] -> [0]in_LABS_CS -> pn_LABS_CS;
+main_input[0] -> VLANDecap() -> EtherDecap() -> main_tee[0] -> [0]in_LABS_CS -> pn_LABS_CS;
                                                  pn_LABS_CS -> isTCP1;
 
 nat_cl_LABS_CS :: IPClassifier(src net 172.16.4.0/10,-);
@@ -29,13 +29,13 @@ global_nat[2]->[0]dest_cl;
 ps_LABS_CS :: IPClassifier(paint color 5, -);
 
 dest_cl -> ps_LABS_CS;
-           ps_LABS_CS[1] -> [0]Discard;
+           ps_LABS_CS[1] -> Discard;
 
 out_LABS_CS :: Null;
 out_LABS_CS_EXIT :: Discard;
             ps_LABS_CS[0] -> out_LABS_CS -> out_LABS_CS_EXIT;
 
-dest_cl[1] -> [0]Discard;
+dest_cl[1] -> EtherEncap(2048, 0.0.1, 0023.ebbb.f14c) -> VLANEncap(225) -> to_internet :: ToDevice();
 
 main_tee[1] -> ToDevice()
 

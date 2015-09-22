@@ -1,3 +1,5 @@
-lab_host:host_out:0 -> lab_switch:src_100:0
-lab_switch:po4:0 -> big_switch:src_100:0
-big_switch:gi0_20:0 -> asa:main_input:0
+lab_host:host_out:0 -> lab_switch:src_304:0
+lab_switch:gi0_1:0 -> agg_switch:src_304:0
+agg_switch:gi0_2:0 -> central_switch:src_304:0
+central_switch:po4:0 -> asa:main_input:0
+asa:to_internet:0 -> central_switch:src_225:0

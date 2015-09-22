@@ -15,8 +15,6 @@ object IPRewriterAndBack {
 
   var crtExecutor = executor.untilDone(true)
 
-  crtExecutor.stuckStates should have length (1)
-
   val stuck = crtExecutor.stuckStates.head.forwardTo("src-in")
 
   crtExecutor = new ClickExecutionContext(
