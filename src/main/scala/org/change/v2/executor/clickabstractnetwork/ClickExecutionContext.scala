@@ -67,9 +67,7 @@ class ClickExecutionContext(
       )
   }
 
-  private def verboselyStringifyStates(ss: List[State]): String = ss.zipWithIndex.map( si =>
-    "State #" + si._2 + "\n\n" + si._1.instructionHistory.reverse.mkString("\n") + "\n\n" + si._1.toString)
-    .mkString("\n")
+
 
   // TODO: MOve this elsewhere, and allow some sort of customization.
   private def verboselyStringifyStatesWithExample(ss: List[State]): String = ss.zipWithIndex.map( si =>
@@ -81,15 +79,15 @@ class ClickExecutionContext(
 
   def stringifyStates(includeOk: Boolean = true, includeStuck: Boolean = true, includeFailed: Boolean= true) = {
     (if (includeOk)
-      s"Ok states (${okStates.length}):\n" + verboselyStringifyStates(okStates)
+      s"Ok states (${okStates.length}):\n" + ClickExecutionContext.verboselyStringifyStates(okStates)
     else
       "") +
     (if (includeStuck)
-      s"\nStuck states (${stuckStates.length}):\n" + verboselyStringifyStates(stuckStates)
+      s"\nStuck states (${stuckStates.length}):\n" + ClickExecutionContext.verboselyStringifyStates(stuckStates)
     else
       "") +
     (if (includeFailed)
-      s"\nFailed states (${failedStates.length}): \n" + verboselyStringifyStates(failedStates)
+      s"\nFailed states (${failedStates.length}): \n" + ClickExecutionContext.verboselyStringifyStates(failedStates)
     else
       "")
   }
@@ -120,6 +118,10 @@ class ClickExecutionContext(
 }
 
 object ClickExecutionContext {
+
+  def verboselyStringifyStates(ss: List[State]): String = ss.zipWithIndex.map( si =>
+    "State #" + si._2 + "\n\n" + si._1.instructionHistory.reverse.mkString("\n") + "\n\n" + si._1.toString)
+    .mkString("\n")
 
   /**
    * Builds a symbolic execution context out of a single click config file.

@@ -26,6 +26,9 @@ case class State(memory: MemorySpace = MemorySpace.clean,
 }
 
 object State {
+
+ def clean = State(MemorySpace.clean)
+
  def bigBang: State = {
    val bigBang = State(MemorySpace.clean)
 

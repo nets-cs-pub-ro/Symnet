@@ -4,6 +4,7 @@
 #
 # If a different version is preferred, the ScalaZ3 jar must be recomplied
 # against this jdk. You're on shaky ground there.
+sudo apt-get update
 sudo apt-get install -y python-software-properties
 sudo add-apt-repository -y ppa:openjdk-r/ppa
 sudo apt-get update

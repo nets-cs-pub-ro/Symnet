@@ -17,9 +17,9 @@ libraryDependencies ++= {
   )
 }
 
-lazy val interpret = taskKey[Unit]("Interpreting")
+lazy val sample = taskKey[Unit]("Interpreting")
 
-fullRunTask(interpret, Compile, "org.change.v2.runners.Run")
+fullRunTask(sample, Compile, "org.change.v2.runners.SEFLRunner")
 
 lazy val click = taskKey[Unit]("Symbolically running Template.click")
 
