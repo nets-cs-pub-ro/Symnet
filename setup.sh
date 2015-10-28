@@ -27,3 +27,4 @@ git clone https://github.com/radustoenescu/Symnetic.git
 # Build it and test the rig.
 cd Symnetic/
 sbt compile test
+sbt sample
