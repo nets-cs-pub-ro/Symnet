@@ -1,4 +1,4 @@
-[SymNet][symnet] v2
+SymNet v2
 =========
 
 Symbolic execution for middleboxes made easy and fast.
@@ -19,5 +19,3 @@ There is also a _Vagrantfile_ if you prefer this option. This also uses _setup.s
 ### SEFL sample
 
 See _src/main/scala/change/v2/runners/experiments/SEFLRunner.scala_ to start experimenting with SEFL. _sbt sample_ will run that code.
-
-[symnet]: http://nets.cs.pub.ro/~costin/files/symnet-techreport.pdf 
