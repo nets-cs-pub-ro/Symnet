@@ -36,7 +36,7 @@ class Template(name: String,
    */
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
-      AssignNamedSymbol("IPAddr", ConstantValue( ipToNumber( configParams(0).value ) )),
+      Assign("IPAddr", ConstantValue( ipToNumber( configParams(0).value ) )),
       Forward(outputPortName(0))
     )
   )
