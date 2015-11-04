@@ -17,9 +17,26 @@ class Template(name: String,
     outputPorts,
     configParams) {
 
+  /**
+   * Every Click element modeled in Symnet has an "instructions" map.
+   *
+   * This maps every input port (identified by a LocationId) to the instruction performed.
+   *
+   * Knowing the input port id, one can get its corresponding LocationId by calling "inputPortName()".
+   * The same holds true for output port names (used usually in conjuction with the "Forward instruction").
+   *
+   * Usually the sequence of instructions performed on a given input port ends with a "Forward". This
+   * ensures the state gets propagated further, otherwise it becomes stuck (there are no instructions
+   * to be executed).
+   *
+   * One can use the parameters provided in the Click file by issuing "configParams(id).value" where "id"
+   * is the 0-based index of the parameter. For instance: "ipToNumber( configParams(0).value )" assumes the
+   * first parameter of this click element is an IPv4 address and converts it to a long value.
+   * @return
+   */
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
-      AssignNamedSymbol("NoPlaceLike", ConstantValue( ipToNumber( configParams(0).value ) )),
+      AssignNamedSymbol("IPAddr", ConstantValue( ipToNumber( configParams(0).value ) )),
       Forward(outputPortName(0))
     )
   )
@@ -27,9 +44,6 @@ class Template(name: String,
 
 class TemplateElementBuilder(name: String, elementType: String)
   extends ElementBuilder(name, elementType) {
-
-  addInputPort(Port())
-  addOutputPort(Port())
 
   override def buildElement: GenericElement = {
     new Template(name, elementType, getInputPorts, getOutputPorts, getConfigParameters)

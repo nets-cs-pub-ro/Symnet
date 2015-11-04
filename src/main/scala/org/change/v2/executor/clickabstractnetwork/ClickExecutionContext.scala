@@ -128,12 +128,13 @@ object ClickExecutionContext {
    *
    * @param networkModel
    * @param verificationConditions
-   * @param includeBigBang
+   * @param includeInitial
    * @return
    */
   def fromSingle( networkModel: NetworkConfig,
                   verificationConditions: List[List[Rule]] = Nil,
-                  includeBigBang: Boolean = true): ClickExecutionContext = {
+                  includeInitial: Boolean = true,
+                  initialIsClean: Boolean = false): ClickExecutionContext = {
     // Collect instructions for every element.
     val instructions = networkModel.elements.values.foldLeft(Map[LocationId, Instruction]())(_ ++ _.instructions)
     // Collect check instructions corresponding to network rules.
@@ -147,7 +148,12 @@ object ClickExecutionContext {
       networkModel.elements(src._1).outputPortName(src._3) -> networkModel.elements(dst._1).inputPortName(dst._2)
     })).toMap
     // TODO: This should be configurable.
-    val initialStates = if (includeBigBang) List(State.bigBang.forwardTo(networkModel.entryLocationId)) else Nil
+    val initialStates = if (includeInitial) {
+      if (initialIsClean)
+        List(State.clean.forwardTo(networkModel.entryLocationId))
+      else
+        List(State.bigBang.forwardTo(networkModel.entryLocationId))
+    } else Nil
 
     new ClickExecutionContext(instructions, links, initialStates, Nil, Nil, checkInstructions)
   }
@@ -158,7 +164,7 @@ object ClickExecutionContext {
             verificationConditions: List[List[Rule]] = Nil,
             startElems: Option[Iterable[(String, String, Int)]] = None): ClickExecutionContext = {
     // Create a context for every network config.
-    val ctxes = configs.map(ClickExecutionContext.fromSingle(_, includeBigBang = false))
+    val ctxes = configs.map(ClickExecutionContext.fromSingle(_, includeInitial = false))
     // Keep the configs for name resolution.
     val configMap: Map[String, NetworkConfig] = configs.map(c => c.id.get -> c).toMap
     // Add forwarding links between click files.

@@ -14,16 +14,17 @@ object TemplateRunner {
   def main (args: Array[String]) {
     val clickConfig = "src/main/resources/click_test_files/Template.click"
     val absNet = ClickToAbstractNetwork.buildConfig(clickConfig)
-    val executor = ClickExecutionContext.fromSingle(absNet)
+    val executor = ClickExecutionContext.fromSingle(absNet, initialIsClean = true)
 
     var crtExecutor = executor
     while (!crtExecutor.isDone) {
       crtExecutor = crtExecutor.execute(verbose = true)
     }
 
-    val output = new PrintStream(new FileOutputStream(new File("template.output")))
+    val outputFileName = "template.output"
+    val output = new PrintStream(new FileOutputStream(new File(outputFileName)))
     output.println(crtExecutor.stringifyStates())
     output.close()
-    println("Done")
+    println("Done. Output @ " + outputFileName)
   }
 }
