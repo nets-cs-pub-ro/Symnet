@@ -2,6 +2,7 @@ package org.change.v2
 
 import org.change.v2.abstractnet.generic.{ConfigParameter, ElementBuilder, GenericElement, Port}
 import org.change.v2.analysis.expression.concrete.ConstantValue
+import org.change.v2.analysis.expression.concrete.nonprimitive.:@
 import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.analysis.processingmodels.{Instruction, LocationId}
 import org.change.v2.util.conversion.RepresentationConversion._
@@ -40,6 +41,7 @@ class Template(name: String,
       Forward(outputPortName(0))
     )
   )
+  override def outputPortName(which: Int = 0): String = s"$name-$which-out"
 }
 
 class TemplateElementBuilder(name: String, elementType: String)
