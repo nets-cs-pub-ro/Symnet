@@ -13,17 +13,14 @@ import org.change.v2.executor.clickabstractnetwork.verificator.PathLocation
  * An execution context is determined by the instructions it can execute and
  * a set of states that were explored.
  *
- * A port is an Int, that maps to an instruction.
- *
+ * A port is a String id, that maps to an instruction.
  */
-class ClickExecutionContext(
-                           val instructions: Map[LocationId, Instruction],
-                           val links: Map[LocationId, LocationId],
-                           val okStates: List[State],
-                           val failedStates: List[State],
-                           val stuckStates: List[State],
-                           val checkInstructions: Map[LocationId, Instruction] = Map.empty
-) {
+class ClickExecutionContext( val instructions: Map[LocationId, Instruction],
+                             val links: Map[LocationId, LocationId],
+                             val okStates: Seq[State],
+                             val failedStates: Seq[State],
+                             val stuckStates: Seq[State],
+                             val checkInstructions: Map[LocationId, Instruction] = Map.empty) {
 
   def +(that: ClickExecutionContext) = new ClickExecutionContext(
     this.instructions ++ that.instructions,
@@ -31,12 +28,11 @@ class ClickExecutionContext(
     this.okStates ++ that.okStates,
     this.failedStates ++ that.failedStates,
     this.stuckStates ++ that.stuckStates,
-    this.checkInstructions ++ that.checkInstructions
-  )
-
+    this.checkInstructions ++ that.checkInstructions)
+  
   def isDone: Boolean = okStates.isEmpty
 
-  def untilDone(verbose: Boolean): ClickExecutionContext = if (isDone) this else this.execute(verbose).untilDone(verbose)
+  def executeUntilDone(verbose: Boolean): ClickExecutionContext = if (isDone) this else this.execute(verbose).executeUntilDone(verbose)
 
   def execute(verbose: Boolean = false): ClickExecutionContext = {
     val (ok, fail, stuck) = (for {
@@ -58,19 +54,13 @@ class ClickExecutionContext(
           (Nil, Nil, List(s))
       }).unzip3
 
-      new ClickExecutionContext(instructions,
-        links,
-        ok.flatten,
-        failedStates ++ fail.flatten,
-        stuckStates ++ stuck.flatten,
-        checkInstructions
-      )
+      new ClickExecutionContext(instructions, links, ok.flatten, failedStates ++ fail.flatten, stuckStates ++ stuck.flatten, checkInstructions)
   }
 
 
 
   // TODO: MOve this elsewhere, and allow some sort of customization.
-  private def verboselyStringifyStatesWithExample(ss: List[State]): String = ss.zipWithIndex.map( si =>
+  private def verboselyStringifyStatesWithExample(ss: Seq[State]): String = ss.zipWithIndex.map( si =>
     "State #" + si._2 + "\n\n" +
       si._1.history.reverse.mkString("\n") +
       si._1.instructionHistory.reverse.mkString("\n") + "\n\n" +
@@ -119,7 +109,7 @@ class ClickExecutionContext(
 
 object ClickExecutionContext {
 
-  def verboselyStringifyStates(ss: List[State]): String = ss.zipWithIndex.map( si =>
+  def verboselyStringifyStates(ss: Seq[State]): String = ss.zipWithIndex.map( si =>
     "State #" + si._2 + "\n\n" + si._1.instructionHistory.reverse.mkString("\n") + "\n\n" + si._1.toString)
     .mkString("\n")
 
@@ -185,14 +175,6 @@ object ClickExecutionContext {
       case None => List(State.bigBang.forwardTo(configs.head.entryLocationId))
     }
     // Build the unified execution context.
-    ctxes.foldLeft(new ClickExecutionContext(
-      Map.empty,
-      links,
-      // TODO: Should be configurable
-      startStates.toList,
-      Nil,
-      Nil,
-      checkInstructions
-    ))(_ + _)
+    ctxes.foldLeft(new ClickExecutionContext(Map.empty, links, startStates.toList, Nil, Nil, checkInstructions))(_ + _)
   }
 }

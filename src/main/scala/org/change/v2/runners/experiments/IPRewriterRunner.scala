@@ -22,13 +22,7 @@ object IPRewriterRunner {
       crtExecutor = crtExecutor.execute(true)
     }
 
-    val replayExecutor = new ClickExecutionContext(
-      crtExecutor.instructions,
-      crtExecutor.links,
-      List(crtExecutor.stuckStates.head.forwardTo(absNet.entryLocationId)),
-      Nil,
-      Nil
-    )
+    val replayExecutor = new ClickExecutionContext(crtExecutor.instructions, crtExecutor.links, List(crtExecutor.stuckStates.head.forwardTo(absNet.entryLocationId)), Nil, Nil)
 
     crtExecutor = replayExecutor
     while(! crtExecutor.isDone) {

@@ -24,13 +24,7 @@ class IPRewriterTests extends FlatSpec with Matchers {
 
     crtExecutor.stuckStates should have length 1
 
-    val replayExecutor = new ClickExecutionContext(
-      crtExecutor.instructions,
-      crtExecutor.links,
-      List(crtExecutor.stuckStates.head.forwardTo(absNet.entryLocationId)),
-      Nil,
-      Nil
-    )
+    val replayExecutor = new ClickExecutionContext(crtExecutor.instructions, crtExecutor.links, List(crtExecutor.stuckStates.head.forwardTo(absNet.entryLocationId)), Nil, Nil)
 
     crtExecutor = replayExecutor
     while(! crtExecutor.isDone) {

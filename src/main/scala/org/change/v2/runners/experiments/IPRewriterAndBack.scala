@@ -13,18 +13,11 @@ object IPRewriterAndBack {
   val absNet = ClickToAbstractNetwork.buildConfig(clickConfig)
   val executor = ClickExecutionContext.fromSingle(absNet)
 
-  var crtExecutor = executor.untilDone(true)
+  var crtExecutor = executor.executeUntilDone(true)
 
   val stuck = crtExecutor.stuckStates.head.forwardTo("src-in")
 
-  crtExecutor = new ClickExecutionContext(
-    crtExecutor.instructions,
-    crtExecutor.links,
-    List(stuck),
-    Nil,
-    Nil,
-    Map.empty
-  ).untilDone(true)
+  crtExecutor = new ClickExecutionContext(crtExecutor.instructions, crtExecutor.links, List(stuck), Nil, Nil, Map.empty).executeUntilDone(true)
 
   //    This actually works. Hand tested :))
   crtExecutor.stringifyStates()
