@@ -12,4 +12,8 @@ package object abstractions {
     case _ => noneTransform
     }
 
+  def useAndReturn[A,B](subject: A, user: A => B) = {
+    user(subject)
+    subject
+  }
 }

@@ -26,7 +26,4 @@ object IPRewriterAndBack {
     Map.empty
   ).untilDone(true)
 
-  //    This actually works. Hand tested :))
-  crtExecutor.stringifyStates()
-
 }
