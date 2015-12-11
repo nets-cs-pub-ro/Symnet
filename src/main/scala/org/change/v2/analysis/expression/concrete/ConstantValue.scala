@@ -22,5 +22,5 @@ case class ConstantValue(value: Long) extends Expression with FloatingExpression
    */
   override def instantiate(s: State): Either[Expression, String] = Left(this)
 
-  override def toString = s"[Constant $value]"
+  override def toString = s"Const($value)]"
 }
