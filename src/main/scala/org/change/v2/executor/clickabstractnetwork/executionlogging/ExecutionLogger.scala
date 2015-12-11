@@ -2,6 +2,8 @@ package org.change.v2.executor.clickabstractnetwork.executionlogging
 
 import org.change.v2.analysis.memory.State
 import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
+import org.change.v2.analysis.memory.jsonformatters.StateToJson._
+import spray.json._
 
 /**
  * A small gift from radu to symnetic.
@@ -11,6 +13,13 @@ trait ExecutionLogger {
 }
 
 object NoLogging extends ExecutionLogger
+
+object JsonLogger extends ExecutionLogger {
+  override def log(ctx: ClickExecutionContext): Unit = if (ctx.isDone) {
+    import org.change.v2.analysis.memory.jsonformatters.ExecutionContextToJson._
+    println(ctx.toJson.prettyPrint)
+  }
+}
 
 // TODO: This needs some serios massage.
 object OldStringifier extends ExecutionLogger {

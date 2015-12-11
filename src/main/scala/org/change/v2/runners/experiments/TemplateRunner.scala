@@ -4,7 +4,7 @@ import java.io.{File, FileOutputStream, PrintStream}
 
 import org.change.parser.clickfile.ClickToAbstractNetwork
 import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
-import org.change.v2.executor.clickabstractnetwork.executionlogging.OldStringifier
+import org.change.v2.executor.clickabstractnetwork.executionlogging.{JsonLogger, OldStringifier}
 
 /**
  * Author: Radu Stoenescu
@@ -15,7 +15,7 @@ object TemplateRunner {
   def main (args: Array[String]) {
     val clickConfig = "src/main/resources/click_test_files/Template.click"
     val absNet = ClickToAbstractNetwork.buildConfig(clickConfig)
-    val executor = ClickExecutionContext.fromSingle(absNet).setLogger(OldStringifier)
+    val executor = ClickExecutionContext.fromSingle(absNet).setLogger(JsonLogger)
 
     var crtExecutor = executor
     while (!crtExecutor.isDone) {

@@ -5,7 +5,8 @@ import org.change.v2.analysis.memory.TagExp._
 import org.change.v2.analysis.processingmodels._
 import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.util.canonicalnames._
-
+import org.change.v2.analysis.memory.jsonformatters.StateToJson._
+import spray.json._
 
 /**
  * Author: Radu Stoenescu
@@ -18,8 +19,11 @@ case class State(memory: MemorySpace = MemorySpace.clean,
   def location: LocationId = history.head
   def forwardTo(locationId: LocationId): State = State(memory, locationId :: history, errorCause, instructionHistory)
   def status = errorCause.getOrElse("OK")
-  override def toString = s"Path ($status) {\n$memory\n} End Of Path Desc"
   def addInstructionToHistory(i: Instruction) = State(memory, history, errorCause, i :: instructionHistory)
+
+  def jsonString = this.toJson.toString
+  override def toString = jsonString
+
 }
 
 object State {

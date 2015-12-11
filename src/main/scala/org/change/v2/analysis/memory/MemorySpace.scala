@@ -8,6 +8,7 @@ import org.change.v2.analysis.z3.Z3Util
 import org.change.v2.interval.{IntervalOps, ValueSet}
 import org.change.v2.util.codeabstractions._
 import z3.scala.{Z3Model, Z3Solver}
+import spray.json._
 
 import scala.collection.mutable.{Map => MutableMap}
 
@@ -196,12 +197,12 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
       memTags
     ))
 
-  /**
-   *
-   * TODO: Incomplete
-   * @return
-   */
-  override def toString = "Tags:" + memTags.mkString("\n") +
+  import org.change.v2.analysis.memory.jsonformatters.MemorySpaceToJson._
+  def jsonString = this.toJson.toString
+
+  override def toString = jsonString
+
+  def oldToString = "Tags:" + memTags.mkString("\n") +
     "Memory values:\n" +
     symbols.map(kv => kv._1 -> ("Crt:" + kv._2.value, "Initital: " + kv._2.initialValue)).mkString("\n") +
     rawObjects.map(kv => kv._1 -> ("Crt:" + kv._2.value, "Initital: " + kv._2.initialValue)).mkString("\n") + "\n"
