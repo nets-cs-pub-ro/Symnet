@@ -7,6 +7,7 @@ import org.change.parser.interclicklinks.InterClickLinksParser
 import org.change.parser.startpoints.StartPointParser
 import org.change.symbolicexec.verification.RuleSetBuilder
 import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
+import org.change.v2.executor.clickabstractnetwork.executionlogging.JsonLogger
 
 /**
  * Author: Radu Stoenescu
@@ -30,7 +31,7 @@ object MultipleVmsFacultatea {
       startElems = Some(StartPointParser.parseStarts(
         "src/main/resources/facultatea/start.start"
       ))
-    )
+    ).setLogger(JsonLogger)
 
     val startOfExec = System.currentTimeMillis()
 
