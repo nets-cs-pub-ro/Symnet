@@ -1,9 +1,12 @@
 package org.change.v2.executor.clickabstractnetwork.executionlogging
 
+import java.io.{FileOutputStream, PrintWriter}
+
 import org.change.v2.analysis.memory.State
 import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
 import org.change.v2.analysis.memory.jsonformatters.StateToJson._
 import spray.json._
+import java.io.File
 
 /**
  * A small gift from radu to symnetic.
@@ -17,7 +20,10 @@ object NoLogging extends ExecutionLogger
 object JsonLogger extends ExecutionLogger {
   override def log(ctx: ClickExecutionContext): Unit = if (ctx.isDone) {
     import org.change.v2.analysis.memory.jsonformatters.ExecutionContextToJson._
-    println(ctx.toJson.prettyPrint)
+
+    val output = new PrintWriter(new FileOutputStream(new File("out.json")))
+    output.println(ctx.toJson.prettyPrint)
+    output.close()
   }
 }
 
