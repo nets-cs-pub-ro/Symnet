@@ -1,13 +1,10 @@
-package org.change.v2.analysis.processingmodels
+package org.change.v2.analysis.memory
 
-import org.change.v2.analysis.memory.MemorySpace
-
-import org.change.v2.util.canonicalnames._
-import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.analysis.expression.concrete._
-import org.change.v2.analysis.expression.concrete.nonprimitive._
 import org.change.v2.analysis.memory.TagExp._
-import org.change.v2.analysis.memory.Tag
+import org.change.v2.analysis.processingmodels._
+import org.change.v2.analysis.processingmodels.instructions._
+import org.change.v2.util.canonicalnames._
 
 
 /**

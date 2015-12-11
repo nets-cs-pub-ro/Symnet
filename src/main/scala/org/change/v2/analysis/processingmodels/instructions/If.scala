@@ -1,7 +1,8 @@
 package org.change.v2.analysis.processingmodels.instructions
 
 import org.change.v2.analysis.constraint.NOT
-import org.change.v2.analysis.processingmodels.{State, Instruction}
+import org.change.v2.analysis.memory.State
+import org.change.v2.analysis.processingmodels.Instruction
 
 /**
  * Author: Radu Stoenescu

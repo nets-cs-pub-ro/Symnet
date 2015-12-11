@@ -2,8 +2,9 @@ package org.change.v2.analysis.processingmodels.networkproc
 
 import org.change.v2.analysis.expression.concrete.{SymbolicValue, ConstantValue}
 import org.change.v2.analysis.expression.concrete.nonprimitive.{:+:, Symbol}
+import org.change.v2.analysis.memory.State
 import org.change.v2.analysis.processingmodels.instructions.{InstructionBlock, AssignNamedSymbol}
-import org.change.v2.analysis.processingmodels.{State, Instruction}
+import org.change.v2.analysis.processingmodels.Instruction
 
 /**
  * Author: Radu Stoenescu

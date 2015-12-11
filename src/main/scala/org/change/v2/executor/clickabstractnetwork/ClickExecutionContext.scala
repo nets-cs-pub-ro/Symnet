@@ -2,8 +2,9 @@ package org.change.v2.executor.clickabstractnetwork
 
 import org.change.symbolicexec.verification.Rule
 import org.change.v2.abstractnet.generic.NetworkConfig
+import org.change.v2.analysis.memory.State
 import org.change.v2.analysis.processingmodels.instructions.InstructionBlock
-import org.change.v2.analysis.processingmodels.{LocationId, Instruction, State}
+import org.change.v2.analysis.processingmodels.{LocationId, Instruction}
 import org.change.v2.executor.clickabstractnetwork.executionlogging.{NoLogging, ExecutionLogger}
 import org.change.v2.executor.clickabstractnetwork.verificator.PathLocation
 import org.change.utils.abstractions._
