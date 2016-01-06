@@ -1,1 +1,1 @@
-FromDevice -> Template(0.0.0.1, 0.0.0.2) -> ToDevice
+FromDevice -> LinearIPLookup(18.26.4.24/31 0) -> ToDevice

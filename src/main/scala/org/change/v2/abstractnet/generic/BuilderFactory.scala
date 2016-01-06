@@ -43,6 +43,7 @@ object BuilderFactory {
     case "ScanTCPOptions"  => ScanTCPOptions.getBuilder(nameValue)
     //    case "IPFilter"  => IPFilter.getBuilder(nameValue)
     case "Paint" => Paint.getBuilder(nameValue)
+    case "LinearIPLookup" => LinearIPLookup.getBuilder(nameValue)
     case _ => NoOpClickElm.getBuilder(nameValue, elementType)
   }
   def getBuilder(elementType: String) = elementType match {
@@ -83,6 +84,7 @@ object BuilderFactory {
     case "ScanTCPOptions"  => ScanTCPOptions.getBuilder
 //    case "IPFilter"  => IPFilter.getBuilder
     case "Paint"  => Paint.getBuilder
+    case "LinearIPLookup" => LinearIPLookup.getBuilder
     case _ => NoOpClickElm.getBuilder(elementType)
   }
 }
