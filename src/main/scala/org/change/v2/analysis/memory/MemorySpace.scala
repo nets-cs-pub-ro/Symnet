@@ -264,7 +264,7 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
     e
   })
 
-  def concretizeSymbols = (symbols ++ rawObjects.map(kv => kv._1.toString -> kv._2)).map { kv =>
+  def concretizeSymbols = (rawObjects.map(kv => kv._1.toString -> kv._2)).map { kv =>
     (kv._1 -> kv._2.value.flatMap(exampleFor(_)))
   }
 }

@@ -18,8 +18,12 @@ trait ExecutionLogger {
 object NoLogging extends ExecutionLogger
 
 object JsonLogger extends ExecutionLogger {
+
+}
+
+object ModelValidation extends ExecutionLogger {
   override def log(ctx: ClickExecutionContext): Unit = if (ctx.isDone) {
-    import org.change.v2.analysis.memory.jsonformatters.ExecutionContextToJson._
+    import org.change.v2.analysis.memory.jsonformatters.ConcreteExecutionContextToJson._
 
     val output = new PrintWriter(new FileOutputStream(new File("out.json")))
     output.println(ctx.toJson.prettyPrint)

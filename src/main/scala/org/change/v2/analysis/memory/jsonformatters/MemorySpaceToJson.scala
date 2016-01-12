@@ -21,3 +21,17 @@ object MemorySpaceToJson extends DefaultJsonProtocol {
   }
 
 }
+
+object ConcreteMemorySpaceToJson extends DefaultJsonProtocol {
+  implicit object MemoryStateFormat extends RootJsonFormat[MemorySpace] {
+    override def read(json: JsValue): MemorySpace = deserializationError("One way protocol")
+
+    override def write(obj: MemorySpace): JsValue = JsArray(
+      obj.rawObjects.map(tv =>
+        JsObject(tv._1.toString -> JsObject(
+          "initial" -> JsNumber(obj.exampleFor(tv._2.initialValue.get).getOrElse(-1)),
+          "final" -> JsNumber(obj.exampleFor(tv._2.initialValue.get).getOrElse(-1))
+        ))).toList
+    )
+  }
+}
