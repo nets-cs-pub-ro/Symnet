@@ -2,7 +2,9 @@ package org.change.v2.executor.clickabstractnetwork.executionlogging
 
 import java.io.{FileOutputStream, PrintWriter}
 
-import org.change.v2.analysis.memory.State
+import org.change.v2.analysis.expression.concrete.ConstantValue
+import org.change.v2.analysis.memory.{TagExp, State}
+import org.change.v2.analysis.processingmodels.instructions.{InstructionBlock, :==:, Constrain}
 import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
 import org.change.v2.analysis.memory.jsonformatters.StateToJson._
 import spray.json._
@@ -28,6 +30,23 @@ object ModelValidation extends ExecutionLogger {
     val output = new PrintWriter(new FileOutputStream(new File("out.json")))
     output.println(ctx.toJson.prettyPrint)
     output.close()
+
+    // Here I will call Matei's code and see the results
+
+    import org.change.v2.util.canonicalnames._
+    println(ctx.stuckStates.map(verifyState(Map(IPDst -> 2))))
+  }
+
+  def verifyState(concreteValues: Map[TagExp, Long])(s: State): Option[String] = {
+    val afterConcreteConstraintApplication = InstructionBlock(concreteValues.map({kv =>
+      val (what, withWhat) = kv
+      Constrain(what, :==:(ConstantValue(withWhat)))
+    }))(s)
+
+    if (afterConcreteConstraintApplication._2.isEmpty)
+      None
+    else
+      Some(afterConcreteConstraintApplication._2.head.errorCause.get)
   }
 }
 

@@ -1,1 +1,1 @@
-FromDevice -> LinearIPLookup(18.26.4.24/31 0) -> ToDevice
+FromDevice -> LinearIPLookup(0.0.0.0/30 0) -> ToDevice

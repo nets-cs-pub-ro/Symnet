@@ -7,7 +7,7 @@ import org.change.v2.analysis.processingmodels.Instruction
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
-case class InstructionBlock(instructions: List[Instruction]) extends Instruction {
+case class InstructionBlock(instructions: Iterable[Instruction]) extends Instruction {
   /**
    * A state processing block produces a set of new states based on a previous one.
    *

@@ -5,7 +5,7 @@ import org.change.v2.analysis.memory.TagExp._
 import org.change.v2.analysis.processingmodels._
 import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.util.canonicalnames._
-import org.change.v2.analysis.memory.jsonformatters.StateToJson._
+
 import spray.json._
 
 /**
@@ -21,9 +21,11 @@ case class State(memory: MemorySpace = MemorySpace.clean,
   def status = errorCause.getOrElse("OK")
   def addInstructionToHistory(i: Instruction) = State(memory, history, errorCause, i :: instructionHistory)
 
-  def jsonString = this.toJson.toString
+  def jsonString = {
+    import org.change.v2.analysis.memory.jsonformatters.StateToJson._
+    this.toJson.toString
+  }
   override def toString = jsonString
-
 }
 
 object State {

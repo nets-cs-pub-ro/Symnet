@@ -35,7 +35,7 @@ class LinearIPLookup(name: String,
 
       val (lower, upper) = RepresentationConversion.ipAndMaskToInterval(ip = ip, mask = mask)
 
-      If(Constrain(IPSrc, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper)))),
+      If(Constrain(IPDst, :&:(:>=:(ConstantValue(lower)), :<=:(ConstantValue(upper)))),
         Forward(outputPortName(port)),
         paramsToInstructions(rest))
     }
