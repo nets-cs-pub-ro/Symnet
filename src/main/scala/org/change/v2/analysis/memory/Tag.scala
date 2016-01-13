@@ -1,6 +1,6 @@
 package org.change.v2.analysis.memory
 
-import org.change.v2.analysis.processingmodels.{Instruction, State}
+import org.change.v2.analysis.processingmodels.Instruction
 
 /**
   * Author: Radu Stoenescu

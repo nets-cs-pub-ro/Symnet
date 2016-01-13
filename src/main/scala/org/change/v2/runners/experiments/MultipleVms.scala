@@ -44,10 +44,10 @@ object MultipleVms {
 
     val doneExec = System.currentTimeMillis()
 
-    val output = new PrintStream(new FileOutputStream(new File("mc.output")))
-    output.println(crtExecutor.stringifyStates())
-    output.close()
-    println(s"Done, se spent ${startOfExec - startOfBuild} of code generation and ${doneExec - startOfExec} of execution.")
+//    val output = new PrintStream(new FileOutputStream(new File("mc.output")))
+//    output.println(crtExecutor.stringifyStates())
+//    output.close()
+//    println(s"Done, se spent ${startOfExec - startOfBuild} of code generation and ${doneExec - startOfExec} of execution.")
   }
 
 }

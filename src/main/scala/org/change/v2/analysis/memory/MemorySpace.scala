@@ -8,6 +8,7 @@ import org.change.v2.analysis.z3.Z3Util
 import org.change.v2.interval.{IntervalOps, ValueSet}
 import org.change.v2.util.codeabstractions._
 import z3.scala.{Z3Model, Z3Solver}
+import spray.json._
 
 import scala.collection.mutable.{Map => MutableMap}
 
@@ -22,6 +23,9 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
   private def resolveBy[K](id: K, m: Map[K, MemoryObject]): Option[Value] =
     m.get(id).flatMap(_.value)
 
+  private def resolveByToObject[K](id: K, m: Map[K, MemoryObject]): Option[MemoryObject] =
+    m.get(id)
+
   def Tag(name: String, value: Int): Option[MemorySpace] = Some(MemorySpace(symbols, rawObjects, memTags + (name -> value)))
   def UnTag(name: String): Option[MemorySpace] = Some(MemorySpace(symbols, rawObjects, memTags - name))
 
@@ -32,6 +36,9 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
    */
   def eval(id: String): Option[Value] = resolveBy(id, symbols)
   def eval(a: Int): Option[Value] = resolveBy(a, rawObjects)
+
+  def evalToObject(id: String): Option[MemoryObject] = resolveByToObject(id, symbols)
+  def evalToObject(a: Int): Option[MemoryObject] = resolveByToObject(a, rawObjects)
 
   def canRead(a: Int): Boolean = resolveBy(a, rawObjects).isDefined
 
@@ -196,12 +203,12 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
       memTags
     ))
 
-  /**
-   *
-   * TODO: Incomplete
-   * @return
-   */
-  override def toString = "Tags:" + memTags.mkString("\n") +
+  import org.change.v2.analysis.memory.jsonformatters.MemorySpaceToJson._
+  def jsonString = this.toJson.toString
+
+  override def toString = jsonString
+
+  def oldToString = "Tags:" + memTags.mkString("\n") +
     "Memory values:\n" +
     symbols.map(kv => kv._1 -> ("Crt:" + kv._2.value, "Initital: " + kv._2.initialValue)).mkString("\n") +
     rawObjects.map(kv => kv._1 -> ("Crt:" + kv._2.value, "Initital: " + kv._2.initialValue)).mkString("\n") + "\n"
@@ -263,7 +270,7 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
     e
   })
 
-  def concretizeSymbols = (symbols ++ rawObjects.map(kv => kv._1.toString -> kv._2)).map { kv =>
+  def concretizeSymbols = (rawObjects.map(kv => kv._1.toString -> kv._2)).map { kv =>
     (kv._1 -> kv._2.value.flatMap(exampleFor(_)))
   }
 }

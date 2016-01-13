@@ -1,7 +1,7 @@
 package org.change.v2.analysis.expression.concrete
 
 import org.change.v2.analysis.expression.abst.{FloatingExpression, Expression}
-import org.change.v2.analysis.processingmodels.State
+import org.change.v2.analysis.memory.State
 import org.change.v2.analysis.z3.Z3Util
 import z3.scala.{Z3Solver, Z3AST}
 
@@ -22,5 +22,5 @@ case class ConstantValue(value: Long) extends Expression with FloatingExpression
    */
   override def instantiate(s: State): Either[Expression, String] = Left(this)
 
-  override def toString = s"[Constant $value]"
+  override def toString = s"Const($value)]"
 }

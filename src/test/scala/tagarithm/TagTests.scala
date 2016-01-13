@@ -3,8 +3,7 @@ package tagarithm
 import org.scalatest.{FlatSpec, Matchers}
 import org.change.v2.analysis.expression.concrete.nonprimitive.{:@, Symbol, :+:}
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
-import org.change.v2.analysis.memory.{Tag, Value, MemorySpace}
-import org.change.v2.analysis.processingmodels.{State}
+import org.change.v2.analysis.memory.{State, Tag, Value, MemorySpace}
 import org.change.v2.analysis.processingmodels.instructions._
 import org.scalatest.{Matchers, FlatSpec}
 import org.change.v2.analysis.memory.TagExp._

@@ -1,14 +1,12 @@
-package org.change.v2.analysis.processingmodels
+package org.change.v2.analysis.memory
 
-import org.change.v2.analysis.memory.MemorySpace
-
-import org.change.v2.util.canonicalnames._
-import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.analysis.expression.concrete._
-import org.change.v2.analysis.expression.concrete.nonprimitive._
 import org.change.v2.analysis.memory.TagExp._
-import org.change.v2.analysis.memory.Tag
+import org.change.v2.analysis.processingmodels._
+import org.change.v2.analysis.processingmodels.instructions._
+import org.change.v2.util.canonicalnames._
 
+import spray.json._
 
 /**
  * Author: Radu Stoenescu
@@ -21,8 +19,13 @@ case class State(memory: MemorySpace = MemorySpace.clean,
   def location: LocationId = history.head
   def forwardTo(locationId: LocationId): State = State(memory, locationId :: history, errorCause, instructionHistory)
   def status = errorCause.getOrElse("OK")
-  override def toString = s"Path ($status) {\n$memory\n} End Of Path Desc"
   def addInstructionToHistory(i: Instruction) = State(memory, history, errorCause, i :: instructionHistory)
+
+  def jsonString = {
+    import org.change.v2.analysis.memory.jsonformatters.StateToJson._
+    this.toJson.toString
+  }
+  override def toString = jsonString
 }
 
 object State {
@@ -44,8 +47,10 @@ object State {
 
      Allocate(IPSrc, 32),
      Assign(IPSrc, SymbolicValue()),
+     Constrain(IPSrc, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(4294967296L)))),
      Allocate(IPDst, 32),
      Assign(IPDst, SymbolicValue()),
+     Constrain(IPSrc, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(4294967296L)))),
 
      Allocate(TTL, 8),
      Assign(TTL, ConstantValue(255)),
@@ -66,9 +71,11 @@ object State {
 
      Allocate(TcpSrc, 16),
      Assign(TcpSrc, SymbolicValue()),
+     Constrain(TcpSrc, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(65536)))),
 
      Allocate(TcpDst, 16),
      Assign(TcpDst, SymbolicValue()),
+     Constrain(TcpDst, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(65536)))),
 
      Allocate(TcpSeq, 32),
      Assign(TcpSeq, SymbolicValue()),

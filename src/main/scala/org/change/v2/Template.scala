@@ -2,7 +2,6 @@ package org.change.v2
 
 import org.change.v2.abstractnet.generic.{ConfigParameter, ElementBuilder, GenericElement, Port}
 import org.change.v2.analysis.expression.concrete.ConstantValue
-import org.change.v2.analysis.expression.concrete.nonprimitive.:@
 import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.analysis.processingmodels.{Instruction, LocationId}
 import org.change.v2.util.conversion.RepresentationConversion._

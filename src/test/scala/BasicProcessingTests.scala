@@ -1,10 +1,10 @@
 import org.change.v2.analysis.constraint.GT
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
 import org.change.v2.analysis.expression.concrete.nonprimitive.{Plus, Symbol}
+import org.change.v2.analysis.memory.State
 import org.change.v2.analysis.processingmodels.instructions._
 import org.scalatest.{Matchers, FlatSpec}
 import org.change.v2.analysis.processingmodels.networkproc._
-import org.change.v2.analysis.processingmodels.State
 
 /**
  * Author: Radu Stoenescu

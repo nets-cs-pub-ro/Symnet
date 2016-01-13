@@ -3,11 +3,12 @@ package org.change.v2.abstractnet.optimizedrouter
 import org.change.v2.analysis.constraint.{OR, LTE_E, GTE_E, AND, NOT}
 import org.change.v2.analysis.expression.concrete.ConstantValue
 import org.change.v2.analysis.expression.concrete.nonprimitive.:@
+import org.change.v2.analysis.memory.State
 import org.change.v2.analysis.processingmodels.instructions.{:>:, ConstrainRaw}
 import org.change.v2.util.regexes._
 import org.change.v2.util.conversion.RepresentationConversion
 import org.change.v2.util.canonicalnames._
-import org.change.v2.analysis.processingmodels.{Instruction, State}
+import org.change.v2.analysis.processingmodels.Instruction
 
 /**
  * Created by radu on 24.09.2015.

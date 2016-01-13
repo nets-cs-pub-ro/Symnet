@@ -2,9 +2,12 @@ package org.change.v2.executor.clickabstractnetwork
 
 import org.change.symbolicexec.verification.Rule
 import org.change.v2.abstractnet.generic.NetworkConfig
+import org.change.v2.analysis.memory.State
 import org.change.v2.analysis.processingmodels.instructions.InstructionBlock
-import org.change.v2.analysis.processingmodels.{LocationId, Instruction, State}
+import org.change.v2.analysis.processingmodels.{LocationId, Instruction}
+import org.change.v2.executor.clickabstractnetwork.executionlogging.{NoLogging, ExecutionLogger}
 import org.change.v2.executor.clickabstractnetwork.verificator.PathLocation
+import org.change.utils.abstractions._
 
 /**
  * Author: Radu Stoenescu
@@ -15,24 +18,43 @@ import org.change.v2.executor.clickabstractnetwork.verificator.PathLocation
  *
  * A port is a String id, that maps to an instruction.
  */
-class ClickExecutionContext( val instructions: Map[LocationId, Instruction],
-                             val links: Map[LocationId, LocationId],
-                             val okStates: Seq[State],
-                             val failedStates: Seq[State],
-                             val stuckStates: Seq[State],
-                             val checkInstructions: Map[LocationId, Instruction] = Map.empty) {
+case class ClickExecutionContext(
+                           instructions: Map[LocationId, Instruction],
+                           links: Map[LocationId, LocationId],
+                           okStates: List[State],
+                           failedStates: List[State],
+                           stuckStates: List[State],
+                           checkInstructions: Map[LocationId, Instruction] = Map.empty,
+                           logger: ExecutionLogger = NoLogging
+) {
+  def setLogger(newLogger: ExecutionLogger): ClickExecutionContext = copy(logger = newLogger)
 
-  def +(that: ClickExecutionContext) = new ClickExecutionContext(
+  /**
+   * Merges two execution contexts.
+   * @param that
+   * @return
+   */
+  def +(that: ClickExecutionContext) = copy(
     this.instructions ++ that.instructions,
     this.links ++ that.links,
     this.okStates ++ that.okStates,
     this.failedStates ++ that.failedStates,
     this.stuckStates ++ that.stuckStates,
-    this.checkInstructions ++ that.checkInstructions)
-  
+    this.checkInstructions ++ that.checkInstructions
+  )
+
+  /**
+   * Is there any state further explorable ?
+   * @return
+   */
   def isDone: Boolean = okStates.isEmpty
 
-  def executeUntilDone(verbose: Boolean): ClickExecutionContext = if (isDone) this else this.execute(verbose).executeUntilDone(verbose)
+  /**
+   * Calls execute until nothing can be explored further more. (The result is a done Execution Context)
+   * @param verbose
+   * @return
+   */
+  def untilDone(verbose: Boolean): ClickExecutionContext = if (isDone) this else this.execute(verbose).untilDone(verbose)
 
   def execute(verbose: Boolean = false): ClickExecutionContext = {
     val (ok, fail, stuck) = (for {
@@ -54,64 +76,19 @@ class ClickExecutionContext( val instructions: Map[LocationId, Instruction],
           (Nil, Nil, List(s))
       }).unzip3
 
-      new ClickExecutionContext(instructions, links, ok.flatten, failedStates ++ fail.flatten, stuckStates ++ stuck.flatten, checkInstructions)
+      useAndReturn(copy(
+        okStates = ok.flatten,
+        failedStates = failedStates ++ fail.flatten,
+        stuckStates = stuckStates ++ stuck.flatten
+      ), {ctx: ClickExecutionContext => logger.log(ctx)})
   }
 
-
-
-  // TODO: MOve this elsewhere, and allow some sort of customization.
-  private def verboselyStringifyStatesWithExample(ss: Seq[State]): String = ss.zipWithIndex.map( si =>
-    "State #" + si._2 + "\n\n" +
-      si._1.history.reverse.mkString("\n") +
-      si._1.instructionHistory.reverse.mkString("\n") + "\n\n" +
-      si._1.memory.verboseToString)
-    .mkString("\n")
-
-  def stringifyStates(includeOk: Boolean = true, includeStuck: Boolean = true, includeFailed: Boolean= true) = {
-    (if (includeOk)
-      s"Ok states (${okStates.length}):\n" + ClickExecutionContext.verboselyStringifyStates(okStates)
-    else
-      "") +
-    (if (includeStuck)
-      s"\nStuck states (${stuckStates.length}):\n" + ClickExecutionContext.verboselyStringifyStates(stuckStates)
-    else
-      "") +
-    (if (includeFailed)
-      s"\nFailed states (${failedStates.length}): \n" + ClickExecutionContext.verboselyStringifyStates(failedStates)
-    else
-      "")
-  }
-
+  // TODO: Move to a logger
   def concretizeStates: String = (stuckStates ++ okStates).map(_.memory.concretizeSymbols).mkString("\n----------\n")
 
-  /**
-   * TODO: This stringification should stay in a different place.
-   * @param includeOk
-   * @param includeStuck
-   * @param includeFailed
-   * @return
-   */
-  def verboselyStringifyStates(includeOk: Boolean = true, includeStuck: Boolean = true, includeFailed: Boolean= true) = {
-    (if (includeOk)
-      s"Ok states (${okStates.length}):\n" + verboselyStringifyStatesWithExample(okStates)
-    else
-      "") +
-      (if (includeStuck)
-        s"Stuck states (${stuckStates.length}):\n" + verboselyStringifyStatesWithExample(stuckStates)
-      else
-        "") +
-      (if (includeFailed)
-        s"Failed states (${failedStates.length}): \n" + verboselyStringifyStatesWithExample(failedStates)
-      else
-        "")
-  }
 }
 
 object ClickExecutionContext {
-
-  def verboselyStringifyStates(ss: Seq[State]): String = ss.zipWithIndex.map( si =>
-    "State #" + si._2 + "\n\n" + si._1.instructionHistory.reverse.mkString("\n") + "\n\n" + si._1.toString)
-    .mkString("\n")
 
   /**
    * Builds a symbolic execution context out of a single click config file.

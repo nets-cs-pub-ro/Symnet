@@ -1,0 +1,511 @@
+Building configuration...
+
+Current configuration : 13657 bytes
+!
+! Last configuration change at 18:11:57 EETDST Mon Sep 14 2015 by mihai
+! NVRAM config last updated at 18:10:55 EETDST Mon Sep 14 2015 by mihai
+!
+version 12.2
+parser config cache interface
+no service pad
+service timestamps debug uptime
+service timestamps log datetime msec
+service password-encryption
+!
+hostname Automatica
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 
+!
+username stefan privilege 15 secret 5 
+username george.c privilege 15 secret 5 
+username admincs privilege 15 secret 5 
+username sic privilege 15 secret 5 
+username mihai privilege 15 secret 5 
+!
+!
+no aaa new-model
+clock timezone EET 2
+clock summer-time EETDST recurring last Sun Mar 3:00 last Sun Oct 3:00
+system mtu routing 1500
+authentication mac-move permit
+ip subnet-zero
+ip routing
+ip dhcp excluded-address 192.168.137.1 192.168.137.40
+ip dhcp excluded-address 192.168.137.70 192.168.137.255
+!
+ip dhcp pool VLAN_137
+   network 192.168.137.0 255.255.255.0
+   default-router 192.168.137.1
+   dns-server 141.85.226.5 141.85.241.113
+!
+!
+ip dhcp snooping vlan 37
+ip domain-name cs.pub.ro
+ip name-server 141.85.226.5
+ip name-server 141.85.241.113
+login block-for 120 attempts 3 within 30
+login quiet-mode access-class VTY_FILTER
+!
+!
+key chain RIP_KEY
+ key 10
+  key-string 7 06140631474B101810031A
+!
+crypto pki trustpoint TP-self-signed-1889891072
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1889891072
+ revocation-check none
+ rsakeypair TP-self-signed-1889891072
+!
+!
+archive
+ log config
+  logging enable
+  notify syslog contenttype plaintext
+  hidekeys
+!
+spanning-tree mode rapid-pvst
+spanning-tree portfast bpduguard default
+spanning-tree etherchannel guard misconfig
+spanning-tree extend system-id
+spanning-tree vlan 1-99,101-1005 priority 24576
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+ip tcp synwait-time 5
+ip ssh logging events
+ip ssh version 2
+!
+!
+interface Port-channel3
+ description Uplink SW-C3 (EF007)
+ switchport access vlan 1001
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport mode trunk
+ switchport nonegotiate
+ load-interval 30
+!
+interface Port-channel4
+ description Downlink-To-EF007
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport mode trunk
+!
+interface Port-channel5
+ description Link-To-DS1815
+ switchport access vlan 227
+ switchport mode access
+!
+interface FastEthernet0
+ no ip address
+ no ip route-cache cef
+ no ip route-cache
+ no ip mroute-cache
+ shutdown
+!
+interface GigabitEthernet0/1
+ description Link-To-Grid
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport mode trunk
+!
+interface GigabitEthernet0/2
+ description CSR2-VLAN37
+ switchport access vlan 37
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1000
+ switchport mode trunk
+ spanning-tree portfast
+ ip dhcp snooping trust
+!
+interface GigabitEthernet0/3
+ description CSR3
+ switchport access vlan 38
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1000
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet0/4
+ description mail.cs.pub.ro
+ switchport access vlan 37
+ switchport mode access
+ shutdown
+ spanning-tree portfast
+!
+interface GigabitEthernet0/5
+ description Link-To-DS1815
+ switchport access vlan 227
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ channel-group 5 mode active
+!
+interface GigabitEthernet0/6
+ description Link-To-DS1815
+ switchport access vlan 227
+ switchport mode access
+ channel-group 5 mode active
+!
+interface GigabitEthernet0/7
+ description Link-To-DS1815
+ switchport access vlan 227
+ switchport mode access
+ spanning-tree portfast
+ channel-group 5 mode active
+!
+interface GigabitEthernet0/8
+ description Link-To-DS1815
+ switchport access vlan 227
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1000
+ switchport mode access
+ spanning-tree portfast
+ channel-group 5 mode active
+!
+interface GigabitEthernet0/9
+ description STOR2-2
+ switchport access vlan 136
+ switchport trunk encapsulation dot1q
+ switchport mode access
+!
+interface GigabitEthernet0/10
+ description Link For MihaiC
+ switchport access vlan 227
+ switchport mode access
+!
+interface GigabitEthernet0/11
+ description ASA-0(EF007)
+ switchport access vlan 225
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet0/12
+ description ASA1-1 (Acces profesori)
+ switchport access vlan 1001
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 254,300-302,312,321
+ switchport mode trunk
+!
+interface GigabitEthernet0/13
+ description ASA-2(EF007)
+ switchport access vlan 1001
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 304,314
+ switchport mode trunk
+!
+interface GigabitEthernet0/14
+ description ASA-3 (281)
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet0/15
+ description Uplink SW-C3 (EF007)
+ switchport access vlan 1001
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport mode trunk
+ switchport nonegotiate
+ load-interval 30
+ channel-group 3 mode active
+!
+interface GigabitEthernet0/16
+ description Uplink SW-C3 (EF007)
+ switchport access vlan 1001
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 3 mode active
+!
+interface GigabitEthernet0/17
+ description Uplink SW-C3 (EF007)
+ switchport access vlan 1001
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 3 mode active
+!
+interface GigabitEthernet0/18
+ description Uplink SW-C3 (EF007)
+ switchport access vlan 1001
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 3 mode active
+!
+interface GigabitEthernet0/19
+ description Uplink-SW-C2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet0/20
+ description Downlink-To-EF007
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport mode trunk
+ channel-group 4 mode active
+!
+interface GigabitEthernet0/21
+ description Downlink-To-EF007
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport mode trunk
+ channel-group 4 mode active
+!
+interface GigabitEthernet0/22
+ description Downlink-To-EF007
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport mode trunk
+ channel-group 4 mode active
+!
+interface GigabitEthernet0/23
+ description Downlink-To-EF007
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1001
+ switchport mode trunk
+ channel-group 4 mode active
+!
+interface GigabitEthernet0/24
+ description -- Link to Energetica Giga0/24 --
+ no switchport
+ ip address 172.31.255.69 255.255.255.252
+ ip rip send version 2
+ ip rip receive version 2
+ ip rip authentication mode md5
+ ip rip authentication key-chain RIP_KEY
+!
+interface GigabitEthernet0/25
+!
+interface GigabitEthernet0/26
+!
+interface GigabitEthernet0/27
+!
+interface GigabitEthernet0/28
+!
+interface TenGigabitEthernet0/1
+ description -- Link to Rectorat TenGiga3/1 --
+ no switchport
+ ip address 172.31.255.2 255.255.255.252
+ ip rip send version 2
+ ip rip receive version 2
+ ip rip authentication mode md5
+ ip rip authentication key-chain RIP_KEY
+!
+interface TenGigabitEthernet0/2
+ description -- Link to Electrotehnica TenGiga0/2 --
+ no switchport
+ ip address 172.31.255.65 255.255.255.252
+ ip rip send version 2
+ ip rip receive version 2
+ ip rip authentication mode md5
+ ip rip authentication key-chain RIP_KEY
+ shutdown
+!
+interface Vlan1
+ ip address 10.128.0.109 255.255.0.0
+!
+interface Vlan5
+ ip address 192.168.1.250 255.255.255.0
+!
+interface Vlan37
+ ip address 141.85.37.225 255.255.255.0
+ shutdown
+!
+interface Vlan137
+ ip address 192.168.137.90 255.255.255.0
+!
+interface Vlan199
+ ip address 192.168.199.90 255.255.255.0
+!
+interface Vlan224
+ ip address 141.85.224.1 255.255.255.0
+!
+interface Vlan225
+ ip address 141.85.225.1 255.255.255.0
+!
+interface Vlan226
+ ip address 141.85.226.1 255.255.255.0
+!
+interface Vlan227
+ ip address 141.85.227.1 255.255.255.0
+!
+interface Vlan229
+ ip address 141.85.229.1 255.255.255.0
+!
+interface Vlan998
+ ip address 10.88.88.1 255.255.255.0
+!
+interface Vlan999
+ ip address 10.99.99.1 255.255.255.0
+!
+interface Vlan1000
+ no ip address
+!
+router rip
+ version 2
+ redistribute static route-map MATCH-ACS-IPv4
+ passive-interface default
+ network 141.85.0.0
+ network 172.31.0.0
+ neighbor 172.31.255.1
+ neighbor 172.31.255.66
+ neighbor 172.31.255.70
+ no auto-summary
+!
+ip classless
+ip route 10.9.0.0 255.255.0.0 10.99.99.2
+ip route 10.38.0.0 255.255.0.0 141.85.253.170
+ip route 10.38.0.0 255.255.0.0 141.85.225.11
+ip route 141.85.101.0 255.255.255.0 141.85.225.2
+ip route 141.85.228.0 255.255.255.192 141.85.225.20
+ip route 141.85.241.0 255.255.255.0 10.99.99.2
+no ip http server
+no ip http secure-server
+!
+ip access-list standard ACS-IPv4
+ permit 141.85.228.0 0.0.0.255
+ip access-list standard SNMP_FILTER
+ permit 10.128.0.223
+ permit 10.128.0.213
+ permit 141.85.166.16
+ permit 10.128.0.13
+ permit 141.85.37.59
+ permit 141.85.37.31
+ permit 10.128.0.113
+ deny   any log
+ip access-list standard VTY_FILTER
+ permit 141.85.241.41
+ permit 141.85.227.49
+ permit 10.128.0.170
+ permit 141.85.226.12
+ permit 141.85.226.13
+ permit 141.85.226.77
+ permit 141.85.226.231
+ permit 141.85.37.12
+ permit 10.128.0.113
+ permit 192.168.137.31
+ permit 141.85.166.0 0.0.0.63
+ permit 172.31.255.0 0.0.0.255
+ deny   any log
+!
+ip access-list extended VLAN-227
+ permit ip any host 141.85.227.73
+ permit ip host 205.168.23.154 any
+ permit ip host 212.67.74.34 any
+ permit ip host 62.212.100.34 any
+ permit ip host 89.122.75.198 any
+ permit ip host 77.36.71.2 host 141.85.227.68
+ permit ip host 77.36.71.2 host 141.85.227.69
+ permit ip host 77.36.71.2 host 141.85.227.70
+ permit ip host 77.36.71.2 host 141.85.227.71
+ permit ip host 77.36.71.2 host 141.85.227.72
+ permit ip host 77.36.71.2 host 141.85.227.73
+ permit ip host 77.36.71.2 host 141.85.227.74
+ permit ip host 77.36.71.2 host 141.85.227.75
+ permit ip 141.85.224.0 0.0.7.255 host 141.85.227.68
+ permit ip 141.85.224.0 0.0.7.255 host 141.85.227.69
+ permit ip 141.85.224.0 0.0.7.255 host 141.85.227.70
+ permit ip 141.85.224.0 0.0.7.255 host 141.85.227.71
+ permit ip 141.85.224.0 0.0.7.255 host 141.85.227.72
+ permit ip 141.85.224.0 0.0.7.255 host 141.85.227.73
+ permit ip 141.85.224.0 0.0.7.255 host 141.85.227.74
+ permit ip 141.85.224.0 0.0.7.255 host 141.85.227.75
+ permit ip 141.85.37.0 0.0.0.255 host 141.85.227.68
+ permit ip 141.85.37.0 0.0.0.255 host 141.85.227.69
+ permit ip 141.85.37.0 0.0.0.255 host 141.85.227.70
+ permit ip 141.85.37.0 0.0.0.255 host 141.85.227.71
+ permit ip 141.85.37.0 0.0.0.255 host 141.85.227.72
+ permit ip 141.85.37.0 0.0.0.255 host 141.85.227.73
+ permit ip 141.85.37.0 0.0.0.255 host 141.85.227.74
+ permit ip 141.85.37.0 0.0.0.255 host 141.85.227.75
+ permit ip host 109.103.151.206 host 141.85.227.68
+ permit ip host 109.103.151.206 host 141.85.227.69
+ permit ip host 109.103.151.206 host 141.85.227.70
+ permit ip host 109.103.151.206 host 141.85.227.71
+ permit ip host 109.103.151.206 host 141.85.227.72
+ permit ip host 109.103.151.206 host 141.85.227.73
+ permit ip host 109.103.151.206 host 141.85.227.74
+ permit ip host 109.103.151.206 host 141.85.227.75
+ permit udp any eq ntp any
+ permit tcp any eq 37 any
+ permit udp any eq time any
+ permit udp any any eq ntp
+ permit icmp any any
+ permit tcp any eq www any
+ permit tcp any eq 443 any
+ permit tcp any any established
+ deny   ip any host 141.85.227.68
+ deny   ip any host 141.85.227.69
+ deny   ip any host 141.85.227.70
+ deny   ip any host 141.85.227.71
+ deny   ip any host 141.85.227.72
+ deny   ip any host 141.85.227.73
+ deny   ip any host 141.85.227.74
+ deny   ip any host 141.85.227.75
+ permit ip any any
+!
+ip sla enable reaction-alerts
+route-map MATCH-ACS-IPv4 permit 10
+ match ip address ACS-IPv4
+!
+snmp-server community crocop RW SNMP_FILTER
+snmp-server community fedor RO SNMP_FILTER
+snmp-server location ACS (EF007)
+snmp-server contact admin@cs.pub.ro
+!
+privilege interface level 7 switchport trunk allowed vlan
+privilege interface level 7 switchport mode trunk
+privilege interface level 7 switchport mode access
+privilege interface level 7 switchport access vlan
+privilege interface level 7 no shutdown
+privilege interface level 7 shutdown
+privilege interface level 7 description
+privilege interface level 7 switchport trunk encapsulation dot1q
+privilege interface level 7 switchport trunk native vlan
+privilege configure level 7 vlan
+privilege configure level 7 interface
+privilege exec level 7 configure terminal
+privilege exec level 7 show interfaces
+privilege exec level 7 show vlan
+privilege exec level 7 show running-config
+privilege exec level 7 write memory
+privilege exec level 7 copy running-config startup-config
+!
+line con 0
+ password 7 
+ logging synchronous
+ login local
+ history size 256
+line vty 0 4
+ session-timeout 5
+ access-class VTY_FILTER in
+ exec-timeout 60 0
+ password 7 
+ logging synchronous
+ login local
+ history size 256
+ transport input telnet ssh
+line vty 5 15
+ session-timeout 5
+ access-class VTY_FILTER in
+ exec-timeout 60 0
+ password 7 
+ logging synchronous
+ login local
+ history size 256
+ transport input telnet ssh
+!
+ntp clock-period 36029192
+ntp peer 172.31.255.253
+end

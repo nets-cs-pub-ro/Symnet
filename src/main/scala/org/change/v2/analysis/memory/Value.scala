@@ -5,6 +5,7 @@ import org.change.v2.analysis.expression.abst.Expression
 import org.change.v2.analysis.types.{LongType, NumericType}
 import org.change.v2.analysis.z3.Z3Able
 import z3.scala.{Z3Solver, Z3AST}
+import spray.json._
 
 /**
  * Author: Radu Stoenescu
@@ -30,8 +31,17 @@ case class Value(e: Expression, eType: NumericType = LongType, cts: List[Constra
 
   def constrain(c: Constraint): Value = Value(e, eType, c :: cts)
 
-  override def toString = s"Value {\n" +
+  def handmadeString = s"Value {\n" +
     s"Expression: $e\n" +
     s"Type: $eType\n" +
     s"Constraints:\n\t ${cts.mkString("\n")}\n} End Of Value Desc\n"
+
+  import org.change.v2.analysis.memory.jsonformatters.ValueToJson._
+  def jsonString = this.toJson.prettyPrint
+
+  override def toString = jsonString
+
 }
+
+
+

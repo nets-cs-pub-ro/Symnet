@@ -4,7 +4,7 @@ import java.io.{FileOutputStream, PrintStream, File}
 
 import org.change.v2.analysis.expression.concrete.nonprimitive._
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
-import org.change.v2.analysis.processingmodels.State
+import org.change.v2.analysis.memory.State
 import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
 import org.change.v2.analysis.memory.TagExp._
@@ -19,8 +19,8 @@ object SEFLRunner {
 
     val (successful, failed) = ex0
 
-    output.println(s"OK States (${successful.length}}):\n" + ClickExecutionContext.verboselyStringifyStates(successful))
-    output.println(s"\nFailed States (${failed.length}}):\n" + ClickExecutionContext.verboselyStringifyStates(failed))
+//    output.println(s"OK States (${successful.length}}):\n" + ClickExecutionContext.verboselyStringifyStates(successful))
+//    output.println(s"\nFailed States (${failed.length}}):\n" + ClickExecutionContext.verboselyStringifyStates(failed))
 
     println("Check output @ sefl.output")
   }

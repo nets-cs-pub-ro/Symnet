@@ -5,6 +5,7 @@ import org.change.v2.analysis.expression.abst.Expression
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
 import org.change.v2.analysis.types.{LongType, NumericType}
 import org.change.v2.util.codeabstractions._
+import spray.json._
 
 /**
  * Created by radu on 3/24/15.
@@ -14,11 +15,10 @@ import org.change.v2.util.codeabstractions._
  */
 case class ValueStack(val vs: List[Value] = Nil) {
 
-  /**
-   * TODO: A proper impl.
-   * @return
-   */
-  override def toString = vs.toString()
+  import org.change.v2.analysis.memory.jsonformatters.ValueStackToJson._
+  def jsonString = this.toJson.prettyPrint
+
+  override def toString = jsonString
 
   def value: Option[Value] = vs.headOption
 
@@ -36,6 +36,7 @@ case class ValueStack(val vs: List[Value] = Nil) {
   def constrain(cs: List[Constraint]): ValueStack = cs.foldLeft(this) ( _ constrain _ )
 
   def addDefinition(v: Value): ValueStack = ValueStack( v :: vs)
+
 }
 
 object ValueStack {

@@ -6,7 +6,12 @@ import org.change.v2.analysis.memory.Tag
  * Author: Radu Stoenescu
  * Don't be a stranger,  symnetic.7.radustoe@spamgourmet.com
  */
-package object canonicalnames {
+package object  canonicalnames {
+
+  def nameToTagExp = Map(
+    "IPSrc" -> IPSrc,
+    "IPDst" -> IPDst
+  )
 
   // Avoid unnecessary tag object creation if we can
   val StartTag = Tag("START")

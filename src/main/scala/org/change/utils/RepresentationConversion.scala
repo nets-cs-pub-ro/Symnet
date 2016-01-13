@@ -23,4 +23,13 @@ object RepresentationConversion {
     (ipv & lowerM, ipv | higherM)
   }
 
+  def numberToIP(a: Long): String = {
+    var s = (a % 256).toString
+    var aRest = a >> 8
+    for ( _ <- 0 until 3) {
+      s = (aRest % 256) + "." + s
+      aRest = aRest >> 8
+    }
+    s
+  }
 }

@@ -29,10 +29,10 @@ object IPRewriterRunner {
       crtExecutor = crtExecutor.execute(true)
     }
 
-    val pr = new PrintWriter(new FileOutputStream(new File("iprw.output")))
+//    val pr = new PrintWriter(new FileOutputStream(new File("iprw.output")))
 
-    pr.print(crtExecutor.stringifyStates(includeOk = false, includeFailed = true))
-    pr.close()
+//    pr.print(crtExecutor.stringifyStates(includeOk = false, includeFailed = true))
+//    pr.close()
   }
 
 }

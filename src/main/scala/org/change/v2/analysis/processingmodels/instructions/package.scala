@@ -1,6 +1,6 @@
 package org.change.v2.analysis.processingmodels
 
-import org.change.v2.analysis.memory.MemorySpace
+import org.change.v2.analysis.memory.{State, MemorySpace}
 
 /**
  * Author: Radu Stoenescu

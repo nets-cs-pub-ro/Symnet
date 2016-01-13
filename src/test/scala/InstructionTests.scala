@@ -1,7 +1,6 @@
 import org.change.v2.analysis.expression.concrete.nonprimitive.{Symbol, :+:}
 import org.change.v2.analysis.expression.concrete.{ConstantValue, SymbolicValue}
-import org.change.v2.analysis.memory.{Value, MemorySpace}
-import org.change.v2.analysis.processingmodels.{State}
+import org.change.v2.analysis.memory.{State, Value, MemorySpace}
 import org.change.v2.analysis.processingmodels.instructions._
 import org.scalatest.{Matchers, FlatSpec}
 

@@ -23,10 +23,10 @@ object RuleSetVerification {
       crtExecutor = crtExecutor.execute(true)
     }
 
-    val pr = new PrintWriter(new FileOutputStream(new File("withrules.output")))
-
-    pr.print(crtExecutor.stringifyStates(includeOk = false, includeFailed = true))
-    pr.close()
+//    val pr = new PrintWriter(new FileOutputStream(new File("withrules.output")))
+//
+//    pr.print(crtExecutor.stringifyStates(includeOk = false, includeFailed = true))
+//    pr.close()
   }
 
 }
