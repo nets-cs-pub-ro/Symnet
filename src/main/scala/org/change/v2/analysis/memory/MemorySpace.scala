@@ -23,6 +23,9 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
   private def resolveBy[K](id: K, m: Map[K, MemoryObject]): Option[Value] =
     m.get(id).flatMap(_.value)
 
+  private def resolveByToObject[K](id: K, m: Map[K, MemoryObject]): Option[MemoryObject] =
+    m.get(id)
+
   def Tag(name: String, value: Int): Option[MemorySpace] = Some(MemorySpace(symbols, rawObjects, memTags + (name -> value)))
   def UnTag(name: String): Option[MemorySpace] = Some(MemorySpace(symbols, rawObjects, memTags - name))
 
@@ -33,6 +36,9 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
    */
   def eval(id: String): Option[Value] = resolveBy(id, symbols)
   def eval(a: Int): Option[Value] = resolveBy(a, rawObjects)
+
+  def evalToObject(id: String): Option[MemoryObject] = resolveByToObject(id, symbols)
+  def evalToObject(a: Int): Option[MemoryObject] = resolveByToObject(a, rawObjects)
 
   def canRead(a: Int): Boolean = resolveBy(a, rawObjects).isDefined
 

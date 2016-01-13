@@ -7,6 +7,7 @@ import org.change.v2.analysis.memory.{TagExp, State}
 import org.change.v2.analysis.processingmodels.instructions.{InstructionBlock, :==:, Constrain}
 import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
 import org.change.v2.analysis.memory.jsonformatters.StateToJson._
+import org.change.v2.validation.RunConfig
 import spray.json._
 import java.io.File
 
@@ -20,7 +21,18 @@ trait ExecutionLogger {
 object NoLogging extends ExecutionLogger
 
 object JsonLogger extends ExecutionLogger {
+  override def log(ctx: ClickExecutionContext): Unit = if (ctx.isDone) {
+    import org.change.v2.analysis.memory.jsonformatters.ExecutionContextToJson._
 
+    val output = new PrintWriter(new FileOutputStream(new File("out.json")))
+    output.println(ctx.toJson.prettyPrint)
+    output.close()
+
+    // Here I will call Matei's code and see the results
+
+//    import org.change.v2.util.canonicalnames._
+//    println(ctx.stuckStates.map(verifyState(Map(IPDst -> 2))))
+  }
 }
 
 object ModelValidation extends ExecutionLogger {
@@ -31,10 +43,14 @@ object ModelValidation extends ExecutionLogger {
     output.println(ctx.toJson.prettyPrint)
     output.close()
 
-    // Here I will call Matei's code and see the results
 
     import org.change.v2.util.canonicalnames._
-    println(ctx.stuckStates.map(verifyState(Map(IPDst -> 2))))
+
+    ctx.stuckStates.map({s =>
+      val inputExample = RunConfig.mateiInputFlowFromState(s)
+      println(inputExample)
+      // Here I will call Matei's code and see the results
+      println(verifyState(RunConfig.mateiOutputToValidationCase(inputExample))(s))})
   }
 
   def verifyState(concreteValues: Map[TagExp, Long])(s: State): Option[String] = {

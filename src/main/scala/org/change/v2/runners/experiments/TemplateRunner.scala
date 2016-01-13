@@ -22,7 +22,7 @@ object TemplateRunner {
       crtExecutor = crtExecutor.execute(verbose = true)
     }
 
-    println(executor.concretizeStates)
+//    println(executor.concretizeStates)
 
 //    val output = new PrintStream(new FileOutputStream(new File("template.output")))
 //    output.println(crtExecutor.stringifyStates())
