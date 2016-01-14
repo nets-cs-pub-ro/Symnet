@@ -46,11 +46,11 @@ object State {
      Assign(Proto, SymbolicValue()),
 
      Allocate(IPSrc, 32),
-     Assign(IPSrc, SymbolicValue()),
-     Constrain(IPSrc, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(4294967296L)))),
+     Assign(IPSrc, ConstantValue(org.change.utils.RepresentationConversion.ipToNumber("1.1.1.1"))),
+     //Constrain(IPSrc, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(4294967296L)))),
      Allocate(IPDst, 32),
      Assign(IPDst, SymbolicValue()),
-     Constrain(IPSrc, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(4294967296L)))),
+     //Constrain(IPDst, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(4294967296L)))),
 
      Allocate(TTL, 8),
      Assign(TTL, ConstantValue(255)),
