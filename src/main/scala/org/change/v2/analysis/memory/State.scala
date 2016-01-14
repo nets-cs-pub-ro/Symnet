@@ -71,11 +71,11 @@ object State {
 
      Allocate(TcpSrc, 16),
      Assign(TcpSrc, SymbolicValue()),
-     Constrain(TcpSrc, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(65536)))),
+     Constrain(TcpSrc, :&:(:>=:(ConstantValue(1000)), :<=:(ConstantValue(65536)))),
 
      Allocate(TcpDst, 16),
      Assign(TcpDst, SymbolicValue()),
-     Constrain(TcpDst, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(65536)))),
+     Constrain(TcpDst, :&:(:>=:(ConstantValue(1000)), :<=:(ConstantValue(65536)))),
 
      Allocate(TcpSeq, 32),
      Assign(TcpSeq, SymbolicValue()),
