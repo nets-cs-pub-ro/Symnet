@@ -46,11 +46,19 @@ object ModelValidation extends ExecutionLogger {
 
     import org.change.v2.util.canonicalnames._
 
-    ctx.stuckStates.map({s =>
+    ctx.stuckStates
+      .filter({s =>
+        s.location.toLowerCase().contains("dst")
+      })
+      .map({ s =>
       val inputExample = RunConfig.mateiInputFlowFromState(s)
       println(inputExample)
-      // Here I will call Matei's code and see the results
-      println(verifyState(RunConfig.mateiOutputToValidationCase(inputExample))(s))})
+
+      RunConfig.getMateiOutput(inputExample) match {
+        case Some(validationInput) => println(verifyState(validationInput)(s))
+        case None => println("Bad output from matei.")
+      }
+    })
   }
 
   def verifyState(concreteValues: Map[TagExp, Long])(s: State): Option[String] = {

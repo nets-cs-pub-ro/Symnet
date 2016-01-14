@@ -21,6 +21,22 @@ object RunConfig {
       s"SourcePort=${exampleFor(TcpSrc,s)} ,DestMAC=DEFAULT, " +
       s"DestIP=${RepresentationConversion.numberToIP(exampleFor(IPDst, s))} , DestPort=${exampleFor(TcpDst,s)} , SeqNo=0,AckNo=0,Flags=16}"
 
+  def getMateiOutput(mateiInput: String): Option[Map[TagExp, Long]] = {
+    val cmd = Seq("./script.sh",  mateiInput)
+//      "ssh radu@gaina.cs.pub.ro \"./run_matei.sh " +
+//      "'" + mateiInput + "'\""
+
+    println("Issuing: " + cmd)
+    import scala.sys.process._
+    val cmdOutput = cmd.!!.trim
+    println("Got:\n" + cmdOutput)
+
+    if (cmdOutput.matches("\\{.+\\}"))
+      Some(mateiOutputToValidationCase(cmdOutput))
+    else
+      None
+  }
+
   def mateiOutputToValidationCase(output: String): Map[TagExp, Long] = {
     output.stripPrefix("{").stripSuffix("}").split(",").map(_.trim).map({pair =>
       val split = pair.split("=")
@@ -39,4 +55,17 @@ object RunConfig {
     "DestPort" -> TcpDst
   )
 
+  import java.util.Date
+
+  object ShellJob {
+    def run(cmd: String): (String, Date, Date) = {
+      val start = new Date ()
+
+      import scala.sys.process._
+      val output = cmd.!!
+
+      val stop = new Date ()
+      (output, start, stop)
+    }
+  }
 }
