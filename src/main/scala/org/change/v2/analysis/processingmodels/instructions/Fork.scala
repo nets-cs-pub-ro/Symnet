@@ -6,7 +6,7 @@ import org.change.v2.analysis.processingmodels.Instruction
 /**
  * A small gift from radu to symnetic.
  */
-case class Fork(forkBlocks: Seq[Instruction]) extends Instruction {
+case class Fork(forkBlocks: Iterable[Instruction]) extends Instruction {
   /**
    *
    * A state processing block produces a set of new states based on a previous one.
@@ -15,7 +15,7 @@ case class Fork(forkBlocks: Seq[Instruction]) extends Instruction {
    * @return
    */
   override def apply(s: State, verbose: Boolean): (List[State], List[State]) = {
-    val (s, f) = forkBlocks.map(i => i(s)).unzip
-    (s.flatten.toList, f.flatten.toList)
+    val (success, fail) = forkBlocks.map(i => i(s, verbose)).unzip
+    (success.flatten.toList, fail.flatten.toList)
   }
 }

@@ -1,12 +1,14 @@
 package org.change.v2.analysis.constraint
 
+import org.change.v2.analysis.memory.State
+import org.change.v2.analysis.processingmodels.instructions.FloatingConstraint
 import org.change.v2.analysis.types._
 import org.change.v2.analysis.z3.Z3Util
 import org.change.v2.interval._
 import org.change.v2.interval.IntervalOps._
 import z3.scala.{Z3Solver, Z3AST}
 
-trait Constraint {
+trait Constraint extends FloatingConstraint {
   /**
    * Materialize a constraint as the set of possible values.
    *
@@ -22,6 +24,8 @@ trait Constraint {
    * @return The new AST incorporating the current constraint.
    */
   def z3Constrain(subject: Z3AST): Z3AST
+
+  override def instantiate(s: State): Either[Constraint, String] = Left(this)
 }
 
 object Constraint {
