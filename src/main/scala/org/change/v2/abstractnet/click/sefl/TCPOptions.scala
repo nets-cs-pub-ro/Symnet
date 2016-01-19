@@ -23,7 +23,8 @@ class ScanTCPOptions(name: String,
 
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
-      //check that TCP header is allocated, modify TCP options field
+      Assign("OPT30",ConstantValue(0)),
+      Forward(outputPortName(0))	
 //      Allocate("t"),
 //      Assign("t",:@("OPT8")),
 //
@@ -33,7 +34,6 @@ class ScanTCPOptions(name: String,
 //
 //      Assign("OPT8",:@("t")),
 //      Deallocate("t"),
-//      Forward(outputPortName(0))
     )
   )
 }

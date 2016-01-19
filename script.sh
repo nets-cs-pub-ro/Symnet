@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ssh radu@gaina.cs.pub.ro "./run_matei.sh '$1'"
+ssh $(whoami)@gaina.cs.pub.ro "./run_matei.sh '$1'"
