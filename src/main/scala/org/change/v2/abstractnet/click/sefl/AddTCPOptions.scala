@@ -24,22 +24,45 @@ class AddTCPOptions(name: String,
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
       //check that TCP header is allocated, modify TCP options field
+
+      Allocate("OPT1"),
+      Allocate("SIZE1"),
+      Assign("OPT1",ConstantValue(1)),
+      Assign("SIZE1",ConstantValue(1)),
+      
+      Allocate("OPT2"),
+      Allocate("SIZE2"),      
+      Allocate("VAL2"),
+      Assign("OPT2",ConstantValue(1)),      
+      Assign("SIZE2",ConstantValue(4)),
+      Assign("VAL2",ConstantValue(1380)),
+      
+      Allocate("OPT3"),
+      Allocate("SIZE3"),
+      Allocate("VAL3"),
+      Assign("OPT3",ConstantValue(1)),
+      Assign("SIZE3",ConstantValue(3)),
+      Assign("VAL3",ConstantValue(7)),
+      
+      Allocate("OPT5"),
+      Allocate("SIZE5"),
+      Assign("OPT5",ConstantValue(1)),
+      Assign("SIZE5",ConstantValue(2)),
+      
       Allocate("OPT8"),
       Allocate("VAL8"),
+      Allocate("SIZE8"),	
       Assign("OPT8",ConstantValue(1)),
+      Assign("SIZE8",ConstantValue(10)),
       Assign("VAL8",SymbolicValue()),
-      Allocate("OPT9"),
-      Allocate("VAL9"),
-      Assign("OPT9",ConstantValue(0)),
-      Assign("VAL9",SymbolicValue()),
+
       Allocate("OPT30"),
       Allocate("VAL30"),
-      Assign("OPT30",SymbolicValue()),
+      Allocate("SIZE30"),	
+      Assign("OPT30",ConstantValue(1)),
+      Assign("SIZE30",ConstantValue(20)),
       Assign("VAL30",SymbolicValue()),
-      Allocate("OPT31"),
-      Allocate("VAL31"),
-      Assign("OPT31",SymbolicValue()),
-      Assign("VAL31",SymbolicValue()),
+
       Forward(outputPortName(0))
     )
   )
