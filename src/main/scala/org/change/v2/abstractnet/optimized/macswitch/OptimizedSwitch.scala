@@ -57,13 +57,11 @@ object OptimizedSwitch {
   def getBuilder: OptimizedSwitchElementBuilder =
     getBuilder(s"$genericElementName-$unnamedCount")
 
-  def fromCiscoMacTable(f: File): OptimizedSwitch = {
-    val name = f.getName.trim
-
+  def parseMacFile(f: File): Traversable[(String, String, String)] = {
     val stream = Source.fromFile(f)
 
     import org.change.v2.util.regexes._
-    val instrs: Iterable[Instruction] = (for {
+    (for {
       l <- stream.getLines()
       if (l.matches(".*" + macCisco + ".*"))
       parts = l.trim.split("\\s+")
@@ -71,8 +69,14 @@ object OptimizedSwitch {
       mac = parts(1)
       port = parts(3)
     } yield {
-      (port, vlan, mac)
-    }).toTraversable.groupBy({triplet =>  (triplet._1, triplet._2)}).map({kv => {
+        (port, vlan, mac)
+    }).toTraversable
+  }
+
+  def fromCiscoMacTable(f: File): OptimizedSwitch = {
+    val name = f.getName.trim
+
+    val instrs = parseMacFile(f).groupBy({triplet =>  (triplet._1, triplet._2)}).map({kv => {
       val (port, vlan) = kv._1
       val macs = kv._2.map(_._3).map(RepresentationConversion.macToNumberCiscoFormat(_))
       val macConstraint = ConstrainRaw(EtherDst, OR(macs.map(m => EQ_E(ConstantValue(m))).toList))
@@ -85,6 +89,24 @@ object OptimizedSwitch {
             Forward(port),
             Fail("Cannot Forward, bad VLAN")),
         Fail("Cannot Forward, MacDst doesn't match"))
+    }})
+
+    new OptimizedSwitch(name, genericElementName, Nil, Nil, Nil) {
+      override def instructions: Map[LocationId, Instruction] = Map("0" -> Fork(instrs))
+    }
+  }
+
+  def fromCiscoMacTableIgnoringVlans(f: File): OptimizedSwitch = {
+    val name = f.getName.trim
+
+    val instrs = parseMacFile(f).groupBy(_._1).map({kv => {
+      val port = kv._1
+      val macs = kv._2.map(_._3).map(RepresentationConversion.macToNumberCiscoFormat(_))
+      val macConstraint = ConstrainRaw(EtherDst, OR(macs.map(m => EQ_E(ConstantValue(m))).toList))
+
+      If(macConstraint,
+          Forward(port),
+          Fail("Cannot Forward, MacDst doesn't match"))
     }})
 
     new OptimizedSwitch(name, genericElementName, Nil, Nil, Nil) {

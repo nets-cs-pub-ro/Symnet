@@ -9,7 +9,7 @@ import org.change.v2.analysis.memory.State
 object CiscoSwitchTestBench extends App {
 
   import org.change.v2.abstractnet.optimized.macswitch.OptimizedSwitch
-  val sw = OptimizedSwitch.fromCiscoMacTable(new File("src/main/resources/full_facultatea/sw-ef00.txt"))
+  val sw = OptimizedSwitch.fromCiscoMacTableIgnoringVlans(new File("src/main/resources/full_facultatea/sw-ef00.txt"))
   val start = System.currentTimeMillis()
 
   val r = sw.instructions.head._2.apply(State.allSymbolic, true)
