@@ -104,9 +104,7 @@ object OptimizedSwitch {
       val macs = kv._2.map(_._3).map(RepresentationConversion.macToNumberCiscoFormat)
       val macConstraint = ConstrainRaw(EtherDst, OR(macs.map(m => EQ_E(ConstantValue(m))).toList))
 
-      If(macConstraint,
-          Forward(port),
-          Fail("Cannot forward, MacDst doesn't match"))
+      InstructionBlock(macConstraint,Forward(port))
     }})
 
     new OptimizedSwitch(name, genericElementName, Nil, Nil, Nil) {
