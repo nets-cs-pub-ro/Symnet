@@ -251,7 +251,13 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
   private var isZ3ModelCacheValid = false
   private var modelCache: Option[Z3Model] = _
 
-  def isZ3Valid: Boolean = buildSolver.check().get
+  def isZ3Valid: Boolean = {
+      val crt = System.currentTimeMillis()
+      val aux = buildSolver.check().get
+      MemorySpace.incZ3Time(System.currentTimeMillis()-crt)
+      MemorySpace.incZ3Call
+      aux
+  }
 
   def buildModel: Option[Z3Model] = if (isZ3ModelCacheValid)
     modelCache
@@ -280,6 +286,12 @@ object MemorySpace {
    * Empty memory.
    * @return
    */
+   var z3Time = 0L;
+   var z3Call = 0L;
+
+   def incZ3Time(i:Long) = z3Time+=i
+   def incZ3Call() = z3Call+=1
+   
   def clean: MemorySpace = new MemorySpace()
 
   /**

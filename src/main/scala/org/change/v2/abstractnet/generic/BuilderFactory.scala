@@ -40,7 +40,7 @@ object BuilderFactory {
     case "HostEtherFilter" => HostEtherFilter.getBuilder(nameValue)
     case "Template"  => Template.getBuilder(nameValue)
     case "AddTCPOptions"  => AddTCPOptions.getBuilder(nameValue)
-    case "ScanTCPOptions"  => ScanTCPOptions.getBuilder(nameValue)
+    case "TCPOptions"  => TCPOptions.getBuilder(nameValue)
     //    case "IPFilter"  => IPFilter.getBuilder(nameValue)
     case "Paint" => Paint.getBuilder(nameValue)
     case "LinearIPLookup" => LinearIPLookup.getBuilder(nameValue)
@@ -81,7 +81,7 @@ object BuilderFactory {
     case "HostEtherFilter" => HostEtherFilter.getBuilder
     case "Template"  => Template.getBuilder
     case "AddTCPOptions"  => AddTCPOptions.getBuilder
-    case "ScanTCPOptions"  => ScanTCPOptions.getBuilder
+    case "TCPOptions"  => TCPOptions.getBuilder
 //    case "IPFilter"  => IPFilter.getBuilder
     case "Paint"  => Paint.getBuilder
     case "LinearIPLookup" => LinearIPLookup.getBuilder

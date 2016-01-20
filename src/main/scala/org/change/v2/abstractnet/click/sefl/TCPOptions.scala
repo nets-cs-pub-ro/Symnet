@@ -10,7 +10,7 @@ import org.change.v2.util.canonicalnames._
 import org.change.v2.analysis.memory.TagExp._
 import org.change.v2.analysis.memory.Tag
 
-class ScanTCPOptions(name: String,
+class TCPOptions(name: String,
                    elementType: String,
                    inputPorts: List[Port],
                    outputPorts: List[Port],
@@ -38,30 +38,30 @@ class ScanTCPOptions(name: String,
   )
 }
 
-class ScanTCPOptionsElementBuilder(name: String, elementType: String)
+class TCPOptionsElementBuilder(name: String, elementType: String)
   extends ElementBuilder(name, elementType) {
 
   addInputPort(Port())
   addOutputPort(Port())
 
   override def buildElement: GenericElement = {
-    new ScanTCPOptions(name, elementType, getInputPorts, getOutputPorts, getConfigParameters)
+    new TCPOptions(name, elementType, getInputPorts, getOutputPorts, getConfigParameters)
   }
 }
 
-object ScanTCPOptions {
+object TCPOptions {
   private var unnamedCount = 0
 
-  private val genericElementName = "ScanTCPOptions"
+  private val genericElementName = "TCPOptions"
 
   private def increment {
     unnamedCount += 1
   }
 
-  def getBuilder(name: String): ScanTCPOptionsElementBuilder = {
-    increment ; new ScanTCPOptionsElementBuilder(name, "ScanTCPOptions")
+  def getBuilder(name: String): TCPOptionsElementBuilder = {
+    increment ; new TCPOptionsElementBuilder(name, "TCPOptions")
   }
 
-  def getBuilder: ScanTCPOptionsElementBuilder =
+  def getBuilder: TCPOptionsElementBuilder =
     getBuilder(s"$genericElementName-$unnamedCount")
 }
