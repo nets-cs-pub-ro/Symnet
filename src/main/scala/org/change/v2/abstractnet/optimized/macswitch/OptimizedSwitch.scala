@@ -78,7 +78,7 @@ object OptimizedSwitch {
 
     val instrs = parseMacFile(f).groupBy({triplet =>  (triplet._1, triplet._2)}).map({kv => {
       val (port, vlan) = kv._1
-      val macs = kv._2.map(_._3).map(RepresentationConversion.macToNumberCiscoFormat(_))
+      val macs = kv._2.map(_._3).map(RepresentationConversion.macToNumberCiscoFormat)
       val macConstraint = ConstrainRaw(EtherDst, OR(macs.map(m => EQ_E(ConstantValue(m))).toList))
 
       If(macConstraint,
@@ -87,8 +87,8 @@ object OptimizedSwitch {
         else
           If(Constrain(VLANTag, :==:(ConstantValue(vlan.toInt))),
             Forward(port),
-            Fail("Cannot Forward, bad VLAN")),
-        Fail("Cannot Forward, MacDst doesn't match"))
+            Fail("Cannot forward, bad VLAN")),
+        Fail("Cannot forward, MacDst doesn't match"))
     }})
 
     new OptimizedSwitch(name, genericElementName, Nil, Nil, Nil) {
@@ -101,16 +101,54 @@ object OptimizedSwitch {
 
     val instrs = parseMacFile(f).groupBy(_._1).map({kv => {
       val port = kv._1
-      val macs = kv._2.map(_._3).map(RepresentationConversion.macToNumberCiscoFormat(_))
+      val macs = kv._2.map(_._3).map(RepresentationConversion.macToNumberCiscoFormat)
       val macConstraint = ConstrainRaw(EtherDst, OR(macs.map(m => EQ_E(ConstantValue(m))).toList))
 
       If(macConstraint,
           Forward(port),
-          Fail("Cannot Forward, MacDst doesn't match"))
+          Fail("Cannot forward, MacDst doesn't match"))
     }})
 
     new OptimizedSwitch(name, genericElementName, Nil, Nil, Nil) {
       override def instructions: Map[LocationId, Instruction] = Map("0" -> Fork(instrs))
+    }
+  }
+
+  def unoptimizedLinearLookupSwitch(f: File): OptimizedSwitch = {
+    val name = f.getName.trim
+
+    val macs = parseMacFile(f)
+    val instrs = macs.foldRight(Fail("Cannot Forward, dest unknown"): Instruction)(
+     (t: (String, String, String), i: Instruction) => {
+        val port = t._1
+        val macConstraint = ConstrainRaw(EtherDst, :==:(ConstantValue(RepresentationConversion.macToNumberCiscoFormat(t._3))))
+
+        If(macConstraint,
+          Forward(port),
+          i)
+     })
+
+    new OptimizedSwitch(name, genericElementName, Nil, Nil, Nil) {
+      override def instructions: Map[LocationId, Instruction] = Map("0" -> instrs)
+    }
+  }
+
+  def unoptimizedGroupedLinearSwitch(f: File): OptimizedSwitch = {
+    val name = f.getName.trim
+
+    val instrs = parseMacFile(f).groupBy(_._1).foldRight(Fail("Cannot Forward, dest unknown"): Instruction)(
+      (t: (String, Traversable[(String, String, String)]), i: Instruction) => {
+        val port = t._1
+        val macs = t._2.map(_._3).map(RepresentationConversion.macToNumberCiscoFormat)
+        val macConstraint = ConstrainRaw(EtherDst, OR(macs.map(m => EQ_E(ConstantValue(m))).toList))
+
+        If(macConstraint,
+          Forward(port),
+          i)
+      })
+
+    new OptimizedSwitch(name, genericElementName, Nil, Nil, Nil) {
+      override def instructions: Map[LocationId, Instruction] = Map("0" -> instrs)
     }
   }
 }

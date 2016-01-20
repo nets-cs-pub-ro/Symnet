@@ -37,4 +37,8 @@ lazy val fuckultatea = taskKey[Unit]("Running multiple VMs")
 
 fullRunTask(fuckultatea, Compile, "org.change.v2.runners.experiments.MultipleVmsFacultatea")
 
+lazy val switch_bench = taskKey[Unit]("Switch Bench")
+
+fullRunTask(switch_bench, Compile, "org.change.v2.runners.experiments.ciscoswitchtest.CiscoSwitchTestBench")
+
 seq(Revolver.settings: _*)

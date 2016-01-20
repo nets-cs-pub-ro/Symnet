@@ -9,20 +9,32 @@ import org.change.v2.analysis.memory.State
 object CiscoSwitchTestBench extends App {
 
   import org.change.v2.abstractnet.optimized.macswitch.OptimizedSwitch
-  val sw = OptimizedSwitch.fromCiscoMacTableIgnoringVlans(new File("src/main/resources/full_facultatea/sw-ef00.txt"))
-  val start = System.currentTimeMillis()
 
-  val r = sw.instructions.head._2.apply(State.allSymbolic, true)
+  def bench(switchMaker: File => OptimizedSwitch): Unit = {
+    val sw = switchMaker(new File("src/main/resources/full_facultatea/sw-ef00.txt"))
+    val start = System.currentTimeMillis()
 
-  val stop = System.currentTimeMillis()
+    val r = sw.instructions.head._2.apply(State.allSymbolic, true)
 
-  println(stop - start)
+    val stop = System.currentTimeMillis()
 
-  println(r._1.length)
-  println(r._2.length)
+    println("Took:" + (stop - start))
 
-  val f = new PrintWriter(new FileOutputStream(new File("switch.json")))
-  for (s <- r._1) {
-    f.println(s.jsonString)
+    println("Successful " + r._1.length)
+    println("Failed " + r._2.length)
   }
+
+  println("Best")
+  bench(OptimizedSwitch.fromCiscoMacTableIgnoringVlans)
+  println("Linear, but grouped macs per port")
+  bench(OptimizedSwitch.unoptimizedGroupedLinearSwitch)
+  println("Linear lookup")
+  bench(OptimizedSwitch.unoptimizedLinearLookupSwitch)
+
+
+
+//  val f = new PrintWriter(new FileOutputStream(new File("switch.json")))
+//  for (s <- r._1) {
+//    f.println(s.jsonString)
+//  }
 }
