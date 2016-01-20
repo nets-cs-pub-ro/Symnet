@@ -116,8 +116,8 @@ object OptimizedSwitch {
     val name = f.getName.trim
 
     val macs = parseMacFile(f)
-    val instrs = macs.foldRight(Fail("Cannot Forward, dest unknown"): Instruction)(
-     (t: (String, String, String), i: Instruction) => {
+    val instrs = macs.foldLeft(Fail("Cannot Forward, dest unknown"): Instruction)(
+     (i: Instruction, t: (String, String, String)) => {
         val port = t._1
         val macConstraint = ConstrainRaw(EtherDst, :==:(ConstantValue(RepresentationConversion.macToNumberCiscoFormat(t._3))))
 
