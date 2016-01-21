@@ -1,8 +1,8 @@
 package org.change.v2.validation
 
-import org.change.utils.RepresentationConversion
 import org.change.v2.analysis.memory.{TagExp, State}
 import org.change.v2.util.canonicalnames._
+import org.change.v2.util.conversion.RepresentationConversion
 
 /**
  * A small gift from radu to symnetic.

@@ -34,4 +34,13 @@ object RepresentationConversion {
     (ipv & maskv, (((ipv | (~maskv))  << 32) >>> 32))
   }
 
+  def numberToIP(a: Long): String = {
+    var s = (a % 256).toString
+    var aRest = a >> 8
+    for ( _ <- 0 until 3) {
+      s = (aRest % 256) + "." + s
+      aRest = aRest >> 8
+    }
+    s
+  }
 }
