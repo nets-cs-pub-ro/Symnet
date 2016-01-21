@@ -41,13 +41,13 @@ object CiscoSwitchTestBench extends App {
 //    println("Naive router on small")
 //    bench(OptimizedRouter.makeNaiveRouter, "src/main/resources/routing_tables/small.txt")
 
-//    println("Best router on medium")
-//    bench(OptimizedRouter.makeRouter, "src/main/resources/routing_tables/medium.txt")
+    println("Best router on medium")
+    bench(OptimizedRouter.makeRouter, "src/main/resources/routing_tables/medium.txt")
 //    println("Naive router on medium")
 //    bench(OptimizedRouter.makeNaiveRouter, "src/main/resources/routing_tables/medium.txt")
 
-    println("Naive router on huge")
-    bench(OptimizedRouter.makeNaiveRouter, "src/main/resources/routing_tables/huge.txt")
+//    println("Naive router on huge")
+//    bench(OptimizedRouter.makeNaiveRouter, "src/main/resources/routing_tables/huge.txt")
 //    println("Best on huge")
 //    bench(OptimizedRouter.makeRouter, "src/main/resources/routing_tables/huge.txt")
 

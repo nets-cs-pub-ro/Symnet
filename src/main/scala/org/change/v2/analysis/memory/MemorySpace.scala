@@ -1,5 +1,7 @@
 package org.change.v2.analysis.memory
 
+import java.util.concurrent.{Callable, Executors, ExecutorService}
+
 import org.change.v2.analysis.constraint._
 import org.change.v2.analysis.expression.abst.Expression
 import org.change.v2.analysis.expression.concrete.SymbolicValue
@@ -252,11 +254,17 @@ case class MemorySpace(val symbols: Map[String, MemoryObject] = Map.empty,
   private var modelCache: Option[Z3Model] = _
 
   def isZ3Valid: Boolean = {
-      val crt = System.currentTimeMillis()
-      val aux = buildSolver.check().get
-      MemorySpace.incZ3Time(System.currentTimeMillis()-crt)
-      MemorySpace.incZ3Call
-      aux
+    val job = MemorySpace.service.submit(new Callable[Boolean]() {
+      override def call(): Boolean = {
+        val crt = System.currentTimeMillis()
+        val aux = buildSolver.check().get
+        MemorySpace.incZ3Time(System.currentTimeMillis()-crt)
+        MemorySpace.incZ3Call
+        aux
+      }
+    })
+
+    job.get()
   }
 
   def buildModel: Option[Z3Model] = if (isZ3ModelCacheValid)
@@ -300,4 +308,6 @@ object MemorySpace {
    * @return
    */
   def cleanWithSymolics(symbols: List[String]) = symbols.foldLeft(clean)((mem, s) => mem.Assign(s, SymbolicValue()).get)
+
+  lazy val service: ExecutorService = Executors.newWorkStealingPool()
 }

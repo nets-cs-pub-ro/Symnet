@@ -101,7 +101,7 @@ object OptimizedRouter {
           conflictCount += conflicts.size
           which += 1
 
-//          if (which % 100 == 0) println(which)
+          if (which % 100 == 0) println(which)
 
           if (conflicts.nonEmpty)
             Seq(NOT(OR((conflicts.map( conflictual => {
