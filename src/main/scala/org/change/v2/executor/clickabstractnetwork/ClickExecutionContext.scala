@@ -1,5 +1,7 @@
 package org.change.v2.executor.clickabstractnetwork
 
+import java.util.concurrent.{Executors, ExecutorService}
+
 import org.change.symbolicexec.verification.Rule
 import org.change.v2.abstractnet.generic.NetworkConfig
 import org.change.v2.analysis.memory.State
@@ -54,7 +56,10 @@ case class ClickExecutionContext(
    * @param verbose
    * @return
    */
-  def untilDone(verbose: Boolean): ClickExecutionContext = if (isDone) this else this.execute(verbose).untilDone(verbose)
+  def untilDone(verbose: Boolean): ClickExecutionContext = if (isDone) {
+    ClickExecutionContext.executorService.shutdownNow()
+    this
+  } else this.execute(verbose).untilDone(verbose)
 
   def execute(verbose: Boolean = false): ClickExecutionContext = {
     val (ok, fail, stuck) = (for {
@@ -89,6 +94,20 @@ case class ClickExecutionContext(
 }
 
 object ClickExecutionContext {
+
+  private var executorService: ExecutorService = buildNewService()
+
+  private def buildNewService(): ExecutorService = {
+    Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors)
+  }
+
+  def getService = {
+    if (executorService.isShutdown) {
+      executorService = buildNewService()
+    }
+
+    executorService
+  }
 
   /**
    * Builds a symbolic execution context out of a single click config file.

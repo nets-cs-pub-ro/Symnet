@@ -7,6 +7,7 @@ import org.change.v2.analysis.expression.abst.Expression
 import org.change.v2.analysis.expression.concrete.SymbolicValue
 import org.change.v2.analysis.types.{LongType, NumericType, TypeUtils, Type}
 import org.change.v2.analysis.z3.Z3Util
+import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
 import org.change.v2.interval.{IntervalOps, ValueSet}
 import org.change.v2.util.codeabstractions._
 import z3.scala.{Z3Model, Z3Solver}
@@ -309,5 +310,5 @@ object MemorySpace {
    */
   def cleanWithSymolics(symbols: List[String]) = symbols.foldLeft(clean)((mem, s) => mem.Assign(s, SymbolicValue()).get)
 
-  lazy val service: ExecutorService = Executors.newWorkStealingPool()
+  def service = ClickExecutionContext.getService
 }

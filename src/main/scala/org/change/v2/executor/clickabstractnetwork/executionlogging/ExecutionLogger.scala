@@ -46,18 +46,29 @@ object ModelValidation extends ExecutionLogger {
 
     import org.change.v2.util.canonicalnames._
 
-    ctx.stuckStates
-      .filter({s =>
-        s.location.toLowerCase().contains("dst")
-      })
-      .map({ s =>
+    val (reachedDst, stuckSomewhere) = ctx.stuckStates
+      .partition(_.location.toLowerCase().contains("dst"))
+
+    println("Trying those reaching the destination")
+    reachedDst.map({ s =>
       val inputExample = RunConfig.mateiInputFlowFromState(s)
       println(inputExample)
 
-      RunConfig.getMateiOutput(inputExample) match {
+      RunConfig.getMateiOutputAsExample(inputExample) match {
         case Some(validationInput) => println(verifyState(validationInput)(s))
         case None => println("Bad output from matei.")
       }
+    })
+
+    println("Trying those stuck")
+    stuckSomewhere.map({ s =>
+      val inputExample = RunConfig.mateiInputFlowFromState(s)
+      println(inputExample)
+
+      if (RunConfig.getMateisOutput(inputExample).contains("{}"))
+        println("Stuck state got stuck IRL")
+      else
+        println("Hmm apparently it escaped")
     })
   }
 
