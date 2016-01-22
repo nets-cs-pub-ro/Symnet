@@ -1,8 +1,8 @@
 package org.change.symbolicexec.blocks.click
 
 import org.change.symbolicexec._
-import org.change.utils.{NumberFor, RepresentationConversion}
 import org.change.v2.abstractnet.generic.ConfigParameter
+import org.change.v2.util.conversion.{RepresentationConversion, NumberFor}
 
 class IPFilterBlock(id: String, params: List[ConfigParameter]) {
 

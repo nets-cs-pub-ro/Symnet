@@ -3,6 +3,7 @@ package org.change.v2.runners.experiments
 import java.io.{File, FileOutputStream, PrintStream}
 
 import org.change.parser.clickfile.ClickToAbstractNetwork
+import org.change.v2.analysis.memory.MemorySpace
 import org.change.v2.executor.clickabstractnetwork.ClickExecutionContext
 import org.change.v2.executor.clickabstractnetwork.executionlogging.{ModelValidation, JsonLogger, OldStringifier}
 
@@ -17,10 +18,7 @@ object TemplateRunner {
     val absNet = ClickToAbstractNetwork.buildConfig(clickConfig)
     val executor = ClickExecutionContext.fromSingle(absNet).setLogger(ModelValidation)
 
-    var crtExecutor = executor
-    while (!crtExecutor.isDone) {
-      crtExecutor = crtExecutor.execute(verbose = true)
-    }
+    var crtExecutor = executor.untilDone(true)
 
 //    println(executor.concretizeStates)
 

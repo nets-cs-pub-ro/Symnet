@@ -1,14 +1,14 @@
 package org.change.v2.abstractnet.optimized.macswitch
 
-import java.io.{InputStreamReader, FileInputStream, File}
+import java.io.File
 
 import org.change.v2.abstractnet.generic.{ElementBuilder, GenericElement, ConfigParameter, Port}
 import org.change.v2.analysis.constraint.{EQ_E, OR}
 import org.change.v2.analysis.expression.concrete.ConstantValue
 import org.change.v2.analysis.processingmodels._
 import org.change.v2.analysis.processingmodels.instructions._
-import org.change.utils.RepresentationConversion
 import org.change.v2.util.canonicalnames._
+import org.change.v2.util.conversion.RepresentationConversion
 
 import scala.io.Source
 

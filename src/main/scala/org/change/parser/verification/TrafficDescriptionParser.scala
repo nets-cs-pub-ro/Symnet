@@ -4,12 +4,12 @@ import org.change.v2.analysis.constraint._
 import org.change.v2.analysis.expression.concrete.ConstantValue
 import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.util.canonicalnames._
+import org.change.v2.util.conversion.{NumberFor, RepresentationConversion}
 
 import scala.collection.JavaConverters._
 import generated.reachlang.ReachLangBaseVisitor
 import generated.reachlang.ReachLangParser._
 import org.change.symbolicexec.{E, Range, Constraint, Symbol}
-import org.change.utils.{NumberFor, RepresentationConversion}
 
 object TrafficDescriptionParser extends ReachLangBaseVisitor[List[ConstrainRaw]] {
   override def visitTrafficdesc(ctx: TrafficdescContext): List[ConstrainRaw] =

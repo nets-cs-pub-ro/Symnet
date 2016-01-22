@@ -1,8 +1,8 @@
 package org.change.v2.validation
 
-import org.change.utils.RepresentationConversion
 import org.change.v2.analysis.memory.{TagExp, State}
 import org.change.v2.util.canonicalnames._
+import org.change.v2.util.conversion.RepresentationConversion
 
 /**
  * A small gift from radu to symnetic.
@@ -21,15 +21,20 @@ object RunConfig {
       s"SourcePort=${exampleFor(TcpSrc,s)} ,DestMAC=DEFAULT, " +
       s"DestIP=${RepresentationConversion.numberToIP(exampleFor(IPDst, s))} , DestPort=${exampleFor(TcpDst,s)} , SeqNo=0,AckNo=0,Flags=16}"
 
-  def getMateiOutput(mateiInput: String): Option[Map[TagExp, Long]] = {
+  def getMateisOutput(mateiInput: String): String = {
     val cmd = Seq("./script.sh",  mateiInput)
-//      "ssh radu@gaina.cs.pub.ro \"./run_matei.sh " +
-//      "'" + mateiInput + "'\""
+    //      "ssh radu@gaina.cs.pub.ro \"./run_matei.sh " +
+    //      "'" + mateiInput + "'\""
 
-    println("Issuing: " + cmd)
+    //    println("Issuing: " + cmd)
     import scala.sys.process._
     val cmdOutput = cmd.!!.trim
     println("Got:\n" + cmdOutput)
+    cmdOutput
+  }
+  
+  def getMateiOutputAsExample(mateiInput: String): Option[Map[TagExp, Long]] = {
+    val cmdOutput = getMateisOutput(mateiInput)
 
     if (cmdOutput.matches("\\{.+\\}"))
       Some(mateiOutputToValidationCase(cmdOutput))
