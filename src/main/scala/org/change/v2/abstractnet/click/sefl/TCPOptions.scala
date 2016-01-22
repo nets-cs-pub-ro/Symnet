@@ -24,16 +24,47 @@ class TCPOptions(name: String,
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
       Assign("OPT30",ConstantValue(0)),
-      Forward(outputPortName(0))	
-//      Allocate("t"),
-//      Assign("t",:@("OPT8")),
-//
-//      for (x <- "OPT.*")(
-//        Assign(":x",ConstantValue(0))
-//      ),
-//
-//      Assign("OPT8",:@("t")),
-//      Deallocate("t"),
+      Assign("OPT2",ConstantValue(1)),
+      Assign("SIZE2",ConstantValue(4)),
+      If (Constrain("VAL2",:>:(ConstantValue(1380))),Assign("VAL2",ConstantValue(1380)),NoOp),      	 
+      If (Constrain(TcpDst,:==:(ConstantValue(80))),Assign("OPT5",ConstantValue(0)),NoOp),
+      If (Constrain("SIZE5",:~:(:==:(ConstantValue(2)))),
+      	 InstructionBlock(
+		Constrain("OPT5",:==:(ConstantValue(1))),
+		Assign("OPT5",ConstantValue(0)),
+		If(Constrain("OPT2",:==:(ConstantValue(1))),Assign("OPT2",SymbolicValue()),NoOp),
+		If(Constrain("OPT3",:==:(ConstantValue(1))),Assign("OPT3",SymbolicValue()),NoOp),
+		If(Constrain("OPT8",:==:(ConstantValue(1))),Assign("OPT8",SymbolicValue()),NoOp)
+	 ),
+	 NoOp),
+      If (Constrain("SIZE2",:~:(:==:(ConstantValue(4)))),
+      	 InstructionBlock(
+		Constrain("OPT2",:==:(ConstantValue(1))),
+		Assign("OPT2",ConstantValue(0)),
+		If(Constrain("OPT3",:==:(ConstantValue(1))),Assign("OPT3",SymbolicValue()),NoOp),
+		If(Constrain("OPT5",:==:(ConstantValue(1))),Assign("OPT5",SymbolicValue()),NoOp),
+		If(Constrain("OPT8",:==:(ConstantValue(1))),Assign("OPT8",SymbolicValue()),NoOp)
+	 ),
+	 NoOp),
+      If (Constrain("SIZE3",:~:(:==:(ConstantValue(3)))),
+      	 InstructionBlock(
+		Constrain("OPT3",:==:(ConstantValue(1))),
+		Assign("OPT3",ConstantValue(0)),
+		If(Constrain("OPT2",:==:(ConstantValue(1))),Assign("OPT2",SymbolicValue()),NoOp),
+		If(Constrain("OPT5",:==:(ConstantValue(1))),Assign("OPT5",SymbolicValue()),NoOp),
+		If(Constrain("OPT8",:==:(ConstantValue(1))),Assign("OPT8",SymbolicValue()),NoOp)
+	 ),
+	 NoOp),
+      If (Constrain("SIZE8",:~:(:==:(ConstantValue(8)))),
+      	 InstructionBlock(
+		Constrain("OPT8",:==:(ConstantValue(1))),
+		Assign("OPT8",ConstantValue(0)),
+		If(Constrain("OPT2",:==:(ConstantValue(1))),Assign("OPT2",SymbolicValue()),NoOp),
+		If(Constrain("OPT3",:==:(ConstantValue(1))),Assign("OPT3",SymbolicValue()),NoOp),
+		If(Constrain("OPT8",:==:(ConstantValue(1))),Assign("OPT8",SymbolicValue()),NoOp)
+	 ),
+	 NoOp),	 
+	 Forward(outputPortName(0))	
     )
   )
 }

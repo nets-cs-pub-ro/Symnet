@@ -98,7 +98,7 @@ object State {
 
    Allocate(TcpDst, 16),
    Assign(TcpDst, SymbolicValue()),
-   Constrain(TcpDst, :&:(:>=:(ConstantValue(1000)), :<=:(ConstantValue(65536)))),
+   Constrain(TcpDst, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(65536)))),
 
    Allocate(TcpSeq, 32),
    Assign(TcpSeq, SymbolicValue()),
