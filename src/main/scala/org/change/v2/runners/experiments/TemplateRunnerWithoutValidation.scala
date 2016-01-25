@@ -15,10 +15,7 @@ object TemplateRunnerWithoutValidation {
     val absNet = ClickToAbstractNetwork.buildConfig(clickConfig)
     val executor = ClickExecutionContext.fromSingle(absNet).setLogger(JsonLogger)
 
-    var crtExecutor = executor
-    while (!crtExecutor.isDone) {
-      crtExecutor = crtExecutor.execute(verbose = true)
-    }
+    executor.untilDone(true)
   }
 }
 
