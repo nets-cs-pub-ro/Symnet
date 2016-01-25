@@ -8,6 +8,7 @@ import org.change.parser.startpoints.StartPointParser
 import org.change.symbolicexec.verification.RuleSetBuilder
 import org.change.v2.abstractnet.generic.NetworkConfig
 import org.change.v2.abstractnet.optimized.macswitch.OptimizedSwitch
+import org.change.v2.abstractnet.optimized.router.OptimizedRouter
 import org.change.v2.executor.clickabstractnetwork.executionlogging.JsonLogger
 
 /**
@@ -21,7 +22,8 @@ object AggregatedBuilder {
 
   def parsers: Map[String, ConfigParser] = Map(
     "sw" -> OptimizedSwitch.optimizedSwitchNetworkConfig _,
-    "click" -> {f => ClickToAbstractNetwork.buildConfig(f, prefixedElements = true) }
+    "click" -> {f => ClickToAbstractNetwork.buildConfig(f, prefixedElements = true)},
+    "rt" -> OptimizedRouter.optimizedRouterNetworkConfig _
   )
 
   def buildModelsFromFolder(folder: File): Iterable[NetworkConfig] = {

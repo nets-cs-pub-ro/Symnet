@@ -10,7 +10,7 @@ import java.io.File
  */
 object InterClickLinksParser {
 
-  val linkRegex = """\s*([a-zA-Z\-0-9/_]+):([a-zA-Z\-0-9/_]+):([a-zA-Z\-0-9/_]+)\s*->\s*([a-zA-Z\-0-9/_]+):([a-zA-Z\-0-9/_]+):([a-zA-Z\-0-9/_]+)\s*""".r
+  val linkRegex = """\s*([a-zA-Z\-0-9/_\\.]+):([a-zA-Z\-0-9/_\\.]+):([a-zA-Z\-0-9/_\\.]+)\s*->\s*([a-zA-Z\-0-9/_\\.]+):([a-zA-Z\-0-9/_\\.]+):([a-zA-Z\-0-9/_\\.]+)\s*""".r
 
   def parseLinks(file: String): Iterable[(String, String, String, String, String, String)] = {
     val links = Source.fromFile(file).getLines().map(link => link match {

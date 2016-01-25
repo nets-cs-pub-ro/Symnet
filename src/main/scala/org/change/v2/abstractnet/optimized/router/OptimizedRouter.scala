@@ -1,7 +1,7 @@
 package org.change.v2.abstractnet.optimized.router
 
 import org.change.utils
-import org.change.v2.abstractnet.generic.{ElementBuilder, GenericElement, ConfigParameter, Port}
+import org.change.v2.abstractnet.generic._
 import org.change.v2.analysis.constraint._
 import org.change.v2.analysis.expression.concrete.ConstantValue
 import org.change.v2.analysis.processingmodels._
@@ -83,41 +83,30 @@ object OptimizedRouter {
 
   def makeRouter(f: File): OptimizedRouter = {
     val table = getRoutingEntries(f)
+    val name = f.getName.trim.stripSuffix(".rt")
 
-    var conflictCount = 0L
-    var which = 0
+    new OptimizedRouter(name + "-" + name,"Router", Nil, Nil, Nil) {
+      override def instructions: Map[LocationId, Instruction] = Map(inputPortName("port") ->
+        Fork(table.map(i => {
+          val ((l,u), port) = i
+          (port, AND(List(GTE_E(ConstantValue(l)), LTE_E(ConstantValue(u))) ++
+            {
+              val conflicts = table.takeWhile(i =>  u-l > i._1._2 - i._1._1)filter( other => {
+                val ((otherL, otherU), otherPort) = other
+                port != otherPort &&
+                  l <= otherL &&
+                  u >= otherU
+              })
 
-    val i = Fork(table.map(i => {
-      val ((l,u), port) = i
-      (port, AND(List(GTE_E(ConstantValue(l)), LTE_E(ConstantValue(u))) ++
-        {
-          val conflicts = table.takeWhile(i =>  u-l > i._1._2 - i._1._1)filter( other => {
-            val ((otherL, otherU), otherPort) = other
-            port != otherPort &&
-              l <= otherL &&
-              u >= otherU
-          })
-
-          conflictCount += conflicts.size
-          which += 1
-
-          if (which % 100 == 0) println(which)
-
-          if (conflicts.nonEmpty)
-            Seq(NOT(OR((conflicts.map( conflictual => {
-              AND(List(GTE_E(ConstantValue(conflictual._1._1)), LTE_E(ConstantValue(conflictual._1._2))))
-            }).toList))))
-          else Nil
-        }))
-    }).groupBy(_._1).map( kv =>
-      InstructionBlock(ConstrainRaw(IPDst, OR(kv._2.map(_._2).toList)), Forward(kv._1))
-    ))
-
-    println("Routing table size " + table.length)
-    println("Conflict count " + conflictCount)
-
-    new OptimizedRouter(f.getName,"Router", Nil, Nil, Nil) {
-      override def instructions: Map[LocationId, Instruction] = Map("0" -> i)
+              if (conflicts.nonEmpty)
+                Seq(NOT(OR((conflicts.map( conflictual => {
+                  AND(List(GTE_E(ConstantValue(conflictual._1._1)), LTE_E(ConstantValue(conflictual._1._2))))
+                }).toList))))
+              else Nil
+            }))
+        }).groupBy(_._1).map( kv =>
+          InstructionBlock(ConstrainRaw(IPDst, OR(kv._2.map(_._2).toList)), Forward(outputPortName(kv._1)))
+          )))
     }
   }
 
@@ -159,5 +148,11 @@ object OptimizedRouter {
     new OptimizedRouter(f.getName,"Router", Nil, Nil, Nil) {
       override def instructions: Map[LocationId, Instruction] = Map("0" -> i)
     }
+  }
+
+  def optimizedRouterNetworkConfig(f: File): NetworkConfig = {
+    val elem = makeRouter(f)
+
+    NetworkConfig(Some(f.getName.trim.stripSuffix(".rt")), Map((elem.getName) -> elem), Nil)
   }
 }
