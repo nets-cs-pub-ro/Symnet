@@ -71,11 +71,8 @@ package object symbolicexec {
           .takeWhile(i._2 >= _._1)
           .map(that =>
             intersect(i, that))
-          .filter(_ match {
-            case Some(_) => true
-            case _ => false})
-          .map(_ match {
-            case Some(r) => r}) ++ looper(rest, stripNeedless)
+          .filter(_.isDefined)
+          .map(_.get) ++ looper(rest, stripNeedless)
       }
     }
     val nAll = all.map(normalize)
