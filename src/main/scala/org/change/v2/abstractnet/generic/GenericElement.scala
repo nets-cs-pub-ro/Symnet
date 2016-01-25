@@ -21,8 +21,10 @@ case class GenericElement(
   def inputPortCount = inputPorts.length
   def outputPortCount = outputPorts.length
 
-  def inputPortName(which: Int = 0): String = s"$name-in"
+  def inputPortName(which: Int = 0): String = s"$name-$which-in"
+  def inputPortName(what: String): String = if (what.matches("\\d+")) inputPortName(what.toInt) else s"$name-$what-in"
   def outputPortName(which: Int = 0): String = s"$name-out"
+  def outputPortName(what: String): String = if (what.matches("\\d+")) outputPortName(what.toInt) else s"$name-$what-out"
 
   override def toString = s"\n[ $name $elementType\n$inputPorts\n$outputPorts\n$configParameters]\n"
 

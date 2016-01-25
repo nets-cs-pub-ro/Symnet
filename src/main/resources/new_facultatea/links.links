@@ -1,0 +1,2 @@
+host:s:0 -> sw-ed10:sw-ed10:port
+sw-ed10:sw-ed10:Gi0/1 -> discarder:d:0

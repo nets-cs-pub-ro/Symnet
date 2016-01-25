@@ -146,9 +146,10 @@ object ClickExecutionContext {
 
   def buildAggregated(
             configs: Iterable[NetworkConfig],
-            interClickLinks: Iterable[(String, String, Int, String, String, Int)],
+            interClickLinks: Iterable[(String, String, String, String, String, String)],
             verificationConditions: List[List[Rule]] = Nil,
-            startElems: Option[Iterable[(String, String, Int)]] = None): ClickExecutionContext = {
+            startElems: Option[Iterable[(String, String, String)]] = None,
+            initialState: State = State.allSymbolic): ClickExecutionContext = {
     // Create a context for every network config.
     val ctxes = configs.map(ClickExecutionContext.fromSingle(_, includeInitial = false))
     // Keep the configs for name resolution.
@@ -167,8 +168,8 @@ object ClickExecutionContext {
     // Create initial states
     val startStates = startElems match {
       case Some(initialPoints) => initialPoints.map(ip =>
-        State.bigBang.forwardTo(configMap(ip._1).elements(ip._1 + "-" + ip._2).inputPortName(ip._3)))
-      case None => List(State.bigBang.forwardTo(configs.head.entryLocationId))
+        initialState.forwardTo(configMap(ip._1).elements(ip._1 + "-" + ip._2).inputPortName(ip._3)))
+      case None => List(initialState.forwardTo(configs.head.entryLocationId))
     }
     // Build the unified execution context.
     ctxes.foldLeft(new ClickExecutionContext(Map.empty, links, startStates.toList, Nil, Nil, checkInstructions))(_ + _)

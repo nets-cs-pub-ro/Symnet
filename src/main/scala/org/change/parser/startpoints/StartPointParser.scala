@@ -9,12 +9,12 @@ import org.change.v2.abstractnet.generic._
  */
 object StartPointParser {
 
-  val startRegex = """(\w+):(\w+):(\d+)""".r
+  val startRegex = """([a-zA-Z\-0-9/_]+):([a-zA-Z\-0-9/_]+):([a-zA-Z\-0-9/_]+)""".r
 
-  def parseStarts(file: String): Iterable[(String, String, Int)] = {
+  def parseStarts(file: String): Iterable[(String, String, String)] = {
     val links = Source.fromFile(file).getLines().map(link => link match {
       case startRegex(click, elm, inputPort) =>
-        Some((click, elm, inputPort.toInt))
+        Some((click, elm, inputPort))
       case _ => None
     })
 
