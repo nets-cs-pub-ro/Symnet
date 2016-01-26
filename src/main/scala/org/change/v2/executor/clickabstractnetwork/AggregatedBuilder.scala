@@ -74,7 +74,7 @@ object AggregatedBuilder {
   }
 
   def main(args: Array[String]): Unit = {
-    val exe = executorFromFolder(new File("/home/radu/0/projects/internal/Symnetic/src/main/resources/new_facultatea")).setLogger(JsonLogger)
+    val exe = executorFromFolder(new File("src/main/resources/new_facultatea")).setLogger(JsonLogger)
     exe.untilDone(true)
   }
 }

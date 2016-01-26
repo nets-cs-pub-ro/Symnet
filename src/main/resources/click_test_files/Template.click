@@ -1,4 +1,5 @@
-FromDevice -> c :: IPClassifier(src net 20.0.0.0/24, dst net 21.0.0.0/16, -) -> dst :: ToDevice 
-c[1] -> dst;
+FromDevice -> r :: IPRewriter(keep 0 1, drop)[1] -> dst :: ToDevice
 
-c[2] -> Discard;
+r[0] -> IPMirror() -> [1]r;
+
+r[2] -> Discard;
