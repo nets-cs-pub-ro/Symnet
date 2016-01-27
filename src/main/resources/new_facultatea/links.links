@@ -1,4 +1,26 @@
+ec10:ec10:Gi0/1 -> ef00:ef00:port
+ef00:ef00:Gi0/5 -> ec10:ec10:port
+
+ec11:ec11:Gi0/1 -> ef00:ef00:port
+ef00:ef00:Gi0/8 -> ec11:ec11:port
+
 ed20:ed20:Gi0/1 -> ef00:ef00:port
+ef00:ef00:Gi0/2 -> ed20:ed20:port
+
+ed10:ed10:Gi0/1 -> ef00:ef00:port
+ef00:ef00:Gi0/1 -> ed10:ed10:port
+
+ed30:ed30:Gi0/1 -> ef00:ef00:port
+ef00:ef00:Gi0/3 -> ed30:ed30:port
+
+ed40:ed40:Gi0/1 -> ef00:ef00:port
+ef00:ef00:Gi0/4 -> ed40:ed40:port
+
+ef01:ef01:Gi0/1 -> ef00:ef00:port
+ef00:ef00:Gi0/6 -> ef01:ef01:port
+
+ef20:ef20:Gi0/1 -> ef00:ef00:port
+ef00:ef00:Gi0/7 -> ef20:ef20:port
 
 sw-v1:sw-v1:Gi0/41 -> sw-v2:sw-v2:port
 sw-v1:sw-v1:Gi0/34 -> sw-v2:sw-v2:port
@@ -7,3 +29,4 @@ sw-v1:sw-v1:Gi0/33 -> sw-v2:sw-v2:port
 sw-v2:sw-v2:Gi0/23 -> sw-v1:sw-v1:port
 sw-v2:sw-v2:Gi0/22 -> sw-v1:sw-v1:port
 sw-v2:sw-v2:Gi0/21 -> sw-v1:sw-v1:port
+
