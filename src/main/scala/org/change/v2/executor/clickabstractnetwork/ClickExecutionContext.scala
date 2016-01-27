@@ -57,9 +57,22 @@ case class ClickExecutionContext(
    * @return
    */
   def untilDone(verbose: Boolean): ClickExecutionContext = if (isDone) {
-    ClickExecutionContext.executorService.shutdownNow()
+//    ClickExecutionContext.executorService.shutdownNow()
     this
   } else this.execute(verbose).untilDone(verbose)
+
+  def untilDoneDumpingFailed(verbose: Boolean): ClickExecutionContext = if (isDone) {
+//    ClickExecutionContext.executorService.shutdownNow()
+    this
+  } else this.executeDumpingFailed(verbose).untilDoneDumpingFailed(verbose)
+
+  def untilDoneFrugally(verbose: Boolean): ClickExecutionContext = if (isDone) {
+    //    ClickExecutionContext.executorService.shutdownNow()
+    this
+  } else {
+    val nextExe = this.executeDFS(verbose)
+    nextExe.untilDoneFrugally(verbose)
+  }
 
   def execute(verbose: Boolean = false): ClickExecutionContext = {
     val (ok, fail, stuck) = (for {
@@ -72,7 +85,8 @@ case class ClickExecutionContext(
     } yield {
         if (instructions contains stateLocation) {
 //          Apply instructions
-          val r1 = instructions(stateLocation)(s, verbose)
+          val i = instructions(stateLocation)
+          val r1 = i(s, verbose)
 //          Apply check instructions on output ports
           val (toCheck, r2) = r1._1.partition(s => checkInstructions.contains(s.location))
           val r3 = toCheck.map(s => checkInstructions(s.location)(s,verbose)).unzip
@@ -88,6 +102,65 @@ case class ClickExecutionContext(
       ), {ctx: ClickExecutionContext => logger.log(ctx)})
   }
 
+  def executeDFS(verbose: Boolean = false): ClickExecutionContext = {
+    val (ok, fail, stuck) = {
+      val sPrime = okStates.head
+      val s = if (links contains sPrime.location)
+        sPrime.forwardTo(links(sPrime.location))
+      else
+        sPrime
+
+      val stateLocation = s.location
+
+      if (instructions contains stateLocation) {
+          //          Apply instructions
+          val i = instructions(stateLocation)
+          val r1 = i(s, verbose)
+          //          Apply check instructions on output ports
+          //          val (toCheck, r2) = r1._1.partition(s => checkInstructions.contains(s.location))
+          //          val r3 = toCheck.map(s => checkInstructions(s.location)(s,verbose)).unzip
+
+          for {
+            s <- r1._2
+          } s.memory.buildSolver.decRef()
+
+          (r1._1, Nil, Nil)
+        } else (Nil, Nil, List(s))
+    }
+
+    useAndReturn(copy(
+      okStates = ok ++ okStates.tail,
+      stuckStates = stuck ++ stuckStates
+    ), {ctx: ClickExecutionContext => logger.log(ctx)})
+  }
+
+  def executeDumpingFailed(verbose: Boolean = false): ClickExecutionContext = {
+    val (ok, _, _) = (for {
+      sPrime <- okStates
+      s = if (links contains sPrime.location)
+        sPrime.forwardTo(links(sPrime.location))
+      else
+        sPrime
+      stateLocation = s.location
+    } yield {
+        if (instructions contains stateLocation) {
+          //          Apply instructions
+          val r1 = instructions(stateLocation)(s, verbose)
+          //          Apply check instructions on output ports
+          val (toCheck, r2) = r1._1.partition(s => checkInstructions.contains(s.location))
+          val r3 = toCheck.map(s => checkInstructions(s.location)(s,verbose)).unzip
+          (r2 ++ r3._1.flatten, r1._2 ++ r3._2.flatten, Nil)
+        } else
+          (Nil, Nil, List(s))
+      }).unzip3
+
+    println(okStates.length)
+
+    useAndReturn(copy(
+      okStates = ok.flatten
+    ), {ctx: ClickExecutionContext => logger.log(ctx)})
+  }
+
   // TODO: Move to a logger
   def concretizeStates: String = (stuckStates ++ okStates).map(_.memory.concretizeSymbols).mkString("\n----------\n")
 
@@ -95,19 +168,19 @@ case class ClickExecutionContext(
 
 object ClickExecutionContext {
 
-  private var executorService: ExecutorService = buildNewService()
+//  private var executorService: ExecutorService = buildNewService()
 
-  private def buildNewService(): ExecutorService = {
-    Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors)
-  }
+//  private def buildNewService(): ExecutorService = {
+//    Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors)
+//  }
 
-  def getService = {
-    if (executorService.isShutdown) {
-      executorService = buildNewService()
-    }
-
-    executorService
-  }
+//  def getService = {
+//    if (executorService.isShutdown) {
+//      executorService = buildNewService()
+//    }
+//
+//    executorService
+//  }
 
   /**
    * Builds a symbolic execution context out of a single click config file.

@@ -8,7 +8,7 @@ import z3.scala.{Z3Context, Z3Config}
  */
 object Z3Util {
 
-  lazy val z3Context = new Z3Context(new Z3Config("MODEL" -> true))
+  def z3Context = new Z3Context(new Z3Config("MODEL" -> true))
 
   private lazy val intSort = z3Context.mkIntSort()
 

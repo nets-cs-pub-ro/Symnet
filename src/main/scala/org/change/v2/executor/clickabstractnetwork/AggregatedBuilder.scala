@@ -75,6 +75,6 @@ object AggregatedBuilder {
 
   def main(args: Array[String]): Unit = {
     val exe = executorFromFolder(new File("src/main/resources/new_facultatea")).setLogger(JsonLogger)
-    exe.untilDone(true)
+    exe.untilDoneFrugally(false)
   }
 }

@@ -1,3 +1,1 @@
-host:s:0 -> sw-ed10:sw-ed10:port
-sw-ed10:sw-ed10:Gi0/1 -> discarder:d:0
-router:router:GigabitEthernet4/10.123 -> discarder:d:0
+ed20:ed20:Gi0/1 -> ef00:ef00:port
