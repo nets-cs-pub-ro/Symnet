@@ -1,1 +1,9 @@
 ed20:ed20:Gi0/1 -> ef00:ef00:port
+
+sw-v1:sw-v1:Gi0/41 -> sw-v2:sw-v2:port
+sw-v1:sw-v1:Gi0/34 -> sw-v2:sw-v2:port
+sw-v1:sw-v1:Gi0/33 -> sw-v2:sw-v2:port
+
+sw-v2:sw-v2:Gi0/23 -> sw-v1:sw-v1:port
+sw-v2:sw-v2:Gi0/22 -> sw-v1:sw-v1:port
+sw-v2:sw-v2:Gi0/21 -> sw-v1:sw-v1:port
