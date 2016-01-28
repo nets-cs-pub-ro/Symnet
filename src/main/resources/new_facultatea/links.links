@@ -30,3 +30,14 @@ sw-v2:sw-v2:Gi0/23 -> sw-v1:sw-v1:port
 sw-v2:sw-v2:Gi0/22 -> sw-v1:sw-v1:port
 sw-v2:sw-v2:Gi0/21 -> sw-v1:sw-v1:port
 
+acs-2:acs-2:Gi1/47 -> ef00:ef00:port
+acs-2:acs-2:Gi1/45 -> ef00:ef00:port
+acs-2:acs-2:Gi1/46 -> ef00:ef00:port
+
+ef00:ef00:Gi0/22 -> acs-2:acs-2:port
+ef00:ef00:Gi0/24 -> acs-2:acs-2:port
+ef00:ef00:Gi0/21 -> acs-2:acs-2:port
+
+acs-2:acs-2:Ten1/50 -> acs-1:acs-1:port
+acs-1:acs-1:Ten1/50 -> acs-2:acs-2:port
+

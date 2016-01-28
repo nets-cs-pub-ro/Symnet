@@ -1,0 +1,803 @@
+telnet> Trying 192.168.137.198...
+Connected to 192.168.137.198.
+Escape character is '^]'.
+C ACS-Sw10GW4948-2 
+username: costin.raiciu
+password: 
+
+ACS-Sw10GW4948-48-2>terminal length 0
+ACS-Sw10GW4948-48-2>show mac address-table
+Unicast Entries
+ vlan   mac address     type        protocols               port
+-------+---------------+--------+---------------------+--------------------
+   1    0003.0f18.e3e4   dynamic ip                    TenGigabitEthernet1/50
+   1    0003.0f18.e44e   dynamic ip                    TenGigabitEthernet1/50
+   1    0008.205b.f180   dynamic ip                    TenGigabitEthernet1/50
+   1    0008.205c.2b80   dynamic ip                    TenGigabitEthernet1/50
+   1    0008.205c.3040   dynamic ip                    TenGigabitEthernet1/50
+   1    0008.205c.3a40   dynamic ip                    TenGigabitEthernet1/50
+   1    0008.205c.3d00   dynamic ip                    Port-channel12        
+   1    0008.205c.4180   dynamic ip                    Port-channel12        
+   1    0008.205c.5601   dynamic other                 TenGigabitEthernet1/50
+   1    0008.e33a.29c0   dynamic ip                    Port-channel12        
+   1    0008.e33a.2d80   dynamic ip                    TenGigabitEthernet1/50
+   1    000c.29de.307c   dynamic ip                    TenGigabitEthernet1/50
+   1    0018.742c.8880   dynamic ip                    TenGigabitEthernet1/50
+   1    001d.70a5.4640   dynamic ip                    TenGigabitEthernet1/50
+   1    001d.70a5.7340   dynamic ip                    TenGigabitEthernet1/50
+   1    001d.70a5.7940   dynamic ip                    TenGigabitEthernet1/50
+   1    0021.5571.f380   dynamic ip                    Port-channel4         
+   1    0021.5571.f391   dynamic other                 Port-channel4         
+   1    0021.5571.f392   dynamic other                 Port-channel4         
+   1    0021.5571.f393   dynamic other                 Port-channel4         
+   1    0021.5572.0740   dynamic ip                    Port-channel6         
+   1    0021.5572.0751   dynamic other                 Port-channel6         
+   1    0021.5572.0752   dynamic other                 Port-channel6         
+   1    0021.5572.0753   dynamic other                 Port-channel6         
+   1    0021.5572.0754   dynamic other                 Port-channel6         
+   1    0021.55fb.3a51   dynamic other                 Port-channel5         
+   1    0021.55fb.3a52   dynamic other                 Port-channel5         
+   1    0021.55fb.3a53   dynamic other                 Port-channel5         
+   1    0021.55fb.3a54   dynamic other                 Port-channel5         
+   1    0021.55fb.8ec0   dynamic ip                    Port-channel3         
+   1    0021.55fb.8ed1   dynamic other                 Port-channel3         
+   1    0021.55fb.8ed2   dynamic other                 Port-channel3         
+   1    0021.55fb.8ed3   dynamic other                 Port-channel3         
+   1    0021.55fb.8ed4   dynamic other                 Port-channel3         
+   1    0021.55fb.ac00   dynamic ip                    Port-channel1         
+   1    0021.55fb.ac11   dynamic other                 Port-channel1         
+   1    0021.55fb.ac12   dynamic other                 Port-channel1         
+   1    0021.55fb.ac13   dynamic other                 Port-channel1         
+   1    0021.55fb.ac14   dynamic other                 Port-channel1         
+   1    0021.55fb.bb40   dynamic ip                    Port-channel8         
+   1    0021.55fb.bb51   dynamic other                 Port-channel8         
+   1    0021.55fb.bb52   dynamic other                 Port-channel8         
+   1    0021.55fb.bb53   dynamic other                 Port-channel8         
+   1    0021.55fb.bb54   dynamic other                 Port-channel8         
+   1    0021.a1d0.4c40   dynamic ip                    TenGigabitEthernet1/50
+   1    0050.569a.3d4e   dynamic ip                    Port-channel11        
+   1    1060.4b9f.7fcc   dynamic ip,other              TenGigabitEthernet1/50
+   1    2c23.3a72.58e3   dynamic ip                    TenGigabitEthernet1/50
+   1    404a.0351.a8dc   dynamic ip                    TenGigabitEthernet1/50
+   1    6cae.8ba1.dc00   dynamic ip                    TenGigabitEthernet1/50
+   1    6cae.8ba2.7700   dynamic ip                    TenGigabitEthernet1/50
+   1    6cfa.5812.1801   dynamic other                 TenGigabitEthernet1/50
+   1    6cfa.5812.2001   dynamic other                 TenGigabitEthernet1/50
+   1    6cfa.5812.2801   dynamic other                 TenGigabitEthernet1/50
+   1    f4ac.c1c0.821a   dynamic ip,other              GigabitEthernet1/36   
+   3    0000.85a3.8520   dynamic ip                    TenGigabitEthernet1/50
+   3    0015.5d09.0627   dynamic ip                    TenGigabitEthernet1/50
+   3    00e0.8157.7044   dynamic ip                    TenGigabitEthernet1/50
+   3    00e0.8157.7064   dynamic ip                    TenGigabitEthernet1/50
+   3    3c15.c2c3.7120   dynamic ip,other              TenGigabitEthernet1/50
+   3    3c4a.92e7.cdea   dynamic ip                    TenGigabitEthernet1/50
+   3    9c8e.9966.02c8   dynamic other                 TenGigabitEthernet1/50
+   4    0026.0bb8.81d0   dynamic ip                    GigabitEthernet1/36   
+   4    5065.f361.77c2   dynamic ip,other              TenGigabitEthernet1/50
+   4    5820.b103.fc48   dynamic other                 TenGigabitEthernet1/50
+   4    5820.b104.7f9e   dynamic ip,other              TenGigabitEthernet1/50
+   4    9cb6.5479.90fa   dynamic other                 TenGigabitEthernet1/50
+   4    9cb6.5479.931e   dynamic other                 TenGigabitEthernet1/50
+   4    9cb6.5479.9712   dynamic other                 TenGigabitEthernet1/50
+   4    f452.14e1.b5a4   dynamic ip                    TenGigabitEthernet1/50
+   5    0000.6819.e2b0   dynamic ip                    TenGigabitEthernet1/50
+   5    0000.6819.ed48   dynamic ip                    TenGigabitEthernet1/50
+   5    0014.5e30.9af4   dynamic ip                    TenGigabitEthernet1/50
+   5    0014.5ee1.3fcc   dynamic ip,other              TenGigabitEthernet1/50
+   5    0014.5ee1.3fd0   dynamic other                 TenGigabitEthernet1/50
+   5    0014.5ee1.405c   dynamic other                 TenGigabitEthernet1/50
+   5    0014.5ee1.40a0   dynamic ip,other              TenGigabitEthernet1/50
+   5    0015.5d01.0c06   dynamic ip,other              TenGigabitEthernet1/50
+   5    0015.5d09.040c   dynamic ip                    TenGigabitEthernet1/50
+   5    0019.e72a.77ff   dynamic ip                    TenGigabitEthernet1/50
+   5    001b.d45c.9cff    static ip,ipx,assigned,other Switch                
+   5    00c0.b751.8e74   dynamic ip                    TenGigabitEthernet1/50
+   5    00c0.b7b6.a804   dynamic other                 TenGigabitEthernet1/50
+   5    5cf3.fca9.8350   dynamic ip,other              TenGigabitEthernet1/50
+   5    5cf3.fcef.5966   dynamic ip,other              TenGigabitEthernet1/50
+   5    901b.0e4f.677d   dynamic ip,other              TenGigabitEthernet1/50
+   5    e41f.134b.3624   dynamic other                 TenGigabitEthernet1/50
+   5    e41f.1385.08b6   dynamic ip                    TenGigabitEthernet1/50
+   5    e41f.1385.093c   dynamic ip                    TenGigabitEthernet1/50
+   6    0011.0a6a.9185   dynamic ip,other              TenGigabitEthernet1/50
+   6    0014.5e30.9af5   dynamic ip                    TenGigabitEthernet1/50
+   6    0015.5d01.0c00   dynamic ip,other              TenGigabitEthernet1/50
+   6    0015.5d01.0c04   dynamic ip,other              TenGigabitEthernet1/50
+   6    0015.5d05.6a2b   dynamic ip                    TenGigabitEthernet1/50
+   6    0015.5d05.e719   dynamic ip,other              TenGigabitEthernet1/50
+   6    0015.5d09.040c   dynamic ip,other              TenGigabitEthernet1/50
+   6    0015.5d09.0530   dynamic ip,other              TenGigabitEthernet1/50
+   6    0015.5d09.0833   dynamic ip                    TenGigabitEthernet1/50
+   6    0015.5d09.090b   dynamic ip                    TenGigabitEthernet1/50
+   6    0015.5d09.090f   dynamic ip,other              TenGigabitEthernet1/50
+   6    0015.5d09.0c24   dynamic ip                    TenGigabitEthernet1/50
+   6    001a.645b.5b8e   dynamic ip                    Port-channel7         
+   6    001a.645c.43d8   dynamic ip                    Port-channel5         
+   6    001a.645c.bede   dynamic ip                    Port-channel5         
+   6    001a.645c.bf80   dynamic ip                    Port-channel5         
+   6    001a.645c.c076   dynamic ip                    Port-channel7         
+   6    001a.645c.c14e   dynamic ip                    Port-channel7         
+   6    001a.645c.c1ea   dynamic ip                    Port-channel7         
+   6    001a.645c.c208   dynamic ip                    Port-channel5         
+   6    001a.645c.c20e   dynamic ip                    Port-channel7         
+   6    001a.645c.c37c   dynamic ip                    Port-channel7         
+   6    001a.645c.c436   dynamic ip                    Port-channel5         
+   6    001a.645c.c484   dynamic ip                    Port-channel7         
+   6    001a.645c.c508   dynamic ip                    Port-channel7         
+   6    001a.645c.c52c   dynamic ip                    Port-channel5         
+   6    001a.645c.c532   dynamic ip                    Port-channel3         
+   6    001a.645c.c5a4   dynamic ip                    Port-channel5         
+   6    001a.645c.c5bc   dynamic ip                    Port-channel3         
+   6    001a.645c.c5c2   dynamic ip,other              Port-channel5         
+   6    001a.645c.c60a   dynamic ip                    Port-channel3         
+   6    001a.645c.c65e   dynamic ip                    Port-channel7         
+   6    001a.645c.c67c   dynamic ip                    Port-channel7         
+   6    001a.645c.c688   dynamic ip                    Port-channel7         
+   6    001a.645c.c6b8   dynamic ip                    Port-channel7         
+   6    001a.645c.c6be   dynamic ip                    Port-channel5         
+   6    001a.645c.c6ca   dynamic ip                    Port-channel7         
+   6    001a.645c.c6f4   dynamic ip                    Port-channel5         
+   6    001a.645c.c7d2   dynamic ip                    Port-channel5         
+   6    001a.645c.c838   dynamic ip                    Port-channel5         
+   6    001a.645c.c856   dynamic ip,other              Port-channel5         
+   6    001a.645c.dd62   dynamic ip                    Port-channel3         
+   6    001a.645c.de82   dynamic ip,other              Port-channel7         
+   6    001a.645d.1836   dynamic ip                    Port-channel5         
+   6    001a.6479.e3dc   dynamic ip                    TenGigabitEthernet1/50
+   6    001a.648f.380c   dynamic ip,other              Port-channel1         
+   6    001a.648f.7f5a   dynamic ip,other              Port-channel1         
+   6    001a.648f.90e2   dynamic ip                    Port-channel3         
+   6    001a.648f.98fe   dynamic ip                    Port-channel3         
+   6    0021.5e86.3a70   dynamic ip,other              Port-channel1         
+   6    0021.5e86.3e8c   dynamic ip                    Port-channel3         
+   6    0021.5e86.3ef8   dynamic ip                    Port-channel3         
+   6    0021.5e86.3fdc   dynamic ip,other              Port-channel1         
+   6    0021.5e86.4170   dynamic ip,other              Port-channel3         
+   6    0021.5e86.41c0   dynamic ip,other              Port-channel1         
+   6    0021.5e86.44d0   dynamic ip,other              Port-channel1         
+   6    0021.5e86.44e4   dynamic ip,other              Port-channel1         
+   6    0021.5e86.44f8   dynamic ip,other              Port-channel1         
+   6    0021.5e86.450c   dynamic ip,other              Port-channel1         
+   6    0021.5e86.451c   dynamic ip,other              Port-channel1         
+   6    0021.5e86.47a0   dynamic ip,other              Port-channel1         
+   6    0021.5e86.4974   dynamic ip,other              Port-channel1         
+   6    0021.5e86.4988   dynamic ip,other              Port-channel1         
+   6    0021.5e86.4a9c   dynamic ip,other              Port-channel3         
+   6    0021.5e86.4b40   dynamic ip,other              Port-channel1         
+   6    0021.5ef7.9d70   dynamic ip,other              TenGigabitEthernet1/50
+   6    0021.5ef7.9d7a   dynamic ip,other              TenGigabitEthernet1/50
+   6    0021.5ef7.9e4c   dynamic ip,other              TenGigabitEthernet1/50
+   6    0021.5ef7.9e62   dynamic ip,other              TenGigabitEthernet1/50
+   6    0021.5ef7.9e64   dynamic ip,other              TenGigabitEthernet1/50
+   6    0021.5ef7.9e78   dynamic ip,other              TenGigabitEthernet1/50
+   6    0021.5ef7.9e88   dynamic ip,other              TenGigabitEthernet1/50
+   6    0021.5ef7.9e8b   dynamic ip,other              TenGigabitEthernet1/50
+   6    0021.5ef7.9e8f   dynamic ip,other              TenGigabitEthernet1/50
+   6    1458.d04d.db04   dynamic ip,other              TenGigabitEthernet1/50
+   6    901b.0e54.7734   dynamic ip,other              TenGigabitEthernet1/50
+   6    e41f.137a.0b3a   dynamic ip,other              TenGigabitEthernet1/50
+   6    e41f.137a.0b9a   dynamic ip,other              TenGigabitEthernet1/50
+   6    e41f.137a.0bb2   dynamic ip,other              TenGigabitEthernet1/50
+   6    e41f.137a.0c7a   dynamic ip,other              TenGigabitEthernet1/50
+   6    e41f.137a.0e0e   dynamic ip,other              TenGigabitEthernet1/50
+   6    f80f.41f3.f5d2   dynamic ip,other              TenGigabitEthernet1/50
+   6    f80f.41f7.5b87   dynamic ip,other              TenGigabitEthernet1/50
+   9    0015.5d09.0626   dynamic ip,other              TenGigabitEthernet1/50
+   9    72e1.25ea.daca   dynamic ip,other              Port-channel8         
+   9    ea10.7131.c6f5   dynamic ip                    TenGigabitEthernet1/50
+   9    fa16.3e0a.6c46   dynamic ip                    Port-channel6         
+   9    fa16.3e0a.9f5f   dynamic ip                    Port-channel6         
+   9    fa16.3e16.3a33   dynamic ip                    Port-channel4         
+   9    fa16.3e16.e963   dynamic ip                    TenGigabitEthernet1/50
+   9    fa16.3e30.802b   dynamic ip,other              Port-channel8         
+   9    fa16.3e39.d7d5   dynamic ip                    Port-channel8         
+   9    fa16.3e44.ac27   dynamic ip                    Port-channel8         
+   9    fa16.3e49.6871   dynamic ip,other              Port-channel4         
+   9    fa16.3e49.8b9c   dynamic ip                    Port-channel8         
+   9    fa16.3e5d.28aa   dynamic ip                    Port-channel4         
+   9    fa16.3e61.6a99   dynamic ip,other              Port-channel6         
+   9    fa16.3e78.6044   dynamic ip                    Port-channel6         
+   9    fa16.3e86.0c33   dynamic ip                    Port-channel6         
+   9    fa16.3e90.14cd   dynamic ip                    Port-channel6         
+   9    fa16.3e91.d3bc   dynamic ip                    Port-channel4         
+   9    fa16.3e9c.5e38   dynamic ip                    Port-channel8         
+   9    fa16.3ea4.a342   dynamic ip                    Port-channel6         
+   9    fa16.3eb2.4428   dynamic ip                    TenGigabitEthernet1/50
+   9    fa16.3ec2.7944   dynamic ip                    Port-channel4         
+   9    fa16.3ec5.6f1c   dynamic ip                    TenGigabitEthernet1/50
+   9    fa16.3ec9.244b   dynamic ip                    Port-channel6         
+   9    fa16.3ecd.6374   dynamic ip                    Port-channel6         
+   9    fa16.3ee4.aad7   dynamic ip                    Port-channel4         
+   9    fa16.3ee9.47e9   dynamic ip                    Port-channel6         
+   9    fa16.3eed.b5da   dynamic ip                    Port-channel4         
+   9    fa16.3ef0.1d57   dynamic ip,other              Port-channel8         
+  10    0015.5d01.0c05   dynamic ip,other              TenGigabitEthernet1/50
+  10    0019.e72a.77ff   dynamic ip,other              TenGigabitEthernet1/50
+  10    001a.4d53.e588   dynamic ip                    TenGigabitEthernet1/50
+  10    3440.b59e.99b0   dynamic ip                    TenGigabitEthernet1/50
+  11    0015.5d05.6a2a   dynamic ip                    TenGigabitEthernet1/50
+  11    0015.5d05.6a2c   dynamic ip,other              TenGigabitEthernet1/50
+  11    0015.5d09.0344   dynamic ip,other              TenGigabitEthernet1/50
+  11    0015.5d09.0624   dynamic ip,other              TenGigabitEthernet1/50
+  11    0015.5d09.0834   dynamic ip                    TenGigabitEthernet1/50
+  11    0015.5d09.090c   dynamic ip,other              TenGigabitEthernet1/50
+  11    0015.5d09.090e   dynamic ip                    TenGigabitEthernet1/50
+  11    0015.5d09.0c23   dynamic ip                    TenGigabitEthernet1/50
+  37    0009.6b89.0668   dynamic ip                    Port-channel12        
+  37    0026.0bb8.81d0   dynamic ip                    GigabitEthernet1/36   
+  37    0026.b905.5aa4   dynamic ip,other              Port-channel12        
+  37    0026.b95c.4ba5   dynamic ip                    Port-channel12        
+  37    0030.48c5.a064   dynamic ip,other              Port-channel12        
+  37    0050.569a.1eca   dynamic ip                    Port-channel11        
+  37    0050.569a.486e   dynamic ip,other              Port-channel11        
+  37    0800.37a6.ef3f   dynamic ip,other              Port-channel12        
+  37    d8d3.85c1.e18d   dynamic ip                    Port-channel12        
+  89    000a.7998.4e3c   dynamic ip                    TenGigabitEthernet1/50
+  89    000a.7998.4e40   dynamic ip                    TenGigabitEthernet1/50
+  89    000c.2982.7c76   dynamic ipx                   TenGigabitEthernet1/50
+  89    000e.a6f1.d57c   dynamic ip,other              TenGigabitEthernet1/50
+  89    000e.e8e8.33c9   dynamic ip,ipx                TenGigabitEthernet1/50
+  89    000f.ea45.cfd3   dynamic ip                    TenGigabitEthernet1/50
+  89    0011.0a3b.ba06   dynamic ip                    TenGigabitEthernet1/50
+  89    0014.384a.0a1d   dynamic ip                    TenGigabitEthernet1/50
+  89    0015.f2d2.6a29   dynamic ip                    TenGigabitEthernet1/50
+  89    0019.9917.0eec   dynamic ip,other              TenGigabitEthernet1/50
+  89    0019.9940.689c   dynamic ip                    TenGigabitEthernet1/50
+  89    0019.994a.c41f   dynamic ip                    TenGigabitEthernet1/50
+  89    0019.d103.3347   dynamic ip,other              TenGigabitEthernet1/50
+  89    0019.d103.861b   dynamic ip,other              Port-channel12        
+  89    0019.d1eb.ef6a   dynamic ip,other              TenGigabitEthernet1/50
+  89    001a.4d94.4d83   dynamic ip                    TenGigabitEthernet1/50
+  89    001c.c001.8a2f   dynamic ip,ipx                TenGigabitEthernet1/50
+  89    001c.f088.c91d   dynamic ip                    TenGigabitEthernet1/50
+  89    001d.7e9e.5244   dynamic ip                    TenGigabitEthernet1/50
+  89    0026.736e.fe31   dynamic ip                    TenGigabitEthernet1/50
+  89    0040.f477.9d68   dynamic ip                    TenGigabitEthernet1/50
+  89    00c0.852d.d5ee   dynamic ipx                   TenGigabitEthernet1/50
+  89    083e.8ede.8039   dynamic ip,other              TenGigabitEthernet1/50
+  89    101f.743b.c7ec   dynamic ip,other              TenGigabitEthernet1/50
+  89    38aa.3c05.15ab   dynamic ip                    TenGigabitEthernet1/50
+  89    5427.1e65.e6bb   dynamic ip                    TenGigabitEthernet1/50
+  89    6451.0626.d891   dynamic ip,other              TenGigabitEthernet1/50
+  89    80c1.6ee2.373c   dynamic ip,other              TenGigabitEthernet1/50
+  89    889f.fa87.7f4b   dynamic ip,other              TenGigabitEthernet1/50
+  89    b878.2eb0.87b3   dynamic other                 TenGigabitEthernet1/50
+  89    bcae.c5b9.571c   dynamic ip,other              TenGigabitEthernet1/50
+  89    d40b.1a59.2449   dynamic ip                    TenGigabitEthernet1/50
+  89    d8d3.85fe.072e   dynamic ip,ipx                TenGigabitEthernet1/50
+  89    e069.9568.7a8e   dynamic ip                    TenGigabitEthernet1/50
+  89    e0cb.4ed2.6dbb   dynamic ip,ipx                TenGigabitEthernet1/50
+  89    e498.d1d0.6b46   dynamic ip                    TenGigabitEthernet1/50
+  89    eccd.6ddb.1eae   dynamic ip                    Port-channel12        
+  89    ecf3.5b30.d394   dynamic ip                    TenGigabitEthernet1/50
+  89    f8b1.56c1.a83f   dynamic ip,other              TenGigabitEthernet1/50
+  91    0000.21ff.ffff   dynamic other                 TenGigabitEthernet1/50
+  91    0001.6cdd.7396   dynamic ipx                   TenGigabitEthernet1/50
+  91    000c.2982.7c80   dynamic ip,ipx                TenGigabitEthernet1/50
+  91    000f.ea46.0d3a   dynamic ip,ipx                TenGigabitEthernet1/50
+  91    0017.9a95.6204   dynamic other                 TenGigabitEthernet1/50
+  91    001b.fcb1.3050   dynamic ip,ipx                TenGigabitEthernet1/50
+  91    001b.fcb1.30e2   dynamic ipx                   TenGigabitEthernet1/50
+  91    0023.ae8a.e149   dynamic ip                    TenGigabitEthernet1/50
+  91    0024.811a.6cc9   dynamic ip,other              TenGigabitEthernet1/50
+  91    0030.0586.92ef   dynamic ipx                   TenGigabitEthernet1/50
+  91    0048.5461.30d0   dynamic ip                    TenGigabitEthernet1/50
+  91    00c2.c661.dba9   dynamic ip,other              TenGigabitEthernet1/50
+  91    1060.4b9f.7fcc   dynamic ip,other              TenGigabitEthernet1/50
+  91    1c3e.847d.35c9   dynamic ip,other              TenGigabitEthernet1/50
+  91    40f3.018c.9db5   dynamic ip,other              TenGigabitEthernet1/50
+  91    485a.b613.cf9b   dynamic ip,other              TenGigabitEthernet1/50
+  91    502e.5ced.a11a   dynamic ip,other              TenGigabitEthernet1/50
+  91    5254.000a.4e68   dynamic ip,other              TenGigabitEthernet1/50
+  91    5254.006f.ec8d   dynamic ip,ipx                TenGigabitEthernet1/50
+  91    645a.0471.b780   dynamic ip,other              TenGigabitEthernet1/50
+  91    6476.ba16.191e   dynamic ip,other              TenGigabitEthernet1/50
+  91    6817.29a1.8ace   dynamic ip,other              TenGigabitEthernet1/50
+  91    6c71.d96d.aa29   dynamic ip                    TenGigabitEthernet1/50
+  91    700b.c04e.7aac   dynamic ip,other              TenGigabitEthernet1/50
+  91    703e.ac20.7855   dynamic other                 TenGigabitEthernet1/50
+  91    703e.accf.a112   dynamic ip,other              TenGigabitEthernet1/50
+  91    9c04.eb3e.9732   dynamic ip,other              TenGigabitEthernet1/50
+  91    9cfc.0104.ba7e   dynamic ip,other              TenGigabitEthernet1/50
+  91    ace2.15fa.4a06   dynamic ip,other              TenGigabitEthernet1/50
+  91    c434.6b61.f8c4   dynamic ip                    TenGigabitEthernet1/50
+  91    c434.6b61.f8f3   dynamic ip,other              TenGigabitEthernet1/50
+  91    c434.6b61.f8f5   dynamic ip,other              TenGigabitEthernet1/50
+  91    c434.6b73.57a3   dynamic ip,other              TenGigabitEthernet1/50
+  91    c434.6b73.57c7   dynamic ip,other              TenGigabitEthernet1/50
+  91    c434.6b73.57cd   dynamic ip,other              TenGigabitEthernet1/50
+  91    c434.6b73.57d6   dynamic ip,other              TenGigabitEthernet1/50
+  91    c434.6b73.57d9   dynamic ip,other              TenGigabitEthernet1/50
+  91    c434.6b73.57dd   dynamic ip,other              TenGigabitEthernet1/50
+  91    d8d3.85fe.072e   dynamic ip,ipx                TenGigabitEthernet1/50
+  91    dc9b.9cbd.00ae   dynamic other                 TenGigabitEthernet1/50
+  99    0008.da72.4b53   dynamic ip                    TenGigabitEthernet1/50
+  99    0018.742c.8880   dynamic ip                    TenGigabitEthernet1/50
+  99    0050.0600.43b7   dynamic ip                    Port-channel12        
+ 100    0000.7493.2c18   dynamic ip,ipx,other          TenGigabitEthernet1/50
+ 100    0002.4453.7a73   dynamic ip                    TenGigabitEthernet1/50
+ 100    0002.4457.bb50   dynamic ip                    TenGigabitEthernet1/50
+ 100    0002.ab0d.f556   dynamic ip                    TenGigabitEthernet1/50
+ 100    0002.ab0d.f584   dynamic ip                    TenGigabitEthernet1/50
+ 100    0004.614e.5be8   dynamic ip                    TenGigabitEthernet1/50
+ 100    0004.75cb.b4df   dynamic ip                    TenGigabitEthernet1/50
+ 100    0009.6b89.0666   dynamic ip                    Port-channel12        
+ 100    000b.3f10.3c1e   dynamic ip                    TenGigabitEthernet1/50
+ 100    000c.42ae.1bb8   dynamic ip                    TenGigabitEthernet1/50
+ 100    000c.4604.d6d4   dynamic ip                    TenGigabitEthernet1/50
+ 100    000d.6084.98d3   dynamic ip                    TenGigabitEthernet1/50
+ 100    000e.2e31.63c2   dynamic ip,other              TenGigabitEthernet1/50
+ 100    0010.b568.8d3f   dynamic ip                    TenGigabitEthernet1/50
+ 100    0014.5e20.82c1   dynamic ip,other              TenGigabitEthernet1/50
+ 100    0015.1718.7c51   dynamic ip                    Port-channel12        
+ 100    0015.1718.7c53   dynamic ip                    Port-channel12        
+ 100    0015.17fa.d2e1   dynamic ip                    TenGigabitEthernet1/50
+ 100    0015.6d3a.f208   dynamic ip                    TenGigabitEthernet1/50
+ 100    0015.775d.c30b   dynamic ip                    TenGigabitEthernet1/50
+ 100    0016.76ce.e7c6   dynamic ip                    TenGigabitEthernet1/50
+ 100    0018.742c.8880   dynamic ip                    TenGigabitEthernet1/50
+ 100    0018.e7e2.e1f9   dynamic ip                    TenGigabitEthernet1/50
+ 100    0019.99c5.8a7d   dynamic ip                    TenGigabitEthernet1/50
+ 100    001a.64cb.983d   dynamic ip                    TenGigabitEthernet1/50
+ 100    001a.a019.c34d   dynamic ip,other              TenGigabitEthernet1/50
+ 100    001a.a019.c34f   dynamic ip,other              TenGigabitEthernet1/50
+ 100    001c.f080.46df   dynamic ip                    TenGigabitEthernet1/50
+ 100    001d.70a5.369d   dynamic ip                    TenGigabitEthernet1/50
+ 100    001e.0b60.3e5e   dynamic ip                    Port-channel12        
+ 100    001e.144d.d198   dynamic ip                    TenGigabitEthernet1/50
+ 100    001e.5811.3c25   dynamic ip                    TenGigabitEthernet1/50
+ 100    001f.ca0c.6c00   dynamic ip                    TenGigabitEthernet1/50
+ 100    001f.d094.bbb3   dynamic ip,other              TenGigabitEthernet1/50
+ 100    001f.e263.4699   dynamic ip,other              Port-channel12        
+ 100    0021.5e54.7186   dynamic ip,other              TenGigabitEthernet1/50
+ 100    0022.1524.25c7   dynamic ip                    TenGigabitEthernet1/50
+ 100    0022.648a.5a1c   dynamic ip                    Port-channel12        
+ 100    0023.0484.5468   dynamic assigned              TenGigabitEthernet1/50
+ 100    0023.33f8.0da0   dynamic ip,assigned           TenGigabitEthernet1/50
+ 100    0024.0193.524f   dynamic ip                    Port-channel12        
+ 100    0024.01df.c886   dynamic ip                    TenGigabitEthernet1/50
+ 100    0024.8c3d.a6b5   dynamic ip                    TenGigabitEthernet1/50
+ 100    0025.2210.7732   dynamic ip                    TenGigabitEthernet1/50
+ 100    0026.18e6.00ec   dynamic ip,ipx                TenGigabitEthernet1/50
+ 100    0026.7323.5dd6   dynamic ip                    TenGigabitEthernet1/50
+ 100    0026.b947.79f2   dynamic ip                    TenGigabitEthernet1/50
+ 100    0027.0dd3.2d35   dynamic ip                    TenGigabitEthernet1/50
+ 100    0030.0513.81fc   dynamic ip                    Port-channel12        
+ 100    0030.4864.ca6c   dynamic ip                    TenGigabitEthernet1/50
+ 100    0030.48c1.fd4c   dynamic ip,other              TenGigabitEthernet1/50
+ 100    0050.0432.0844   dynamic ip                    TenGigabitEthernet1/50
+ 100    0050.2289.d05c   dynamic ip,other              Port-channel12        
+ 100    0050.569a.5bd9   dynamic ip                    Port-channel11        
+ 100    04fe.7f1a.b87e   dynamic ip                    TenGigabitEthernet1/50
+ 100    5254.0039.f750   dynamic ip                    TenGigabitEthernet1/50
+ 100    5453.ed2d.942d   dynamic ip                    TenGigabitEthernet1/50
+ 100    6805.ca02.23d0   dynamic ip,other              TenGigabitEthernet1/50
+ 100    6805.ca02.2910   dynamic ip                    TenGigabitEthernet1/50
+ 100    901b.0e41.990f   dynamic ip                    TenGigabitEthernet1/50
+ 100    acf1.df77.125d   dynamic ip,other              TenGigabitEthernet1/50
+ 100    bcae.c544.31fb   dynamic ip                    TenGigabitEthernet1/50
+ 100    d8d3.85d7.b823   dynamic ip                    TenGigabitEthernet1/50
+ 100    e41f.13b7.1f6c   dynamic ip                    TenGigabitEthernet1/50
+ 100    e41f.13b8.a8b8   dynamic ip                    TenGigabitEthernet1/50
+ 100    e894.f6be.6fa1   dynamic ip                    TenGigabitEthernet1/50
+ 100    eee1.4be4.5051   dynamic ip                    TenGigabitEthernet1/50
+ 137    0006.6721.8624   dynamic ip                    GigabitEthernet1/36   
+ 137    0008.205c.2500   dynamic ip                    Port-channel12        
+ 137    0008.a327.8900   dynamic ip                    Port-channel12        
+ 137    0009.0f9f.b4be   dynamic ip                    Port-channel12        
+ 137    0009.0fa1.a1de   dynamic ip                    Port-channel12        
+ 137    0009.0fa1.a35e   dynamic ip                    Port-channel12        
+ 137    0009.0fa1.a44e   dynamic ip                    Port-channel12        
+ 137    0009.0fa1.a49e   dynamic ip                    Port-channel12        
+ 137    0009.0fa1.ad1e   dynamic ip                    Port-channel12        
+ 137    0009.0fa1.ae5e   dynamic ip                    Port-channel12        
+ 137    0009.0fa1.af3e   dynamic ip                    Port-channel12        
+ 137    0009.0fa1.af8e   dynamic ip                    Port-channel12        
+ 137    0009.0fa1.b0be   dynamic ip                    Port-channel12        
+ 137    0009.0fa1.b15e   dynamic ip                    Port-channel12        
+ 137    0009.0ffd.01fe   dynamic ip                    Port-channel12        
+ 137    0011.3235.71b5   dynamic ip                    TenGigabitEthernet1/50
+ 137    0015.5d09.0c1f   dynamic ip                    TenGigabitEthernet1/50
+ 137    0016.9da5.8541   dynamic ip                    TenGigabitEthernet1/50
+ 137    0016.9dbb.d2c0   dynamic ip                    TenGigabitEthernet1/50
+ 137    0019.e72a.77ff   dynamic ip                    TenGigabitEthernet1/50
+ 137    001a.6478.7b08   dynamic ip                    Port-channel11        
+ 137    001a.64c9.8a14   dynamic ip                    Port-channel11        
+ 137    001a.64c9.c4fc   dynamic ip                    Port-channel11        
+ 137    001b.214d.cbfb   dynamic ip                    Port-channel11        
+ 137    001b.7802.5e64   dynamic ip                    Port-channel11        
+ 137    001b.78e0.4212   dynamic ip                    Port-channel11        
+ 137    001b.d45c.9cff    static ip,ipx,assigned,other Switch                
+ 137    001d.70a5.7346   dynamic ip                    TenGigabitEthernet1/50
+ 137    0021.5aa5.6102   dynamic ip                    Port-channel11        
+ 137    0021.5aa5.918c   dynamic ip                    Port-channel11        
+ 137    0023.ebbb.f150   dynamic ip                    GigabitEthernet1/36   
+ 137    0026.0bb8.81d0   dynamic ip                    GigabitEthernet1/36   
+ 137    0050.569a.000c   dynamic ip                    Port-channel11        
+ 137    0050.569a.29cb   dynamic ip                    Port-channel11        
+ 137    0050.569a.737a   dynamic ip                    Port-channel11        
+ 137    0050.56b7.033b   dynamic ip                    Port-channel11        
+ 137    0050.56b7.1a6b   dynamic ip                    Port-channel11        
+ 137    0050.56b7.1ad6   dynamic ip                    Port-channel11        
+ 137    0050.56b7.4e7b   dynamic ip                    Port-channel11        
+ 137    0050.56b7.4f07   dynamic ip                    Port-channel11        
+ 137    0050.56b7.7f03   dynamic ip,other              Port-channel11        
+ 137    18ef.63ee.2bc2   dynamic ip                    Port-channel11        
+ 137    2893.feb1.12c3   dynamic ip                    TenGigabitEthernet1/50
+ 137    3cdf.1e16.d5c1   dynamic ip                    Port-channel12        
+ 137    40a8.f035.2120   dynamic ip,other              TenGigabitEthernet1/50
+ 137    78ac.c0f8.51d0   dynamic ip                    Port-channel11        
+ 137    78ac.c0f8.51d8   dynamic ip,other              GigabitEthernet1/36   
+ 137    78ac.c0f8.6990   dynamic ip                    Port-channel11        
+ 137    ac16.2d74.4244   dynamic ip                    TenGigabitEthernet1/50
+ 137    dc7b.940b.b541   dynamic ip                    Port-channel12        
+ 137    dc7b.940b.d541   dynamic ip                    Port-channel12        
+ 137    dc7b.943b.1e41   dynamic ip                    Port-channel12        
+ 137    dc7b.949f.1141   dynamic ip                    Port-channel12        
+ 137    dc7b.949f.11c1   dynamic ip                    Port-channel12        
+ 137    dc7b.94a0.0541   dynamic ip                    Port-channel12        
+ 137    dc7b.94a1.a5c1   dynamic ip                    Port-channel12        
+ 137    dc7b.94ad.0d41   dynamic ip                    Port-channel12        
+ 137    dc7b.94b9.b841   dynamic ip                    Port-channel12        
+ 137    f4ac.c197.a6c1   dynamic ip                    Port-channel12        
+ 137    f4ac.c1c0.8241   dynamic ip                    GigabitEthernet1/36   
+ 224    0019.e72a.77ff   dynamic ip                    TenGigabitEthernet1/50
+ 225    0019.e72a.77ff   dynamic ip                    TenGigabitEthernet1/50
+ 225    0023.ebbb.f14c   dynamic ip                    GigabitEthernet1/37   
+ 225    0050.56b7.4275   dynamic ip                    Port-channel11        
+ 225    4084.9311.4123   dynamic ip                    Port-channel12        
+ 226    0011.3214.8825   dynamic ip,other              Port-channel11        
+ 226    0019.e72a.77ff   dynamic ip                    TenGigabitEthernet1/50
+ 226    001b.2144.cb34   dynamic ip                    Port-channel12        
+ 226    0026.0bb8.81d0   dynamic ip,assigned           GigabitEthernet1/36   
+ 226    0050.569a.0006   dynamic ip                    Port-channel11        
+ 226    0050.569a.000d   dynamic ip                    Port-channel11        
+ 226    0050.569a.2822   dynamic ip                    Port-channel11        
+ 226    0050.569a.3f90   dynamic ip                    Port-channel11        
+ 226    0050.569a.46b9   dynamic ip                    Port-channel11        
+ 226    0050.56b7.769f   dynamic ip                    Port-channel11        
+ 226    cc5d.4e40.e67c   dynamic ip                    Port-channel12        
+ 227    0004.23c2.6174   dynamic ip                    TenGigabitEthernet1/50
+ 227    000c.2951.fa62   dynamic other                 TenGigabitEthernet1/50
+ 227    000c.2953.8f22   dynamic other                 TenGigabitEthernet1/50
+ 227    000c.296c.eb52   dynamic ip,other              TenGigabitEthernet1/50
+ 227    000c.2985.2086   dynamic other                 TenGigabitEthernet1/50
+ 227    000c.298d.54f0   dynamic other                 TenGigabitEthernet1/50
+ 227    000c.298d.54fa   dynamic other                 TenGigabitEthernet1/50
+ 227    000c.29a5.81c1   dynamic other                 TenGigabitEthernet1/50
+ 227    000c.29cc.dc41   dynamic other                 TenGigabitEthernet1/50
+ 227    000c.29d4.8168   dynamic other                 TenGigabitEthernet1/50
+ 227    000c.29e3.6cf1   dynamic ip,other              Port-channel12        
+ 227    000c.29f4.9f7a   dynamic ip,other              TenGigabitEthernet1/50
+ 227    0011.3235.71b3   dynamic ip,other              TenGigabitEthernet1/50
+ 227    0013.2095.b792   dynamic ip,other              Port-channel12        
+ 227    0015.5d09.0433   dynamic other                 TenGigabitEthernet1/50
+ 227    0015.5d09.0c22   dynamic other                 TenGigabitEthernet1/50
+ 227    0016.3504.2bcf   dynamic ip,other              Port-channel12        
+ 227    0018.5116.df6d   dynamic ip,other              Port-channel12        
+ 227    0018.516c.1f9e   dynamic ip,other              Port-channel12        
+ 227    0018.5175.34c2   dynamic ip,other              Port-channel12        
+ 227    0018.517c.b107   dynamic ip,other              Port-channel12        
+ 227    0018.51a1.b1b5   dynamic ip,other              Port-channel12        
+ 227    0018.51ea.5f54   dynamic ip,other              Port-channel12        
+ 227    0019.e72a.77ff   dynamic ip                    TenGigabitEthernet1/50
+ 227    001b.2144.cb34   dynamic ip,other              Port-channel12        
+ 227    001b.2184.6142   dynamic ip                    Port-channel12        
+ 227    001c.c0a2.c5b4   dynamic ip                    Port-channel12        
+ 227    0022.6489.b918   dynamic ip,other              Port-channel12        
+ 227    0025.9053.68cc   dynamic ip,other              Port-channel12        
+ 227    0030.05ad.5454   dynamic ip,other              Port-channel12        
+ 227    0050.569a.0003   dynamic ip,other              Port-channel11        
+ 227    0050.569a.0008   dynamic ip,other              Port-channel11        
+ 227    0050.569a.19eb   dynamic ip,other              Port-channel11        
+ 227    0050.569a.4be8   dynamic ip,other              Port-channel11        
+ 227    0050.569a.5380   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.04f3   dynamic other                 TenGigabitEthernet1/50
+ 227    0050.56b7.0738   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.0a00   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.0bad   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.0ff4   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.113b   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.1308   dynamic other                 TenGigabitEthernet1/50
+ 227    0050.56b7.1534   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.1a68   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.1e34   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.2224   dynamic ip                    Port-channel11        
+ 227    0050.56b7.244c   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.24fc   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.2663   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.2da2   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.34a5   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.34b2   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.3892   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.3a97   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.3b40   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.4003   dynamic ip,other              Port-channel12        
+ 227    0050.56b7.569d   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.57d8   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.5a7e   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.5b4d   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.5d0d   dynamic ip                    Port-channel11        
+ 227    0050.56b7.5eff   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.5fb6   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.6813   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.696f   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.6b24   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.6d7a   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.6d7d   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.6da6   dynamic ip,other              TenGigabitEthernet1/50
+ 227    0050.56b7.70d8   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.72dd   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.7be1   dynamic ip,other              Port-channel11        
+ 227    0050.56b7.7c7c   dynamic ip,other              Port-channel11        
+ 227    68b5.99e3.fea7   dynamic ip,other              Port-channel12        
+ 227    7071.bc18.1bea   dynamic ip,other              Port-channel12        
+ 227    78ac.c0ff.7f4c   dynamic ip,other              Port-channel12        
+ 227    78ca.39fb.c9e7   dynamic ip,other              Port-channel12        
+ 227    901b.0e48.3a01   dynamic ip,other              Port-channel12        
+ 227    b8ac.6f8c.f298   dynamic ip,other              Port-channel12        
+ 227    b8ac.6f8c.f29a   dynamic ip                    Port-channel12        
+ 229    0019.e72a.77ff   dynamic ip                    TenGigabitEthernet1/50
+ 254    0015.5d09.0c21   dynamic ip                    TenGigabitEthernet1/50
+ 254    001c.10a9.0c4e   dynamic ip                    Port-channel12        
+ 281    001d.6080.5515   dynamic ip                    Port-channel12        
+ 281    001f.e263.469e   dynamic ip                    Port-channel12        
+ 281    001f.e263.46aa   dynamic ip                    Port-channel12        
+ 281    001f.e263.46ab   dynamic ip                    Port-channel12        
+ 281    0021.5a5c.2b92   dynamic ip                    Port-channel12        
+ 281    0023.ebbb.f14f   dynamic ip                    GigabitEthernet1/40   
+ 290    0019.e72a.77ff   dynamic other                 TenGigabitEthernet1/50
+ 301    000c.46f6.e25c   dynamic ip                    Port-channel12        
+ 301    0023.ebbb.f14d   dynamic ip                    GigabitEthernet1/38   
+ 301    0050.56b7.699f   dynamic ip                    Port-channel11        
+ 301    54e6.fcc4.0133   dynamic ip                    Port-channel12        
+ 301    5cd9.9821.7503   dynamic ip                    Port-channel12        
+ 301    b8b4.2ece.d900   dynamic ip                    Port-channel12        
+ 301    b8b4.2ee3.e0c5   dynamic ip,other              Port-channel12        
+ 301    c0c1.c018.1966   dynamic ip                    Port-channel12        
+ 301    cc5d.4e40.e67b   dynamic ip                    Port-channel12        
+ 302    0000.749b.88f2   dynamic ip                    Port-channel12        
+ 302    000a.7998.4e5a   dynamic ip                    Port-channel12        
+ 302    0017.3149.39c7   dynamic ip                    Port-channel12        
+ 302    0017.3149.39fe   dynamic ip                    Port-channel12        
+ 302    0017.3149.3a79   dynamic ip,other              Port-channel12        
+ 302    0017.3149.3b7b   dynamic ip                    Port-channel12        
+ 302    0018.f379.0037   dynamic ip,other              Port-channel12        
+ 302    0019.99af.8084   dynamic ip,other              Port-channel12        
+ 302    0019.99c0.2e78   dynamic ip,other              Port-channel12        
+ 302    0019.bbea.2f75   dynamic ip,other              Port-channel12        
+ 302    0019.d104.0e00   dynamic ip                    Port-channel12        
+ 302    001d.7e4c.4f1b   dynamic ip                    Port-channel12        
+ 302    0021.b750.5c00   dynamic ip,other              Port-channel12        
+ 302    0021.b750.9cbf   dynamic ip,other              Port-channel12        
+ 302    0022.19ea.ddf6   dynamic ip,other              Port-channel12        
+ 302    0023.ebbb.f14d   dynamic ip                    GigabitEthernet1/38   
+ 302    0050.56b7.222a   dynamic ip,other              Port-channel11        
+ 302    0050.56b7.5d2c   dynamic ip,other              Port-channel11        
+ 302    14cc.206f.ad95   dynamic ip                    Port-channel12        
+ 302    28d2.440c.492f   dynamic ip,other              Port-channel12        
+ 302    28d2.449a.9b30   dynamic ip,other              Port-channel12        
+ 302    3863.bbd8.4b5c   dynamic ip,other              Port-channel12        
+ 302    502e.5cf4.1339   dynamic ip,other              Port-channel12        
+ 302    5046.5d38.5efd   dynamic ip,other              Port-channel12        
+ 302    5254.0083.3ecc   dynamic ip,other              Port-channel12        
+ 302    54a0.50e8.8204   dynamic ip,other              Port-channel12        
+ 302    54ee.757b.1a67   dynamic ip,other              Port-channel12        
+ 302    5cd9.9864.f643   dynamic ip,other              Port-channel12        
+ 302    60e3.274a.7e4e   dynamic ip,other              Port-channel12        
+ 302    6489.9a81.80f4   dynamic ip,other              Port-channel12        
+ 302    78e7.d17f.d2e3   dynamic ip,other              Port-channel12        
+ 302    8086.f219.ced6   dynamic ip,other              Port-channel12        
+ 302    9c8e.99ed.d256   dynamic ip,other              Port-channel12        
+ 302    9ceb.e818.8f7b   dynamic ip,other              Port-channel12        
+ 302    a4ba.dbee.2ae9   dynamic ip,other              Port-channel12        
+ 302    c49a.025a.c1f2   dynamic ip,other              Port-channel12        
+ 302    c8be.1960.6d25   dynamic ip                    Port-channel12        
+ 302    ec1f.72d7.2b20   dynamic ip,other              Port-channel12        
+ 304    0000.748e.755b   dynamic ip,ipx,other          Port-channel12        
+ 304    0002.44bd.6130   dynamic other                 Port-channel12        
+ 304    0004.23c2.6174   dynamic ip                    TenGigabitEthernet1/50
+ 304    0004.4b00.0f1d   dynamic ip                    Port-channel12        
+ 304    000f.fe6f.5874   dynamic ip                    Port-channel12        
+ 304    000f.fe6f.58a2   dynamic ip,other              Port-channel12        
+ 304    000f.fe6f.58f6   dynamic ip,other              Port-channel12        
+ 304    0015.5d09.0c1e   dynamic ip,other              TenGigabitEthernet1/50
+ 304    0016.6c47.970c   dynamic ip                    Port-channel12        
+ 304    0018.e7eb.5d88   dynamic ip                    Port-channel12        
+ 304    0019.99b3.3505   dynamic ip,other              Port-channel12        
+ 304    0019.99e2.722c   dynamic ip                    Port-channel12        
+ 304    0019.99e5.3c3f   dynamic ip                    Port-channel12        
+ 304    0019.99f4.9fc0   dynamic ip,other              Port-channel12        
+ 304    0019.99f4.9fcd   dynamic ip                    Port-channel12        
+ 304    0019.99f4.9fd1   dynamic ip                    Port-channel12        
+ 304    0019.d138.f551   dynamic ip,other              Port-channel12        
+ 304    001b.780f.a102   dynamic ip,other              Port-channel12        
+ 304    001e.7a78.8be8   dynamic ip,assigned,other     Port-channel12        
+ 304    0021.cc5d.c3b7   dynamic ip,other              Port-channel12        
+ 304    0025.22b2.1197   dynamic ip,other              Port-channel12        
+ 304    0026.5afe.a523   dynamic ip                    Port-channel12        
+ 304    14d6.4d36.436f   dynamic ip                    Port-channel12        
+ 304    1cc1.de11.26e9   dynamic ip,other              Port-channel12        
+ 304    20aa.4b73.14a5   dynamic ip,other              Port-channel12        
+ 304    24be.051c.9bec   dynamic ip,other              Port-channel12        
+ 304    2c41.389f.86c8   dynamic ip                    Port-channel12        
+ 304    2c41.389f.87d7   dynamic ip                    Port-channel12        
+ 304    3cd9.2b5a.ddb4   dynamic ip                    Port-channel12        
+ 304    801f.02b7.41b8   dynamic ip                    Port-channel12        
+ 304    801f.02b7.41bd   dynamic ip                    Port-channel12        
+ 304    a0b3.ccff.644e   dynamic ip                    Port-channel12        
+ 304    a4ba.dbec.d8bd   dynamic other                 Port-channel12        
+ 304    ac16.2d74.42a0   dynamic ip                    Port-channel12        
+ 304    ac87.a307.4331   dynamic ip,other              Port-channel12        
+ 304    b827.eb9d.6a85   dynamic ip                    Port-channel12        
+ 304    c8b3.7342.378f   dynamic ip                    Port-channel12        
+ 304    c8f9.f942.71bc   dynamic ip                    Port-channel12        
+ 304    d8d3.858f.a350   dynamic ip                    Port-channel12        
+ 312    0000.74e8.f4f1   dynamic ip                    Port-channel12        
+ 312    0019.667a.8040   dynamic ip                    Port-channel12        
+ 312    0019.667a.957d   dynamic ip,other              Port-channel12        
+ 312    0019.6687.bd3b   dynamic ip                    Port-channel12        
+ 312    001b.780f.d184   dynamic ip,other              Port-channel12        
+ 312    0021.0419.a8ba   dynamic ip                    Port-channel12        
+ 312    0021.b714.11a3   dynamic ip                    Port-channel12        
+ 312    0023.ebbb.f14d   dynamic ip                    GigabitEthernet1/38   
+ 312    0024.8116.1d42   dynamic ip,other              Port-channel12        
+ 312    0050.56b7.2e11   dynamic ip                    Port-channel11        
+ 312    1cc1.de61.66d7   dynamic ip,other              Port-channel12        
+ 312    e8de.2725.220d   dynamic ip                    Port-channel12        
+ 312    fcf5.284f.1b4f   dynamic other                 Port-channel12        
+ 314    000c.2954.404e   dynamic ip                    Port-channel12        
+ 314    000c.2996.4466   dynamic ip,other              Port-channel12        
+ 314    0015.5d09.0c20   dynamic ip,other              TenGigabitEthernet1/50
+ 314    0015.9933.00c9   dynamic ip                    Port-channel12        
+ 314    0018.f379.01ab   dynamic ip,other              Port-channel12        
+ 314    0018.f379.0b0b   dynamic ip,other              Port-channel12        
+ 314    0019.667a.8003   dynamic ip,other              Port-channel12        
+ 314    0019.667a.94ef   dynamic ip                    Port-channel12        
+ 314    0019.667a.9510   dynamic ip,other              Port-channel12        
+ 314    001e.2a72.32a3   dynamic ip                    Port-channel12        
+ 314    001f.c6d7.f76d   dynamic ip                    Port-channel12        
+ 314    0021.b7b8.3738   dynamic other                 Port-channel12        
+ 314    0024.8116.1f01   dynamic ip,other              Port-channel12        
+ 314    0030.48c5.a050   dynamic ip,other              Port-channel12        
+ 314    0040.8c81.c953   dynamic ip                    Port-channel12        
+ 314    00a0.d1c9.ec01   dynamic ip                    Port-channel12        
+ 314    148f.c68a.d9ac   dynamic ip                    Port-channel12        
+ 314    2c44.fd1a.08aa   dynamic ip,other              Port-channel12        
+ 314    5cf9.dd41.3a8e   dynamic ip,other              Port-channel12        
+ 314    6067.20c0.a00c   dynamic ip,other              Port-channel12        
+ 314    60e3.27fb.b109   dynamic ip                    Port-channel12        
+ 314    60e3.27fb.b10a   dynamic ip                    Port-channel12        
+ 314    7824.af38.c0d9   dynamic ip,other              Port-channel12        
+ 314    80c1.6eec.a943   dynamic ip,other              Port-channel12        
+ 314    94de.805f.d7c5   dynamic ip,other              Port-channel12        
+ 314    a456.30b2.940f   dynamic ip                    Port-channel12        
+ 314    ac16.2d12.1af1   dynamic ip                    Port-channel12        
+ 314    ac9e.17e9.abe4   dynamic ip                    Port-channel12        
+ 314    e03f.49c8.d95e   dynamic ip,other              Port-channel12        
+ 314    e8b1.fc80.1d12   dynamic ip,other              Port-channel12        
+ 314    e8de.27e1.b899   dynamic ip                    Port-channel12        
+ 314    fcf5.284f.1999   dynamic other                 Port-channel12        
+ 314    fcf5.284f.1a8b   dynamic other                 Port-channel12        
+ 314    fcf5.284f.1abf   dynamic other                 Port-channel12        
+ 314    fcf5.284f.1b12   dynamic other                 Port-channel12        
+ 321    0000.749b.1254   dynamic ip                    Port-channel12        
+ 321    0000.749b.d5b9   dynamic ip                    Port-channel12        
+ 321    0019.99b3.3540   dynamic ip,other              Port-channel12        
+ 321    0019.99f4.9fce   dynamic ip,other              Port-channel12        
+ 321    001a.4d4f.5bc8   dynamic ip,other              Port-channel12        
+ 321    001a.4d51.055b   dynamic ip,other              Port-channel12        
+ 321    001a.4d51.07e6   dynamic ip,other              Port-channel12        
+ 321    001a.4d51.151a   dynamic ip,other              Port-channel12        
+ 321    001a.4d51.1c80   dynamic ip,other              Port-channel12        
+ 321    001a.4d51.245c   dynamic ip,other              Port-channel12        
+ 321    001b.fceb.fd62   dynamic ip,other              Port-channel12        
+ 321    0023.ebbb.f14d   dynamic ip                    GigabitEthernet1/38   
+ 321    0026.7315.38bb   dynamic ip                    Port-channel12        
+ 321    0026.7338.a916   dynamic ip                    Port-channel12        
+ 321    0050.56b7.2387   dynamic ip                    Port-channel11        
+ 601    0019.e72a.77ff   dynamic ip                    TenGigabitEthernet1/50
+ 602    0019.e72a.77ff   dynamic ip                    TenGigabitEthernet1/50
+ 602    001d.70a5.4647   dynamic ip                    TenGigabitEthernet1/50
+ 603    0019.e72a.77ff   dynamic ip                    TenGigabitEthernet1/50
+ 603    001f.ca0c.6c00   dynamic ip                    TenGigabitEthernet1/50
+ 666    000c.29f4.9f7a   dynamic ip,other              Port-channel12        
+ 666    0011.3235.71b3   dynamic ip                    Port-channel12        
+ 666    0018.5175.34c2   dynamic ip                    Port-channel12        
+ 666    0019.e72a.77ff   dynamic ip                    Port-channel12        
+ 666    001c.c0a2.c5b4   dynamic ip                    Port-channel12        
+ 666    0025.9053.68cc   dynamic ip                    Port-channel12        
+ 666    0050.56b7.34a5   dynamic ip                    Port-channel12        
+ 666    0050.56b7.4003   dynamic ip,other              Port-channel11        
+ 666    0050.56b7.5d0d   dynamic ip                    Port-channel12        
+ 666    68b5.99e3.fea7   dynamic ip,other              Port-channel12        
+ 666    78ca.39fb.c9e7   dynamic ip,other              Port-channel12        
+ 666    b8ac.6f8c.f29a   dynamic ip                    Port-channel12        
+ 998    0001.0319.890c   dynamic ip                    Port-channel12        
+ 998    000c.2934.5202   dynamic ip                    Port-channel12        
+ 998    000c.2934.52f8   dynamic ip,other              Port-channel12        
+ 998    0010.dcdd.d308   dynamic ip                    Port-channel12        
+ 998    0019.e72a.77ff   dynamic ip                    TenGigabitEthernet1/50
+ 998    001e.3727.3e7e   dynamic ip                    Port-channel12        
+ 998    fccf.62a4.1400   dynamic ip                    Port-channel12        
+ 999    0003.0f18.e44e   dynamic ip                    TenGigabitEthernet1/50
+ 999    000c.296b.187c   dynamic ip,ipx                TenGigabitEthernet1/50
+ 999    0015.5d00.cb06   dynamic ip                    TenGigabitEthernet1/50
+ 999    0015.5d00.cb07   dynamic ip                    TenGigabitEthernet1/50
+ 999    0015.77b3.8f04   dynamic ip                    TenGigabitEthernet1/50
+ 999    001b.d45c.9cff    static ip,ipx,assigned,other Switch                
+ 999    0021.a1d0.a341   dynamic ip                    TenGigabitEthernet1/50
+ 999    5254.0074.5e3d   dynamic ip                    TenGigabitEthernet1/50
+1001    18ef.63ee.2bad   dynamic other                 Port-channel11        
+1001    18ef.63ee.2bae   dynamic other                 Port-channel11        
+1001    18ef.63ee.2baf   dynamic other                 Port-channel11        
+1001    18ef.63ee.2bb0   dynamic other                 Port-channel11        
+1001    3cdf.1e16.d595   dynamic other                 Port-channel12        
+1001    3cdf.1e16.d596   dynamic other                 Port-channel12        
+1001    3cdf.1e16.d598   dynamic other                 Port-channel12        
+
+Multicast Entries
+ vlan    mac address     type    ports
+-------+---------------+-------+--------------------------------------------
+   1    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po3,Po4,Po5,Po6
+                                Po8,Po11,Po12
+   3    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+   4    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+   5    ffff.ffff.ffff   system Switch,Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+   6    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po3,Po5,Po7,Po11
+                                Po12
+   7    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po4,Po6,Po8,Po11
+                                Po12
+   8    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po4,Po11,Po12
+   9    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po4,Po5,Po6,Po8
+                                Po11,Po12
+  10    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po4,Po6,Po8,Po11
+                                Po12
+  11    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+  37    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+  55    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+  89    0100.5e7f.ff64     igmp Te1/50,Po12
+  89    0100.5e7f.fffa     igmp Te1/50,Po12
+  89    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+  91    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+  99    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 100    0100.5e7f.fffa     igmp Te1/50,Po12
+ 100    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 135    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 136    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 137    ffff.ffff.ffff   system Switch,Gi1/36,Gi1/40,Te1/50,Po1,Po3,Po4,Po5
+                                Po6,Po11,Po12
+ 224    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 225    ffff.ffff.ffff   system Gi1/36,Gi1/37,Gi1/40,Te1/50,Po1,Po11,Po12
+ 226    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 227    0100.5e00.018c     igmp Po11,Po12
+ 227    0100.5e40.988f     igmp Po11,Po12
+ 227    0100.5e7f.fffa     igmp Te1/50,Po11,Po12
+ 227    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 229    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 237    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 254    ffff.ffff.ffff   system Gi1/36,Gi1/38,Gi1/40,Te1/50,Po1,Po11,Po12
+ 281    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 290    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 300    ffff.ffff.ffff   system Gi1/36,Gi1/38,Gi1/40,Te1/50,Po1,Po11,Po12
+ 301    ffff.ffff.ffff   system Gi1/36,Gi1/38,Gi1/40,Te1/50,Po1,Po11,Po12
+ 302    ffff.ffff.ffff   system Gi1/36,Gi1/38,Gi1/40,Te1/50,Po1,Po11,Po12
+ 303    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 304    ffff.ffff.ffff   system Gi1/36,Gi1/39,Gi1/40,Te1/50,Po1,Po11,Po12
+ 312    ffff.ffff.ffff   system Gi1/36,Gi1/38,Gi1/40,Te1/50,Po1,Po11,Po12
+ 313    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 314    ffff.ffff.ffff   system Gi1/36,Gi1/39,Gi1/40,Te1/50,Po1,Po11,Po12
+ 321    ffff.ffff.ffff   system Gi1/36,Gi1/38,Gi1/40,Te1/50,Po1,Po11,Po12
+ 601    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 602    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 603    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 666    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 777    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 998    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+ 999    ffff.ffff.ffff   system Switch,Gi1/36,Gi1/40,Te1/50,Po1,Po3,Po4,Po5
+                                Po6,Po11,Po12
+1001    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po11,Po12
+4002    ffff.ffff.ffff   system Gi1/36,Gi1/40,Te1/50,Po1,Po3,Po4,Po5,Po6
+                                Po8,Po11,Po12
+
+ACS-Sw10GW4948-48-2>
