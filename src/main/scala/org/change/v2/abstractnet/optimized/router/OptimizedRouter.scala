@@ -1,6 +1,7 @@
 package org.change.v2.abstractnet.optimized.router
 
 import org.change.utils
+import org.change.v2.abstractnet.click.selfbuildingblocks.EtherMumboJumbo
 import org.change.v2.abstractnet.generic._
 import org.change.v2.analysis.constraint._
 import org.change.v2.analysis.expression.concrete.ConstantValue
@@ -105,7 +106,16 @@ object OptimizedRouter {
               else Nil
             }))
         }).groupBy(_._1).map( kv =>
-          InstructionBlock(ConstrainRaw(IPDst, OR(kv._2.map(_._2).toList)), Forward(outputPortName(kv._1)))
+          InstructionBlock(
+            ConstrainRaw(IPDst, OR(kv._2.map(_._2).toList)),
+            EtherMumboJumbo.stripAllEther,
+            if (kv._1.startsWith("Vlan")) {
+              val vlan = kv._1.stripPrefix("Vlan").toInt
+              EtherMumboJumbo.constantVlanEncap(vlan)
+            } else {
+              EtherMumboJumbo.symbolicEtherEncap
+            },
+            Forward(outputPortName(kv._1)))
           )))
     }
   }

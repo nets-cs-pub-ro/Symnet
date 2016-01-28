@@ -3,12 +3,10 @@ package org.change.v2.abstractnet.click.sefl
 import org.change.v2.abstractnet.generic.{ConfigParameter, ElementBuilder, GenericElement, Port}
 import org.change.v2.analysis.expression.concrete._
 import org.change.v2.analysis.expression.concrete.nonprimitive._
+import org.change.v2.analysis.memory.Tag
 import org.change.v2.analysis.processingmodels.instructions._
 import org.change.v2.analysis.processingmodels.{Instruction, LocationId}
-import org.change.v2.util.conversion.RepresentationConversion._
 import org.change.v2.util.canonicalnames._
-import org.change.v2.analysis.memory.TagExp._
-import org.change.v2.analysis.memory.Tag
 
 class VLANDecap(name: String,
                    elementType: String,
