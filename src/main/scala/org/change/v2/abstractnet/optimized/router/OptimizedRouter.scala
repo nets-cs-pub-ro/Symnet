@@ -82,9 +82,18 @@ object OptimizedRouter {
         )).toSeq.sortBy(i => i._1._2 - i._1._1)
   }
 
+  def getDstMacConstraint(macs: String): Instruction = {
+    ConstrainRaw(EtherDst,NOT(AND((for (m <-Source.fromFile(macs).getLines()) yield {
+      EQ_E(ConstantValue(RepresentationConversion.macToNumberCiscoFormat(m)))
+    }).toList)))
+  }
+
   def makeRouter(f: File): OptimizedRouter = {
     val table = getRoutingEntries(f)
     val name = f.getName.trim.stripSuffix(".rt")
+
+    val macsFile = f.getParent + File.separator + name + ".macs"
+    val dstMacConstrain = getDstMacConstraint(macsFile)
 
     new OptimizedRouter(name + "-" + name,"Router", Nil, Nil, Nil) {
       override def instructions: Map[LocationId, Instruction] = Map(inputPortName("port") ->
@@ -115,6 +124,7 @@ object OptimizedRouter {
             } else {
               EtherMumboJumbo.symbolicEtherEncap
             },
+            dstMacConstrain,
             Forward(outputPortName(kv._1)))
           )))
     }
