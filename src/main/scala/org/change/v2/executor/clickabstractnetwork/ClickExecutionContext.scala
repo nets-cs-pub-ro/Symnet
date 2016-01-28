@@ -124,13 +124,14 @@ case class ClickExecutionContext(
             s <- r1._2
           } s.memory.buildSolver.decRef()
 
-          (r1._1, Nil, Nil)
+          (r1._1, r1._2, Nil)
         } else (Nil, Nil, List(s))
     }
 
     useAndReturn(copy(
       okStates = ok ++ okStates.tail,
-      stuckStates = stuck ++ stuckStates
+      stuckStates = stuck ++ stuckStates,
+      failedStates = fail ++ failedStates
     ), {ctx: ClickExecutionContext => logger.log(ctx)})
   }
 

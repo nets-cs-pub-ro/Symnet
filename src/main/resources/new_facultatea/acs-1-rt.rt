@@ -1,0 +1,429 @@
+0.0.0.0/0            141.85.5.125
+0.0.0.0/32           receive
+10.9.0.0/16          141.85.241.10        
+10.88.88.0/24        attached             Vlan998
+10.88.88.0/32        receive
+10.88.88.1/32        receive
+10.88.88.11/32       attached             Vlan998
+10.88.88.12/32       attached             Vlan998
+10.88.88.13/32       attached             Vlan998
+10.88.88.14/32       attached             Vlan998
+10.88.88.15/32       attached             Vlan998
+10.88.88.255/32      receive
+141.85.5.124/30      attached             Vlan290
+141.85.5.124/32      receive
+141.85.5.125/32      attached             Vlan290
+141.85.5.126/32      receive
+141.85.5.127/32      receive
+141.85.101.0/24      141.85.225.2         
+141.85.116.0/24      172.31.255.1         Vlan603
+141.85.176.0/24      172.31.255.1         Vlan603
+141.85.184.0/24      172.31.255.1         Vlan603
+141.85.185.0/26      172.31.255.1         Vlan603
+141.85.185.64/26     172.31.255.1         Vlan603
+141.85.185.128/27    172.31.255.1         Vlan603
+141.85.192.0/24      172.31.255.1         Vlan603
+141.85.199.0/28      172.31.255.1         Vlan603
+141.85.199.16/29     172.31.255.1         Vlan603
+141.85.199.24/29     172.31.255.1         Vlan603
+141.85.199.32/29     172.31.255.1         Vlan603
+141.85.199.40/29     172.31.255.1         Vlan603
+141.85.199.48/29     172.31.255.1         Vlan603
+141.85.202.0/24      172.31.255.74        Vlan602
+141.85.206.0/24      172.31.255.74        Vlan602
+141.85.207.0/24      172.31.255.74        Vlan602
+141.85.208.0/24      172.31.255.1         Vlan603
+141.85.210.0/23      172.31.255.1         Vlan603
+141.85.214.0/23      172.31.255.1         Vlan603
+141.85.216.0/24      172.31.255.1         Vlan603
+141.85.220.0/23      172.31.255.1         Vlan603
+141.85.224.0/24      attached             Vlan224
+141.85.224.0/32      receive
+141.85.224.1/32      receive
+141.85.224.10/32     attached             Vlan224
+141.85.224.255/32    receive
+141.85.225.0/24      attached             Vlan225
+141.85.225.0/32      receive
+141.85.225.1/32      receive
+141.85.225.2/32      attached             Vlan225
+141.85.225.11/32     attached             Vlan225
+141.85.225.20/32     attached             Vlan225
+141.85.225.150/32    attached             Vlan225
+141.85.225.151/32    attached             Vlan225
+141.85.225.200/32    attached             Vlan225
+141.85.225.201/32    attached             Vlan225
+141.85.225.202/32    attached             Vlan225
+141.85.225.204/32    attached             Vlan225
+141.85.225.205/32    attached             Vlan225
+141.85.225.206/32    attached             Vlan225
+141.85.225.210/32    attached             Vlan225
+141.85.225.212/32    attached             Vlan225
+141.85.225.214/32    attached             Vlan225
+141.85.225.215/32    attached             Vlan225
+141.85.225.221/32    attached             Vlan225
+141.85.225.222/32    attached             Vlan225
+141.85.225.232/32    attached             Vlan225
+141.85.225.233/32    attached             Vlan225
+141.85.225.255/32    receive
+141.85.226.0/24      attached             Vlan226
+141.85.226.0/32      receive
+141.85.226.1/32      receive
+141.85.226.5/32      attached             Vlan226
+141.85.226.11/32     attached             Vlan226
+141.85.226.12/32     attached             Vlan226
+141.85.226.13/32     attached             Vlan226
+141.85.226.14/32     attached             Vlan226
+141.85.226.23/32     attached             Vlan226
+141.85.226.32/32     attached             Vlan226
+141.85.226.34/32     attached             Vlan226
+141.85.226.36/32     attached             Vlan226
+141.85.226.50/32     attached             Vlan226
+141.85.226.77/32     attached             Vlan226
+141.85.226.78/32     attached             Vlan226
+141.85.226.255/32    receive
+141.85.227.0/24      attached             Vlan227
+141.85.227.0/32      receive
+141.85.227.1/32      receive
+141.85.227.3/32      attached             Vlan227
+141.85.227.4/32      attached             Vlan227
+141.85.227.5/32      attached             Vlan227
+141.85.227.8/32      attached             Vlan227
+141.85.227.11/32     attached             Vlan227
+141.85.227.15/32     attached             Vlan227
+141.85.227.17/32     attached             Vlan227
+141.85.227.21/32     attached             Vlan227
+141.85.227.31/32     attached             Vlan227
+141.85.227.35/32     attached             Vlan227
+141.85.227.39/32     attached             Vlan227
+141.85.227.41/32     attached             Vlan227
+141.85.227.43/32     attached             Vlan227
+141.85.227.47/32     attached             Vlan227
+141.85.227.49/32     attached             Vlan227
+141.85.227.50/32     attached             Vlan227
+141.85.227.51/32     attached             Vlan227
+141.85.227.52/32     attached             Vlan227
+141.85.227.53/32     attached             Vlan227
+141.85.227.57/32     attached             Vlan227
+141.85.227.58/32     attached             Vlan227
+141.85.227.59/32     attached             Vlan227
+141.85.227.61/32     attached             Vlan227
+141.85.227.62/32     attached             Vlan227
+141.85.227.63/32     attached             Vlan227
+141.85.227.65/32     attached             Vlan227
+141.85.227.66/32     attached             Vlan227
+141.85.227.67/32     attached             Vlan227
+141.85.227.68/32     attached             Vlan227
+141.85.227.69/32     attached             Vlan227
+141.85.227.70/32     attached             Vlan227
+141.85.227.78/32     attached             Vlan227
+141.85.227.82/32     attached             Vlan227
+141.85.227.85/32     attached             Vlan227
+141.85.227.95/32     attached             Vlan227
+141.85.227.96/32     attached             Vlan227
+141.85.227.97/32     attached             Vlan227
+141.85.227.98/32     attached             Vlan227
+141.85.227.100/32    attached             Vlan227
+141.85.227.101/32    attached             Vlan227
+141.85.227.108/32    attached             Vlan227
+141.85.227.111/32    attached             Vlan227
+141.85.227.113/32    attached             Vlan227
+141.85.227.114/32    attached             Vlan227
+141.85.227.115/32    attached             Vlan227
+141.85.227.116/32    attached             Vlan227
+141.85.227.117/32    attached             Vlan227
+141.85.227.118/32    attached             Vlan227
+141.85.227.119/32    attached             Vlan227
+141.85.227.125/32    attached             Vlan227
+141.85.227.135/32    attached             Vlan227
+141.85.227.136/32    attached             Vlan227
+141.85.227.138/32    attached             Vlan227
+141.85.227.139/32    attached             Vlan227
+141.85.227.140/32    attached             Vlan227
+141.85.227.141/32    attached             Vlan227
+141.85.227.142/32    attached             Vlan227
+141.85.227.143/32    attached             Vlan227
+141.85.227.148/32    attached             Vlan227
+141.85.227.149/32    attached             Vlan227
+141.85.227.150/32    attached             Vlan227
+141.85.227.151/32    attached             Vlan227
+141.85.227.154/32    attached             Vlan227
+141.85.227.155/32    attached             Vlan227
+141.85.227.157/32    attached             Vlan227
+141.85.227.159/32    attached             Vlan227
+141.85.227.162/32    attached             Vlan227
+141.85.227.165/32    attached             Vlan227
+141.85.227.167/32    attached             Vlan227
+141.85.227.168/32    attached             Vlan227
+141.85.227.170/32    attached             Vlan227
+141.85.227.171/32    attached             Vlan227
+141.85.227.180/32    attached             Vlan227
+141.85.227.181/32    attached             Vlan227
+141.85.227.182/32    attached             Vlan227
+141.85.227.183/32    attached             Vlan227
+141.85.227.188/32    attached             Vlan227
+141.85.227.189/32    attached             Vlan227
+141.85.227.221/32    attached             Vlan227
+141.85.227.222/32    attached             Vlan227
+141.85.227.223/32    attached             Vlan227
+141.85.227.224/32    attached             Vlan227
+141.85.227.225/32    attached             Vlan227
+141.85.227.226/32    attached             Vlan227
+141.85.227.227/32    attached             Vlan227
+141.85.227.228/32    attached             Vlan227
+141.85.227.229/32    attached             Vlan227
+141.85.227.230/32    attached             Vlan227
+141.85.227.231/32    attached             Vlan227
+141.85.227.255/32    receive
+141.85.228.0/26      141.85.225.20        
+141.85.228.64/28     10.88.88.12          
+141.85.228.80/28     10.88.88.13          
+141.85.228.96/28     10.88.88.15          
+141.85.228.128/25    10.88.88.11          
+141.85.229.0/24      attached             Vlan229
+141.85.229.0/32      receive
+141.85.229.1/32      receive
+141.85.229.255/32    receive
+141.85.238.0/23      10.88.88.14          
+141.85.239.0/25      10.88.88.14          
+141.85.241.0/24      attached             Vlan10
+141.85.241.0/32      receive
+141.85.241.1/32      receive
+141.85.241.9/32      attached             Vlan10
+141.85.241.10/32     attached             Vlan10
+141.85.241.15/32     attached             Vlan10
+141.85.241.17/32     attached             Vlan10
+141.85.241.20/32     attached             Vlan10
+141.85.241.26/32     attached             Vlan10
+141.85.241.31/32     attached             Vlan10
+141.85.241.32/32     attached             Vlan10
+141.85.241.33/32     attached             Vlan10
+141.85.241.34/32     attached             Vlan10
+141.85.241.36/32     attached             Vlan10
+141.85.241.37/32     attached             Vlan10
+141.85.241.41/32     attached             Vlan10
+141.85.241.48/32     attached             Vlan10
+141.85.241.49/32     attached             Vlan10
+141.85.241.51/32     attached             Vlan10
+141.85.241.52/32     attached             Vlan10
+141.85.241.53/32     attached             Vlan10
+141.85.241.54/32     attached             Vlan10
+141.85.241.56/32     attached             Vlan10
+141.85.241.69/32     attached             Vlan10
+141.85.241.70/32     attached             Vlan10
+141.85.241.71/32     attached             Vlan10
+141.85.241.72/32     attached             Vlan10
+141.85.241.73/32     attached             Vlan10
+141.85.241.74/32     attached             Vlan10
+141.85.241.75/32     attached             Vlan10
+141.85.241.76/32     attached             Vlan10
+141.85.241.81/32     attached             Vlan10
+141.85.241.99/32     attached             Vlan10
+141.85.241.108/32    attached             Vlan10
+141.85.241.111/32    attached             Vlan10
+141.85.241.112/32    attached             Vlan10
+141.85.241.113/32    attached             Vlan10
+141.85.241.114/32    attached             Vlan10
+141.85.241.115/32    attached             Vlan10
+141.85.241.133/32    attached             Vlan10
+141.85.241.134/32    attached             Vlan10
+141.85.241.163/32    attached             Vlan10
+141.85.241.168/32    attached             Vlan10
+141.85.241.171/32    attached             Vlan10
+141.85.241.199/32    attached             Vlan10
+141.85.241.211/32    attached             Vlan10
+141.85.241.226/32    attached             Vlan10
+141.85.241.227/32    attached             Vlan10
+141.85.241.228/32    attached             Vlan10
+141.85.241.230/32    attached             Vlan10
+141.85.241.231/32    attached             Vlan10
+141.85.241.232/32    attached             Vlan10
+141.85.241.234/32    attached             Vlan10
+141.85.241.235/32    attached             Vlan10
+141.85.241.236/32    attached             Vlan10
+141.85.241.241/32    attached             Vlan10
+141.85.241.242/32    attached             Vlan10
+141.85.241.243/32    attached             Vlan10
+141.85.241.244/32    attached             Vlan10
+141.85.241.245/32    attached             Vlan10
+141.85.241.246/32    attached             Vlan10
+141.85.241.248/32    attached             Vlan10
+141.85.241.255/32    receive
+172.18.0.0/16        attached             Vlan999
+172.18.0.0/32        receive
+172.18.0.1/32        attached             Vlan999
+172.18.0.2/32        attached             Vlan999
+172.18.0.3/32        attached             Vlan999
+172.18.0.128/32      attached             Vlan999
+172.18.0.200/32      attached             Vlan999
+172.18.0.201/32      attached             Vlan999
+172.18.0.202/32      attached             Vlan999
+172.18.0.251/32      attached             Vlan999
+172.18.0.253/32      attached             Vlan999
+172.18.1.1/32        attached             Vlan999
+172.18.1.2/32        attached             Vlan999
+172.18.1.3/32        attached             Vlan999
+172.18.2.1/32        attached             Vlan999
+172.18.2.3/32        attached             Vlan999
+172.18.2.4/32        attached             Vlan999
+172.18.3.1/32        attached             Vlan999
+172.18.3.197/32      receive
+172.18.3.198/32      attached             Vlan999
+172.18.3.199/32      attached             Vlan999
+172.18.3.200/32      attached             Vlan999
+172.18.3.203/32      attached             Vlan999
+172.18.3.205/32      attached             Vlan999
+172.18.3.206/32      attached             Vlan999
+172.18.3.207/32      attached             Vlan999
+172.18.3.208/32      attached             Vlan999
+172.18.3.209/32      attached             Vlan999
+172.18.4.3/32        attached             Vlan999
+172.18.5.1/32        attached             Vlan999
+172.18.5.2/32        attached             Vlan999
+172.18.5.3/32        attached             Vlan999
+172.18.5.4/32        attached             Vlan999
+172.18.5.5/32        attached             Vlan999
+172.18.5.6/32        attached             Vlan999
+172.18.5.7/32        attached             Vlan999
+172.18.5.10/32       attached             Vlan999
+172.18.5.11/32       attached             Vlan999
+172.18.7.1/32        attached             Vlan999
+172.18.7.2/32        attached             Vlan999
+172.18.7.3/32        attached             Vlan999
+172.18.7.4/32        attached             Vlan999
+172.18.7.5/32        attached             Vlan999
+172.18.7.6/32        attached             Vlan999
+172.18.7.8/32        attached             Vlan999
+172.18.7.10/32       attached             Vlan999
+172.18.8.2/32        attached             Vlan999
+172.18.8.3/32        attached             Vlan999
+172.18.8.4/32        attached             Vlan999
+172.18.8.5/32        attached             Vlan999
+172.18.8.6/32        attached             Vlan999
+172.18.8.7/32        attached             Vlan999
+172.18.8.12/32       attached             Vlan999
+172.18.255.255/32    receive
+172.31.255.0/30      attached             Vlan603
+172.31.255.0/32      receive
+172.31.255.1/32      attached             Vlan603
+172.31.255.2/32      receive
+172.31.255.3/32      receive
+172.31.255.4/30      172.31.255.1         Vlan603
+172.31.255.8/30      172.31.255.1         Vlan603
+172.31.255.20/30     172.31.255.1         Vlan603
+                     172.31.255.74        Vlan602
+172.31.255.24/30     172.31.255.1         Vlan603
+172.31.255.28/30     172.31.255.1         Vlan603
+172.31.255.52/30     172.31.255.1         Vlan603
+172.31.255.64/30     attached             Vlan601
+172.31.255.64/32     receive
+172.31.255.65/32     receive
+172.31.255.67/32     receive
+172.31.255.68/30     172.31.255.1         Vlan603
+172.31.255.72/30     attached             Vlan602
+172.31.255.72/32     receive
+172.31.255.73/32     receive
+172.31.255.74/32     attached             Vlan602
+172.31.255.75/32     receive
+172.31.255.76/30     172.31.255.1         Vlan603
+172.31.255.252/30    172.31.255.1         Vlan603
+192.168.1.0/24       attached             Vlan5
+192.168.1.0/32       receive
+192.168.1.1/32       receive
+192.168.1.2/32       attached             Vlan5
+192.168.1.3/32       attached             Vlan5
+192.168.1.6/32       attached             Vlan5
+192.168.1.8/32       attached             Vlan5
+192.168.1.9/32       attached             Vlan5
+192.168.1.10/32      attached             Vlan5
+192.168.1.12/32      attached             Vlan5
+192.168.1.13/32      attached             Vlan5
+192.168.1.16/32      attached             Vlan5
+192.168.1.17/32      attached             Vlan5
+192.168.1.19/32      attached             Vlan5
+192.168.1.21/32      attached             Vlan5
+192.168.1.22/32      attached             Vlan5
+192.168.1.23/32      attached             Vlan5
+192.168.1.24/32      attached             Vlan5
+192.168.1.32/32      attached             Vlan5
+192.168.1.42/32      attached             Vlan5
+192.168.1.61/32      attached             Vlan5
+192.168.1.62/32      attached             Vlan5
+192.168.1.63/32      attached             Vlan5
+192.168.1.64/32      attached             Vlan5
+192.168.1.65/32      attached             Vlan5
+192.168.1.67/32      attached             Vlan5
+192.168.1.70/32      attached             Vlan5
+192.168.1.71/32      attached             Vlan5
+192.168.1.72/32      attached             Vlan5
+192.168.1.73/32      attached             Vlan5
+192.168.1.74/32      attached             Vlan5
+192.168.1.75/32      attached             Vlan5
+192.168.1.76/32      attached             Vlan5
+192.168.1.77/32      attached             Vlan5
+192.168.1.78/32      attached             Vlan5
+192.168.1.81/32      attached             Vlan5
+192.168.1.91/32      attached             Vlan5
+192.168.1.92/32      attached             Vlan5
+192.168.1.93/32      attached             Vlan5
+192.168.1.94/32      attached             Vlan5
+192.168.1.95/32      attached             Vlan5
+192.168.1.96/32      attached             Vlan5
+192.168.1.97/32      attached             Vlan5
+192.168.1.98/32      attached             Vlan5
+192.168.1.110/32     attached             Vlan5
+192.168.1.111/32     attached             Vlan5
+192.168.1.112/32     attached             Vlan5
+192.168.1.113/32     attached             Vlan5
+192.168.1.114/32     attached             Vlan5
+192.168.1.115/32     attached             Vlan5
+192.168.1.116/32     attached             Vlan5
+192.168.1.117/32     attached             Vlan5
+192.168.1.118/32     attached             Vlan5
+192.168.1.199/32     attached             Vlan5
+192.168.1.250/32     attached             Vlan5
+192.168.1.255/32     receive
+192.168.4.0/24       attached             Vlan4
+192.168.4.0/32       receive
+192.168.4.1/32       receive
+192.168.4.2/32       attached             Vlan4
+192.168.4.3/32       attached             Vlan4
+192.168.4.5/32       attached             Vlan4
+192.168.4.11/32      attached             Vlan4
+192.168.4.12/32      attached             Vlan4
+192.168.4.14/32      attached             Vlan4
+192.168.4.15/32      attached             Vlan4
+192.168.4.16/32      attached             Vlan4
+192.168.4.17/32      attached             Vlan4
+192.168.4.20/32      attached             Vlan4
+192.168.4.21/32      attached             Vlan4
+192.168.4.212/32     attached             Vlan4
+192.168.4.255/32     receive
+192.168.137.0/24     attached             Vlan137
+192.168.137.0/32     receive
+192.168.137.3/32     attached             Vlan137
+192.168.137.8/32     attached             Vlan137
+192.168.137.14/32    attached             Vlan137
+192.168.137.18/32    attached             Vlan137
+192.168.137.27/32    attached             Vlan137
+192.168.137.30/32    attached             Vlan137
+192.168.137.34/32    attached             Vlan137
+192.168.137.40/32    attached             Vlan137
+192.168.137.41/32    attached             Vlan137
+192.168.137.42/32    attached             Vlan137
+192.168.137.51/32    attached             Vlan137
+192.168.137.97/32    attached             Vlan137
+192.168.137.110/32   attached             Vlan137
+192.168.137.122/32   attached             Vlan137
+192.168.137.150/32   attached             Vlan137
+192.168.137.197/32   receive
+192.168.137.198/32   attached             Vlan137
+192.168.137.199/32   attached             Vlan137
+192.168.137.200/32   attached             Vlan137
+192.168.137.201/32   attached             Vlan137
+192.168.137.206/32   attached             Vlan137
+192.168.137.208/32   attached             Vlan137
+192.168.137.212/32   attached             Vlan137
+192.168.137.255/32   receive
+224.0.0.0/4          drop
+224.0.0.0/24         receive
+255.255.255.255/32   receive

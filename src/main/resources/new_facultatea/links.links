@@ -39,5 +39,6 @@ ef00:ef00:Gi0/24 -> acs-2:acs-2:port
 ef00:ef00:Gi0/21 -> acs-2:acs-2:port
 
 acs-2:acs-2:Ten1/50 -> acs-1:acs-1:port
-acs-1:acs-1:Ten1/50 -> acs-2:acs-2:port
+acs-1:acs-1:Ten1/50 |> acs-2:acs-2:port
+acs-1:acs-1:Switch -> acs-1-rt:acs-1-rt:port
 

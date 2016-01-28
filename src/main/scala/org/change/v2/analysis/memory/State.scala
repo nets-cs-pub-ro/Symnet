@@ -89,6 +89,37 @@ object State {
    Allocate(IPID, 16),
    Assign(IPID, SymbolicValue())
  )
+
+  private val ipSymb = InstructionBlock(
+    CreateTag("L3", StartTag + 0),
+
+    Allocate(IPVersion, 4),
+    Assign(IPVersion, SymbolicValue()),
+
+    Allocate(Proto, 8),
+    Assign(Proto, SymbolicValue()),
+
+    Allocate(IPSrc, 32),
+    Assign(IPSrc, SymbolicValue()),
+    Allocate(IPDst, 32),
+    Assign(IPDst, SymbolicValue()),
+
+    Allocate(TTL, 8),
+    Assign(TTL, ConstantValue(255)),
+
+    Allocate(IPLength, 16),
+    Assign(IPLength, SymbolicValue()),
+
+    Allocate(IPHeaderLength, 4),
+    Assign(IPHeaderLength, SymbolicValue()),
+
+    Allocate(HeaderChecksum,16),
+    Assign(HeaderChecksum, SymbolicValue()),
+
+    Allocate(IPID, 16),
+    Assign(IPID, SymbolicValue())
+  )
+
  private val transport = InstructionBlock(
    CreateTag("L4", L3Tag + 160),
 
@@ -136,7 +167,7 @@ object State {
  def allSymbolic = InstructionBlock(
   start,
   ehervlan,
-  ip,
+  ipSymb,
   transport,
   end
  )(State.clean, true)._1.head
