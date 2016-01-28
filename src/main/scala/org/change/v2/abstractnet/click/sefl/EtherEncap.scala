@@ -25,9 +25,21 @@ class EtherEncap(name: String,
     inputPortName(0) -> InstructionBlock(
       CreateTag("L2",Tag("L3")-112),
       Allocate(Tag("L2")+EtherSrcOffset,48),
-      Assign(Tag("L2")+EtherSrcOffset,ConstantValue(macToNumberCiscoFormat(configParams(1).value))),
-      Allocate(Tag("L2")+EtherDstOffset,48),
-      Assign(Tag("L2")+EtherDstOffset,ConstantValue(macToNumberCiscoFormat(configParams(2).value))),
+      Assign(EtherSrc,
+        if (configParams(1).value.matches("-"))
+          ConstantValue(macToNumberCiscoFormat(configParams(1).value))
+        else
+          SymbolicValue()
+      ),
+      Allocate(EtherDst,48),
+      Assign(EtherDst,
+        if (configParams(2).value.matches("-"))
+          ConstantValue(macToNumberCiscoFormat(configParams(2).value))
+        else
+          SymbolicValue()
+      ),
+      Constrain(EtherSrc, :~:(:==:(:@(EtherDst)))),
+      Constrain(EtherDst, :~:(:==:(:@(EtherSrc)))),
       Allocate(Tag("L2")+EtherTypeOffset,16),
       Assign(Tag("L2")+EtherTypeOffset,ConstantValue(configParams(0).value.toInt)),
       Forward(outputPortName(0))
