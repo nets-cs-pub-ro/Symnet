@@ -27,21 +27,21 @@ class EtherEncap(name: String,
       Allocate(Tag("L2")+EtherSrcOffset,48),
       Assign(EtherSrc,
         if (configParams(1).value.matches("-"))
-          ConstantValue(macToNumberCiscoFormat(configParams(1).value))
-        else
           SymbolicValue()
+        else
+          ConstantValue(macToNumber(configParams(1).value))
       ),
       Allocate(EtherDst,48),
       Assign(EtherDst,
         if (configParams(2).value.matches("-"))
-          ConstantValue(macToNumberCiscoFormat(configParams(2).value))
-        else
           SymbolicValue()
+        else
+          ConstantValue(macToNumber(configParams(2).value))
       ),
       Constrain(EtherSrc, :~:(:==:(:@(EtherDst)))),
       Constrain(EtherDst, :~:(:==:(:@(EtherSrc)))),
       Allocate(Tag("L2")+EtherTypeOffset,16),
-      Assign(Tag("L2")+EtherTypeOffset,ConstantValue(configParams(0).value.toInt)),
+      Assign(Tag("L2")+EtherTypeOffset,ConstantValue(java.lang.Long.decode(configParams(0).value))),
       Forward(outputPortName(0))
     )
   )
