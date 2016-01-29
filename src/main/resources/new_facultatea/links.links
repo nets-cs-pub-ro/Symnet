@@ -44,6 +44,7 @@ acs-1:acs-1:Ten1/50 |> acs-2:acs-2:port
 acs-1:acs-1:Switch -> acs-1-rt:acs-1-rt:port
 
 acs-2:acs-2:Gi1/38 -> asa:in_PROF_CS:0
+asa:out_PROF_CS:0 -> acs-2:acs-2:port
 
 asa:outside_out:0 |> acs-2:acs-2:port
 //Bullshit

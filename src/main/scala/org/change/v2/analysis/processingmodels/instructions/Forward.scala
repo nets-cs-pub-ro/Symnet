@@ -17,7 +17,7 @@ case class Forward(place: LocationId) extends Instruction {
    */
   override def apply(s: State, v: Boolean): (List[State], List[State]) = {
 //    if (place.contains("Vlan"))
-      println(s.history.mkString(" ") + place)
+//      println(s.history.mkString(" ") + place)
     (List((if (v) s.addInstructionToHistory(this) else s).forwardTo(place)), Nil)
   }
 }

@@ -22,13 +22,17 @@ class PaintSwitch(name: String,
 
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> Fork(
-      for (color <- 1 to 3) yield {
-        InstructionBlock(
-//          Constrain("COLOR", :==:(ConstantValue(color))),
-          ConstrainNamedSymbol(Paint.COLOR, EQ_E(ConstantValue(color))),
-          Forward(outputPortName(color))
-        )
-      }
+      Seq(
+      InstructionBlock(
+        //          Constrain("COLOR", :==:(ConstantValue(color))),
+        ConstrainNamedSymbol(Paint.COLOR, EQ_E(ConstantValue(1))),
+        Forward(outputPortName(1))
+      ),
+      InstructionBlock(
+        //          Constrain("COLOR", :==:(ConstantValue(color))),
+        ConstrainNamedSymbol(Paint.COLOR, EQ_E(ConstantValue(2))),
+        Forward(outputPortName(2))
+      ))
     )
   )
 

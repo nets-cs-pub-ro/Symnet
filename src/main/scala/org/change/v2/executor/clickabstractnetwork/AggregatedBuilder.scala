@@ -77,7 +77,7 @@ object AggregatedBuilder {
     val exe = executorFromFolder(new File("src/main/resources/new_facultatea")).setLogger(JsonLogger)
 
     val start = System.currentTimeMillis()
-    exe.untilDoneFrugally(true)
+    exe.untilDoneFrugally(false)
     println(System.currentTimeMillis() - start)
   }
 }
