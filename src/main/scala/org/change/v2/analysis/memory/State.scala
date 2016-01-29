@@ -90,7 +90,7 @@ object State {
    Allocate(Tag("L2")+EtherDstOffset,48),
    Assign(Tag("L2")+EtherDstOffset,SymbolicValue()),
    Allocate(Tag("L2")+EtherTypeOffset,16),
-   Assign(Tag("L2")+EtherTypeOffset,SymbolicValue())
+   Assign(Tag("L2")+EtherTypeOffset,ConstantValue(EtherProtoIP))
  )
  private val ehervlan = InstructionBlock(
     CreateTag("L2",Tag("START")-144),
@@ -99,13 +99,15 @@ object State {
     Allocate(Tag("L2")+EtherDstOffset,48),
     Assign(Tag("L2")+EtherDstOffset,SymbolicValue()),
     Allocate(Tag("L2")+EtherTypeOffset,16),
-    Assign(Tag("L2")+EtherTypeOffset,SymbolicValue()),
+    Assign(Tag("L2")+EtherTypeOffset,ConstantValue(EtherProtoVLAN)),
     Allocate(PCP,3),
     Assign(PCP,ConstantValue(0)),
     Allocate(DEI,1),
     Assign(DEI,ConstantValue(0)),
     Allocate(VLANTag,12),
-    Assign(VLANTag,SymbolicValue())
+    Assign(VLANTag,SymbolicValue()),
+   Allocate(Tag("L2")+EtherTypeOffset + 32,16),
+   Assign(Tag("L2")+EtherTypeOffset + 32,ConstantValue(EtherProtoIP))
   )
  private val ip = InstructionBlock(
    CreateTag("L3", StartTag + 0),
