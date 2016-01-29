@@ -156,7 +156,7 @@ object State {
     Assign(IPSrc, SymbolicValue()),
     Allocate(IPDst, 32),
 //    Assign(IPDst, SymbolicValue()),
-    Assign(IPDst, ConstantValue(ipToNumber("8.8.8.8"))),
+    Assign(IPDst, ConstantValue(ipToNumber("141.85.5.125"))),
 
     Allocate(TTL, 8),
     Assign(TTL, ConstantValue(255)),
