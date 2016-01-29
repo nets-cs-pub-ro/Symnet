@@ -9,7 +9,7 @@ pn_3 :: Paint(3);
 pn_0 :: Paint(0);
 outside_in :: Null;
 outside_out :: Null;
-outside_ether_encap :: EtherEncap(0x0800,00:23:eb:bb:f1:4c,00:19:e72:a77:ff);
+outside_ether_encap :: EtherEncap(0x0800,00:23:eb:bb:f1:4c,00:19:e7:2a:77:ff);
 outside_vlan_encap :: VLANEncap(225);
 out_PROF_CS :: Null;
 out_etherEncap_PROF_CS :: EtherEncap(0x0800,00:23:eb:bb:f1:4d,-);
