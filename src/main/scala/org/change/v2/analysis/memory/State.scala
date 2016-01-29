@@ -124,7 +124,7 @@ object State {
    Assign(IPSrc, SymbolicValue()),
    Constrain(IPSrc, :>=:(ConstantValue(0))),
    Allocate(IPDst, 32),
-   Assign(IPDst, SymbolicValue()),
+//   Assign(IPDst, ConstantValue(ipToNumber("8.8.8.8"))),
    Constrain(IPDst, :>=:(ConstantValue(0))),
 
    Allocate(TTL, 8),
@@ -155,7 +155,8 @@ object State {
     Allocate(IPSrc, 32),
     Assign(IPSrc, SymbolicValue()),
     Allocate(IPDst, 32),
-    Assign(IPDst, SymbolicValue()),
+//    Assign(IPDst, SymbolicValue()),
+    Assign(IPDst, ConstantValue(ipToNumber("8.8.8.8"))),
 
     Allocate(TTL, 8),
     Assign(TTL, ConstantValue(255)),
