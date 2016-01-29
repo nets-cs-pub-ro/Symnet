@@ -121,10 +121,10 @@ object State {
    Assign(Proto, SymbolicValue()),
 
    Allocate(IPSrc, 32),
-   Assign(IPSrc, SymbolicValue()),
    Constrain(IPSrc, :>=:(ConstantValue(0))),
+   Assign(IPSrc, SymbolicValue()),
+
    Allocate(IPDst, 32),
-//   Assign(IPDst, ConstantValue(ipToNumber("8.8.8.8"))),
    Constrain(IPDst, :>=:(ConstantValue(0))),
 
    Allocate(TTL, 8),
@@ -154,6 +154,10 @@ object State {
 
     Allocate(IPSrc, 32),
     Assign(IPSrc, SymbolicValue()),
+  {
+    val (l, u) = ipAndMaskToInterval("172.16.2.0", "24")
+    Constrain(IPSrc, :&:(:>=:(ConstantValue(l)), :<=:(ConstantValue(u))))
+  },
     Allocate(IPDst, 32),
 //    Assign(IPDst, SymbolicValue()),
     Assign(IPDst, ConstantValue(ipToNumber("141.85.5.125"))),
@@ -176,6 +180,8 @@ object State {
 
  private val transport = InstructionBlock(
    CreateTag("L4", L3Tag + 160),
+
+   Assign(Proto, ConstantValue(TCPProto)),
 
    Allocate(TcpSrc, 16),
    Assign(TcpSrc, SymbolicValue()),
