@@ -24,7 +24,7 @@ class EtherEncap(name: String,
   override def instructions: Map[LocationId, Instruction] = Map(
     inputPortName(0) -> InstructionBlock(
       CreateTag("L2",Tag("L3")-112),
-      Allocate(Tag("L2")+EtherSrcOffset,48),
+      Allocate(EtherSrc,48),
       Assign(EtherSrc,
         if (configParams(1).value.matches("-"))
           SymbolicValue()

@@ -97,7 +97,8 @@ object State {
     Allocate(Tag("L2")+EtherSrcOffset,48),
     Assign(Tag("L2")+EtherSrcOffset,SymbolicValue()),
     Allocate(Tag("L2")+EtherDstOffset,48),
-    Assign(Tag("L2")+EtherDstOffset,SymbolicValue()),
+//    Assign(Tag("L2")+EtherDstOffset,SymbolicValue()),
+    Assign(Tag("L2")+EtherDstOffset,ConstantValue(macToNumberCiscoFormat("0023.ebbb.f14d"))),
     Allocate(Tag("L2")+EtherTypeOffset,16),
     Assign(Tag("L2")+EtherTypeOffset,ConstantValue(EtherProtoVLAN)),
     Allocate(PCP,3),
@@ -105,7 +106,8 @@ object State {
     Allocate(DEI,1),
     Assign(DEI,ConstantValue(0)),
     Allocate(VLANTag,12),
-    Assign(VLANTag,SymbolicValue()),
+//    Assign(VLANTag,SymbolicValue()),
+    Assign(VLANTag,ConstantValue(301)),
    Allocate(Tag("L2")+EtherTypeOffset + 32,16),
    Assign(Tag("L2")+EtherTypeOffset + 32,ConstantValue(EtherProtoIP))
   )
