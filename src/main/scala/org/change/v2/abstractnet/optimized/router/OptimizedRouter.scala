@@ -83,7 +83,7 @@ object OptimizedRouter {
   }
 
   def getDstMacConstraint(macs: String): Instruction = {
-    ConstrainRaw(EtherDst,NOT(AND((for (m <-Source.fromFile(macs).getLines()) yield {
+    ConstrainRaw(EtherDst,NOT(OR((for (m <-Source.fromFile(macs).getLines()) yield {
       EQ_E(ConstantValue(RepresentationConversion.macToNumberCiscoFormat(m)))
     }).toList)))
   }
@@ -120,7 +120,16 @@ object OptimizedRouter {
             EtherMumboJumbo.stripAllEther,
             if (kv._1.startsWith("Vlan")) {
               val vlan = kv._1.stripPrefix("Vlan").toInt
-              EtherMumboJumbo.constantVlanEncap(vlan)
+              InstructionBlock(
+                EtherMumboJumbo.constantVlanEncap(vlan),
+                if (vlan == 290)
+                  Constrain(EtherSrc, :==:(ConstantValue(RepresentationConversion.macToNumberCiscoFormat("0019.e72a.77ff"))))
+                else
+////                if (vlan == 290)
+////                  Constrain(EtherDst, :==:(ConstantValue(RepresentationConversion.macToNumberCiscoFormat("0018.742f.bd80"))))
+////               else
+                  NoOp
+               )
             } else {
               EtherMumboJumbo.symbolicEtherEncap
             },

@@ -1,6 +1,6 @@
 package org.change.v2.executor.clickabstractnetwork
 
-import java.io.{FilenameFilter, File}
+import java.io.{PrintStream, FileOutputStream, FilenameFilter, File}
 
 import org.change.parser.clickfile.ClickToAbstractNetwork
 import org.change.parser.interclicklinks.InterClickLinksParser
@@ -75,8 +75,9 @@ object AggregatedBuilder {
 
   def main(args: Array[String]): Unit = {
     val exe = executorFromFolder(new File("src/main/resources/new_facultatea")).setLogger(JsonLogger)
+
     val start = System.currentTimeMillis()
-    exe.untilDoneFrugally(false)
+    exe.untilDoneFrugally(true)
     println(System.currentTimeMillis() - start)
   }
 }

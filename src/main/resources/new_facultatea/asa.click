@@ -1,4 +1,4 @@
-global_nat :: IPRewriter(keep 0 1,pattern 141.85.225.202 60000-65535 - - 2 3,keep 2 4,pattern 141.85.225.204 60000-65535 - - 5 6,keep 5 7);
+global_nat :: IPRewriter(keep 0 1,pattern 141.85.225.202 60000 - - 2 3,keep 2 4,pattern 141.85.225.204 60000-65535 - - 5 6,keep 5 7);
 dest_cl :: IPClassifier(dst net 172.16.2.254/24,dst net 172.16.4.254/22,-);
 dest_clp :: IPClassifier(dst net 172.16.2.254/24,dst net 172.16.4.254/22,-);
 unstatic_cl :: IPClassifier(dst host 141.85.225.151,dst host 141.85.225.152,-);

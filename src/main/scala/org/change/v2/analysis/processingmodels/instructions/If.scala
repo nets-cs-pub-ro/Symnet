@@ -37,7 +37,9 @@ case class If(testInstr: Instruction, thenWhat: Instruction, elseWhat:Instructio
           (sa ++ sb, fa ++ fb)
         }
 
-        case _ => elseWhat(s, v)
+        case _ => {
+          elseWhat(s, v)
+        }
       }
       case None => elseWhat(s,v)
     }

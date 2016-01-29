@@ -1,0 +1,1 @@
+nat :: IPRewriter(keep 0 1, keep 2 3)

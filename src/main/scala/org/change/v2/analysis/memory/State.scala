@@ -153,11 +153,12 @@ object State {
     Assign(Proto, SymbolicValue()),
 
     Allocate(IPSrc, 32),
-    Assign(IPSrc, SymbolicValue()),
-  {
-    val (l, u) = ipAndMaskToInterval("172.16.2.0", "24")
-    Constrain(IPSrc, :&:(:>=:(ConstantValue(l)), :<=:(ConstantValue(u))))
-  },
+    Assign(IPSrc, ConstantValue(ipToNumber("172.16.2.240"))),
+//    Assign(IPSrc, SymbolicValue()),
+//  {
+//    val (l, u) = ipAndMaskToInterval("172.16.2.0", "24")
+//    Constrain(IPSrc, :&:(:>=:(ConstantValue(l)), :<=:(ConstantValue(u))))
+//  },
     Allocate(IPDst, 32),
 //    Assign(IPDst, SymbolicValue()),
     Assign(IPDst, ConstantValue(ipToNumber("141.85.5.125"))),
@@ -188,8 +189,8 @@ object State {
    Constrain(TcpSrc, :&:(:>=:(ConstantValue(1000)), :<=:(ConstantValue(65536)))),
 
    Allocate(TcpDst, 16),
-   Assign(TcpDst, SymbolicValue()),
-   Constrain(TcpDst, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(65536)))),
+   Assign(TcpDst, ConstantValue(80)),
+//   Constrain(TcpDst, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(65536)))),
 
    Allocate(TcpSeq, 32),
    Assign(TcpSeq, SymbolicValue()),

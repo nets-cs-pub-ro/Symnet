@@ -196,15 +196,15 @@ class IPRewriter(name: String,
 
   def buildFullIntructions(inputspec: String, port: Int) = inputspec match {
     case IPRewriter.keepPattern(fwPort, rpPort) => {
-      installInstructions += (inputPortName(port) -> installRulesForKeep(port * 2, fwPort.toInt, rpPort.toInt))
-      lastCheck += 2
+      //installInstructions += (inputPortName(port) -> installRulesForKeep(port * 2, fwPort.toInt, rpPort.toInt))
+      //lastCheck += 2
       fwPorts += (2 * port -> fwPort.toInt)
       fwPorts += (2 * port + 1-> rpPort.toInt)
       buildCheckAndApplyFor(inputPortName(port))
     }
     case IPRewriter.rewritePattern(sa, sp, da, dp, fwPort, rpPort) => {
-      installInstructions += (inputPortName(port) -> installRulesForPattern(port * 2, sp, dp, sa, da, fwPort.toInt, rpPort.toInt))
-      lastCheck += 2
+      //installInstructions += (inputPortName(port) -> installRulesForPattern(port * 2, sp, dp, sa, da, fwPort.toInt, rpPort.toInt))
+      //lastCheck += 2
       fwPorts += (2 * port -> fwPort.toInt)
       fwPorts += (2 * port + 1-> rpPort.toInt)
       buildCheckAndApplyFor(inputPortName(port))
@@ -213,12 +213,42 @@ class IPRewriter(name: String,
     case "drop" | "discard" => Fail("Flow dropped.")
   }
 
+  def buildInstallInstructions(inputspec: String, port: Int) = inputspec match {
+    case IPRewriter.keepPattern(fwPort, rpPort) => {
+      installInstructions += (inputPortName(port) -> installRulesForKeep(port * 2, fwPort.toInt, rpPort.toInt))
+      //lastCheck += 2
+      fwPorts += (2 * port -> fwPort.toInt)
+      fwPorts += (2 * port + 1-> rpPort.toInt)
+    }
+    case IPRewriter.rewritePattern(sa, sp, da, dp, fwPort, rpPort) => {
+      installInstructions += (inputPortName(port) -> installRulesForPattern(port * 2, sp, dp, sa, da, fwPort.toInt, rpPort.toInt))
+      //lastCheck += 2
+      fwPorts += (2 * port -> fwPort.toInt)
+      fwPorts += (2 * port + 1-> rpPort.toInt)
+    }
+  }
+
   private val iCache: scala.collection.mutable.Map[String, Instruction] = scala.collection.mutable.Map()
 
-  private def buildRewriter(): Unit = for (
-    (cp, i) <- configParams.zipWithIndex
-  ) {
-    iCache += (inputPortName(i) -> buildFullIntructions(cp.value, i))
+  private def buildRewriter(): Unit = {
+    for {
+      i <- configParams
+      v = i.value
+    } if (v.contains("keep") | v.contains("pattern")) {
+      lastCheck +=2
+    }
+
+    for (
+      (cp, i) <- configParams.zipWithIndex
+    ) {
+      buildInstallInstructions(cp.value, i)
+    }
+
+    for (
+      (cp, i) <- configParams.zipWithIndex
+    ) {
+      iCache += (inputPortName(i) -> buildFullIntructions(cp.value, i))
+    }
   }
 
   private var iCacheMap: Map[LocationId, Instruction] = _

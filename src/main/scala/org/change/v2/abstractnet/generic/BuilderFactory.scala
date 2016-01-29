@@ -32,6 +32,7 @@ object BuilderFactory {
     case "StripIPHeader" => StripIPHeader.getBuilder(nameValue)
     case "CheckIPHeader" => CheckIPHeader.getBuilder(nameValue)
     case "IPMirror" => IPMirror.getBuilder(nameValue)
+    case "AllMirror" => AllMirror.getBuilder(nameValue)
     case "DecIPTTL" => DecIPTTL.getBuilder(nameValue)
     case "EtherEncap" => EtherEncap.getBuilder(nameValue)
     case "EtherDecap" => EtherDecap.getBuilder(nameValue)
@@ -42,7 +43,8 @@ object BuilderFactory {
     case "AddTCPOptions"  => AddTCPOptions.getBuilder(nameValue)
     case "TCPOptions"  => TCPOptions.getBuilder(nameValue)
     //    case "IPFilter"  => IPFilter.getBuilder(nameValue)
-    case "Paint" => Paint.getBuilder(nameValue)
+    case "Paint"  => Paint.getBuilder(nameValue)
+    case "PaintSwitch"  => PaintSwitch.getBuilder(nameValue)
     case "LinearIPLookup" => LinearIPLookup.getBuilder(nameValue)
     case _ => NoOpClickElm.getBuilder(nameValue, elementType)
   }
@@ -73,6 +75,7 @@ object BuilderFactory {
     case "StripIPHeader" => StripIPHeader.getBuilder
     case "CheckIPHeader" => CheckIPHeader.getBuilder
     case "IPMirror" => IPMirror.getBuilder
+    case "AllMirror" => IPMirror.getBuilder
     case "DecIPTTL" => DecIPTTL.getBuilder
     case "EtherEncap" => EtherEncap.getBuilder
     case "EtherDecap" => EtherDecap.getBuilder
@@ -84,6 +87,7 @@ object BuilderFactory {
     case "TCPOptions"  => TCPOptions.getBuilder
 //    case "IPFilter"  => IPFilter.getBuilder
     case "Paint"  => Paint.getBuilder
+    case "PaintSwitch"  => PaintSwitch.getBuilder
     case "LinearIPLookup" => LinearIPLookup.getBuilder
     case _ => NoOpClickElm.getBuilder(elementType)
   }

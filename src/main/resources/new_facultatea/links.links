@@ -50,4 +50,9 @@ asa:outside_out:0 |> acs-2:acs-2:port
 asa:outside_out:0 -> acs-1:acs-1:port
 
 acs-1-rt:acs-1-rt:Vlan290 -> acs-1:acs-1:port
+acs-1-rt:acs-1-rt:Vlan225 -> asa:outside_in:0
+
+acs-1:acs-1:Ten1/49 -> internet:internet:0
+internet:internet:0 -> acs-1:acs-1:port
+
 
