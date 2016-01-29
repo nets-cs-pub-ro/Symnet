@@ -55,7 +55,7 @@ class TCPOptions(name: String,
 		If(Constrain("OPT8",:==:(ConstantValue(1))),Assign("OPT8",SymbolicValue()),NoOp)
 	 ),
 	 NoOp),
-      If (Constrain("SIZE8",:~:(:==:(ConstantValue(8)))),
+      If (Constrain("SIZE8",:~:(:==:(ConstantValue(10)))),
       	 InstructionBlock(
 		Constrain("OPT8",:==:(ConstantValue(1))),
 		Assign("OPT8",ConstantValue(0)),
