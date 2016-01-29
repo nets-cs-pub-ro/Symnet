@@ -21,7 +21,7 @@ ether_decap_PROF_CS :: EtherDecap;
 pn_PROF_CS :: Paint(80);
 isTCP1 :: IPClassifier(tcp,udp,-);
 nat_cl_PROF_CS :: IPClassifier(src net 172.16.2.0/24,-);
-opts_PROF_CS :: TCPOptions;
+opts_PROF_CS :: Null;
 
 ps_PROF_CS :: PaintSwitch();
 out_LABS_CS :: Null;
@@ -36,14 +36,16 @@ isTCP2 :: IPClassifier(tcp,udp,-);
 static_cl_LABS_CS :: IPClassifier(src host 172.16.5.222,-);
 static_rw_LABS_CS :: IPRewriter(pattern 141.85.225.152 - - - 0 1);
 nat_cl_LABS_CS :: IPClassifier(src net 172.16.4.0/22,-);
-opts_LABS_CS :: TCPOptions;
+opts_LABS_CS :: Null;
 ps_LABS_CS :: PaintSwitch();
 just_pass_paint :: Paint(100);
 outside_host_ether :: HostEtherFilter(00:23:eb:bb:f1:4c);
 outside_vlan_decap :: VLANDecap;
 outside_ether_decap :: EtherDecap;
 isTCP3 :: IPClassifier(tcp,udp,-);
-opts_outside :: TCPOptions;
+
+opts_outside :: Null;
+
 ps :: PaintSwitch();
 cl_incoming :: IPClassifier( src host 37.128.224.6,dst net 141.85.228.0/26,dst  host 141.85.225.151 and dst tcp port 21,dst  host 141.85.225.151 and dst tcp port 80,dst  host 141.85.225.151 and dst tcp port 5000,dst  host 141.85.225.151 and dst tcp port 5001,dst  host 141.85.225.151 and dst tcp port 443,dst  host 141.85.225.152 and dst tcp port 22,dst  host 141.85.225.153,-);
 	global_nat[0] -> [0]pn_0;

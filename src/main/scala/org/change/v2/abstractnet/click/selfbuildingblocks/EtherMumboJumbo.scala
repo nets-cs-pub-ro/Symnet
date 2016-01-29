@@ -43,7 +43,7 @@ object EtherMumboJumbo {
     Allocate(Tag("L2")+EtherDstOffset,48),
     Assign(Tag("L2")+EtherDstOffset,SymbolicValue()),
     Allocate(Tag("L2")+EtherTypeOffset,16),
-    Assign(Tag("L2")+EtherTypeOffset,SymbolicValue())
+    Assign(Tag("L2")+EtherTypeOffset,ConstantValue(EtherProtoIP))
   )
 
   lazy val symbolicVlanEncap = InstructionBlock(
@@ -53,13 +53,16 @@ object EtherMumboJumbo {
     Allocate(Tag("L2")+EtherDstOffset,48),
     Assign(Tag("L2")+EtherDstOffset,SymbolicValue()),
     Allocate(Tag("L2")+EtherTypeOffset,16),
-    Assign(Tag("L2")+EtherTypeOffset,SymbolicValue()),
+    Assign(Tag("L2")+EtherTypeOffset,ConstantValue(EtherProtoVLAN)),
     Allocate(PCP,3),
     Assign(PCP,ConstantValue(0)),
     Allocate(DEI,1),
     Assign(DEI,ConstantValue(0)),
     Allocate(VLANTag,12),
-    Assign(VLANTag,SymbolicValue())
+    Assign(VLANTag,SymbolicValue()),
+    Allocate(Tag("L2")+EtherTypeOffset + 32,16),
+    Assign(Tag("L2")+EtherTypeOffset + 32,ConstantValue(EtherProtoIP))
+
   )
 
   def constantVlanEncap(vlanTag: Int) = InstructionBlock(
@@ -69,12 +72,14 @@ object EtherMumboJumbo {
     Allocate(Tag("L2")+EtherDstOffset,48),
     Assign(Tag("L2")+EtherDstOffset,SymbolicValue()),
     Allocate(Tag("L2")+EtherTypeOffset,16),
-    Assign(Tag("L2")+EtherTypeOffset,SymbolicValue()),
+    Assign(Tag("L2")+EtherTypeOffset,ConstantValue(EtherProtoVLAN)),
     Allocate(PCP,3),
     Assign(PCP,ConstantValue(0)),
     Allocate(DEI,1),
     Assign(DEI,ConstantValue(0)),
     Allocate(VLANTag,12),
-    Assign(VLANTag,ConstantValue(vlanTag))
+    Assign(VLANTag,ConstantValue(vlanTag)),
+    Allocate(Tag("L2")+EtherTypeOffset + 32,16),
+    Assign(Tag("L2")+EtherTypeOffset + 32,ConstantValue(EtherProtoIP))
   )
 }

@@ -49,3 +49,5 @@ asa:outside_out:0 |> acs-2:acs-2:port
 //Bullshit
 asa:outside_out:0 -> acs-1:acs-1:port
 
+acs-1-rt:acs-1-rt:Vlan290 -> acs-1:acs-1:port
+
