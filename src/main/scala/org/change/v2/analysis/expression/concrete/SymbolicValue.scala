@@ -3,7 +3,7 @@ package org.change.v2.analysis.expression.concrete
 import org.change.v2.analysis.expression.abst.{FloatingExpression, Expression}
 import org.change.v2.analysis.memory.State
 import org.change.v2.analysis.z3.Z3Util
-import z3.scala.{Z3Solver, Z3AST}
+import z3.scala.{Z3Sort, Z3Context, Z3Solver, Z3AST}
 
 /**
  * Created by radu on 3/24/15.

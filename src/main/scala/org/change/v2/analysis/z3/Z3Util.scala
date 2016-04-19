@@ -20,4 +20,9 @@ object Z3Util {
 
   lazy val defaultSort = intSort
 
+  def newContextAndSort(): (Z3Context, Z3Sort) = {
+    val ctx = new Z3Context()
+    (ctx, ctx.mkIntSort())
+  }
+
 }
