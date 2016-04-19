@@ -25,9 +25,14 @@ class PaintSwitch(name: String,
       Seq(
       InstructionBlock(
         //          Constrain("COLOR", :==:(ConstantValue(color))),
-        ConstrainNamedSymbol(Paint.COLOR, EQ_E(ConstantValue(1))),
-        Forward(outputPortName(1))
+        ConstrainNamedSymbol(Paint.COLOR, EQ_E(ConstantValue(0))),
+        Forward(outputPortName(0))
       ),
+//      InstructionBlock(
+//        //          Constrain("COLOR", :==:(ConstantValue(color))),
+//        ConstrainNamedSymbol(Paint.COLOR, EQ_E(ConstantValue(1))),
+//        Forward(outputPortName(1))
+//      ),
       InstructionBlock(
         //          Constrain("COLOR", :==:(ConstantValue(color))),
         ConstrainNamedSymbol(Paint.COLOR, EQ_E(ConstantValue(2))),

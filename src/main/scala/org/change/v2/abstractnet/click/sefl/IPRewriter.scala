@@ -226,6 +226,7 @@ class IPRewriter(name: String,
       fwPorts += (2 * port -> fwPort.toInt)
       fwPorts += (2 * port + 1-> rpPort.toInt)
     }
+    case _ =>
   }
 
   private val iCache: scala.collection.mutable.Map[String, Instruction] = scala.collection.mutable.Map()

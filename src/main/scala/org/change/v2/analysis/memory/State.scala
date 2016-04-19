@@ -97,8 +97,8 @@ object State {
     Allocate(Tag("L2")+EtherSrcOffset,48),
     Assign(Tag("L2")+EtherSrcOffset,SymbolicValue()),
     Allocate(Tag("L2")+EtherDstOffset,48),
-//    Assign(Tag("L2")+EtherDstOffset,SymbolicValue()),
-    Assign(Tag("L2")+EtherDstOffset,ConstantValue(macToNumberCiscoFormat("0023.ebbb.f14d"))),
+    Assign(Tag("L2")+EtherDstOffset,SymbolicValue()),
+//    Assign(Tag("L2")+EtherDstOffset,ConstantValue(macToNumberCiscoFormat("0023.ebbb.f14d"))),
     Allocate(Tag("L2")+EtherTypeOffset,16),
     Assign(Tag("L2")+EtherTypeOffset,ConstantValue(EtherProtoVLAN)),
     Allocate(PCP,3),
@@ -106,8 +106,8 @@ object State {
     Allocate(DEI,1),
     Assign(DEI,ConstantValue(0)),
     Allocate(VLANTag,12),
-//    Assign(VLANTag,SymbolicValue()),
-    Assign(VLANTag,ConstantValue(301)),
+    Assign(VLANTag,SymbolicValue()),
+//    Assign(VLANTag,ConstantValue(301)),
    Allocate(Tag("L2")+EtherTypeOffset + 32,16),
    Assign(Tag("L2")+EtherTypeOffset + 32,ConstantValue(EtherProtoIP))
   )
@@ -153,15 +153,16 @@ object State {
     Assign(Proto, SymbolicValue()),
 
     Allocate(IPSrc, 32),
-    Assign(IPSrc, ConstantValue(ipToNumber("172.16.2.240"))),
-//    Assign(IPSrc, SymbolicValue()),
+//    Assign(IPSrc, ConstantValue(ipToNumber("172.16.2.240"))),
+//    Assign(IPSrc, ConstantValue(ipToNumber("8.8.8.8"))),
+    Assign(IPSrc, SymbolicValue()),
 //  {
 //    val (l, u) = ipAndMaskToInterval("172.16.2.0", "24")
 //    Constrain(IPSrc, :&:(:>=:(ConstantValue(l)), :<=:(ConstantValue(u))))
 //  },
     Allocate(IPDst, 32),
-//    Assign(IPDst, SymbolicValue()),
-    Assign(IPDst, ConstantValue(ipToNumber("141.85.5.125"))),
+    Assign(IPDst, SymbolicValue()),
+//    Assign(IPDst, ConstantValue(ipToNumber("141.85.5.125"))),
 
     Allocate(TTL, 8),
     Assign(TTL, ConstantValue(255)),
@@ -185,11 +186,14 @@ object State {
    Assign(Proto, ConstantValue(TCPProto)),
 
    Allocate(TcpSrc, 16),
-   Assign(TcpSrc, SymbolicValue()),
-   Constrain(TcpSrc, :&:(:>=:(ConstantValue(1000)), :<=:(ConstantValue(65536)))),
+//   Assign(TcpSrc, SymbolicValue()),
+   Assign(TcpSrc, ConstantValue(80)),
+//   Constrain(TcpSrc, :&:(:>=:(ConstantValue(1000)), :<=:(ConstantValue(65536)))),
 
    Allocate(TcpDst, 16),
-   Assign(TcpDst, ConstantValue(80)),
+//   Assign(TcpDst, ConstantValue(80)),
+   Assign(TcpDst, ConstantValue(60000)),
+//   Assign(TcpDst, SymbolicValue()),
 //   Constrain(TcpDst, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(65536)))),
 
    Allocate(TcpSeq, 32),

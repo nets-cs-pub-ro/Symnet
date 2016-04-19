@@ -76,8 +76,10 @@ object AggregatedBuilder {
   def main(args: Array[String]): Unit = {
     val exe = executorFromFolder(new File("src/main/resources/new_facultatea")).setLogger(JsonLogger)
 
+    println(exe.instructions.size)
+
     val start = System.currentTimeMillis()
-    exe.untilDoneFrugally(false)
+//    exe.untilDoneFrugally(false)
     println(System.currentTimeMillis() - start)
   }
 }

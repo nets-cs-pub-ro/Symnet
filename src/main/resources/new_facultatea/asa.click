@@ -2,7 +2,7 @@ global_nat :: IPRewriter(keep 0 1,pattern 141.85.225.202 60000 - - 2 3,keep 2 4,
 dest_cl :: IPClassifier(dst net 172.16.2.254/24,dst net 172.16.4.254/22,-);
 dest_clp :: IPClassifier(dst net 172.16.2.254/24,dst net 172.16.4.254/22,-);
 unstatic_cl :: IPClassifier(dst host 141.85.225.151,dst host 141.85.225.152,-);
-unstatic_rw :: IPRewriter(pattern - - 172.16.12.172 - 0 1,pattern - - 172.16.5.222 - 0 1,keep 0 1);
+unstatic_rw :: IPRewriter(discard, discard, pass 0);
 pn_1 :: Paint(1);
 pn_2 :: Paint(2);
 pn_3 :: Paint(3);
