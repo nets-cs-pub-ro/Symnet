@@ -19,9 +19,13 @@ object SEFLRunner {
 
     val (successful, failed) = ex0
 
-//    output.println(s"OK States (${successful.length}}):\n" + ClickExecutionContext.verboselyStringifyStates(successful))
-//    output.println(s"\nFailed States (${failed.length}}):\n" + ClickExecutionContext.verboselyStringifyStates(failed))
+    output.println(
+      successful.map(_.jsonString).mkString("Successful: {\n", "\n", "}\n") +
+      failed.map(_.jsonString).mkString("Failed: {\n", "\n", "}\n")
+    )
 
+    output.close()
+    
     println("Check output @ sefl.output")
   }
 
