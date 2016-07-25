@@ -20,13 +20,14 @@ object SEFLRunner {
   def toJSONExample(): Unit = {
     val (s, f) = code(State.clean, true)
 
-    val out = new PrintWriter(new FileOutputStream(new File("seflExec")))
-
-    out.print(
-      (s ++ f).map(_.jsonString).mkString("\n")
+    output.println(
+      successful.map(_.jsonString).mkString("Successful: {\n", "\n", "}\n") +
+      failed.map(_.jsonString).mkString("Failed: {\n", "\n", "}\n")
     )
 
-    out.close()
+    output.close()
+    
+    println("Check output @ sefl.output")
   }
 
   val code = InstructionBlock (
