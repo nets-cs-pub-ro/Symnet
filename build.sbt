@@ -11,7 +11,6 @@ fork := true
 libraryDependencies ++= {
   Seq(
     "org.antlr" % "antlr4" % "4.3",
-    "commons-io" % "commons-io" % "2.4",
     "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test",
     "io.spray" %%  "spray-json" % "1.3.2"
   )

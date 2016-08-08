@@ -1,7 +1,5 @@
 package org.change.v2.util
 
-import org.apache.commons.io.filefilter.FalseFileFilter
-
 /**
  * Created by radu on 3/27/15.
  */
