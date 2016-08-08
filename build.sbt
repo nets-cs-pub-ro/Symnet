@@ -17,6 +17,8 @@ libraryDependencies ++= {
   )
 }
 
+test in assembly := {}
+
 lazy val sample = taskKey[Unit]("Interpreting")
 
 fullRunTask(sample, Compile, "org.change.v2.runners.experiments.SEFLRunner")

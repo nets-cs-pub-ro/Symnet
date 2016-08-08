@@ -18,7 +18,7 @@ object SEFLRunner {
   def main (args: Array[String]): Unit = toJSONExample()
 
   def toJSONExample(): Unit = {
-    val (s, f) = code(State.clean, true)
+    val (successful, failed) = code(State.clean, true)
 
     output.println(
       successful.map(_.jsonString).mkString("Successful: {\n", "\n", "}\n") +
