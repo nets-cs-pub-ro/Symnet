@@ -33,8 +33,8 @@ lazy val mc = taskKey[Unit]("Running multiple VMs")
 
 fullRunTask(mc, Compile, "org.change.v2.runners.experiments.MultipleVms")
 
-lazy val fuckultatea = taskKey[Unit]("Running multiple VMs")
+lazy val sefl = taskKey[Unit]("SEFL execution")
 
-fullRunTask(fuckultatea, Compile, "org.change.v2.runners.experiments.MultipleVmsFacultatea")
+fullRunTask(sefl, Compile, "org.change.v2.runners.sefl.SEFLExecutor")
 
 seq(Revolver.settings: _*)
