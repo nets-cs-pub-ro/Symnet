@@ -50,7 +50,7 @@ object State {
      Constrain(IPSrc, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(4294967296L)))),
      Allocate(IPDst, 32),
      Assign(IPDst, SymbolicValue()),
-     Constrain(IPSrc, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(4294967296L)))),
+     Constrain(IPDst, :&:(:>=:(ConstantValue(0)), :<=:(ConstantValue(4294967296L)))),
 
      Allocate(TTL, 8),
      Assign(TTL, ConstantValue(255)),

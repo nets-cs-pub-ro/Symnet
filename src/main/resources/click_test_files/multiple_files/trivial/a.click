@@ -1,4 +1,6 @@
-a :: FromDevice()
-b :: ToDevice()
+in :: FromDevice()
+out :: ToDevice()
 
-a -> b
+in -> out
+
+server_response :: FromDevice() -> Null
