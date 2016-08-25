@@ -28,6 +28,11 @@ class IPMirror(name: String,
       Assign("tmp",:@(IPSrc)),
       Assign(IPSrc,:@(IPDst)),
       Assign(IPDst,:@("tmp")),
+
+      Assign("tmp",:@(TcpSrc)),
+      Assign(TcpSrc,:@(TcpDst)),
+      Assign(TcpDst,:@("tmp")),
+
       Deallocate("tmp"),
       Forward(outputPortName(0))
     )

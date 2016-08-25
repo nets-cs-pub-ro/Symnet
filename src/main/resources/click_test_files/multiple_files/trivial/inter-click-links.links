@@ -1,0 +1,6 @@
+a:out:0 -> b:in:0
+b:out:0 -> tunnel:in:0
+tunnel:out:0 -> c:in:0
+
+c:out:0 -> b:nat:0
+b:nat:1 -> a:server_response:0

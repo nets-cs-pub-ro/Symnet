@@ -1,4 +1,7 @@
-c :: FromDevice()
-d :: ToDevice()
+in :: FromDevice()
+out :: ToDevice()
 
-c -> d
+filter :: IPClassifier(dst tcp port 80, -)
+nat :: IPRewriter(pattern 141.85.241.245 15000 - - 0 1)
+
+in -> filter -> nat -> out

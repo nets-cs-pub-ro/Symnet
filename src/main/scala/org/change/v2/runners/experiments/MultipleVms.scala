@@ -16,7 +16,7 @@ import org.change.parser.startpoints.StartPointParser
 object MultipleVms {
 
   def main(args: Array[String]) = {
-    val clicksFolder = new File("src/main/resources/click_test_files/multiple_files/mul_vm_playground")
+    val clicksFolder = new File("src/main/resources/click_test_files/multiple_files/trivial")
 
     val clicks = clicksFolder.list(new FilenameFilter {
       override def accept(dir: File, name: String): Boolean = name.endsWith(".click")
@@ -26,14 +26,11 @@ object MultipleVms {
 
     val ctx = ClickExecutionContext.buildAggregated(
       clicks.map(ClickToAbstractNetwork.buildConfig(_, prefixedElements = true)),
-      InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/mul_vm_playground/links.links"),
-      verificationConditions = RuleSetBuilder.buildRuleSetFromFile("src/main/resources/click_test_files/multiple_files/mul_vm_playground/rules.rules"),
+      InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/trivial/inter-click-links.links"),
       startElems = Some(StartPointParser.parseStarts(
-        "src/main/resources/click_test_files/multiple_files/mul_vm_playground/start.start"
+        "src/main/resources/click_test_files/multiple_files/trivial/start.start"
       ))
     )
-
-    val startOfExec = System.currentTimeMillis()
 
     var crtExecutor = ctx
     var steps = 0
@@ -42,12 +39,26 @@ object MultipleVms {
       crtExecutor = crtExecutor.execute(verbose=true)
     }
 
-    val doneExec = System.currentTimeMillis()
+    val successful = crtExecutor.stuckStates
+    val  failed = crtExecutor.failedStates
 
-//    val output = new PrintStream(new FileOutputStream(new File("mc.output")))
-//    output.println(crtExecutor.stringifyStates())
-//    output.close()
-//    println(s"Done, se spent ${startOfExec - startOfBuild} of code generation and ${doneExec - startOfExec} of execution.")
+    val outputOk = new PrintStream(new FileOutputStream(new File("sefl.ok.json")))
+
+    outputOk.println(
+      successful.map(_.jsonString).mkString("[", ",\n","]")
+    )
+
+    outputOk.close()
+
+    val outputFail = new PrintStream(new FileOutputStream(new File("sefl.fail.json")))
+
+    outputFail.println(
+        failed.map(_.jsonString).mkString("[", ",\n", "]")
+    )
+
+    outputFail.close()
+
+    println(s"Done: ${successful.length} ok, ${failed.length} failed")
   }
 
 }

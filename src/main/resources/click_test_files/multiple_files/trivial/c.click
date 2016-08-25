@@ -1,4 +1,6 @@
-e :: FromDevice()
-f :: ToDevice()
+in :: FromDevice()
+out :: ToDevice()
 
-e -> f
+server :: TcpIpMirror()
+
+in -> server -> out

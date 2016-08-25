@@ -21,7 +21,7 @@ class ExecuteMultipleClicksTest extends FlatSpec with Matchers {
         "src/main/resources/click_test_files/multiple_files/trivial/b.click",
         "src/main/resources/click_test_files/multiple_files/trivial/c.click"
       ).map(ClickToAbstractNetwork.buildConfig(_, prefixedElements = true)),
-      InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/trivial/abc.links")
+      InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/trivial/inter-click-links.links")
     )
 
     ctx shouldBe a [ClickExecutionContext]
@@ -36,7 +36,7 @@ class ExecuteMultipleClicksTest extends FlatSpec with Matchers {
         "src/main/resources/click_test_files/multiple_files/trivial/b.click",
         "src/main/resources/click_test_files/multiple_files/trivial/c.click"
       ).map(ClickToAbstractNetwork.buildConfig(_, prefixedElements = true)),
-      InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/trivial/abc.links"),
+      InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/trivial/inter-click-links.links"),
       RuleSetBuilder.buildRuleSetFromFile("src/main/resources/spec_lang_tests/multiple_simple")
     )
 
@@ -53,7 +53,7 @@ class ExecuteMultipleClicksTest extends FlatSpec with Matchers {
         "src/main/resources/click_test_files/multiple_files/trivial/b.click",
         "src/main/resources/click_test_files/multiple_files/trivial/c.click"
       ).map(ClickToAbstractNetwork.buildConfig(_, prefixedElements = true)),
-      InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/trivial/abc.links"),
+      InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/trivial/inter-click-links.links"),
       RuleSetBuilder.buildRuleSetFromFile("src/main/resources/spec_lang_tests/multiple_simple")
     )
 
@@ -79,7 +79,7 @@ class ExecuteMultipleClicksTest extends FlatSpec with Matchers {
         "src/main/resources/click_test_files/multiple_files/trivial/b.click",
         "src/main/resources/click_test_files/multiple_files/trivial/c.click"
       ).map(ClickToAbstractNetwork.buildConfig(_, prefixedElements = true)),
-      InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/trivial/abc.links"),
+      InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/trivial/inter-click-links.links"),
       RuleSetBuilder.buildRuleSetFromFile("src/main/resources/spec_lang_tests/multiple_failing_simple")
     )
 
@@ -105,7 +105,7 @@ class ExecuteMultipleClicksTest extends FlatSpec with Matchers {
         "src/main/resources/click_test_files/multiple_files/trivial/b.click",
         "src/main/resources/click_test_files/multiple_files/trivial/c.click"
       ).map(ClickToAbstractNetwork.buildConfig(_, prefixedElements = true)),
-      InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/trivial/abc.links"),
+      InterClickLinksParser.parseLinks("src/main/resources/click_test_files/multiple_files/trivial/inter-click-links.links"),
       RuleSetBuilder.buildRuleSetFromFile("src/main/resources/spec_lang_tests/multiple_failing_cascading_simple")
     )
 

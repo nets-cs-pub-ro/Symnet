@@ -39,7 +39,8 @@ class StripIPHeader(name: String,
       If (Constrain("t",:==:(ConstantValue(IPIPProto))),
         InstructionBlock(
           CreateTag("L3",Tag("L3") + 160),
-          CreateTag("L4",Tag("L3")+IPHeaderLengthOffset)
+//          CreateTag("L4",Tag("L3")+IPHeaderLengthOffset)
+          CreateTag("L4",Tag("L3")+160)
         ),
         Deallocate(Tag("L3"),0) // TODO: Should correct this
       ),

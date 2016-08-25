@@ -243,6 +243,7 @@ object State {
      start,
      ip,
      transport,
+
      //CreateTag("PAYLOAD", :+:(L4Tag,:@(TcpDataOffset)),
      //Allocate(Tag("PAYLOAD"),12000),
      //Assign(Tag("PAYLOAD"),SymbolicValue()),
