@@ -21,10 +21,10 @@ rm *.tgz
 sudo ln -s ~/sbt/bin/sbt /usr/local/bin/sbt
 
 # Install git and grab Symnet
-# sudo apt-get install -y git-core 
-# git clone https://github.com/radustoenescu/Symnetic.git
+sudo apt-get install -y git-core
+git clone https://github.com/radustoenescu/Symnetic.git
 
 # Build it and test the rig.
 cd /vagrant
-sbt compile test
+sbt compile
 sbt sample

@@ -1,20 +1,23 @@
-SymNet v2
-=========
+Symnet
+======
 
-Symbolic execution for middleboxes made easy and fast.
+Symbolic execution for verification of stateful data planes made easy and fast.
 
-### Setup (nix machine)
+### Setup (*nix machine)
 
 1. JDK 8 (in case a different one is used the ScalaZ3 jar needs to be rebuilt against this, different, JDK)
 2. sbt - The simple build tool for Scala projects
 
 See _setup.sh_ for a concrete setup script (it was tested on 64bit Ubuntu 12.04, 14.04 and 15.10).        
 
-Then from project root issue _sbt test_.
+Then from project root issue _sbt sample_.
 
 ### Setup (Vagrant)
 
 There is also a _Vagrantfile_ if you prefer this option. This also uses _setup.sh_ for provisioning.
+
+*If you choose to use setup.sh (or Vagrantfile + setup.sh) you should only grab those files since
+this includes the cloning of the repo.*
 
 ### SEFL sample
 

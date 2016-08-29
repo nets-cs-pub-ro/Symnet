@@ -59,6 +59,7 @@ object MultipleVms {
     outputFail.close()
 
     println(s"Done: ${successful.length} ok, ${failed.length} failed")
+    println("Successful paths are @sefl.ok.json failed ones @sefl.fail.json")
   }
 
 }
