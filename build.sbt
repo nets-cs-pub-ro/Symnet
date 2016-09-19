@@ -13,7 +13,9 @@ libraryDependencies ++= {
     "org.antlr" % "antlr4" % "4.3",
     "commons-io" % "commons-io" % "2.4",
     "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test",
-    "io.spray" %%  "spray-json" % "1.3.2"
+    "io.spray" %%  "spray-json" % "1.3.2",
+    "org.pacesys" % "openstack4j-core" % "2.0.9",
+    "org.pacesys.openstack4j.connectors" % "openstack4j-httpclient" % "2.0.9"
   )
 }
 

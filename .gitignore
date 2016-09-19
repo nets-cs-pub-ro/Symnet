@@ -19,3 +19,4 @@ out
 src/main/scala/org/change/v2/runners/Run.scala
 *.output
 *.json
+/*.txt
