@@ -1,6 +1,6 @@
 package org.change.v2.runners.experiments
 
-import java.io.PrintStream
+import java.io.{File, FileOutputStream, PrintStream}
 
 import org.change.v2.abstractnet.neutron.NeutronWrapper
 import org.change.v2.abstractnet.neutron.elements.{NetExternalRouterIn, NetSubnetIn}
@@ -38,10 +38,27 @@ object NeutronFullRunner {
     ps.close()
     
     val genTest = genericTest(instrs)(State.clean, true)
-    val ps2 = new PrintStream("file_subnet_" + name + "_run.txt")
-    ps2.println(genTest + "\n")
-    ps2.println("===============\n\n")
-    ps2.close()
+
+    val successful = genTest._1
+    val  failed = genTest._2
+
+    val outputOk = new PrintStream(new FileOutputStream(new File("file_subnet_" + name + "_run_ok.json")))
+
+    outputOk.println(
+      successful.map(_.jsonString).mkString("[", ",\n","]")
+    )
+
+    outputOk.close()
+
+    val outputFail = new PrintStream(new FileOutputStream(new File("file_subnet_" + name + "_run_fail.json")))
+
+    outputFail.println(
+      failed.map(_.jsonString).mkString("[", ",\n", "]")
+    )
+
+    outputFail.close()
+
+    println(s"Done: ${successful.length} ok, ${failed.length} failed")
   }
   
   def runFromExternal(wrapper : NeutronWrapper, name : String) {
@@ -53,9 +70,25 @@ object NeutronFullRunner {
     pw.close()
     
     val genTest = genericTest(instrs)(State.clean, true)
-    val ps2 = new PrintStream("file_router_" + name + "_run.txt")
-    ps2.println(genTest + "\n")
-    ps2.println("===============\n\n")
-    ps2.close()
+    val successful = genTest._1
+    val  failed = genTest._2
+
+    val outputOk = new PrintStream(new FileOutputStream(new File("file_subnet_" + name + "_run_ok.json")))
+
+    outputOk.println(
+      successful.map(_.jsonString).mkString("[", ",\n","]")
+    )
+
+    outputOk.close()
+
+    val outputFail = new PrintStream(new FileOutputStream(new File("file_subnet_" + name + "_run_fail.json")))
+
+    outputFail.println(
+      failed.map(_.jsonString).mkString("[", ",\n", "]")
+    )
+
+    outputFail.close()
+
+    println(s"Done: ${successful.length} ok, ${failed.length} failed")
   }
 }
