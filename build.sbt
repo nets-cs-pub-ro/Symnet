@@ -37,9 +37,9 @@ lazy val mc = taskKey[Unit]("Running multiple VMs")
 
 fullRunTask(mc, Compile, "org.change.v2.runners.experiments.MultipleVms")
 
-lazy val fuck= taskKey[Unit]("Running multiple VMs")
+lazy val neutron = taskKey[Unit]("Neutron")
 
-fullRunTask(fuck, Compile, "org.change.v2.executor.clickabstractnetwork.AggregatedBuilder")
+fullRunTask(neutron, Compile, "org.change.v2.runners.experiments.NeutronFullRunner")
 
 lazy val switch_bench = taskKey[Unit]("Switch Bench")
 
