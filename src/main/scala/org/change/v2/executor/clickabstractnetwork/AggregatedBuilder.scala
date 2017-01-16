@@ -20,18 +20,20 @@ object AggregatedBuilder {
   type Port = (String, String, String)
   type ConfigParser = File => NetworkConfig
 
-  def parsers: Map[String, ConfigParser] = Map(
+  lazy val parsers: Map[String, ConfigParser] = Map(
     "sw" -> OptimizedSwitch.optimizedSwitchNetworkConfig _,
     "click" -> {f => ClickToAbstractNetwork.buildConfig(f, prefixedElements = true)},
     "rt" -> OptimizedRouter.optimizedRouterNetworkConfig _
   )
 
-  def buildModelsFromFolder(folder: File): Iterable[NetworkConfig] = {
+  def buildModelsFromFolder(folder: File, parsers: Map[String, ConfigParser]): Iterable[NetworkConfig] = {
     folder.list(new FilenameFilter {
       override def accept(dir: File, name: String): Boolean =
         name.endsWith(".click") ||
         name.endsWith(".sw") ||
-        name.endsWith(".rt")
+        name.endsWith(".rt") ||
+          name.endsWith(".switch") ||
+          name.endsWith(".router")
     }).sorted.map(folder.getPath + File.separatorChar + _).map({ path =>
       val f = new File(path)
       val parser = parsers(path.split("\\.").last)
@@ -55,15 +57,15 @@ object AggregatedBuilder {
     }).toIterable.flatten
   }
 
-  def parseInput(rootFolder: File): (Iterable[NetworkConfig], Iterable[Link], Iterable[Port]) = {
-    val models = buildModelsFromFolder(rootFolder)
+  def parseInput(rootFolder: File, parsers: Map[String, ConfigParser]): (Iterable[NetworkConfig], Iterable[Link], Iterable[Port]) = {
+    val models = buildModelsFromFolder(rootFolder, parsers)
     val links = buildLinksFromFolder(rootFolder)
     val starts = buildStartPointsFromFolder(rootFolder)
     (models, links, starts)
   }
 
-  def executorFromFolder(rootFolder: File): ClickExecutionContext = {
-    val (models, links, starts) = parseInput(rootFolder)
+  def executorFromFolder(rootFolder: File, parsers: Map[String, ConfigParser] = parsers): ClickExecutionContext = {
+    val (models, links, starts) = parseInput(rootFolder, parsers)
 
     ClickExecutionContext.buildAggregated(
       models,

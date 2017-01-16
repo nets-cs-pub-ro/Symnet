@@ -28,10 +28,6 @@ object JsonLogger extends ExecutionLogger {
     output.println(ctx.toJson.prettyPrint)
     output.close()
 
-    // Here I will call Matei's code and see the results
-
-//    import org.change.v2.util.canonicalnames._
-//    println(ctx.stuckStates.map(verifyState(Map(IPDst -> 2))))
   }
 }
 

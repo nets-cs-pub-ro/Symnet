@@ -82,6 +82,26 @@ object OptimizedRouter {
         )).toSeq.sortBy(i => i._1._2 - i._1._1)
   }
 
+  def getTrivialRoutingEntries(file: File): Seq[((Long, Long), String)] = {
+    (for {
+      line <- scala.io.Source.fromFile(file).getLines()
+      tokens = line.split("\\s+")
+      matchPattern = tokens(0)
+      forwardingPort = tokens(1)
+    } yield (
+      matchPattern match {
+        case ipv4netmaskRegex() => {
+          val netMaskTokens = matchPattern.split("/")
+          val netAddr = netMaskTokens(0)
+          val mask = netMaskTokens(1)
+          val (l, u) = RepresentationConversion.ipAndMaskToInterval(netAddr, mask)
+          (l,u)
+        }
+      },
+      forwardingPort
+    )).toSeq.sortBy(i => i._1._2 - i._1._1)
+  }
+
   def getDstMacConstraint(macs: String): Instruction = {
     ConstrainRaw(EtherDst,NOT(OR((for (m <-Source.fromFile(macs).getLines()) yield {
       EQ_E(ConstantValue(RepresentationConversion.macToNumberCiscoFormat(m)))
@@ -139,6 +159,44 @@ object OptimizedRouter {
     }
   }
 
+  def makeTrivialRouter(f: File): OptimizedRouter = {
+    val table = getTrivialRoutingEntries(f)
+    val name = f.getName.trim.stripSuffix(".router")
+
+    val macsFile = f.getParent + File.separator + name + ".macs"
+    val dstMacConstrain = getDstMacConstraint(macsFile)
+
+    new OptimizedRouter(name + "-" + name,"Router", Nil, Nil, Nil) {
+      override def instructions: Map[LocationId, Instruction] = Map(inputPortName("in") ->
+        Fork(table.map(i => {
+          val ((l,u), port) = i
+          (port, AND(List(GTE_E(ConstantValue(l)), LTE_E(ConstantValue(u))) ++
+            {
+              val conflicts = table.takeWhile(i =>  u-l > i._1._2 - i._1._1)filter( other => {
+                val ((otherL, otherU), otherPort) = other
+                port != otherPort &&
+                  l <= otherL &&
+                  u >= otherU
+              })
+
+              if (conflicts.nonEmpty)
+                Seq(NOT(OR((conflicts.map( conflictual => {
+                  AND(List(GTE_E(ConstantValue(conflictual._1._1)), LTE_E(ConstantValue(conflictual._1._2))))
+                }).toList))))
+              else
+                Nil
+            }))
+        }).groupBy(_._1).map( kv =>
+          InstructionBlock(
+            ConstrainRaw(IPDst, OR(kv._2.map(_._2).toList)),
+            EtherMumboJumbo.stripAllEther,
+            EtherMumboJumbo.symbolicEtherEncap,
+            dstMacConstrain,
+            Forward(outputPortName(kv._1)))
+        )))
+    }
+  }
+
   def makeNaiveRouter(f: File): OptimizedRouter = {
     val table = getRoutingEntries(f)
 
@@ -183,5 +241,11 @@ object OptimizedRouter {
     val elem = makeRouter(f)
 
     NetworkConfig(Some(f.getName.trim.stripSuffix(".rt")), Map((elem.getName) -> elem), Nil)
+  }
+
+  def trivialRouterNetwrokConfig(f: File): NetworkConfig = {
+    val elem = makeTrivialRouter(f)
+
+    NetworkConfig(Some(f.getName.trim.stripSuffix(".router")), Map((elem.getName) -> elem), Nil)
   }
 }

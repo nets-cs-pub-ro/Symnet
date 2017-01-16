@@ -1,6 +1,8 @@
 package org.change.v2.abstractnet.optimized.macswitch
 
 import java.io.File
+
+import org.change.parser.switch.TrivialSwitchTable
 import org.change.v2.abstractnet.generic.NetworkConfig
 import org.change.v2.abstractnet.generic.{ConfigParameter, ElementBuilder, GenericElement, Port}
 import org.change.v2.analysis.constraint.{EQ_E, OR}
@@ -112,6 +114,22 @@ object OptimizedSwitch {
     }
   }
 
+  def fromTrivialSwitch(f: File): OptimizedSwitch = {
+    val name = f.getName.trim.stripSuffix(".switch")
+
+    new OptimizedSwitch(name + "-" + name, genericElementName, Nil, Nil, Nil) {
+      override def instructions: Map[LocationId, Instruction] = Map(inputPortName("in") -> Fork(
+        TrivialSwitchTable.parseMacFile(f).groupBy(_._1).map({ kv => {
+          val port = kv._1
+          val macs = kv._2.map(_._2).map(RepresentationConversion.macToNumber)
+          val macConstraint = ConstrainRaw(EtherDst, OR(macs.map(m => EQ_E(ConstantValue(m))).toList))
+
+          InstructionBlock(macConstraint,Forward(outputPortName(port)))
+        }})
+      ))
+    }
+  }
+
   def unoptimizedLinearLookupSwitch(f: File): OptimizedSwitch = {
     val name = f.getName.trim
 
@@ -154,5 +172,11 @@ object OptimizedSwitch {
     val elem = fromCiscoMacTable(f)
 
     NetworkConfig(Some(f.getName.trim.stripSuffix(".sw")), Map((elem.getName) -> elem), Nil)
+  }
+
+  def trivialSwitchNetworkConfig(f: File): NetworkConfig = {
+    val elem = fromTrivialSwitch(f)
+
+    NetworkConfig(Some(f.getName.trim.stripSuffix(".switch")), Map((elem.getName) -> elem), Nil)
   }
 }

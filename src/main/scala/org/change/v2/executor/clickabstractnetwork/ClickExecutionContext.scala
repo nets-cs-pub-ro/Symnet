@@ -155,8 +155,6 @@ case class ClickExecutionContext(
           (Nil, Nil, List(s))
       }).unzip3
 
-    println(okStates.length)
-
     useAndReturn(copy(
       okStates = ok.flatten
     ), {ctx: ClickExecutionContext => logger.log(ctx)})
