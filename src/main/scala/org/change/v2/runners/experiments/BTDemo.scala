@@ -21,7 +21,7 @@ object BTDemo {
     )).setLogger(JsonLogger)
 
 //    val start = System.currentTimeMillis()
-        exe.untilDone(false)
+        exe.untilDone(true)
 //    println(System.currentTimeMillis() - start)
   }
 

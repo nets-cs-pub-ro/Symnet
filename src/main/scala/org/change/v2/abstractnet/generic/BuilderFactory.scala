@@ -38,6 +38,8 @@ object BuilderFactory {
     case "EtherDecap" => EtherDecap.getBuilder(nameValue)
     case "VLANEncap" => VLANEncap.getBuilder(nameValue)
     case "VLANDecap" => VLANDecap.getBuilder(nameValue)
+    case "MPLSEncap" => MPLSEncap.getBuilder(nameValue)
+    case "MPLSSwitch" => MPLSSwitch.getBuilder(nameValue)
     case "HostEtherFilter" => HostEtherFilter.getBuilder(nameValue)
     case "Template"  => Template.getBuilder(nameValue)
     case "AddTCPOptions"  => AddTCPOptions.getBuilder(nameValue)
@@ -81,6 +83,8 @@ object BuilderFactory {
     case "EtherDecap" => EtherDecap.getBuilder
     case "VLANEncap" => VLANEncap.getBuilder
     case "VLANDecap" => VLANDecap.getBuilder
+    case "MPLSEncap" => MPLSEncap.getBuilder
+    case "MPLSSwitch" => MPLSSwitch.getBuilder
     case "HostEtherFilter" => HostEtherFilter.getBuilder
     case "Template"  => Template.getBuilder
     case "AddTCPOptions"  => AddTCPOptions.getBuilder

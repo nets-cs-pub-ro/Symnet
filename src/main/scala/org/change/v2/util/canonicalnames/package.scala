@@ -19,6 +19,7 @@ package object  canonicalnames {
   val L2Tag = Tag("L2")
   val L3Tag = Tag("L3")
   val L4Tag = Tag("L4")
+  val MPLS = Tag("MPLS")
 
   val IPVersionString = "IP-Version"
   val IPSrcString = "IP-Src"
@@ -27,6 +28,16 @@ package object  canonicalnames {
   val PortDstString = "Port-Dst"
   val L4ProtoString = "Proto"
   val TTLString = "TTL"
+
+  //MPLS header offsets and fields
+  val LabelOffset = 0
+  val Label = MPLS + LabelOffset
+  val TCOffset = 20
+  val TC = MPLS + TCOffset
+  val SOffset = 23
+  val S = MPLS + SOffset
+  val MPLSTTLOffset = 24
+  val MPLSTTL = MPLS + MPLSTTLOffset
 
   //Ethernet header offsets and fields
   val EtherDstOffset = 0
