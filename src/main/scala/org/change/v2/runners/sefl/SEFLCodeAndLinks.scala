@@ -36,7 +36,8 @@ object SEFLCodeAndLinks {
   )
 
   val l: Map[String, String] = Map(
-    "a" -> "b"
+    "a" -> "tmp1",
+    "tmp1" -> "b"
   )
 
 }
