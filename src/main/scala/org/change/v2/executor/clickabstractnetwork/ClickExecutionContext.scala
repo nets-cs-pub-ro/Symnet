@@ -3,7 +3,7 @@ package org.change.v2.executor.clickabstractnetwork
 import org.change.symbolicexec.verification.Rule
 import org.change.v2.abstractnet.generic.NetworkConfig
 import org.change.v2.analysis.memory.State
-import org.change.v2.analysis.processingmodels.instructions.InstructionBlock
+import org.change.v2.analysis.processingmodels.instructions.{InstructionBlock, NoOp}
 import org.change.v2.analysis.processingmodels.{LocationId, Instruction}
 import org.change.v2.executor.clickabstractnetwork.executionlogging.{NoLogging, ExecutionLogger}
 import org.change.v2.executor.clickabstractnetwork.verificator.PathLocation
@@ -60,25 +60,20 @@ case class ClickExecutionContext(
     val (ok, fail, stuck) = (for {
       sPrime <- okStates
     } yield {
-      if (links contains sPrime.location) {
-        val s = sPrime.forwardTo(links(sPrime.location))
-        val stateLocation = s.location
+      val s = if (links contains sPrime.location)
+                sPrime.forwardTo(links(sPrime.location))
+              else
+                sPrime
+      val stateLocation = s.location
+      // FIXME: This is just a workaround.
+      val instruction = instructions.getOrElse(stateLocation, NoOp)
 
-        if (instructions contains stateLocation) {
-          // Apply instructions
-          val r1 = instructions(stateLocation)(s, verbose)
-          // Apply check instructions on output ports
-          val (toCheck, r2) = r1._1.partition(s => checkInstructions.contains(s.location))
-          val r3 = toCheck.map(s => checkInstructions(s.location)(s,verbose)).unzip
-          (r2 ++ r3._1.flatten, r1._2 ++ r3._2.flatten, Nil)
-        } else {
-          // No instruction to apply.
-          (Nil, Nil, Nil)
-        }
-      } else {
-        // It got stuck.
-        (Nil, Nil, List(sPrime))
-      }
+      // Apply instructions
+      val r1 = instruction(s, verbose)
+      // Apply check instructions on output ports
+      val (toCheck, r2) = r1._1.partition(s => checkInstructions.contains(s.location))
+      val r3 = toCheck.map(s => checkInstructions(s.location)(s,verbose)).unzip
+      (r2 ++ r3._1.flatten, r1._2 ++ r3._2.flatten, Nil)
     }).unzip3
 
     useAndReturn(copy(
