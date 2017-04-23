@@ -60,20 +60,21 @@ case class ClickExecutionContext(
     val (ok, fail, stuck) = (for {
       sPrime <- okStates
     } yield {
-      val s = if (links contains sPrime.location)
-                sPrime.forwardTo(links(sPrime.location))
-              else
-                sPrime
-      val stateLocation = s.location
-      // FIXME: This is just an workaround.
-      val instruction = instructions.getOrElse(stateLocation, NoOp)
+      if (links contains sPrime.location) {
+        val s = sPrime.forwardTo(links(sPrime.location))
+        val stateLocation = s.location
+        val instruction = instructions.getOrElse(stateLocation, NoOp)
 
-      // Apply instructions
-      val r1 = instruction(s, verbose)
-      // Apply check instructions on output ports
-      val (toCheck, r2) = r1._1.partition(s => checkInstructions.contains(s.location))
-      val r3 = toCheck.map(s => checkInstructions(s.location)(s,verbose)).unzip
-      (r2 ++ r3._1.flatten, r1._2 ++ r3._2.flatten, Nil)
+        // Apply instructions
+        val r1 = instruction(s, verbose)
+        // Apply check instructions on output ports
+        val (toCheck, r2) = r1._1.partition(s => checkInstructions.contains(s.location))
+        val r3 = toCheck.map(s => checkInstructions(s.location)(s,verbose)).unzip
+        (r2 ++ r3._1.flatten, r1._2 ++ r3._2.flatten, Nil)
+      } else {
+        // It got stuck.
+        (Nil, Nil, List(sPrime))
+      }
     }).unzip3
 
     useAndReturn(copy(
