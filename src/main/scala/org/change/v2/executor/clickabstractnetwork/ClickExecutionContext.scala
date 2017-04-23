@@ -65,7 +65,7 @@ case class ClickExecutionContext(
               else
                 sPrime
       val stateLocation = s.location
-      // FIXME: This is just a workaround.
+      // FIXME: This is just an workaround.
       val instruction = instructions.getOrElse(stateLocation, NoOp)
 
       // Apply instructions
