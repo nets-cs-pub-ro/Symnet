@@ -59,28 +59,33 @@ case class ClickExecutionContext(
   def execute(verbose: Boolean = false): ClickExecutionContext = {
     val (ok, fail, stuck) = (for {
       sPrime <- okStates
-      s = if (links contains sPrime.location)
-          sPrime.forwardTo(links(sPrime.location))
-        else
-          sPrime
-      stateLocation = s.location
     } yield {
+      if (links contains sPrime.location) {
+        val s = sPrime.forwardTo(links(sPrime.location))
+        val stateLocation = s.location
+
         if (instructions contains stateLocation) {
-//          Apply instructions
+          // Apply instructions
           val r1 = instructions(stateLocation)(s, verbose)
-//          Apply check instructions on output ports
+          // Apply check instructions on output ports
           val (toCheck, r2) = r1._1.partition(s => checkInstructions.contains(s.location))
           val r3 = toCheck.map(s => checkInstructions(s.location)(s,verbose)).unzip
           (r2 ++ r3._1.flatten, r1._2 ++ r3._2.flatten, Nil)
-        } else
-          (Nil, Nil, List(s))
-      }).unzip3
+        } else {
+          // No instruction to apply.
+          (Nil, Nil, Nil)
+        }
+      } else {
+        // It got stuck.
+        (Nil, Nil, List(sPrime))
+      }
+    }).unzip3
 
-      useAndReturn(copy(
-        okStates = ok.flatten,
-        failedStates = failedStates ++ fail.flatten,
-        stuckStates = stuckStates ++ stuck.flatten
-      ), {ctx: ClickExecutionContext => logger.log(ctx)})
+    useAndReturn(copy(
+      okStates = ok.flatten,
+      failedStates = failedStates ++ fail.flatten,
+      stuckStates = stuckStates ++ stuck.flatten
+    ), {ctx: ClickExecutionContext => logger.log(ctx)})
   }
 
   // TODO: Move to a logger
