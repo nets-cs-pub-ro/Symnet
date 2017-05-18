@@ -17,7 +17,7 @@ case class BitwiseOr(a: Value, b: Value) extends Expression {
   override def toString = s"(${a.e} | ${b.e})"
 }
 
-case class :|(left: FloatingExpression, right: FloatingExpression) extends FloatingExpression {
+case class <|>(left: FloatingExpression, right: FloatingExpression) extends FloatingExpression {
 
   override def instantiate(s: State): Either[Expression, String] = {
     (left instantiate s) match {
