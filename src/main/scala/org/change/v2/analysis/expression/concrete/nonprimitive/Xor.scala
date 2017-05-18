@@ -14,7 +14,7 @@ case class Xor(a: Value, b: Value) extends Expression {
     (Z3Util.z3Context.mkXor(aAst, bAst), bSolver)
   }
 
-  override def toString = s"(${a.e} & ${b.e})"
+  override def toString = s"(${a.e} ^ ${b.e})"
 }
 
 case class :^:(left: FloatingExpression, right: FloatingExpression) extends FloatingExpression {
