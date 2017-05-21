@@ -19,5 +19,5 @@ object Z3Util {
   def solver = z3Context.mkSolver()
 
   lazy val defaultSort = intSort
-
+  lazy val bv32Sort = z3Context.mkBVSort(32)
 }
