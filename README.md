@@ -19,6 +19,20 @@ There is also a _Vagrantfile_ if you prefer this option. This also uses _setup.s
 *If you choose to use setup.sh (or Vagrantfile + setup.sh) you should only grab those files since
 this includes the cloning of the repo.*
 
+### Setup (Docker)
+
+There is a _Dockerfile_ if you prefer Docker over Vagrant. The Dockerfile has no dependency to the _setup.sh_.
+
+If you want to use Docker to build/use symnet run the following commands:
+
+```bash
+docker build -t johscheuer/symnet .
+docker run -ti johscheuer/symnet
+
+# Run example
+sbt sample
+```
+
 ### SEFL sample
 
 See _src/main/scala/change/v2/runners/experiments/SEFLRunner.scala_ to start experimenting with SEFL. _sbt sample_ will run that code.
