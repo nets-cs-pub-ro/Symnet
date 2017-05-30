@@ -24,3 +24,12 @@ case class ConstantValue(value: Long) extends Expression with FloatingExpression
 
   override def toString = s"[Const($value)]"
 }
+
+case class ConstantBitVector(value: Long) extends Expression with FloatingExpression {
+  lazy val ast = Z3Util.z3Context.mkNumeral(value.toString, Z3Util.bv32Sort)
+
+  override def toZ3(solver: Option[Z3Solver] = None): (Z3AST, Option[Z3Solver]) = (ast, solver)
+
+  override def instantiate(s: State): Either[Expression, String] = Left(this)
+  override def toString = s"[ConstBV($value)]"
+}
