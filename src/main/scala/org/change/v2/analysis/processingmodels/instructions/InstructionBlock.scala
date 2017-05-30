@@ -14,15 +14,19 @@ case class InstructionBlock(instructions: Iterable[Instruction]) extends Instruc
    * @param s
    * @return
    */
-  override def apply(s: State, v: Boolean): (List[State], List[State]) =
+  override def apply(s: State, v: Boolean): (List[State], List[State]) = {
+    val initialHistory = s.history
+
     instructions.foldLeft((List(s), Nil: List[State])) { (acc, i) => {
-        val (valid: List[State], failed: List[State]) = acc
-        val (nextValid, nextFailed) = valid.map(i(_, v)).unzip
-        val allValid = nextValid.foldLeft(Nil: List[State])(_ ++ _)
-        val allFailed = nextFailed.foldLeft(failed: List[State])(_ ++ _)
+        val (valid, failed) = acc
+        val (forwarded, notForwarded) = valid.partition(_.history != s.history)
+        val (nextValid, nextFailed) = notForwarded.map(i(_, v)).unzip
+        val allValid = nextValid.foldLeft(forwarded)(_ ++ _)
+        val allFailed = nextFailed.foldLeft(failed)(_ ++ _)
         (allValid, allFailed)
       }
     }
+  }
 }
 
 object InstructionBlock {
