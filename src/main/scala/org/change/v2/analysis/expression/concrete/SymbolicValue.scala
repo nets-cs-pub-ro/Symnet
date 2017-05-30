@@ -24,3 +24,12 @@ case class SymbolicValue() extends Expression with FloatingExpression {
 
   override def toString = s"Symb(#${id.toString.substring(0,5)})"
 }
+
+case class SymbolicBitVector() extends Expression with FloatingExpression {
+  lazy val ast = Z3Util.z3Context.mkConst(id.toString, Z3Util.bv32Sort)
+
+  override def toZ3(solver: Option[Z3Solver] = None): (Z3AST, Option[Z3Solver]) = (ast, solver)
+
+  override def instantiate(s: State): Either[Expression, String] = Left(this)
+  override def toString = s"SymbBV(#${id.toString.substring(0,5)})"
+}

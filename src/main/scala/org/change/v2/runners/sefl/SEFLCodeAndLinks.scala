@@ -12,33 +12,14 @@ import org.change.v2.analysis.processingmodels.instructions._
 object SEFLCodeAndLinks {
 
   val i: Map[String, Instruction] = Map(
-    "a" -> InstructionBlock (
-      Assign("a", SymbolicValue()),
-      Assign("zero", ConstantValue(0)),
-      // State that a is positive
-      Constrain("a", :>:(:@("zero"))),
-      // Compute the sum
-      Assign("sum", :+:(:@("a"), :@("zero"))),
-      // We want the sum to be 0, meaning a should also be zero - impossible
-      Constrain("sum", :==:(:@("zero")))
-    ),
-
-"b" -> InstructionBlock (
-      Assign("a", SymbolicValue()),
-      Assign("zero", ConstantValue(0)),
-      // State that a is positive
-      Constrain("a", :>:(:@("zero"))),
-      // Compute the sum
-      Assign("sum", :+:(:@("a"), :@("zero"))),
-      // We want the sum to be 0, meaning a should also be zero - impossible
-      Constrain("sum", :==:(:@("zero")))
-    )
+    "a" -> NoOp,
+    "tmp" -> Forward("b"),
+    "b" -> Fail("bla"),
+    "c" -> Fail("wut")
   )
 
   val l: Map[String, String] = Map(
-    "a" -> "b"
+    "a" -> "tmp",
+    "b" -> "c"
   )
-
 }
-
-    
